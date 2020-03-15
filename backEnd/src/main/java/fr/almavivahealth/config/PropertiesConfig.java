@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySources;
 @Configuration
 @ConfigurationProperties
 @PropertySources(value = {
-		@PropertySource(value = "file:${CONF_DIR}/almavivaheath.properties", ignoreResourceNotFound = true) })
+		@PropertySource(value = "file:${CONF_DIR}/dailyFollowUp.properties", ignoreResourceNotFound = true) })
 public class PropertiesConfig {
 
 }
