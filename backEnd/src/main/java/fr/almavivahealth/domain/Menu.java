@@ -11,13 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@AllArgsConstructor
-@Builder
 public class Menu implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
