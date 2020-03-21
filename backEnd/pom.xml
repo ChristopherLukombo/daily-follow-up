@@ -61,12 +61,12 @@
 		<sonar.surefire.reportsPath>${project.testresult.directory}/surefire-reports</sonar.surefire.reportsPath>
 		<sonar.tests>${project.basedir}/src/test/</sonar.tests>
 		<sonar.exclusions>
-			src/main/java/fr/esgi/domain/**/*.*,
-			src/main/java/fr/esgi/service/dto/**/*.*,
-			src/main/java/fr/esgi/config/**/*.*,
-			src/main/java/fr/esgi/security/**/*.*,
-			src/main/java/fr/esgi/dao/**/*.*,
-			src/main/java/fr/esgi/exception/**/*.*
+			src/main/java/fr/almavivahealth/domain/**/*.*,
+			src/main/java/fr/almavivahealth/service/dto/**/*.*,
+			src/main/java/fr/almavivahealth/config/**/*.*,
+			src/main/java/fr/almavivahealth/security/**/*.*,
+			src/main/java/fr/almavivahealth/dao/**/*.*,
+			src/main/java/fr/almavivahealth/exception/**/*.*
 		</sonar.exclusions>
 	</properties>
 
