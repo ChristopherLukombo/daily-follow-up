@@ -8,6 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import fr.almavivahealth.domain.User;
 
 /**
@@ -26,6 +29,8 @@ public class UserDTO {
 
 	@Size(max = 50)
 	private String lastName;
+
+	private String password;
 
 	@Email
 	@Size(min = 5, max = 100)
@@ -93,6 +98,16 @@ public class UserDTO {
 		this.lastName = lastName;
 	}
 
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
+
+	@JsonProperty
+	public void setPassword(final String password) {
+		this.password = password;
+	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -143,7 +158,8 @@ public class UserDTO {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(birthDay, createDate, email, firstName, id, imageUrl, lastName, pseudo, roleId, status);
+		return Objects.hash(birthDay, createDate, email, firstName, id, imageUrl, lastName, password, pseudo, roleId,
+				status);
 	}
 
 	@Override
@@ -158,8 +174,9 @@ public class UserDTO {
 		return Objects.equals(birthDay, other.birthDay) && Objects.equals(createDate, other.createDate)
 				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
 				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(pseudo, other.pseudo)
-				&& Objects.equals(roleId, other.roleId) && status == other.status;
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
+				&& Objects.equals(pseudo, other.pseudo) && Objects.equals(roleId, other.roleId)
+				&& status == other.status;
 	}
 
 	@Override
@@ -184,6 +201,11 @@ public class UserDTO {
 		if (lastName != null) {
 			builder.append("lastName=");
 			builder.append(lastName);
+			builder.append(", ");
+		}
+		if (password != null) {
+			builder.append("password=");
+			builder.append(password);
 			builder.append(", ");
 		}
 		if (email != null) {

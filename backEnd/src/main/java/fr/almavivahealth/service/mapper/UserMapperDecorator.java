@@ -30,5 +30,4 @@ public abstract class UserMapperDecorator implements UserMapper {
             return user;
         }
     }
-
 }
