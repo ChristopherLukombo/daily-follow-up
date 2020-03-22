@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,8 +15,10 @@ import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 
 @Entity
+@Data
 @AllArgsConstructor
 @Builder
 public class Patient implements Serializable {
@@ -29,11 +30,10 @@ public class Patient implements Serializable {
 	private Long id;
 	
 	@ManyToOne
-	private User userEntity;
+	private User user;
 	
     @NotNull
-    @Column(nullable = false)
-	private boolean state;
+	private Boolean state;
 	
 	@ManyToOne
 	private Texture texture;
@@ -59,19 +59,19 @@ public class Patient implements Serializable {
 		this.id = id;
 	}
 
-	public User getUser() {
-		return userEntity;
+	public User getUserEntity() {
+		return user;
 	}
 
-	public void setUser(final User user) {
-		this.userEntity = user;
+	public void setUserEntity(final User userEntity) {
+		this.user = userEntity;
 	}
 
-	public boolean isState() {
+	public Boolean getState() {
 		return state;
 	}
 
-	public void setState(final boolean state) {
+	public void setState(final Boolean state) {
 		this.state = state;
 	}
 
@@ -109,7 +109,7 @@ public class Patient implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(allergies, diets, id, orders, state, texture, userEntity);
+		return Objects.hash(allergies, diets, id, orders, state, texture, user);
 	}
 
 	@Override
@@ -122,8 +122,9 @@ public class Patient implements Serializable {
 			return false;
 		final Patient other = (Patient) obj;
 		return Objects.equals(allergies, other.allergies) && Objects.equals(diets, other.diets)
-				&& Objects.equals(id, other.id) && Objects.equals(orders, other.orders) && state == other.state
-				&& Objects.equals(texture, other.texture) && Objects.equals(userEntity, other.userEntity);
+				&& Objects.equals(id, other.id) && Objects.equals(orders, other.orders)
+				&& Objects.equals(state, other.state) && Objects.equals(texture, other.texture)
+				&& Objects.equals(user, other.user);
 	}
 
 	@Override
@@ -135,14 +136,16 @@ public class Patient implements Serializable {
 			builder.append(id);
 			builder.append(", ");
 		}
-		if (userEntity != null) {
+		if (user != null) {
 			builder.append("userEntity=");
-			builder.append(userEntity);
+			builder.append(user);
 			builder.append(", ");
 		}
-		builder.append("state=");
-		builder.append(state);
-		builder.append(", ");
+		if (state != null) {
+			builder.append("state=");
+			builder.append(state);
+			builder.append(", ");
+		}
 		if (texture != null) {
 			builder.append("texture=");
 			builder.append(texture);

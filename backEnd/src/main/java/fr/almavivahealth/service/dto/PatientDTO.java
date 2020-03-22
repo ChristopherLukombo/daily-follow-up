@@ -1,13 +1,22 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class PatientDTO {
-	private Long id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
+@AllArgsConstructor
+@Builder
+public class PatientDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
+	
 	private Long userId;
 
-	private boolean state;
+	private Boolean state;
 
 	private Long textureId;
 
@@ -31,11 +40,11 @@ public class PatientDTO {
 		this.userId = userId;
 	}
 
-	public boolean isState() {
+	public Boolean getState() {
 		return state;
 	}
 
-	public void setState(final boolean state) {
+	public void setState(final Boolean state) {
 		this.state = state;
 	}
 
@@ -61,8 +70,8 @@ public class PatientDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		final PatientDTO other = (PatientDTO) obj;
-		return Objects.equals(id, other.id) && state == other.state && Objects.equals(textureId, other.textureId)
-				&& Objects.equals(userId, other.userId);
+		return Objects.equals(id, other.id) && Objects.equals(state, other.state)
+				&& Objects.equals(textureId, other.textureId) && Objects.equals(userId, other.userId);
 	}
 
 	@Override
@@ -79,9 +88,11 @@ public class PatientDTO {
 			builder.append(userId);
 			builder.append(", ");
 		}
-		builder.append("state=");
-		builder.append(state);
-		builder.append(", ");
+		if (state != null) {
+			builder.append("state=");
+			builder.append(state);
+			builder.append(", ");
+		}
 		if (textureId != null) {
 			builder.append("textureId=");
 			builder.append(textureId);

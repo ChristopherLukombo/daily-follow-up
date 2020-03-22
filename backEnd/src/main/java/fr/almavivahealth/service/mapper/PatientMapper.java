@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.PatientDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Patient.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(uses = { Patient.class }, componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PatientMapper {
 
 	@Mappings({
