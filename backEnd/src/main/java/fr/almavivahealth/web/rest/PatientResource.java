@@ -91,7 +91,7 @@ public class PatientResource {
 	}
 
 	/**
-	 * GET /patients : Get a new patient.
+	 * GET /patients : Get a patient.
 	 *
 	 * @param patientDTO the patientDTO to get
 	 * @return the ResponseEntity with status 200 (Ok) and with body the new patientDTO,
@@ -114,7 +114,7 @@ public class PatientResource {
 	/**
 	 * DELETE /patients/:id : delete the "id" patient.
 	 *
-	 * @param id the id of the patienteDTO to delete
+	 * @param id the id of the patientDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@DeleteMapping("/patients/{id}")
