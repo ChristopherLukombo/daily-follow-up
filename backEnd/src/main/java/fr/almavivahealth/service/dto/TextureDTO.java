@@ -1,8 +1,18 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class TextureDTO {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+@Builder
+public class TextureDTO implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
 
 	private String name;
