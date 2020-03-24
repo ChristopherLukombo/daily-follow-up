@@ -35,7 +35,7 @@
     </root>
 
     <!-- LOG "fr.esgi" at TRACE level -->
-    <logger name="fr.esgi" level="trace" additivity="false">
+    <logger name="fr.almavivahealth" level="trace" additivity="false">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </logger>
