@@ -1,4 +1,5 @@
 import { Component, OnInit, ElementRef } from "@angular/core";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-menu",
@@ -9,6 +10,7 @@ import { Component, OnInit, ElementRef } from "@angular/core";
   }
 })
 export class MenuComponent implements OnInit {
+  logoutLogo = faSignOutAlt;
   opened: boolean = false;
 
   constructor(private _eref: ElementRef) {}
