@@ -17,6 +17,8 @@
 
   .menu-popover {
     position: absolute;
+    // pour etre devant toutes les divs
+    z-index: 2;
     //top: 110%;
     margin: 0.5rem 0 0;
     padding: 0.5rem 0;

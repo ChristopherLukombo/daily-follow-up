@@ -1,1 +1,18 @@
-<p>patients works!</p>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <button type="button" class="btn btn-primary">
+        <fa-icon [icon]="addLogo"></fa-icon> Nouveau patient
+      </button>
+    </div>
+    <div class="col-sm-5">
+      <h4>Patients de la clinique</h4>
+      <br />
+      <app-list-patients></app-list-patients>
+    </div>
+    <div class="col-sm-5">
+      <h4>Détail du patient</h4>
+      <br />
+    </div>
+  </div>
+</div>
