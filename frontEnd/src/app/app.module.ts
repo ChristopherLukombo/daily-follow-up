@@ -10,6 +10,7 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { MenuComponent } from "./components/navbar/menu/menu.component";
 import { PatientsComponent } from "./components/patients/patients.component";
 import { ListPatientsComponent } from './components/patients/list-patients/list-patients.component';
+import { DetailPatientComponent } from './components/patients/detail-patient/detail-patient.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ListPatientsComponent } from './components/patients/list-patients/list-
     NavbarComponent,
     MenuComponent,
     PatientsComponent,
-    ListPatientsComponent
+    ListPatientsComponent,
+    DetailPatientComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
   providers: [],

@@ -1,0 +1,22 @@
+.infos-patient {
+  th {
+    padding-right: 1em;
+  }
+  //   td {
+  //     white-space: nowrap;
+  //     max-width: 100%;
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //   }
+}
+
+.ul-alim {
+  padding-left: 0;
+  .list-alim {
+    position: relative;
+    display: block;
+    padding: 0.55rem 1.25rem;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+  }
+}
