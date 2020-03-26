@@ -11,6 +11,10 @@ import { MenuComponent } from "./components/navbar/menu/menu.component";
 import { PatientsComponent } from "./components/patients/patients.component";
 import { ListPatientsComponent } from './components/patients/list-patients/list-patients.component';
 import { DetailPatientComponent } from './components/patients/detail-patient/detail-patient.component';
+import { PatientComponent } from './components/patient/patient.component';
+import { InfosPatientComponent } from './components/patient/infos-patient/infos-patient.component';
+import { FoodPatientComponent } from './components/patient/food-patient/food-patient.component';
+import { HistoryPatientComponent } from './components/patient/history-patient/history-patient.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +24,11 @@ import { DetailPatientComponent } from './components/patients/detail-patient/det
     MenuComponent,
     PatientsComponent,
     ListPatientsComponent,
-    DetailPatientComponent
+    DetailPatientComponent,
+    PatientComponent,
+    InfosPatientComponent,
+    FoodPatientComponent,
+    HistoryPatientComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
   providers: [],
