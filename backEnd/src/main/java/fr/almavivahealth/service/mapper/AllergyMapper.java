@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.AllergyDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Allergy.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AllergyMapper {
 
 	@Mappings({

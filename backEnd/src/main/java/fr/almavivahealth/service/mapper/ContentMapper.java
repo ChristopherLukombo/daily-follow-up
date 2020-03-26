@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.ContentDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Content.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ContentMapper {
 	
 	@Mappings({

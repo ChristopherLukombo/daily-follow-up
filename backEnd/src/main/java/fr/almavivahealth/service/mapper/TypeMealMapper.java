@@ -15,7 +15,7 @@ import fr.almavivahealth.service.dto.TypeMealDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Texture.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TypeMealMapper {
 
 	@Mappings({

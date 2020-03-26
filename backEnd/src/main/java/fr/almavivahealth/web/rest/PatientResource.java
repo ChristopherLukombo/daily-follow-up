@@ -2,6 +2,7 @@ package fr.almavivahealth.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.PatientDTO;
-import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 
 /**
@@ -56,7 +56,6 @@ public class PatientResource {
 	 * @throws DailyFollowUpException
 	 */
 	@PostMapping("/patients")
-	@Timed
 	public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws URISyntaxException, DailyFollowUpException {
 		LOGGER.debug("REST request to save Patient : {}", patientDTO);
@@ -72,37 +71,50 @@ public class PatientResource {
 	 * PUT /patients : Update a patient.
 	 *
 	 * @param patientDTO the patientDTO to update
-	 * @return the ResponseEntity with status 200 (OK) and with body the new
+	 * @return the ResponseEntity with status 200 (OK) and with body the
 	 *         patientDTO, or with status 400 (Bad Request) if the patient has not
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
 	@PutMapping("/patients")
-	@Timed
 	public ResponseEntity<PatientDTO> updatePatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws DailyFollowUpException {
 		LOGGER.debug("REST request to update Patient : {}", patientDTO);
 		if (patientDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new patient cannot already have an ID idexists {}" + patientDTO.getId());
+					"A patient must have an ID idexists {}" + patientDTO.getId());
 		}
 		final PatientDTO result = patientService.save(patientDTO);
 		return ResponseEntity.ok().body(result);
 	}
+	
+	/**
+	 * GET /patients : Get all the patients.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
+	 * or with status 204 (No Content) if there is no patient.
+	 *         
+	 */
+	@GetMapping("/patients")
+	public ResponseEntity<List<PatientDTO>> getAllPatients() {
+		LOGGER.debug("REST request to get All Patients");
+		final List<PatientDTO> patients = patientService.findAll();
+		if (patients.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(patients);
+	}
 
 	/**
-	 * GET /patients : Get a patient.
+	 * GET /patients/:id : Get the "id" patient.
 	 *
-	 * @param patientDTO the patientDTO to get
-	 * @return the ResponseEntity with status 200 (Ok) and with body the new patientDTO,
+	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the patient does not exist.
 	 *         
-	 * @throws DailyFollowUpException
 	 */
 	@GetMapping("/patients/{id}")
-	@Timed
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable final Long id) {
-		LOGGER.debug("REST request to update Patient : {}", id);
+		LOGGER.debug("REST request to get Patient : {}", id);
 		final Optional<PatientDTO> result = patientService.findOne(id);
 		if (result.isPresent()) {
 			return ResponseEntity.ok().body(result.get());
@@ -112,13 +124,12 @@ public class PatientResource {
 	}
 
 	/**
-	 * DELETE /patients/:id : delete the "id" patient.
+	 * DELETE /patients/:id : Delete the "id" patient.
 	 *
 	 * @param id the id of the patientDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@DeleteMapping("/patients/{id}")
-	@Timed
 	public ResponseEntity<Void> deletePatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Patient : {}", id);
 		patientService.delete(id);

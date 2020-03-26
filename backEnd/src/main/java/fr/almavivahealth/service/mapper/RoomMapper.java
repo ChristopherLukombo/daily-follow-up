@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.RoomDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Room.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RoomMapper {
 
 	@Mappings({

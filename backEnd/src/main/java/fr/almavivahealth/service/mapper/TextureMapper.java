@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.TextureDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Texture.class }, componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TextureMapper {
 
 	@Mappings({

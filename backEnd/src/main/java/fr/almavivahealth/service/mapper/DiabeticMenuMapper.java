@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.DiabeticMenuDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { DiabeticMenu.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DiabeticMenuMapper {
 
 	@Mappings({

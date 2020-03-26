@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.CaregiverDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Caregiver.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CaregiverMapper {
 
 	@Mappings({

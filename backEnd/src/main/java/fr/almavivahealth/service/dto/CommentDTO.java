@@ -3,20 +3,25 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @AllArgsConstructor
 @Builder
-public class AllergyDTO implements Serializable {
+public class CommentDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	private Long id;
 	
-	private String name;
+	private Long id;
 
-	public AllergyDTO() {
+	private String content;
+	
+	@NotNull
+	private String pseudo;
+
+	public CommentDTO() {
 		// Empty constructor needed for Jackson.
 	}
 
@@ -28,17 +33,25 @@ public class AllergyDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getContent() {
+		return content;
 	}
 
-	public void setName(final String name) {
-		this.name = name;
+	public void setContent(final String content) {
+		this.content = content;
+	}
+
+	public String getPseudo() {
+		return pseudo;
+	}
+
+	public void setPseudo(final String pseudo) {
+		this.pseudo = pseudo;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(content, id, pseudo);
 	}
 
 	@Override
@@ -49,22 +62,28 @@ public class AllergyDTO implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final AllergyDTO other = (AllergyDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+		final CommentDTO other = (CommentDTO) obj;
+		return Objects.equals(content, other.content) && Objects.equals(id, other.id)
+				&& Objects.equals(pseudo, other.pseudo);
 	}
 
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("AllergyDTO [");
+		builder.append("CommentDTO [");
 		if (id != null) {
 			builder.append("id=");
 			builder.append(id);
 			builder.append(", ");
 		}
-		if (name != null) {
-			builder.append("name=");
-			builder.append(name);
+		if (content != null) {
+			builder.append("content=");
+			builder.append(content);
+			builder.append(", ");
+		}
+		if (pseudo != null) {
+			builder.append("pseudo=");
+			builder.append(pseudo);
 		}
 		builder.append("]");
 		return builder.toString();

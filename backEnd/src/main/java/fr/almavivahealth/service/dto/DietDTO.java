@@ -8,7 +8,7 @@ import lombok.Builder;
 
 @AllArgsConstructor
 @Builder
-public class AllergyDTO implements Serializable {
+public class DietDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,7 +16,7 @@ public class AllergyDTO implements Serializable {
 	
 	private String name;
 
-	public AllergyDTO() {
+	public DietDTO() {
 		// Empty constructor needed for Jackson.
 	}
 
@@ -49,14 +49,14 @@ public class AllergyDTO implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final AllergyDTO other = (AllergyDTO) obj;
+		final DietDTO other = (DietDTO) obj;
 		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
 	}
 
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("AllergyDTO [");
+		builder.append("DietDTO [");
 		if (id != null) {
 			builder.append("id=");
 			builder.append(id);

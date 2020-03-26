@@ -2,7 +2,6 @@ package fr.almavivahealth.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,17 +21,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
 *
 * @author christopher
 * A user.
 */
-@Table(name="userEntity")
 @Entity
-@Data
+@Table(name="\"user\"")
+@NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Builder
+@ToString
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -71,7 +74,7 @@ public class User implements Serializable {
 
     @Builder.Default
     @NotNull
-    @Column(nullable = false)
+    @Column(nullable = false)	
     private boolean status = true;
 
     @Size(max = 256)
@@ -85,177 +88,4 @@ public class User implements Serializable {
     @JoinColumn(name = "role_id")
     private Role role;
     
-    public User() {
-		// Empty constructor needed for Hibernate.
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(final Long id) {
-		this.id = id;
-	}
-
-	public String getPseudo() {
-		return pseudo;
-	}
-
-	public void setPseudo(final String pseudo) {
-		this.pseudo = pseudo;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(final String password) {
-		this.password = password;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(final String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(final String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(final String email) {
-		this.email = email;
-	}
-
-	public LocalDate getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(final LocalDate createDate) {
-		this.createDate = createDate;
-	}
-
-	public boolean isStatus() {
-		return status;
-	}
-
-	public void setStatus(final boolean status) {
-		this.status = status;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(final String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
-	public LocalDate getBirthDay() {
-		return birthDay;
-	}
-
-	public void setBirthDay(final LocalDate birthDay) {
-		this.birthDay = birthDay;
-	}
-
-	public Role getRole() {
-		return role;
-	}
-
-	public void setRole(final Role role) {
-		this.role = role;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(birthDay, createDate, email, firstName, id, imageUrl, lastName, password, pseudo, role,
-				status);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final User other = (User) obj;
-		return Objects.equals(birthDay, other.birthDay) && Objects.equals(createDate, other.createDate)
-				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-				&& Objects.equals(pseudo, other.pseudo) && Objects.equals(role, other.role) && status == other.status;
-	}
-
-	@Override
-	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("User [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (pseudo != null) {
-			builder.append("pseudo=");
-			builder.append(pseudo);
-			builder.append(", ");
-		}
-		if (password != null) {
-			builder.append("password=");
-			builder.append(password);
-			builder.append(", ");
-		}
-		if (firstName != null) {
-			builder.append("firstName=");
-			builder.append(firstName);
-			builder.append(", ");
-		}
-		if (lastName != null) {
-			builder.append("lastName=");
-			builder.append(lastName);
-			builder.append(", ");
-		}
-		if (email != null) {
-			builder.append("email=");
-			builder.append(email);
-			builder.append(", ");
-		}
-		if (createDate != null) {
-			builder.append("createDate=");
-			builder.append(createDate);
-			builder.append(", ");
-		}
-		builder.append("status=");
-		builder.append(status);
-		builder.append(", ");
-		if (imageUrl != null) {
-			builder.append("imageUrl=");
-			builder.append(imageUrl);
-			builder.append(", ");
-		}
-		if (birthDay != null) {
-			builder.append("birthDay=");
-			builder.append(birthDay);
-			builder.append(", ");
-		}
-		if (role != null) {
-			builder.append("role=");
-			builder.append(role);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
 }

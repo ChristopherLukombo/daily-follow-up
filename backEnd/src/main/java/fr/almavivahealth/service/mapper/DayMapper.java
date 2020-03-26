@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.DayDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Day.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DayMapper {
 
 	@Mappings({

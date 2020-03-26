@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.domain.Patient;
-import fr.almavivahealth.domain.User;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.mapper.PatientMapper;
@@ -102,9 +101,6 @@ public class PatientServiceImpl implements PatientService {
 		LOGGER.debug("Request to delete Patient : {}", id);
 		patientRepository.findById(id).ifPresent(patient -> {
 			patient.setState(false);
-			final User user = patient.getUser();
-			user.setStatus(false);
-			patient.setUser(user);
 			patientRepository.saveAndFlush(patient);
 		});
 	}

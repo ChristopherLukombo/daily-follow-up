@@ -7,6 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
+/**
+*
+* @author christopher
+* A diabeticMenu.
+*/
 @Entity
 public class DiabeticMenu extends Menu {
 

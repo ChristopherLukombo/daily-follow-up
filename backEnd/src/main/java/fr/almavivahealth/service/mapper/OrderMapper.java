@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.OrderDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Order.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderMapper {
 
 	@Mappings({

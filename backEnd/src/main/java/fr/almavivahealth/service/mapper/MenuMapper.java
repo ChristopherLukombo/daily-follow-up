@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.MenuDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { Menu.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MenuMapper {
 
 	@Mappings({

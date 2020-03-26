@@ -8,7 +8,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -22,9 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.domain.Patient;
-import fr.almavivahealth.domain.Role;
 import fr.almavivahealth.domain.Texture;
-import fr.almavivahealth.domain.User;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.impl.PatientServiceImpl;
 import fr.almavivahealth.service.mapper.PatientMapper;
@@ -33,10 +30,6 @@ import fr.almavivahealth.service.mapper.PatientMapper;
 public class PatientServiceTest {
 	
 	private static final String EMAIL = "ben.zotito@gmail.com";
-
-	private static final String PASSWD = "13kjjl";
-
-	private static final String PSEUDO = "Ben_93";
 
 	private static final long ID = 1L;
 	
@@ -56,9 +49,11 @@ public class PatientServiceTest {
 	private static Patient getPatient() {
 		return Patient.builder()
 				.id(ID)
+				.firstName("Ben")
+				.lastName(LASTNAME)
+				.email(EMAIL)
 				.state(true)
 				.texture(getTexture())
-				.user(getUser())
 				.build();
 	}
 	
@@ -66,8 +61,6 @@ public class PatientServiceTest {
 		return PatientDTO.builder()
 				.id(ID)
 				.state(true)
-				.textureId(ID)
-				.userId(ID)
 				.build();
 	}
 	
@@ -75,29 +68,6 @@ public class PatientServiceTest {
 		return Texture.builder()
 				.id(ID)
 				.name(TEXTURE_NAME)
-				.build();
-	}
-	
-	private static Role getRole() {
-		return Role.builder()
-				.id(ID)
-				.name("ROLE_ADMIN")
-				.build();
-	}
-	 
-	private static User getUser() {
-		return User.builder()
-				.id(ID)
-				.pseudo(PSEUDO)
-				.password(PASSWD)
-				.firstName("Ben")
-				.lastName(LASTNAME)
-				.email(EMAIL)
-				.createDate(LocalDate.now())
-				.status(true)
-				.imageUrl(null)
-				.birthDay(LocalDate.now())
-				.role(getRole())
 				.build();
 	}
 	
