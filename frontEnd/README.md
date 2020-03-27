@@ -28,4 +28,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## TO DO
 
-externaliser le component history-patient pour l'utiliser correctement dans le patient-history
+Externaliser le component history-patient pour l'utiliser correctement dans le patient-history.
+
+Ajouter les chambres dispo lorsque l'on créer un patient.
