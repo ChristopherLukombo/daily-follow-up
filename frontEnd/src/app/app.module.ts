@@ -15,6 +15,8 @@ import { PatientComponent } from './components/patient/patient.component';
 import { InfosPatientComponent } from './components/patient/infos-patient/infos-patient.component';
 import { FoodPatientComponent } from './components/patient/food-patient/food-patient.component';
 import { HistoryPatientComponent } from './components/patient/history-patient/history-patient.component';
+import { PatientHistoryComponent } from './components/patient-history/patient-history.component';
+import { PatientAddComponent } from './components/patient-add/patient-add.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { HistoryPatientComponent } from './components/patient/history-patient/hi
     PatientComponent,
     InfosPatientComponent,
     FoodPatientComponent,
-    HistoryPatientComponent
+    HistoryPatientComponent,
+    PatientHistoryComponent,
+    PatientAddComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
   providers: [],

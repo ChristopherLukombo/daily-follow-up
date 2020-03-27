@@ -3,6 +3,7 @@ import { Location } from "@angular/common";
 import {
   faUserEdit,
   faUserSlash,
+  faClock,
   faUserPlus,
   faAngleDoubleLeft
 } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +16,7 @@ import {
 export class PatientComponent implements OnInit {
   editLogo = faUserEdit;
   deleteLogo = faUserSlash;
+  historyLogo = faClock;
   addLogo = faUserPlus;
   goBackLogo = faAngleDoubleLeft;
 

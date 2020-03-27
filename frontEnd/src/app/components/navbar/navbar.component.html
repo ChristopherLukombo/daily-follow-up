@@ -30,7 +30,9 @@
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" routerLink="patient">Liste des patients</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Ajouter un patient</a>
+          <a class="dropdown-item" routerLink="patient/add"
+            >Ajouter un patient</a
+          >
         </div>
       </li>
       <li class="nav-item active">
@@ -40,13 +42,33 @@
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#"
-          ><fa-icon [icon]="statsLogo"></fa-icon> Statistiques</a
+          ><fa-icon [icon]="clinicLogo"></fa-icon> Clinique</a
         >
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#"
-          ><fa-icon [icon]="clinicLogo"></fa-icon> Clinique</a
+          ><fa-icon [icon]="statsLogo"></fa-icon> Statistiques</a
         >
+      </li>
+      <li class="nav-item dropdown active">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <fa-icon [icon]="historyLogo"></fa-icon> Historique
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="patient"
+            >Historique des patients</a
+          >
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="patient/add"
+            >Historique des menus</a
+          >
+        </div>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
