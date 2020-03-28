@@ -1,6 +1,7 @@
 package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,7 +37,9 @@ public class PatientDTO implements Serializable {
 	
 	private String situation;
 	
-	private String address;
+	private LocalDate dateOfBirth;
+	
+	private AddressDTO address;
 	
 	@NotNull
 	@Pattern(regexp = "^(([0-8][0-9])|(9[0-5]))[0-9]{3}$")
@@ -110,11 +113,19 @@ public class PatientDTO implements Serializable {
 		this.situation = situation;
 	}
 
-	public String getAddress() {
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(final LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public AddressDTO getAddress() {
 		return address;
 	}
 
-	public void setAddress(final String address) {
+	public void setAddress(final AddressDTO address) {
 		this.address = address;
 	}
 
@@ -216,8 +227,8 @@ public class PatientDTO implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, allergies, bloodGroup, comment, diets, email, firstName, id, job, lastName,
-				mobilePhone, orders, phoneNumber, postalCode, sex, situation, state, texture);
+		return Objects.hash(address, allergies, bloodGroup, comment, dateOfBirth, diets, email, firstName, id, job,
+				lastName, mobilePhone, orders, phoneNumber, postalCode, sex, situation, state, texture);
 	}
 
 	@Override
@@ -231,13 +242,14 @@ public class PatientDTO implements Serializable {
 		final PatientDTO other = (PatientDTO) obj;
 		return Objects.equals(address, other.address) && Objects.equals(allergies, other.allergies)
 				&& Objects.equals(bloodGroup, other.bloodGroup) && Objects.equals(comment, other.comment)
-				&& Objects.equals(diets, other.diets) && Objects.equals(email, other.email)
-				&& Objects.equals(firstName, other.firstName) && Objects.equals(id, other.id)
-				&& Objects.equals(job, other.job) && Objects.equals(lastName, other.lastName)
-				&& Objects.equals(mobilePhone, other.mobilePhone) && Objects.equals(orders, other.orders)
-				&& Objects.equals(phoneNumber, other.phoneNumber) && Objects.equals(postalCode, other.postalCode)
-				&& Objects.equals(sex, other.sex) && Objects.equals(situation, other.situation)
-				&& Objects.equals(state, other.state) && Objects.equals(texture, other.texture);
+				&& Objects.equals(dateOfBirth, other.dateOfBirth) && Objects.equals(diets, other.diets)
+				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(id, other.id) && Objects.equals(job, other.job)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(mobilePhone, other.mobilePhone)
+				&& Objects.equals(orders, other.orders) && Objects.equals(phoneNumber, other.phoneNumber)
+				&& Objects.equals(postalCode, other.postalCode) && Objects.equals(sex, other.sex)
+				&& Objects.equals(situation, other.situation) && Objects.equals(state, other.state)
+				&& Objects.equals(texture, other.texture);
 	}
 
 	@Override
@@ -267,6 +279,11 @@ public class PatientDTO implements Serializable {
 		if (situation != null) {
 			builder.append("situation=");
 			builder.append(situation);
+			builder.append(", ");
+		}
+		if (dateOfBirth != null) {
+			builder.append("dateOfBirth=");
+			builder.append(dateOfBirth);
 			builder.append(", ");
 		}
 		if (address != null) {

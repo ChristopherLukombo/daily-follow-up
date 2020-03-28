@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import fr.almavivahealth.domain.Address;
 import fr.almavivahealth.domain.Allergy;
 import fr.almavivahealth.domain.Comment;
 import fr.almavivahealth.domain.Diet;
 import fr.almavivahealth.domain.Patient;
+import fr.almavivahealth.service.dto.AddressDTO;
 import fr.almavivahealth.service.dto.AllergyDTO;
 import fr.almavivahealth.service.dto.CommentDTO;
 import fr.almavivahealth.service.dto.DietDTO;
@@ -31,8 +33,8 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.lastName(patient.getLastName())
 				.email(patient.getEmail())
 				.situation(patient.getSituation())
-				.address(patient.getAddress())
-				.postalCode(patient.getPostalCode())
+				.dateOfBirth(patient.getDateOfBirth())
+				.address(this.buildAddressDTO(patient))
 				.phoneNumber(patient.getPhoneNumber())
 				.mobilePhone(patient.getMobilePhone())
 				.job(patient.getJob())
@@ -43,6 +45,18 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.diets(this.buildDietsDTO(patient))
 				.allergies(this.buildAllergiesDTO(patient))
 				.comment(this.buildCommentDTO(patient))
+				.build();
+	}
+	
+	private AddressDTO buildAddressDTO(final Patient patient) {
+		if (patient.getAddress() == null) {
+			return null;
+		} 
+		return AddressDTO.builder()
+				.id(patient.getAddress().getId())
+				.streetName(patient.getAddress().getStreetName())
+				.city(patient.getAddress().getCity())
+				.postalCode(patient.getAddress().getPostalCode())
 				.build();
 	}
 	
@@ -98,8 +112,8 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.lastName(patientDTO.getLastName())
 				.email(patientDTO.getEmail())
 				.situation(patientDTO.getSituation())
-				.address(patientDTO.getAddress())
-				.postalCode(patientDTO.getPostalCode())
+				.dateOfBirth(patientDTO.getDateOfBirth())
+				.address(this.buildAddress(patientDTO))
 				.phoneNumber(patientDTO.getPhoneNumber())
 				.mobilePhone(patientDTO.getMobilePhone())
 				.job(patientDTO.getJob())
@@ -110,6 +124,18 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.diets(this.buildDiets(patientDTO))
 				.allergies(this.buildAllergies(patientDTO))
 				.comment(this.buildComment(patientDTO))
+				.build();
+	}
+	
+	private Address buildAddress(final PatientDTO patientDTO) {
+		if (patientDTO.getAddress() == null) {
+			return null;
+		} 
+		return Address.builder()
+				.id(patientDTO.getAddress().getId())
+				.streetName(patientDTO.getAddress().getStreetName())
+				.city(patientDTO.getAddress().getCity())
+				.postalCode(patientDTO.getAddress().getPostalCode())
 				.build();
 	}
 	
