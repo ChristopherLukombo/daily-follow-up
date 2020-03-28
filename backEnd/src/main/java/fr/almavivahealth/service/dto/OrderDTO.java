@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+@AllArgsConstructor
+@Builder
 public class OrderDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
