@@ -31,6 +31,8 @@ public interface PatientMapper {
 		@Mapping(source = "mobilePhone", target = "mobilePhone"),
 		@Mapping(source = "job", target = "job"),
 		@Mapping(source = "bloodGroup", target = "bloodGroup"),
+		@Mapping(source = "height", target = "height"),
+		@Mapping(source = "weight", target = "weight"),
 		@Mapping(source = "sex", target = "sex"),
 		@Mapping(source = "state", target = "state"),
 		@Mapping(source = "texture", target = "texture"),

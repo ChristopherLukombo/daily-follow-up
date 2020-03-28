@@ -55,6 +55,10 @@ public class PatientDTO implements Serializable {
 
 	private String bloodGroup;
 	
+    private Double height;
+	
+	private Double weight;
+	
     private String sex;
 	
 	private Boolean state;
@@ -169,6 +173,22 @@ public class PatientDTO implements Serializable {
 		this.bloodGroup = bloodGroup;
 	}
 
+	public Double getHeight() {
+		return height;
+	}
+
+	public void setHeight(final Double height) {
+		this.height = height;
+	}
+
+	public Double getWeight() {
+		return weight;
+	}
+
+	public void setWeight(final Double weight) {
+		this.weight = weight;
+	}
+
 	public String getSex() {
 		return sex;
 	}
@@ -227,8 +247,8 @@ public class PatientDTO implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, allergies, bloodGroup, comment, dateOfBirth, diets, email, firstName, id, job,
-				lastName, mobilePhone, orders, phoneNumber, postalCode, sex, situation, state, texture);
+		return Objects.hash(address, allergies, bloodGroup, comment, dateOfBirth, diets, email, firstName, height, id,
+				job, lastName, mobilePhone, orders, phoneNumber, postalCode, sex, situation, state, texture, weight);
 	}
 
 	@Override
@@ -244,12 +264,13 @@ public class PatientDTO implements Serializable {
 				&& Objects.equals(bloodGroup, other.bloodGroup) && Objects.equals(comment, other.comment)
 				&& Objects.equals(dateOfBirth, other.dateOfBirth) && Objects.equals(diets, other.diets)
 				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(id, other.id) && Objects.equals(job, other.job)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(mobilePhone, other.mobilePhone)
-				&& Objects.equals(orders, other.orders) && Objects.equals(phoneNumber, other.phoneNumber)
-				&& Objects.equals(postalCode, other.postalCode) && Objects.equals(sex, other.sex)
-				&& Objects.equals(situation, other.situation) && Objects.equals(state, other.state)
-				&& Objects.equals(texture, other.texture);
+				&& Objects.equals(height, other.height) && Objects.equals(id, other.id)
+				&& Objects.equals(job, other.job) && Objects.equals(lastName, other.lastName)
+				&& Objects.equals(mobilePhone, other.mobilePhone) && Objects.equals(orders, other.orders)
+				&& Objects.equals(phoneNumber, other.phoneNumber) && Objects.equals(postalCode, other.postalCode)
+				&& Objects.equals(sex, other.sex) && Objects.equals(situation, other.situation)
+				&& Objects.equals(state, other.state) && Objects.equals(texture, other.texture)
+				&& Objects.equals(weight, other.weight);
 	}
 
 	@Override
@@ -314,6 +335,16 @@ public class PatientDTO implements Serializable {
 		if (bloodGroup != null) {
 			builder.append("bloodGroup=");
 			builder.append(bloodGroup);
+			builder.append(", ");
+		}
+		if (height != null) {
+			builder.append("height=");
+			builder.append(height);
+			builder.append(", ");
+		}
+		if (weight != null) {
+			builder.append("weight=");
+			builder.append(weight);
 			builder.append(", ");
 		}
 		if (sex != null) {
