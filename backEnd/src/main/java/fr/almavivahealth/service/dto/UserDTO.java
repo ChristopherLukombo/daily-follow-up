@@ -1,16 +1,13 @@
 package fr.almavivahealth.service.dto;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import fr.almavivahealth.domain.Role;
 import fr.almavivahealth.domain.User;
 
 /**
@@ -45,7 +42,7 @@ public class UserDTO {
 
 	private LocalDate birthDay;
 
-	private Long roleId;
+	private String roleName;
 
 	public UserDTO() {
 		// Empty constructor needed for Jackson.
@@ -61,8 +58,9 @@ public class UserDTO {
 		this.createDate = user.getCreateDate();
 		this.imageUrl = user.getImageUrl();
 		this.birthDay = user.getBirthDay();
-		if (null != user.getRole()) {
-			this.roleId = user.getRole().getId();
+		final Role role = user.getRole();
+		if (null != role) {
+			this.roleName = role.getName();
 		}
 	}
 
@@ -98,12 +96,10 @@ public class UserDTO {
 		this.lastName = lastName;
 	}
 
-	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
-	@JsonProperty
 	public void setPassword(final String password) {
 		this.password = password;
 	}
@@ -148,35 +144,12 @@ public class UserDTO {
 		this.birthDay = birthDay;
 	}
 
-	public Long getRoleId() {
-		return roleId;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setRoleId(final Long roleId) {
-		this.roleId = roleId;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(birthDay, createDate, email, firstName, id, imageUrl, lastName, password, pseudo, roleId,
-				status);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final UserDTO other = (UserDTO) obj;
-		return Objects.equals(birthDay, other.birthDay) && Objects.equals(createDate, other.createDate)
-				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
-				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
-				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
-				&& Objects.equals(pseudo, other.pseudo) && Objects.equals(roleId, other.roleId)
-				&& status == other.status;
+	public void setRoleName(final String roleName) {
+		this.roleName = roleName;
 	}
 
 	@Override
@@ -231,9 +204,9 @@ public class UserDTO {
 			builder.append(birthDay);
 			builder.append(", ");
 		}
-		if (roleId != null) {
-			builder.append("roleId=");
-			builder.append(roleId);
+		if (roleName != null) {
+			builder.append("roleName=");
+			builder.append(roleName);
 		}
 		builder.append("]");
 		return builder.toString();

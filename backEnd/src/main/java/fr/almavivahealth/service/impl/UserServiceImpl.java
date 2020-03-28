@@ -1,7 +1,5 @@
 package fr.almavivahealth.service.impl;
 
-import java.util.Optional;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,13 +62,18 @@ public class UserServiceImpl implements UserService {
 		newUser.setImageUrl(userDTO.getImageUrl());
 		newUser.setBirthDay(userDTO.getBirthDay());
 		newUser.setCreateDate(userDTO.getCreateDate());
-		final Optional<Role> role = roleRepository.findById(userDTO.getRoleId());
-		if (role.isPresent()) {
-			newUser.setRole(role.get());
+		final Role role = findRole(userDTO.getRoleName());
+		if (role != null) {
+			newUser.setRole(role);
 		}
 		newUser.setStatus(true);
 
 		final User user = userRepository.save(newUser);
 		return userMapper.userToUserDTO(user);
+	}
+
+	private Role findRole(final String roleName) {
+		return roleRepository.findByName(roleName)
+				.orElseGet(() -> null);
 	}
 }
