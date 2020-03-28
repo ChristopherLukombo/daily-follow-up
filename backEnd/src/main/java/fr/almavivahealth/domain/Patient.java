@@ -1,6 +1,7 @@
 package fr.almavivahealth.domain;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -56,12 +57,9 @@ public class Patient implements Serializable {
 	
 	private String situation;
 	
-	private String address;
+	private LocalDate dateOfBirth;
 	
-	@NotNull
-	@Pattern(regexp = "^(([0-8][0-9])|(9[0-5]))[0-9]{3}$")
-	@Column(name = "postal_code", nullable = false)
-	private String postalCode;
+	private Address address;
 
 	@Pattern(regexp = "^[+](\\d{3})\\)?(\\d{3})(\\d{5,6})$|^(\\d{10,10})$")
 	private String phoneNumber;
