@@ -72,6 +72,10 @@ public class Patient implements Serializable {
 	@Size(max = 3)
 	private String bloodGroup;
 	
+	private Double height;
+	
+	private Double weight;
+	
     private String sex;
 
 	@NotNull
