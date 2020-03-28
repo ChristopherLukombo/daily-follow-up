@@ -95,4 +95,7 @@ public class Patient implements Serializable {
 
 	@OneToOne
 	private Comment comment;
+	
+	@ManyToOne
+	private Room room;
 }

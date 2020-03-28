@@ -36,6 +36,7 @@ public interface PatientMapper {
 		@Mapping(source = "sex", target = "sex"),
 		@Mapping(source = "state", target = "state"),
 		@Mapping(source = "texture", target = "texture"),
+		@Mapping(source = "room.id", target = "roomId")
 	})
 	PatientDTO patientToPatientDTO(Patient patient);
 
