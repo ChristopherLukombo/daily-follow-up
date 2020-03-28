@@ -87,7 +87,7 @@ INSERT INTO address (id, street_name, postal_code, city) VALUES
 ('41', '18 rue Galilée', '78500', 'Sartrouville'),
 ('42', '3 rue Thomire', '75013', 'Paris'),
 ('43', '1 rue Jean-François Lépine', '75018', 'Paris'),
-('44', '6 rue d\'Oslo', '75018', 'Paris'),
+('44', '6 rue d''Oslo', '75018', 'Paris'),
 ('45', '162 rue de Belleville', '75020', 'Paris'),
 ('46', '3 rue de Tourtille', '75020', 'Paris'),
 ('47', '53 rue Volta', '75003', 'Paris'),
@@ -96,7 +96,7 @@ INSERT INTO address (id, street_name, postal_code, city) VALUES
 ('50', '3 rue Mercoeur', '75011', 'Paris'),
 ('51', '24 rue de Pali-Kao', '75020', 'Paris'),
 ('52', '9 boulevard Souchet', '93160', 'Noisy-le-Grand'),
-('53', '9 rue Dessous l\'Eglise', '52400', 'Serqueux'),
+('53', '9 rue Dessous l''Eglise', '52400', 'Serqueux'),
 ('54', '15 rue Maitre Albert', '52400', 'Bourbonne-les-Bains'),
 ('55', '68 avenue du Président Salvador Allende', '93100', 'Montreuil'),
 ('56', '159 avenue Parmentier', '75010', 'Paris'),
@@ -109,7 +109,7 @@ INSERT INTO address (id, street_name, postal_code, city) VALUES
 ('63', '31 rue Émile Zola', '94190', 'Villeneuve-Saint-Georges'),
 ('64', '16 rue Diderot', '94190', 'Villeneuve-Saint-Georges'),
 ('65', '3 rue Gutenberg', '94190', 'Villeneuve-Saint-Georges'),
-('66', '1 rue Jeanne d\'Arc', '94190', 'Villeneuve-Saint-Georges'),
+('66', '1 rue Jeanne d''Arc', '94190', 'Villeneuve-Saint-Georges'),
 ('67', '17 rue des Peupliers', '94190', 'Villeneuve-Saint-Georges'),
 ('68', '68 rue Gambetta', '94190', 'Villeneuve-Saint-Georges'),
 ('69', '6 rue Thimonnier', '94190', 'Villeneuve-Saint-Georges'),
@@ -119,4 +119,4 @@ INSERT INTO address (id, street_name, postal_code, city) VALUES
 
 /******************** PATIENTS (68) ********************/
 /*TODO : date de naissance, adress object*/
-INSERT INTO patient (id, first_name, last_name, sex, situation, job, email, phone_number, mobile_phone, address, postal_code, ) VALUES
+#INSERT INTO patient (id, first_name, last_name, sex, situation, job, email, phone_number, mobile_phone, address, postal_code, ) VALUES
