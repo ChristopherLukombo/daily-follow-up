@@ -1,0 +1,81 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#">
+    <img src="../../../assets/food.svg" width="40" height="40" />
+    <span class="navbar-brand mb-0 h1">&nbsp;Daily follow-up</span>
+  </a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown active">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <fa-icon [icon]="patientLogo"></fa-icon> Patient
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="patient">Liste des patients</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="patient/add"
+            >Ajouter un patient</a
+          >
+        </div>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="#"
+          ><fa-icon [icon]="foodLogo"></fa-icon> Alimentation</a
+        >
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="#"
+          ><fa-icon [icon]="clinicLogo"></fa-icon> Clinique</a
+        >
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="#"
+          ><fa-icon [icon]="statsLogo"></fa-icon> Statistiques</a
+        >
+      </li>
+      <li class="nav-item dropdown active">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <fa-icon [icon]="historyLogo"></fa-icon> Historique
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="patient"
+            >Historique des patients</a
+          >
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="patient/add"
+            >Historique des menus</a
+          >
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <!--<button class="btn btn-success my-2 my-sm-0" type="submit">
+        Authentification
+      </button>-->
+      <app-menu></app-menu>
+    </form>
+  </div>
+</nav>
