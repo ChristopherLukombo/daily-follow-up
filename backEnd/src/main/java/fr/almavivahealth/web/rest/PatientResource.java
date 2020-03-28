@@ -64,7 +64,7 @@ public class PatientResource {
 					"A new patient cannot already have an ID idexists {}" + patientDTO.getId());
 		}
 		final PatientDTO result = patientService.save(patientDTO);
-		return ResponseEntity.created(new URI("/api/absences/" + result.getId())).body(result);
+		return ResponseEntity.created(new URI("/api/patients/" + result.getId())).body(result);
 	}
 
 	/**
