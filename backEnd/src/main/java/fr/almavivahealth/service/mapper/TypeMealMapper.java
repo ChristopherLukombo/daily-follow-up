@@ -15,7 +15,7 @@ import fr.almavivahealth.service.dto.TypeMealDTO;
  * 
  * @author christopher
  */
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TypeMealMapper {
 
 	@Mappings({

@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.FloorDTO;
  * 
  * @author christopher
  */
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FloorMapper {
 
 	@Mappings({

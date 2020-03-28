@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.MomentDayDTO;
  * 
  * @author christopher
  */
-@Mapper(uses = { MomentDay.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MomentDayMapper {
 
 	@Mappings({
