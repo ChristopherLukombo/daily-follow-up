@@ -1,9 +1,21 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class DayDTO {
-    private Long id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+/**
+ * A DTO for the Day entity.
+ */
+@AllArgsConstructor
+@Builder
+public class DayDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
     
     private String name;
 
