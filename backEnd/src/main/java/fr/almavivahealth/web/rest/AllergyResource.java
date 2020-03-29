@@ -61,7 +61,7 @@ public class AllergyResource {
 		LOGGER.debug("REST request to save Allergy : {}", allergyDTO);
 		if (allergyDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new allergy cannot already have an ID idexists {}" + allergyDTO.getId());
+					"A new allergy cannot already have an ID idexists " + allergyDTO.getId());
 		}
 		final AllergyDTO result = allergyService.save(allergyDTO);
 		return ResponseEntity.created(new URI("/api/allergys/" + result.getId())).body(result);
@@ -82,7 +82,7 @@ public class AllergyResource {
 		LOGGER.debug("REST request to update Allergy : {}", allergyDTO);
 		if (allergyDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A allergy must have an ID idexists {}" + allergyDTO.getId());
+					"A allergy must have an ID idexists " + allergyDTO.getId());
 		}
 		final AllergyDTO result = allergyService.save(allergyDTO);
 		return ResponseEntity.ok().body(result);

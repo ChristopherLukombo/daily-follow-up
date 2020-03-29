@@ -61,7 +61,7 @@ public class TextureResource {
 		LOGGER.debug("REST request to save Texture : {}", textureDTO);
 		if (textureDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new texture cannot already have an ID idexists {}" + textureDTO.getId());
+					"A new texture cannot already have an ID idexists " + textureDTO.getId());
 		}
 		final TextureDTO result = textureService.save(textureDTO);
 		return ResponseEntity.created(new URI("/api/textures/" + result.getId())).body(result);
@@ -83,7 +83,7 @@ public class TextureResource {
 		LOGGER.debug("REST request to update Texture : {}", textureDTO);
 		if (textureDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new texture cannot already have an ID idexists {}" + textureDTO.getId());
+					"A new texture cannot already have an ID idexists " + textureDTO.getId());
 		}
 		final TextureDTO result = textureService.save(textureDTO);
 		return ResponseEntity.ok().body(result);

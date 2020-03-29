@@ -61,7 +61,7 @@ public class RoomResource {
 		LOGGER.debug("REST request to save Room : {}", roomDTO);
 		if (roomDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new room cannot already have an ID idexists {}" + roomDTO.getId());
+					"A new room cannot already have an ID idexists " + roomDTO.getId());
 		}
 		final RoomDTO result = roomService.save(roomDTO);
 		return ResponseEntity.created(new URI("/api/rooms/" + result.getId())).body(result);
@@ -82,7 +82,7 @@ public class RoomResource {
 		LOGGER.debug("REST request to update Room : {}", roomDTO);
 		if (roomDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A room must have an ID idexists {}" + roomDTO.getId());
+					"A room must have an ID idexists " + roomDTO.getId());
 		}
 		final RoomDTO result = roomService.save(roomDTO);
 		return ResponseEntity.ok().body(result);
