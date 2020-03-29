@@ -84,7 +84,7 @@ public class FloorResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A floor must have an ID idexists " + floorDTO.getId());
 		}
-		final FloorDTO result = floorService.save(floorDTO);
+		final FloorDTO result = floorService.update(floorDTO);
 		return ResponseEntity.ok().body(result);
 	}
 	

@@ -73,6 +73,8 @@ public class PatientDTO implements Serializable {
 
 	private CommentDTO comment;
 	
+	private Long roomId;
+	
 	public PatientDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -245,6 +247,14 @@ public class PatientDTO implements Serializable {
 		this.comment = comment;
 	}
 
+	public Long getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(final Long roomId) {
+		this.roomId = roomId;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(address, allergies, bloodGroup, comment, dateOfBirth, diets, email, firstName, height, id,
@@ -380,6 +390,11 @@ public class PatientDTO implements Serializable {
 		if (comment != null) {
 			builder.append("comment=");
 			builder.append(comment);
+			builder.append(", ");
+		}
+		if (roomId != null) {
+			builder.append("roomId=");
+			builder.append(roomId);
 		}
 		builder.append("]");
 		return builder.toString();

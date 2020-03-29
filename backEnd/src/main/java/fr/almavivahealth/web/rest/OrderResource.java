@@ -61,7 +61,7 @@ public class OrderResource {
 		LOGGER.debug("REST request to save Order : {}", orderDTO);
 		if (orderDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new order cannot already have an ID idexists {}" + orderDTO.getId());
+					"A new order cannot already have an ID idexists " + orderDTO.getId());
 		}
 		final OrderDTO result = orderService.save(orderDTO);
 		return ResponseEntity.created(new URI("/api/orders/" + result.getId())).body(result);
@@ -82,9 +82,9 @@ public class OrderResource {
 		LOGGER.debug("REST request to update Order : {}", orderDTO);
 		if (orderDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A order must have an ID idexists {}" + orderDTO.getId());
+					"A order must have an ID idexists " + orderDTO.getId());
 		}
-		final OrderDTO result = orderService.save(orderDTO);
+		final OrderDTO result = orderService.update(orderDTO);
 		return ResponseEntity.ok().body(result);
 	}
 	

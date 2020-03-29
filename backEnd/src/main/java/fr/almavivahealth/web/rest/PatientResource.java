@@ -84,7 +84,7 @@ public class PatientResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A patient must have an ID idexists {}" + patientDTO.getId());
 		}
-		final PatientDTO result = patientService.save(patientDTO);
+		final PatientDTO result = patientService.update(patientDTO);
 		return ResponseEntity.ok().body(result);
 	}
 	
