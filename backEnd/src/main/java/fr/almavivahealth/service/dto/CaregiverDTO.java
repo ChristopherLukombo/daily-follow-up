@@ -1,8 +1,16 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class CaregiverDTO {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+@AllArgsConstructor
+@Builder
+public class CaregiverDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	
