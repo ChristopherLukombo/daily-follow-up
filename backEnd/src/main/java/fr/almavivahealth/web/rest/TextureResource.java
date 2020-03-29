@@ -85,7 +85,7 @@ public class TextureResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A new texture cannot already have an ID idexists " + textureDTO.getId());
 		}
-		final TextureDTO result = textureService.save(textureDTO);
+		final TextureDTO result = textureService.update(textureDTO);
 		return ResponseEntity.ok().body(result);
 	}
 

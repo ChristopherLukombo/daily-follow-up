@@ -84,7 +84,7 @@ public class AllergyResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A allergy must have an ID idexists " + allergyDTO.getId());
 		}
-		final AllergyDTO result = allergyService.save(allergyDTO);
+		final AllergyDTO result = allergyService.update(allergyDTO);
 		return ResponseEntity.ok().body(result);
 	}
 	

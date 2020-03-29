@@ -84,7 +84,7 @@ public class RoomResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A room must have an ID idexists " + roomDTO.getId());
 		}
-		final RoomDTO result = roomService.save(roomDTO);
+		final RoomDTO result = roomService.update(roomDTO);
 		return ResponseEntity.ok().body(result);
 	}
 	

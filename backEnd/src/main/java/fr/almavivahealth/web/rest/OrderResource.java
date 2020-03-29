@@ -84,7 +84,7 @@ public class OrderResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A order must have an ID idexists " + orderDTO.getId());
 		}
-		final OrderDTO result = orderService.save(orderDTO);
+		final OrderDTO result = orderService.update(orderDTO);
 		return ResponseEntity.ok().body(result);
 	}
 	
