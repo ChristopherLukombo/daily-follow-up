@@ -21,7 +21,8 @@ public interface MenuMapper {
 		@Mapping(source = "id", target = "id"),
 		@Mapping(source = "startDate", target = "startDate"),
 		@Mapping(source = "endDate", target = "endDate"),
-		@Mapping(source = "texture.id", target = "textureId")
+		@Mapping(source = "texture.id", target = "textureId"),
+		@Mapping(source = "diet.id", target = "dietId")
 	})
 	MenuDTO menuToMenuDTO(Menu menu);
 
