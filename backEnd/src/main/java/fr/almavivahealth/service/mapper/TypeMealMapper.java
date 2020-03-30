@@ -6,7 +6,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
 
-import fr.almavivahealth.domain.Texture;
 import fr.almavivahealth.domain.TypeMeal;
 import fr.almavivahealth.service.dto.TypeMealDTO;
 
@@ -25,5 +24,5 @@ public interface TypeMealMapper {
 	TypeMealDTO typeMealToTypeMealDTO(TypeMeal typeMeal);
 
 	@InheritInverseConfiguration
-	Texture typeMealDTOToTypeMeal(TypeMeal typeMealDTO);
+	TypeMeal typeMealDTOToTypeMeal(TypeMealDTO typeMealDTO);
 }
