@@ -4,7 +4,8 @@ import {
   faUtensils,
   faChartPie,
   faClinicMedical,
-  faClock
+  faClock,
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit {
   statsLogo = faChartPie;
   clinicLogo = faClinicMedical;
   historyLogo = faClock;
+  logInLogo = faUser;
 
   constructor() {}
 
