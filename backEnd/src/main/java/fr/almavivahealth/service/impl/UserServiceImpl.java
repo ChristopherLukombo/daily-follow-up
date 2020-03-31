@@ -11,6 +11,7 @@ import fr.almavivahealth.dao.RoleRepository;
 import fr.almavivahealth.dao.UserRepository;
 import fr.almavivahealth.domain.Role;
 import fr.almavivahealth.domain.User;
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.service.mapper.UserMapper;
@@ -22,7 +23,7 @@ import fr.almavivahealth.service.mapper.UserMapper;
 @Transactional
 public class UserServiceImpl implements UserService {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	private final UserRepository userRepository;
 	
@@ -46,34 +47,37 @@ public class UserServiceImpl implements UserService {
 	 *
 	 * @param userDTO the user DTO
 	 * @return the user DTO
+	 * @throws DailyFollowUpException 
 	 */
 	@Override
-	public UserDTO save(final UserDTO userDTO) {
-		LOGGER.debug("Request to save the user: {}", userDTO);
+	public UserDTO save(final UserDTO userDTO) throws DailyFollowUpException {
+		try {
+			LOGGER.debug("Request to save the user: {}", userDTO);
 
-		final User newUser = new User();
-		newUser.setPseudo(userDTO.getPseudo());
-		final String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
-		// new user gets initially a generated password
-		newUser.setPassword(encryptedPassword);
-		newUser.setFirstName(userDTO.getFirstName());
-		newUser.setLastName(userDTO.getLastName());
-		newUser.setEmail(userDTO.getEmail());
-		newUser.setImageUrl(userDTO.getImageUrl());
-		newUser.setBirthDay(userDTO.getBirthDay());
-		newUser.setCreateDate(userDTO.getCreateDate());
-		final Role role = findRole(userDTO.getRoleName());
-		if (role != null) {
+			final User newUser = new User();
+			newUser.setPseudo(userDTO.getPseudo());
+			final String encryptedPassword = passwordEncoder.encode(userDTO.getPassword());
+			// new user gets initially a generated password
+			newUser.setPassword(encryptedPassword);
+			newUser.setFirstName(userDTO.getFirstName());
+			newUser.setLastName(userDTO.getLastName());
+			newUser.setEmail(userDTO.getEmail());
+			newUser.setImageUrl(userDTO.getImageUrl());
+			newUser.setBirthDay(userDTO.getBirthDay());
+			newUser.setCreateDate(userDTO.getCreateDate());
+			final Role role = findRole(userDTO.getRoleName());
 			newUser.setRole(role);
-		}
-		newUser.setStatus(true);
+			newUser.setStatus(true);
 
-		final User user = userRepository.save(newUser);
-		return userMapper.userToUserDTO(user);
+			final User user = userRepository.save(newUser);
+			return userMapper.userToUserDTO(user);
+		} catch (final DailyFollowUpException e) {
+			throw new DailyFollowUpException("An error occurred while saving the user", e);
+		}
 	}
 
-	private Role findRole(final String roleName) {
+	private Role findRole(final String roleName) throws DailyFollowUpException {
 		return roleRepository.findByName(roleName)
-				.orElseGet(() -> null);
+				.orElseThrow(() -> new DailyFollowUpException("Role not found with roleName : " + roleName));
 	}
 }

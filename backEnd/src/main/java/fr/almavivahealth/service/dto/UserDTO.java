@@ -1,5 +1,6 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
@@ -9,11 +10,18 @@ import javax.validation.constraints.Size;
 
 import fr.almavivahealth.domain.Role;
 import fr.almavivahealth.domain.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 /**
- * A DTO representing a user, with his authorities.
+ * A DTO representing a user, with his role.
  */
-public class UserDTO {
+@AllArgsConstructor
+@Builder
+public class UserDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
 
 	@NotBlank

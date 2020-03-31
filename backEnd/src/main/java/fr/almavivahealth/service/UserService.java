@@ -1,5 +1,6 @@
 package fr.almavivahealth.service;
 
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.UserDTO;
 
 /**
@@ -13,6 +14,7 @@ public interface UserService {
 	 *
 	 * @param userDTO the user DTO
 	 * @return the user DTO
+	 * @throws DailyFollowUpException 
 	 */
-	UserDTO save(UserDTO userDTO);
+	UserDTO save(UserDTO userDTO) throws DailyFollowUpException;
 }
