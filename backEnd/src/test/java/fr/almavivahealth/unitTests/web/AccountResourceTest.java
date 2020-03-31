@@ -68,7 +68,7 @@ public class AccountResourceTest {
 		userDTO.setId(null);
 		
 		// When
-		when(userService.save(any())).thenReturn(userDTO);
+		when(userService.save((UserDTO) any())).thenReturn(userDTO);
 		
 		// Then
 		mockMvc.perform(post("/api/register")
