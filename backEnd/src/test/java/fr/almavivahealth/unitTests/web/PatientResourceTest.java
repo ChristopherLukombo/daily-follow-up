@@ -105,9 +105,6 @@ public class PatientResourceTest {
 		patientDTO.setId(null);
 		patientDTO.setEmail("dsds");
 
-		// When
-		when(patientService.save((PatientDTO) any())).thenReturn(patientDTO);
-
 		// Then
 		mockMvc.perform(post("/api/patients")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
