@@ -2,6 +2,7 @@ package fr.almavivahealth.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.TextureService;
 import fr.almavivahealth.service.dto.TextureDTO;
-import io.micrometer.core.annotation.Timed;
 import io.swagger.annotations.Api;
 
 /**
@@ -55,7 +55,6 @@ public class TextureResource {
 	 * @throws DailyFollowUpException
 	 */
 	@PostMapping("/textures")
-	@Timed
 	public ResponseEntity<TextureDTO> createTexture(@Valid @RequestBody final TextureDTO textureDTO)
 			throws URISyntaxException, DailyFollowUpException {
 		LOGGER.debug("REST request to save Texture : {}", textureDTO);
@@ -77,7 +76,6 @@ public class TextureResource {
 	 * @throws DailyFollowUpException
 	 */
 	@PutMapping("/textures")
-	@Timed
 	public ResponseEntity<TextureDTO> updateTexture(@Valid @RequestBody final TextureDTO textureDTO)
 			throws DailyFollowUpException {
 		LOGGER.debug("REST request to update Texture : {}", textureDTO);
@@ -87,6 +85,23 @@ public class TextureResource {
 		}
 		final TextureDTO result = textureService.update(textureDTO);
 		return ResponseEntity.ok().body(result);
+	}
+	
+	/**
+	 * GET /textures : Get all the textures.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of textures in body
+	 * or with status 204 (No Content) if there is no texture.
+	 *         
+	 */
+	@GetMapping("/textures")
+	public ResponseEntity<List<TextureDTO>> getAllTextures() {
+		LOGGER.debug("REST request to get all Textures");
+		final List<TextureDTO> textures = textureService.findAll();
+		if (textures.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(textures);
 	}
 
 	/**
@@ -99,9 +114,8 @@ public class TextureResource {
 	 * @throws DailyFollowUpException
 	 */
 	@GetMapping("/textures/{id}")
-	@Timed
 	public ResponseEntity<TextureDTO> getTexture(@PathVariable final Long id) {
-		LOGGER.debug("REST request to update Texture : {}", id);
+		LOGGER.debug("REST request to get Texture : {}", id);
 		final Optional<TextureDTO> result = textureService.findOne(id);
 		if (result.isPresent()) {
 			return ResponseEntity.ok().body(result.get());
@@ -117,7 +131,6 @@ public class TextureResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@DeleteMapping("/textures/{id}")
-	@Timed
 	public ResponseEntity<Void> deleteTexture(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Texture : {}", id);
 		textureService.delete(id);
