@@ -46,7 +46,7 @@ public class AccountResource {
 	}
 
 	/**
-     * POST  /create : create the user.
+     * POST  /create : create a new user.
      *
      * @param userDTO the user
      * @param lang 
@@ -54,7 +54,7 @@ public class AccountResource {
      * @throws URISyntaxException 
 	 * @throws DailyFollowUpException 
      */
-    @ApiOperation("Create the user.")
+    @ApiOperation("Create a new user.")
     @PostMapping("/register")
     public ResponseEntity<UserDTO> createUser(
             @RequestBody @Valid final UserDTO userDTO,

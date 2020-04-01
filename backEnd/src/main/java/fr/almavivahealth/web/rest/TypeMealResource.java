@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.TypeMealService;
 import fr.almavivahealth.service.dto.TypeMealDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing TypeMeal.
@@ -55,6 +56,7 @@ public class TypeMealResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new typeMeal.")
 	@PostMapping("/typeMeals")
 	public ResponseEntity<TypeMealDTO> createTypeMeal(@Valid @RequestBody final TypeMealDTO typeMealTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class TypeMealResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a typeMeal.")
 	@PutMapping("/typeMeals")
 	public ResponseEntity<TypeMealDTO> updateTypeMeal(@Valid @RequestBody final TypeMealDTO typeMealDTO)
 			throws DailyFollowUpException {
@@ -112,6 +115,7 @@ public class TypeMealResource {
 	 * or with status 204 (No Content) if the typeMeal does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" typeMeal.")
 	@GetMapping("/typeMeals/{id}")
 	public ResponseEntity<TypeMealDTO> getTypeMeal(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get TypeMeal : {}", id);
@@ -129,6 +133,7 @@ public class TypeMealResource {
 	 * @param id the id of the typeMealDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" typeMeal.")
 	@DeleteMapping("/typeMeals/{id}")
 	public ResponseEntity<Void> deleteTypeMeal(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete TypeMeal : {}", id);

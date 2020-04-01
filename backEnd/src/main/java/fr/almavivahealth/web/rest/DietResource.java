@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.DietService;
 import fr.almavivahealth.service.dto.DietDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Diet.
@@ -55,6 +56,7 @@ public class DietResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new diet.")
 	@PostMapping("/diets")
 	public ResponseEntity<DietDTO> createDiet(@Valid @RequestBody final DietDTO dietDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class DietResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a diet.")
 	@PutMapping("/diets")
 	public ResponseEntity<DietDTO> updateDiet(@Valid @RequestBody final DietDTO dietDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class DietResource {
 	 * or with status 204 (No Content) if there is no diet.
 	 *         
 	 */
+	@ApiOperation("Get all the diets.")
 	@GetMapping("/diets")
 	public ResponseEntity<List<DietDTO>> getAllDiets() {
 		LOGGER.debug("REST request to get All Diets");
@@ -112,6 +116,7 @@ public class DietResource {
 	 * or with status 204 (No Content) if the diet does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" diet.")
 	@GetMapping("/diets/{id}")
 	public ResponseEntity<DietDTO> getDiet(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Diet : {}", id);
@@ -129,6 +134,7 @@ public class DietResource {
 	 * @param id the id of the dietDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" diet.")
 	@DeleteMapping("/diets/{id}")
 	public ResponseEntity<Void> deleteDiet(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Diet : {}", id);

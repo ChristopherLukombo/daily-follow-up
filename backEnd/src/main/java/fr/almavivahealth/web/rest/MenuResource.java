@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.MenuService;
 import fr.almavivahealth.service.dto.MenuDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Menu.
@@ -55,6 +56,7 @@ public class MenuResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new menu.")
 	@PostMapping("/menus")
 	public ResponseEntity<MenuDTO> createMenu(@Valid @RequestBody final MenuDTO menuDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class MenuResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a menu.")
 	@PutMapping("/menus")
 	public ResponseEntity<MenuDTO> updateMenu(@Valid @RequestBody final MenuDTO menuDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class MenuResource {
 	 * or with status 204 (No Content) if there is no menu.
 	 *         
 	 */
+	@ApiOperation("Get all the menus.")
 	@GetMapping("/menus")
 	public ResponseEntity<List<MenuDTO>> getAllMenus() {
 		LOGGER.debug("REST request to get All Menus");
@@ -112,6 +116,7 @@ public class MenuResource {
 	 * or with status 204 (No Content) if the menu does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" menu.")
 	@GetMapping("/menus/{id}")
 	public ResponseEntity<MenuDTO> getMenu(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Menu : {}", id);
@@ -129,6 +134,7 @@ public class MenuResource {
 	 * @param id the id of the menuDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" menu.")
 	@DeleteMapping("/menus/{id}")
 	public ResponseEntity<Void> deleteMenu(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Menu : {}", id);

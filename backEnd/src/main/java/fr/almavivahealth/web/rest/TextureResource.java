@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.TextureService;
 import fr.almavivahealth.service.dto.TextureDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Texture.
@@ -54,6 +55,7 @@ public class TextureResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+    @ApiOperation("Create a new texture.")
 	@PostMapping("/textures")
 	public ResponseEntity<TextureDTO> createTexture(@Valid @RequestBody final TextureDTO textureDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -75,6 +77,7 @@ public class TextureResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+    @ApiOperation("Update a texture.")
 	@PutMapping("/textures")
 	public ResponseEntity<TextureDTO> updateTexture(@Valid @RequestBody final TextureDTO textureDTO)
 			throws DailyFollowUpException {
@@ -94,6 +97,7 @@ public class TextureResource {
 	 * or with status 204 (No Content) if there is no texture.
 	 *         
 	 */
+    @ApiOperation("Get all the textures.")
 	@GetMapping("/textures")
 	public ResponseEntity<List<TextureDTO>> getAllTextures() {
 		LOGGER.debug("REST request to get all Textures");
@@ -113,6 +117,7 @@ public class TextureResource {
 	 *         
 	 * @throws DailyFollowUpException
 	 */
+    @ApiOperation("Get a texture.")
 	@GetMapping("/textures/{id}")
 	public ResponseEntity<TextureDTO> getTexture(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Texture : {}", id);
@@ -125,11 +130,12 @@ public class TextureResource {
 	}
 
 	/**
-	 * DELETE /textures/:id : delete the "id" texture.
+	 * DELETE /textures/:id : Delete the "id" texture.
 	 *
 	 * @param id the id of the textureDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+    @ApiOperation("Delete the \"id\" texture.")
 	@DeleteMapping("/textures/{id}")
 	public ResponseEntity<Void> deleteTexture(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Texture : {}", id);

@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.FloorService;
 import fr.almavivahealth.service.dto.FloorDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Floor.
@@ -55,6 +56,7 @@ public class FloorResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new floor.")
 	@PostMapping("/floors")
 	public ResponseEntity<FloorDTO> createFloor(@Valid @RequestBody final FloorDTO floorDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class FloorResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a floor.")
 	@PutMapping("/floors")
 	public ResponseEntity<FloorDTO> updateFloor(@Valid @RequestBody final FloorDTO floorDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class FloorResource {
 	 * or with status 204 (No Content) if there is no floor.
 	 *         
 	 */
+	@ApiOperation("Get all the floors.")
 	@GetMapping("/floors")
 	public ResponseEntity<List<FloorDTO>> getAllFloors() {
 		LOGGER.debug("REST request to get All Floors");
@@ -112,6 +116,7 @@ public class FloorResource {
 	 * or with status 204 (No Content) if the floor does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" floor.")
 	@GetMapping("/floors/{id}")
 	public ResponseEntity<FloorDTO> getFloor(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Floor : {}", id);
@@ -129,6 +134,7 @@ public class FloorResource {
 	 * @param id the id of the floorDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" floor.")
 	@DeleteMapping("/floors/{id}")
 	public ResponseEntity<Void> deleteFloor(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Floor : {}", id);

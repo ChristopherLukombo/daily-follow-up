@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Content.
@@ -55,6 +56,7 @@ public class ContentResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new content.")
 	@PostMapping("/contents")
 	public ResponseEntity<ContentDTO> createContent(@Valid @RequestBody final ContentDTO contentDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class ContentResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a content.")
 	@PutMapping("/contents")
 	public ResponseEntity<ContentDTO> updateContent(@Valid @RequestBody final ContentDTO contentDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class ContentResource {
 	 * or with status 204 (No Content) if there is no content.
 	 *         
 	 */
+	@ApiOperation("Get all the contents.")
 	@GetMapping("/contents")
 	public ResponseEntity<List<ContentDTO>> getAllContents() {
 		LOGGER.debug("REST request to get All Contents");
@@ -112,6 +116,7 @@ public class ContentResource {
 	 * or with status 204 (No Content) if the content does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" content.")
 	@GetMapping("/contents/{id}")
 	public ResponseEntity<ContentDTO> getContent(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Content : {}", id);
@@ -129,6 +134,7 @@ public class ContentResource {
 	 * @param id the id of the contentDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" content.")
 	@DeleteMapping("/contents/{id}")
 	public ResponseEntity<Void> deleteContent(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Content : {}", id);

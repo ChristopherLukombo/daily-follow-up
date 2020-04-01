@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.OrderService;
 import fr.almavivahealth.service.dto.OrderDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Order.
@@ -55,6 +56,7 @@ public class OrderResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new order.")
 	@PostMapping("/orders")
 	public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody final OrderDTO orderDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class OrderResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a order.")
 	@PutMapping("/orders")
 	public ResponseEntity<OrderDTO> updateOrder(@Valid @RequestBody final OrderDTO orderDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class OrderResource {
 	 * or with status 204 (No Content) if there is no order.
 	 *         
 	 */
+	@ApiOperation("Get all the orders.")
 	@GetMapping("/orders")
 	public ResponseEntity<List<OrderDTO>> getAllOrders() {
 		LOGGER.debug("REST request to get All Orders");
@@ -112,6 +116,7 @@ public class OrderResource {
 	 * or with status 204 (No Content) if the order does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" order.")
 	@GetMapping("/orders/{id}")
 	public ResponseEntity<OrderDTO> getOrder(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Order : {}", id);
@@ -129,6 +134,7 @@ public class OrderResource {
 	 * @param id the id of the orderDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" order.")
 	@DeleteMapping("/orders/{id}")
 	public ResponseEntity<Void> deleteOrder(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Order : {}", id);

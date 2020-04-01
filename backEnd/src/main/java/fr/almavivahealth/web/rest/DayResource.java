@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.DayService;
 import fr.almavivahealth.service.dto.DayDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Day.
@@ -55,6 +56,7 @@ public class DayResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new day.")
 	@PostMapping("/days")
 	public ResponseEntity<DayDTO> createDay(@Valid @RequestBody final DayDTO day)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class DayResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a day.")
 	@PutMapping("/days")
 	public ResponseEntity<DayDTO> updateDay(@Valid @RequestBody final DayDTO dayDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class DayResource {
 	 * or with status 204 (No Content) if there is no day.
 	 *         
 	 */
+	@ApiOperation("Get all the days.")
 	@GetMapping("/days")
 	public ResponseEntity<List<DayDTO>> getAllDays() {
 		LOGGER.debug("REST request to get All Days");
@@ -112,6 +116,7 @@ public class DayResource {
 	 * or with status 204 (No Content) if the day does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" day.")
 	@GetMapping("/days/{id}")
 	public ResponseEntity<DayDTO> getDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Day : {}", id);
@@ -129,6 +134,7 @@ public class DayResource {
 	 * @param id the id of the dayDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" day.")
 	@DeleteMapping("/days/{id}")
 	public ResponseEntity<Void> deleteDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Day : {}", id);

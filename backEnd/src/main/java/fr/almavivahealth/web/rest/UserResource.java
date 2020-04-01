@@ -49,7 +49,7 @@ public class UserResource {
 	 * @param login
 	 * @return JWTToken
 	 */
-	@ApiOperation(value = "Authenticate the user and return the token which identify him.")
+	@ApiOperation("Authenticate the user and return the token which identify him.")
 	@PostMapping("/authenticate")
 	public ResponseEntity<JWTToken> authorize(@Valid @RequestBody final Login login) {
 

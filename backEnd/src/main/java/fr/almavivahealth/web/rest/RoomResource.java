@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.RoomService;
 import fr.almavivahealth.service.dto.RoomDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Room.
@@ -55,6 +56,7 @@ public class RoomResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new room.")
 	@PostMapping("/rooms")
 	public ResponseEntity<RoomDTO> createRoom(@Valid @RequestBody final RoomDTO roomDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class RoomResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a room.")
 	@PutMapping("/rooms")
 	public ResponseEntity<RoomDTO> updateRoom(@Valid @RequestBody final RoomDTO roomDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class RoomResource {
 	 * or with status 204 (No Content) if there is no room.
 	 *         
 	 */
+	@ApiOperation("Get all the rooms.")
 	@GetMapping("/rooms")
 	public ResponseEntity<List<RoomDTO>> getAllRooms() {
 		LOGGER.debug("REST request to get all Rooms");
@@ -112,6 +116,7 @@ public class RoomResource {
 	 * or with status 204 (No Content) if the room does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" room.")
 	@GetMapping("/rooms/{id}")
 	public ResponseEntity<RoomDTO> getRoom(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Room : {}", id);
@@ -129,6 +134,7 @@ public class RoomResource {
 	 * @param id the id of the roomDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" room.")
 	@DeleteMapping("/rooms/{id}")
 	public ResponseEntity<Void> deleteRoom(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Room : {}", id);

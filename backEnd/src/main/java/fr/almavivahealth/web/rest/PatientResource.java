@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.PatientDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Patient.
@@ -55,6 +56,7 @@ public class PatientResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new patient.")
 	@PostMapping("/patients")
 	public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class PatientResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a patient.")
 	@PutMapping("/patients")
 	public ResponseEntity<PatientDTO> updatePatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class PatientResource {
 	 * or with status 204 (No Content) if there is no patient.
 	 *         
 	 */
+	@ApiOperation("Get all the patients.")
 	@GetMapping("/patients")
 	public ResponseEntity<List<PatientDTO>> getAllPatients() {
 		LOGGER.debug("REST request to get All Patients");
@@ -112,6 +116,7 @@ public class PatientResource {
 	 * or with status 204 (No Content) if the patient does not exist.
 	 *         
 	 */
+	@ApiOperation("Get all the patients.")
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Patient : {}", id);
@@ -129,6 +134,7 @@ public class PatientResource {
 	 * @param id the id of the patientDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" patient.")
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<Void> deletePatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Patient : {}", id);

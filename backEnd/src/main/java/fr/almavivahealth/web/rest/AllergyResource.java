@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.AllergyService;
 import fr.almavivahealth.service.dto.AllergyDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Allergy.
@@ -55,6 +56,7 @@ public class AllergyResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new allergy.")
 	@PostMapping("/allergys")
 	public ResponseEntity<AllergyDTO> createAllergy(@Valid @RequestBody final AllergyDTO allergyDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class AllergyResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a allergy.")
 	@PutMapping("/allergys")
 	public ResponseEntity<AllergyDTO> updateAllergy(@Valid @RequestBody final AllergyDTO allergyDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class AllergyResource {
 	 * or with status 204 (No Content) if there is no allergy.
 	 *         
 	 */
+	@ApiOperation("Get all the allergys.")
 	@GetMapping("/allergys")
 	public ResponseEntity<List<AllergyDTO>> getAllAllergys() {
 		LOGGER.debug("REST request to get All Allergys");
@@ -112,6 +116,7 @@ public class AllergyResource {
 	 * or with status 204 (No Content) if the allergy does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" allergy.")
 	@GetMapping("/allergys/{id}")
 	public ResponseEntity<AllergyDTO> getAllergy(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Allergy : {}", id);
@@ -129,6 +134,7 @@ public class AllergyResource {
 	 * @param id the id of the allergyDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" allergy.")
 	@DeleteMapping("/allergys/{id}")
 	public ResponseEntity<Void> deleteAllergy(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Allergy : {}", id);

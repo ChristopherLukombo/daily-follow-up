@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.MomentDayService;
 import fr.almavivahealth.service.dto.MomentDayDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing MomentDay.
@@ -55,6 +56,7 @@ public class MomentDayResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new momentDay.")
 	@PostMapping("/momentDays")
 	public ResponseEntity<MomentDayDTO> createMomentDay(@Valid @RequestBody final MomentDayDTO momentDayDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class MomentDayResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a momentDay.")
 	@PutMapping("/momentDays")
 	public ResponseEntity<MomentDayDTO> updateMomentDay(@Valid @RequestBody final MomentDayDTO momentDayDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class MomentDayResource {
 	 * or with status 204 (No Content) if there is no momentDay.
 	 *         
 	 */
+	@ApiOperation("Get all the momentDays.")
 	@GetMapping("/momentDays")
 	public ResponseEntity<List<MomentDayDTO>> getAllMomentDays() {
 		LOGGER.debug("REST request to get All MomentDays");
@@ -112,6 +116,7 @@ public class MomentDayResource {
 	 * or with status 204 (No Content) if the momentDay does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" momentDay.")
 	@GetMapping("/momentDays/{id}")
 	public ResponseEntity<MomentDayDTO> getMomentDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get MomentDay : {}", id);
@@ -129,6 +134,7 @@ public class MomentDayResource {
 	 * @param id the id of the momentDayDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" momentDay.")
 	@DeleteMapping("/momentDays/{id}")
 	public ResponseEntity<Void> deleteMomentDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete MomentDay : {}", id);

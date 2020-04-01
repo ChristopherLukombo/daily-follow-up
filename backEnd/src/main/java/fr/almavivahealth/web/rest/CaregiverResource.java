@@ -25,6 +25,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.CaregiverService;
 import fr.almavivahealth.service.dto.CaregiverDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Caregiver.
@@ -55,6 +56,7 @@ public class CaregiverResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new caregiver.")
 	@PostMapping("/caregivers")
 	public ResponseEntity<CaregiverDTO> createCaregiver(@Valid @RequestBody final CaregiverDTO caregiver)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +78,7 @@ public class CaregiverResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a caregiver.")
 	@PutMapping("/caregivers")
 	public ResponseEntity<CaregiverDTO> updateCaregiver(@Valid @RequestBody final CaregiverDTO caregiverDTO)
 			throws DailyFollowUpException {
@@ -95,6 +98,7 @@ public class CaregiverResource {
 	 * or with status 204 (No Content) if there is no caregiver.
 	 *         
 	 */
+	@ApiOperation("Get all the caregivers.")
 	@GetMapping("/caregivers")
 	public ResponseEntity<List<CaregiverDTO>> getAllCaregivers() {
 		LOGGER.debug("REST request to get All Caregivers");
@@ -112,6 +116,7 @@ public class CaregiverResource {
 	 * or with status 204 (No Content) if the caregiver does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" caregiver.")
 	@GetMapping("/caregivers/{id}")
 	public ResponseEntity<CaregiverDTO> getCaregiver(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Caregiver : {}", id);
@@ -129,6 +134,7 @@ public class CaregiverResource {
 	 * @param id the id of the caregiverDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" caregiver.")
 	@DeleteMapping("/caregivers/{id}")
 	public ResponseEntity<Void> deleteCaregiver(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Caregiver : {}", id);
