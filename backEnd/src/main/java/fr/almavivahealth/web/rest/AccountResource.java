@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
  * REST controller for managing the current user's account.
  * @author christopher
  */
-@Api(value = "Account")
+@Api("Account")
 @RestController
 @RequestMapping("/api")
 public class AccountResource {

@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @author christopher
  */
-@Api(value = "Day")
+@Api("Day")
 @RestController
 @RequestMapping("/api")
 public class DayResource {

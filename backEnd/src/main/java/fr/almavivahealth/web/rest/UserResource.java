@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @author christopher
  */
-@Api(value = "User")
+@Api("User")
 @RestController
 @RequestMapping("/api")
 public class UserResource {

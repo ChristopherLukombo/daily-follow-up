@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @author christopher
  */
-@Api(value = "Texture")
+@Api("Texture")
 @RestController
 @RequestMapping("/api")
 public class TextureResource {

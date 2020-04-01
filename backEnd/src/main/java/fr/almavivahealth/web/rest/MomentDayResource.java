@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @author christopher
  */
-@Api(value = "MomentDay")
+@Api("MomentDay")
 @RestController
 @RequestMapping("/api")
 public class MomentDayResource {

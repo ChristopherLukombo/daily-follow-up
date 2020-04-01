@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @author christopher
  */
-@Api(value = "TypeMeal")
+@Api("TypeMeal")
 @RestController
 @RequestMapping("/api")
 public class TypeMealResource {
@@ -98,6 +98,7 @@ public class TypeMealResource {
 	 * or with status 204 (No Content) if there is no typeMeal.
 	 *         
 	 */
+	@ApiOperation("Get all the typeMeals.")
 	@GetMapping("/typeMeals")
 	public ResponseEntity<List<TypeMealDTO>> getAllTypeMeals() {
 		LOGGER.debug("REST request to get all TypeMeals");

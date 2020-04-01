@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @author christopher
  */
-@Api(value = "Floor")
+@Api("Floor")
 @RestController
 @RequestMapping("/api")
 public class FloorResource {

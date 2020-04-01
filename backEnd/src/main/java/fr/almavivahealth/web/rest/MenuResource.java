@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @author christopher
  */
-@Api(value = "Menu")
+@Api("Menu")
 @RestController
 @RequestMapping("/api")
 public class MenuResource {

@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiOperation;
  * 
  * @author christopher
  */
-@Api(value = "Order")
+@Api("Order")
 @RestController
 @RequestMapping("/api")
 public class OrderResource {
