@@ -36,7 +36,7 @@ import io.swagger.annotations.Api;
 @RequestMapping("/api")
 public class TypeMealResource {
 
-private static final Logger LOGGER = LoggerFactory.getLogger(TypeMealResource.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TypeMealResource.class);
 	
 	private final TypeMealService typeMealService;
 
