@@ -74,10 +74,7 @@ public class AccountResource {
         	  throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
                       messageSource.getMessage(ErrorMessage.ERROR_NEW_USER_CANNOT_ALREADY_HAVE_AN_ID, null, locale));
         }
-
-        final UserDTO userSaved = userService.save(userDTO);
-
-        return ResponseEntity.created(new URI("/api/users/" + userSaved.getId()))
-        		.body(userSaved);
+        final UserDTO result = userService.save(userDTO);
+		return ResponseEntity.created(new URI("/api/users/" + result.getId())).body(result);
     }
 }
