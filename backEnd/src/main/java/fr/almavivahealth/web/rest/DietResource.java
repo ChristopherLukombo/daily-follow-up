@@ -26,6 +26,8 @@ import fr.almavivahealth.service.DietService;
 import fr.almavivahealth.service.dto.DietDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Diet.
@@ -57,6 +59,12 @@ public class DietResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new diet.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/diets")
 	public ResponseEntity<DietDTO> createDiet(@Valid @RequestBody final DietDTO dietDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +87,12 @@ public class DietResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a diet.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/diets")
 	public ResponseEntity<DietDTO> updateDiet(@Valid @RequestBody final DietDTO dietDTO)
 			throws DailyFollowUpException {
@@ -99,6 +113,13 @@ public class DietResource {
 	 *         
 	 */
 	@ApiOperation("Get all the diets.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/diets")
 	public ResponseEntity<List<DietDTO>> getAllDiets() {
 		LOGGER.debug("REST request to get All Diets");
@@ -117,6 +138,13 @@ public class DietResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" diet.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/diets/{id}")
 	public ResponseEntity<DietDTO> getDiet(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Diet : {}", id);
@@ -135,6 +163,12 @@ public class DietResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" diet.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/diets/{id}")
 	public ResponseEntity<Void> deleteDiet(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Diet : {}", id);

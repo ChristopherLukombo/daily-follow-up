@@ -23,6 +23,8 @@ import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing the current user's account.
@@ -55,6 +57,13 @@ public class AccountResource {
 	 * @throws DailyFollowUpException 
      */
     @ApiOperation("Create a new user.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad request"),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden"),
+            @ApiResponse(code = 422, message = "Unprocessable entity")
+            })
     @PostMapping("/register")
     public ResponseEntity<UserDTO> createUser(
             @RequestBody @Valid final UserDTO userDTO,

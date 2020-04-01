@@ -26,6 +26,8 @@ import fr.almavivahealth.service.TypeMealService;
 import fr.almavivahealth.service.dto.TypeMealDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing TypeMeal.
@@ -57,6 +59,12 @@ public class TypeMealResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new typeMeal.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/typeMeals")
 	public ResponseEntity<TypeMealDTO> createTypeMeal(@Valid @RequestBody final TypeMealDTO typeMealTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +87,12 @@ public class TypeMealResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a typeMeal.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/typeMeals")
 	public ResponseEntity<TypeMealDTO> updateTypeMeal(@Valid @RequestBody final TypeMealDTO typeMealDTO)
 			throws DailyFollowUpException {
@@ -99,6 +113,13 @@ public class TypeMealResource {
 	 *         
 	 */
 	@ApiOperation("Get all the typeMeals.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/typeMeals")
 	public ResponseEntity<List<TypeMealDTO>> getAllTypeMeals() {
 		LOGGER.debug("REST request to get all TypeMeals");
@@ -117,6 +138,13 @@ public class TypeMealResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" typeMeal.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/typeMeals/{id}")
 	public ResponseEntity<TypeMealDTO> getTypeMeal(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get TypeMeal : {}", id);
@@ -135,6 +163,12 @@ public class TypeMealResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" typeMeal.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/typeMeals/{id}")
 	public ResponseEntity<Void> deleteTypeMeal(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete TypeMeal : {}", id);

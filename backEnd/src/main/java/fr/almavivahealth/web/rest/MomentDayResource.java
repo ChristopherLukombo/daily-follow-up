@@ -26,6 +26,8 @@ import fr.almavivahealth.service.MomentDayService;
 import fr.almavivahealth.service.dto.MomentDayDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing MomentDay.
@@ -57,6 +59,12 @@ public class MomentDayResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new momentDay.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/momentDays")
 	public ResponseEntity<MomentDayDTO> createMomentDay(@Valid @RequestBody final MomentDayDTO momentDayDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +87,12 @@ public class MomentDayResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a momentDay.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/momentDays")
 	public ResponseEntity<MomentDayDTO> updateMomentDay(@Valid @RequestBody final MomentDayDTO momentDayDTO)
 			throws DailyFollowUpException {
@@ -99,6 +113,13 @@ public class MomentDayResource {
 	 *         
 	 */
 	@ApiOperation("Get all the momentDays.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/momentDays")
 	public ResponseEntity<List<MomentDayDTO>> getAllMomentDays() {
 		LOGGER.debug("REST request to get All MomentDays");
@@ -117,6 +138,13 @@ public class MomentDayResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" momentDay.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/momentDays/{id}")
 	public ResponseEntity<MomentDayDTO> getMomentDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get MomentDay : {}", id);
@@ -135,6 +163,12 @@ public class MomentDayResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" momentDay.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/momentDays/{id}")
 	public ResponseEntity<Void> deleteMomentDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete MomentDay : {}", id);

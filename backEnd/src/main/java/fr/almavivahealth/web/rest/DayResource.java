@@ -26,6 +26,8 @@ import fr.almavivahealth.service.DayService;
 import fr.almavivahealth.service.dto.DayDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Day.
@@ -57,6 +59,12 @@ public class DayResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new day.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/days")
 	public ResponseEntity<DayDTO> createDay(@Valid @RequestBody final DayDTO day)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +87,12 @@ public class DayResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a day.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/days")
 	public ResponseEntity<DayDTO> updateDay(@Valid @RequestBody final DayDTO dayDTO)
 			throws DailyFollowUpException {
@@ -99,6 +113,13 @@ public class DayResource {
 	 *         
 	 */
 	@ApiOperation("Get all the days.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/days")
 	public ResponseEntity<List<DayDTO>> getAllDays() {
 		LOGGER.debug("REST request to get All Days");
@@ -117,6 +138,13 @@ public class DayResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" day.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/days/{id}")
 	public ResponseEntity<DayDTO> getDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Day : {}", id);
@@ -135,6 +163,12 @@ public class DayResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" day.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/days/{id}")
 	public ResponseEntity<Void> deleteDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Day : {}", id);

@@ -26,6 +26,8 @@ import fr.almavivahealth.service.CaregiverService;
 import fr.almavivahealth.service.dto.CaregiverDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Caregiver.
@@ -57,6 +59,12 @@ public class CaregiverResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new caregiver.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/caregivers")
 	public ResponseEntity<CaregiverDTO> createCaregiver(@Valid @RequestBody final CaregiverDTO caregiver)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +87,12 @@ public class CaregiverResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a caregiver.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/caregivers")
 	public ResponseEntity<CaregiverDTO> updateCaregiver(@Valid @RequestBody final CaregiverDTO caregiverDTO)
 			throws DailyFollowUpException {
@@ -99,6 +113,13 @@ public class CaregiverResource {
 	 *         
 	 */
 	@ApiOperation("Get all the caregivers.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/caregivers")
 	public ResponseEntity<List<CaregiverDTO>> getAllCaregivers() {
 		LOGGER.debug("REST request to get All Caregivers");
@@ -117,6 +138,13 @@ public class CaregiverResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" caregiver.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/caregivers/{id}")
 	public ResponseEntity<CaregiverDTO> getCaregiver(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Caregiver : {}", id);
@@ -135,6 +163,12 @@ public class CaregiverResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" caregiver.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/caregivers/{id}")
 	public ResponseEntity<Void> deleteCaregiver(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Caregiver : {}", id);

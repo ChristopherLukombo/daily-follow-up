@@ -26,6 +26,8 @@ import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Content.
@@ -57,6 +59,13 @@ public class ContentResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new content.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PostMapping("/contents")
 	public ResponseEntity<ContentDTO> createContent(@Valid @RequestBody final ContentDTO contentDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +88,13 @@ public class ContentResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a content.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PutMapping("/contents")
 	public ResponseEntity<ContentDTO> updateContent(@Valid @RequestBody final ContentDTO contentDTO)
 			throws DailyFollowUpException {
@@ -99,6 +115,13 @@ public class ContentResource {
 	 *         
 	 */
 	@ApiOperation("Get all the contents.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/contents")
 	public ResponseEntity<List<ContentDTO>> getAllContents() {
 		LOGGER.debug("REST request to get All Contents");
@@ -117,6 +140,13 @@ public class ContentResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" content.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/contents/{id}")
 	public ResponseEntity<ContentDTO> getContent(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Content : {}", id);
@@ -135,6 +165,12 @@ public class ContentResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" content.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/contents/{id}")
 	public ResponseEntity<Void> deleteContent(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Content : {}", id);

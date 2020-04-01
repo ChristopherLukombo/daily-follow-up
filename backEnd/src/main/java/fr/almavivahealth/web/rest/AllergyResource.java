@@ -26,6 +26,8 @@ import fr.almavivahealth.service.AllergyService;
 import fr.almavivahealth.service.dto.AllergyDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Allergy.
@@ -57,6 +59,13 @@ public class AllergyResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new allergy.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PostMapping("/allergys")
 	public ResponseEntity<AllergyDTO> createAllergy(@Valid @RequestBody final AllergyDTO allergyDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +88,13 @@ public class AllergyResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a allergy.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PutMapping("/allergys")
 	public ResponseEntity<AllergyDTO> updateAllergy(@Valid @RequestBody final AllergyDTO allergyDTO)
 			throws DailyFollowUpException {
@@ -99,6 +115,13 @@ public class AllergyResource {
 	 *         
 	 */
 	@ApiOperation("Get all the allergys.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/allergys")
 	public ResponseEntity<List<AllergyDTO>> getAllAllergys() {
 		LOGGER.debug("REST request to get All Allergys");
@@ -117,6 +140,13 @@ public class AllergyResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" allergy.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/allergys/{id}")
 	public ResponseEntity<AllergyDTO> getAllergy(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Allergy : {}", id);
@@ -135,6 +165,12 @@ public class AllergyResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" allergy.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/allergys/{id}")
 	public ResponseEntity<Void> deleteAllergy(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Allergy : {}", id);

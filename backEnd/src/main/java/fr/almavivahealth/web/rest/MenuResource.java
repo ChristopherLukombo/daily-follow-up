@@ -26,6 +26,8 @@ import fr.almavivahealth.service.MenuService;
 import fr.almavivahealth.service.dto.MenuDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Menu.
@@ -57,6 +59,12 @@ public class MenuResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new menu.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/menus")
 	public ResponseEntity<MenuDTO> createMenu(@Valid @RequestBody final MenuDTO menuDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +87,12 @@ public class MenuResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a menu.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/menus")
 	public ResponseEntity<MenuDTO> updateMenu(@Valid @RequestBody final MenuDTO menuDTO)
 			throws DailyFollowUpException {
@@ -99,6 +113,13 @@ public class MenuResource {
 	 *         
 	 */
 	@ApiOperation("Get all the menus.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/menus")
 	public ResponseEntity<List<MenuDTO>> getAllMenus() {
 		LOGGER.debug("REST request to get All Menus");
@@ -117,6 +138,13 @@ public class MenuResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" menu.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/menus/{id}")
 	public ResponseEntity<MenuDTO> getMenu(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Menu : {}", id);
@@ -135,6 +163,12 @@ public class MenuResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" menu.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/menus/{id}")
 	public ResponseEntity<Void> deleteMenu(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Menu : {}", id);

@@ -26,6 +26,8 @@ import fr.almavivahealth.service.FloorService;
 import fr.almavivahealth.service.dto.FloorDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Floor.
@@ -57,6 +59,12 @@ public class FloorResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new floor.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/floors")
 	public ResponseEntity<FloorDTO> createFloor(@Valid @RequestBody final FloorDTO floorDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +87,12 @@ public class FloorResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a floor.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/floors")
 	public ResponseEntity<FloorDTO> updateFloor(@Valid @RequestBody final FloorDTO floorDTO)
 			throws DailyFollowUpException {
@@ -99,6 +113,13 @@ public class FloorResource {
 	 *         
 	 */
 	@ApiOperation("Get all the floors.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/floors")
 	public ResponseEntity<List<FloorDTO>> getAllFloors() {
 		LOGGER.debug("REST request to get All Floors");
@@ -117,6 +138,13 @@ public class FloorResource {
 	 *         
 	 */
 	@ApiOperation("Get the \"id\" floor.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/floors/{id}")
 	public ResponseEntity<FloorDTO> getFloor(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Floor : {}", id);
@@ -135,6 +163,12 @@ public class FloorResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" floor.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/floors/{id}")
 	public ResponseEntity<Void> deleteFloor(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Floor : {}", id);

@@ -26,6 +26,8 @@ import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.PatientDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Patient.
@@ -57,6 +59,13 @@ public class PatientResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Create a new patient.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PostMapping("/patients")
 	public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -79,6 +88,13 @@ public class PatientResource {
 	 * @throws DailyFollowUpException
 	 */
 	@ApiOperation("Update a patient.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PutMapping("/patients")
 	public ResponseEntity<PatientDTO> updatePatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws DailyFollowUpException {
@@ -99,6 +115,13 @@ public class PatientResource {
 	 *         
 	 */
 	@ApiOperation("Get all the patients.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/patients")
 	public ResponseEntity<List<PatientDTO>> getAllPatients() {
 		LOGGER.debug("REST request to get All Patients");
@@ -117,6 +140,13 @@ public class PatientResource {
 	 *         
 	 */
 	@ApiOperation("Get all the patients.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Patient : {}", id);
@@ -135,6 +165,12 @@ public class PatientResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
 	@ApiOperation("Delete the \"id\" patient.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<Void> deletePatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Patient : {}", id);

@@ -26,6 +26,8 @@ import fr.almavivahealth.service.TextureService;
 import fr.almavivahealth.service.dto.TextureDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Texture.
@@ -56,6 +58,12 @@ public class TextureResource {
 	 * @throws DailyFollowUpException
 	 */
     @ApiOperation("Create a new texture.")
+    @ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/textures")
 	public ResponseEntity<TextureDTO> createTexture(@Valid @RequestBody final TextureDTO textureDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -78,6 +86,12 @@ public class TextureResource {
 	 * @throws DailyFollowUpException
 	 */
     @ApiOperation("Update a texture.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/textures")
 	public ResponseEntity<TextureDTO> updateTexture(@Valid @RequestBody final TextureDTO textureDTO)
 			throws DailyFollowUpException {
@@ -98,6 +112,13 @@ public class TextureResource {
 	 *         
 	 */
     @ApiOperation("Get all the textures.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/textures")
 	public ResponseEntity<List<TextureDTO>> getAllTextures() {
 		LOGGER.debug("REST request to get all Textures");
@@ -118,6 +139,13 @@ public class TextureResource {
 	 * @throws DailyFollowUpException
 	 */
     @ApiOperation("Get a texture.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/textures/{id}")
 	public ResponseEntity<TextureDTO> getTexture(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Texture : {}", id);
@@ -136,6 +164,12 @@ public class TextureResource {
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
     @ApiOperation("Delete the \"id\" texture.")
+    @ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/textures/{id}")
 	public ResponseEntity<Void> deleteTexture(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Texture : {}", id);
