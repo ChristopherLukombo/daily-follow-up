@@ -43,11 +43,17 @@ public class DietServiceTest {
 	private DietServiceImpl dietServiceImpl;
 
 	private static Diet createDiet() {
-		return Diet.builder().id(ID).name(NAME).build();
+		return Diet.builder()
+				.id(ID)
+				.name(NAME)
+				.build();
 	}
 
 	private static DietDTO createDietDTO() {
-		return DietDTO.builder().id(1L).name(NAME).build();
+		return DietDTO.builder()
+				.id(ID)
+				.name(NAME)
+				.build();
 	}
 
 	@Test
