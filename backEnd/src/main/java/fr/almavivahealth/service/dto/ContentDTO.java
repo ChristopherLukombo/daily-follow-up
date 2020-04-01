@@ -3,6 +3,8 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -18,8 +20,10 @@ public class ContentDTO implements Serializable {
 
 	private Long textureId;
 
+	@NotNull
 	private boolean salt;
 
+	@NotNull
 	private boolean sugar;
 
 	public ContentDTO() {
