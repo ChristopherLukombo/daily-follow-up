@@ -20,6 +20,7 @@ import { HistoryPatientComponent } from "./components/patient/history-patient/hi
 import { PatientHistoryComponent } from "./components/patient-history/patient-history.component";
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
+import { AlertErrorComponent } from './components/utils-components/alert-error/alert-error.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LoginComponent } from "./components/login/login.component";
     HistoryPatientComponent,
     PatientHistoryComponent,
     PatientAddComponent,
-    LoginComponent
+    LoginComponent,
+    AlertErrorComponent
   ],
   imports: [
     BrowserModule,

@@ -14,7 +14,7 @@ const httpOptions = {
     "Content-Type": "application/json"
   })
 };
-const ROOT_URL = "localhost:8081/api";
+const ROOT_URL = "http://localhost:8081/api";
 const LOGIN_URL = ROOT_URL + "/authenticate";
 
 @Injectable({
@@ -43,11 +43,9 @@ export class LoginService {
       console.error("An error occurred:", error.error.message);
     } else {
       console.error(
-        `Backend returned code ${error.status}, body was: ${error.error}`
+        `Backend returned code ${error.status}, body was: ${error.error.message}`
       );
     }
-    return throwError(
-      "Une erreur s'est produite. Veuillez réessayer plus tard"
-    );
+    return throwError(error.status);
   }
 }
