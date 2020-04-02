@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+/**
+ * A DTO for the Comment entity.
+ */
 @AllArgsConstructor
 @Builder
 public class CommentDTO implements Serializable {

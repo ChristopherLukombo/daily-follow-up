@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /**
- * A DTO for the MomentDayDTO entity.
+ * A DTO for the MomentDay entity.
  */
 @AllArgsConstructor
 @Builder

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -46,7 +47,8 @@ public class UserDTO implements Serializable {
 
 	private LocalDate createDate;
 
-	private boolean status = false;
+	@NotNull
+	private Boolean status;
 
 	private LocalDate birthDay;
 
@@ -136,11 +138,11 @@ public class UserDTO implements Serializable {
 		this.createDate = createDate;
 	}
 
-	public boolean isStatus() {
+	public Boolean isStatus() {
 		return status;
 	}
 
-	public void setStatus(final boolean status) {
+	public void setStatus(final Boolean status) {
 		this.status = status;
 	}
 

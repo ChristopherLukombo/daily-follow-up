@@ -6,6 +6,9 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+/**
+ * A DTO for the Floor entity.
+ */
 @AllArgsConstructor
 @Builder
 public class FloorDTO implements Serializable {

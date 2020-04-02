@@ -7,6 +7,9 @@ import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+/**
+ * A DTO for the MomentDay entity.
+ */
 @AllArgsConstructor
 @Builder
 public class OrderDTO implements Serializable {

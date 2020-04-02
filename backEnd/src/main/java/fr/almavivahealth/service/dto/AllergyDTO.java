@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+/**
+ * A DTO for the Allergy entity.
+ */
 @AllArgsConstructor
 @Builder
 public class AllergyDTO implements Serializable {

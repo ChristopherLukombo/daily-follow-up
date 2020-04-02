@@ -57,6 +57,7 @@ public class AccountResourceTest {
 				.pseudo(PSEUDO)
 				.email(EMAIL)
 				.password(PASSWORD)
+				.status(true)
 				.roleName(RoleName.ROLE_ADMIN.name())
 				.build();
 	}

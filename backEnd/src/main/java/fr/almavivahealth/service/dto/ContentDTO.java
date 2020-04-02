@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+/**
+ * A DTO for the Content entity.
+ */
 @AllArgsConstructor
 @Builder
 public class ContentDTO implements Serializable {

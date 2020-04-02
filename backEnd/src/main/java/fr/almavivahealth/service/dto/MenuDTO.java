@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /**
- * A DTO for the MenuDTO entity.
+ * A DTO for the Menu entity.
  */
 @AllArgsConstructor
 @Builder
