@@ -22,6 +22,8 @@ import fr.almavivahealth.security.jwt.TokenProvider;
 import fr.almavivahealth.web.Login;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * UserResource to authenticate users.
@@ -50,6 +52,12 @@ public class UserResource {
 	 * @return JWTToken
 	 */
 	@ApiOperation("Authenticate the user and return the token which identify him.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PostMapping("/authenticate")
 	public ResponseEntity<JWTToken> authorize(@Valid @RequestBody final Login login) {
 
