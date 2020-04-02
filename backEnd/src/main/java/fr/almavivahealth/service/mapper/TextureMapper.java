@@ -3,7 +3,6 @@ package fr.almavivahealth.service.mapper;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
 
 import fr.almavivahealth.domain.Texture;
@@ -17,10 +16,8 @@ import fr.almavivahealth.service.dto.TextureDTO;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TextureMapper {
 
-	@Mappings({
-		@Mapping(source = "id", target = "id"),
-		@Mapping(source = "name", target = "name"),
-	})
+	@Mapping(source = "id", target = "id")
+	@Mapping(source = "name", target = "name")
 	TextureDTO textureToTextureDTO(Texture texture);
 
 	@InheritInverseConfiguration
