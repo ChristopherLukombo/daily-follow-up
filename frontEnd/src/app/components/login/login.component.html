@@ -40,6 +40,12 @@
           </div>
         </div>
       </form>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="errorForm">
+        <app-alert-error [content]="errorForm"></app-alert-error>
+      </div>
     </div>
   </div>
 </div>
