@@ -40,6 +40,7 @@
           </div>
         </div>
       </form>
+      <div *ngIf="loading"><app-loader></app-loader></div>
       <div *ngIf="error">
         <app-alert-error [content]="error"></app-alert-error>
       </div>
