@@ -25,6 +25,9 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Ouvre le menu detail
+   */
   openDetails(): void {
     this.opened == false ? (this.opened = true) : (this.opened = false);
   }
@@ -39,6 +42,16 @@ export class MenuComponent implements OnInit {
     }
   }
 
+  /**
+   * Check si l'utilisateur est connecté à l'application
+   */
+  connected(): Boolean {
+    return this.loginService.isAuthenticated();
+  }
+
+  /**
+   * Déconnexion à l'application
+   */
   onLogout(): void {
     this.loginService.logout().subscribe();
     this.router.navigate(["/login"]);

@@ -27,6 +27,9 @@ export class LoginComponent implements OnInit {
     this.createForm();
   }
 
+  /**
+   * Création du formulaire de connexion
+   */
   createForm() {
     const target = {
       username: ["", [Validators.required, Validators.maxLength(50)]],
@@ -39,12 +42,13 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
+  /**
+   * Connexion à l'application
+   */
   onLogin(): void {
     this.cleanErrorMessages();
     if (this.loginForm.invalid) {
-      console.log("ok invalid");
       this.errorForm = "Veuillez remplir tout les champs.";
-      console.log(this.errorForm);
       return;
     }
     let loginDTO: LoginDTO = new LoginDTO(
@@ -63,7 +67,7 @@ export class LoginComponent implements OnInit {
   }
 
   /**
-   * récupération du code erreur et ajout du message à afficher
+   * Récupération du code erreur et ajout du message à afficher
    * @param error
    */
   catchError(error: number): void {
@@ -71,10 +75,12 @@ export class LoginComponent implements OnInit {
       this.error =
         "Le nom d'utilisateur et le mot de passe ne correspondent pas.";
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard";
+      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
     }
   }
-
+  /**
+   * Suppression des msg d'erreurs
+   */
   cleanErrorMessages(): void {
     this.errorForm = undefined;
     this.error = undefined;

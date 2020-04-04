@@ -4,9 +4,10 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from "@angular/common/http";
-import { throwError, Observable } from "rxjs";
+import { throwError, Observable, BehaviorSubject } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { LoginDTO } from "src/app/models/dto/loginDTO";
+import { environment } from "src/environments/environment";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,8 +15,7 @@ const httpOptions = {
     "Content-Type": "application/json",
   }),
 };
-const ROOT_URL = "http://localhost:8081/api";
-const LOGIN_URL = ROOT_URL + "/authenticate";
+const LOGIN_URL = environment.appRootUrl + "/authenticate";
 
 @Injectable({
   providedIn: "root",
@@ -43,6 +43,14 @@ export class LoginService {
     return new Observable((observer) => {
       localStorage.clear(), observer.complete();
     });
+  }
+
+  /**
+   * Check si l'utilisateur est authentifié
+   * @return true ou false
+   */
+  isAuthenticated(): Boolean {
+    return localStorage.getItem("token") ? true : false;
   }
 
   /**

@@ -7,7 +7,7 @@ import {
   faClock,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import { Router } from "@angular/router";
+import { LoginService } from "src/app/services/login/login.service";
 
 @Component({
   selector: "app-navbar",
@@ -24,7 +24,14 @@ export class NavbarComponent implements OnInit {
   /***/
   token: string = localStorage.getItem("token");
 
-  constructor() {}
+  constructor(private loginService: LoginService) {}
 
   ngOnInit(): void {}
+
+  /**
+   * Check si l'utilisateur est connecté à l'application
+   */
+  connected(): Boolean {
+    return this.loginService.isAuthenticated();
+  }
 }
