@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   errorForm: string;
   closeErrorForm: Boolean = false;
   error: string;
+  loading: Boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,6 +52,7 @@ export class LoginComponent implements OnInit {
       this.errorForm = "Veuillez remplir tout les champs.";
       return;
     }
+    this.loading = true;
     let loginDTO: LoginDTO = new LoginDTO(
       this.loginForm.controls.username.value,
       this.loginForm.controls.password.value
@@ -62,6 +64,7 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         this.catchError(error);
+        this.loading = false;
       }
     );
   }
