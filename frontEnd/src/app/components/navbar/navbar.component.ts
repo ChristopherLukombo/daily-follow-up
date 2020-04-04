@@ -5,13 +5,14 @@ import {
   faChartPie,
   faClinicMedical,
   faClock,
-  faUser
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.scss"]
+  styleUrls: ["./navbar.component.scss"],
 })
 export class NavbarComponent implements OnInit {
   patientLogo = faAddressBook;
@@ -20,6 +21,8 @@ export class NavbarComponent implements OnInit {
   clinicLogo = faClinicMedical;
   historyLogo = faClock;
   logInLogo = faUser;
+  /***/
+  token: string = localStorage.getItem("token");
 
   constructor() {}
 

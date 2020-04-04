@@ -1,4 +1,4 @@
-<div class="menu">
+<div *ngIf="token" class="menu">
   <span class="user" (click)="openDetails()">
     NK
   </span>
@@ -10,7 +10,11 @@
       <a class="menu-item" href="#">Ajouter un(e) aide-soignant(e)</a>
       <a class="menu-item" href="#">Ajouter un(e) diététicien(ne)</a>
       <div class="divider"></div>
-      <button class="btn btn-danger my-2 my-sm-1" type="submit">
+      <button
+        class="btn btn-danger my-2 my-sm-1"
+        type="submit"
+        (click)="onLogout()"
+      >
         <fa-icon [icon]="logoutLogo"></fa-icon> Déconnexion
       </button>
     </div>

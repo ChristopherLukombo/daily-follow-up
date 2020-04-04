@@ -13,7 +13,7 @@
             required
             formControlName="username"
             name="username"
-            placeholder="utilisateur"
+            placeholder="Entrez votre login"
           />
         </div>
         <div class="form-group">
@@ -25,7 +25,7 @@
             required
             formControlName="password"
             name="password"
-            placeholder="mot de passe"
+            placeholder="Entrez votre mot de passe"
           />
         </div>
         <br />
@@ -44,7 +44,10 @@
         <app-alert-error [content]="error"></app-alert-error>
       </div>
       <div *ngIf="errorForm">
-        <app-alert-error [content]="errorForm"></app-alert-error>
+        <app-alert-error
+          [content]="errorForm"
+          [check]="closeErrorForm"
+        ></app-alert-error>
       </div>
     </div>
   </div>
