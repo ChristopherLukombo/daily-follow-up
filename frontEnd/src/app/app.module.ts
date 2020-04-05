@@ -2,8 +2,9 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 
 import { AppRoutingModule } from "./app-routing.module";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { HttpClientModule } from "@angular/common/http";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -18,6 +19,8 @@ import { FoodPatientComponent } from "./components/patient/food-patient/food-pat
 import { HistoryPatientComponent } from "./components/patient/history-patient/history-patient.component";
 import { PatientHistoryComponent } from "./components/patient-history/patient-history.component";
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
+import { LoginComponent } from "./components/login/login.component";
+import { AlertErrorComponent } from './components/utils-components/alert-error/alert-error.component';
 
 @NgModule({
   declarations: [
@@ -33,9 +36,18 @@ import { PatientAddComponent } from "./components/patient-add/patient-add.compon
     FoodPatientComponent,
     HistoryPatientComponent,
     PatientHistoryComponent,
-    PatientAddComponent
+    PatientAddComponent,
+    LoginComponent,
+    AlertErrorComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
