@@ -2,3 +2,8 @@
 ------------------------------------------------------------------------------------------------------------------------
 # Dans le fichier "dailyFollowUp.properties", supprimer la variable de configuration
  "token.tokenValidityInMillisecondsForRememberMe".
+
+# Dans le fichier "dailyFollowUp.properties", ajouter les variables de configuration suivantes :
+
+spring.jpa.properties.hibernate.jdbc.batch_size=4
+spring.jpa.properties.hibernate.order_inserts=true 

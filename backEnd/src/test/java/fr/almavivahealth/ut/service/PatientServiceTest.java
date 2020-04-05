@@ -3,7 +3,10 @@ package fr.almavivahealth.ut.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyIterable;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,10 +21,16 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.mock.web.MockMultipartFile;
 
+import fr.almavivahealth.dao.AllergyRepository;
+import fr.almavivahealth.dao.DietRepository;
 import fr.almavivahealth.dao.PatientRepository;
+import fr.almavivahealth.dao.RoomRepository;
+import fr.almavivahealth.dao.TextureRepository;
 import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.domain.Texture;
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.impl.PatientServiceImpl;
 import fr.almavivahealth.service.mapper.PatientMapper;
@@ -42,6 +51,18 @@ public class PatientServiceTest {
 
 	@Mock
 	private PatientMapper patientMapper;
+	
+	@Mock
+	private TextureRepository textureRepository;
+
+	@Mock
+	private DietRepository dietRepository;
+
+	@Mock
+	private AllergyRepository allergyRepository;
+
+	@Mock
+	private RoomRepository roomRepository;
 	
 	@InjectMocks
 	private PatientServiceImpl patientServiceImpl;
@@ -133,7 +154,7 @@ public class PatientServiceTest {
 		final List<Patient> patients = Arrays.asList(getPatient());
 		
 		// Then
-		when(patientRepository.findAll()).thenReturn(patients);
+		when(patientRepository.findAllByStateTrue()).thenReturn(patients);
 		
 		// Then
 		assertThat(patientServiceImpl.findAll()).isNotEmpty();
@@ -145,7 +166,7 @@ public class PatientServiceTest {
 		final List<Patient> patients = Collections.emptyList();
 		
 		// Then
-		when(patientRepository.findAll()).thenReturn(patients);
+		when(patientRepository.findAllByStateTrue()).thenReturn(patients);
 		
 		// Then
 		assertThat(patientServiceImpl.findAll()).isEmpty();
@@ -157,7 +178,7 @@ public class PatientServiceTest {
 		final List<Patient> patients = null;
 		
 		// Then
-		when(patientRepository.findAll()).thenReturn(patients);
+		when(patientRepository.findAllByStateTrue()).thenReturn(patients);
 		
 		// Then
 		assertThatThrownBy(() -> patientServiceImpl.findAll())
@@ -205,5 +226,80 @@ public class PatientServiceTest {
 		
 		verify(patientRepository, times(1)).findById(anyLong());
 		verify(patientRepository, times(1)).saveAndFlush((Patient) any());
+	}
+	
+	@Test
+	public void shouldImportPatientsWhenIsOk() throws DailyFollowUpException {
+		// Given
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
+		final Texture texture = new Texture();
+		final List<Patient> patients = Arrays.asList(getPatient());
+		final PatientDTO patientDTO = getPatientDTO();
+		
+		// When
+        when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
+        when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
+        when(allergyRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
+        when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
+        when(patientRepository.saveAll(anyIterable())).thenReturn(patients);
+        when(patientMapper.patientToPatientDTO((Patient) any())).thenReturn(patientDTO);
+        
+		// Then
+		assertThat(patientServiceImpl.importPatientFile(file)).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldImportPatientsWhenColumnAddressExceed3Columns() throws DailyFollowUpException {
+		// Given
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100,dede";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
+		final Texture texture = new Texture();
+		
+		// When
+        when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
+        when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
+        when(allergyRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
+        when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
+        
+		// Then
+    	assertThatThrownBy(() -> patientServiceImpl.importPatientFile(file))
+		.isInstanceOf(IndexOutOfBoundsException.class);
+	}
+	
+	@Test
+	public void shouldImportPatientsWhenOneLineInCsvDoesNotHaveCorrectNumber() throws DailyFollowUpException {
+		// Given
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100;bibi";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
+        
+		// Then
+        assertThatThrownBy(() -> patientServiceImpl.importPatientFile(file))
+		.isInstanceOf(DailyFollowUpException.class);
+	}
+	
+	@Test
+	public void shouldImportPatientsWhenIsOkWithNoAdress() throws DailyFollowUpException {
+		// Given
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220; ";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
+		final Texture texture = new Texture();
+		final List<Patient> patients = Arrays.asList(getPatient());
+		final PatientDTO patientDTO = getPatientDTO();
+		
+		// When
+        when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
+        when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
+        when(allergyRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
+        when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
+        when(patientRepository.saveAll(anyIterable())).thenReturn(patients);
+        when(patientMapper.patientToPatientDTO((Patient) any())).thenReturn(patientDTO);
+        
+		// Then
+		assertThat(patientServiceImpl.importPatientFile(file)).isNotEmpty();
 	}
 }
