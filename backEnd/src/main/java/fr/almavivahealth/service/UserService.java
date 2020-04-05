@@ -14,7 +14,15 @@ public interface UserService {
 	 *
 	 * @param userDTO the user DTO
 	 * @return the user DTO
-	 * @throws DailyFollowUpException 
+	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	UserDTO save(UserDTO userDTO) throws DailyFollowUpException;
+	
+	/**
+	 * Find one by pseudo.
+	 *
+	 * @param pseudo the pseudo
+	 * @return the user DTO
+	 */
+	UserDTO findOneByPseudo(String pseudo);
 }

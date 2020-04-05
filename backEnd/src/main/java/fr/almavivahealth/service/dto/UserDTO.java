@@ -9,6 +9,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import fr.almavivahealth.domain.Role;
 import fr.almavivahealth.domain.User;
 import lombok.AllArgsConstructor;
@@ -106,10 +109,12 @@ public class UserDTO implements Serializable {
 		this.lastName = lastName;
 	}
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
+	@JsonProperty
 	public void setPassword(final String password) {
 		this.password = password;
 	}
