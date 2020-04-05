@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.config.Constants;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.PatientDTO;
@@ -177,4 +181,37 @@ public class PatientResource {
 		patientService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	/**
+	 * POST /patients/import : Import patient file.
+	 *
+	 * @param id the id of the patientDTO to delete
+	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
+	 */
+	@ApiOperation("Import patient file.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 409, message = "Conflict"),
+        @ApiResponse(code = 422, message = "Unprocessable entity"),
+        @ApiResponse(code = 500, message = "Internal Server"),
+        })
+	@PostMapping("/patients/import")
+	public ResponseEntity<List<PatientDTO>> importPatientFile(@RequestPart final MultipartFile inputfile)
+			throws DailyFollowUpException {
+		LOGGER.debug("Request to import patient file : {}", inputfile.getName());
+		if (!Constants.CSV.equalsIgnoreCase(FilenameUtils.getExtension(inputfile.getOriginalFilename()))) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "the file must be of type CSV");
+		}
+		List<PatientDTO> patients;
+		try {
+			patients = patientService.importPatientFile(inputfile);
+		} catch (final DailyFollowUpException|IndexOutOfBoundsException e) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					"An error occurred while trying to import the patients", e);
+		}
+		return ResponseEntity.ok().body(patients);
+	}
+	
 }

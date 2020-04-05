@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -24,9 +25,14 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
@@ -34,8 +40,6 @@ import fr.almavivahealth.web.rest.PatientResource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientResourceTest {
-	
-	private static final String POSTAL_CODE = "93100";
 
 	private static final String EMAIL = "ben.zotito@gmail.com";
 
@@ -64,7 +68,6 @@ public class PatientResourceTest {
 				.lastName(LASTNAME)
 				.email(EMAIL)
 				.state(true)
-				.postalCode(POSTAL_CODE)
 				.build();
 	}
 
@@ -218,5 +221,56 @@ public class PatientResourceTest {
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		.andExpect(status().isNoContent());
 		verify(patientService, times(1)).delete(id);
+	}
+	
+	@Test
+	public void shouldImportPatientsWhenIsOk() throws IOException, Exception {
+		// Given
+		final List<PatientDTO> patientsDTO = Arrays.asList(createPatientDTO());
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100;bibi";
+		final MockMultipartFile file = new MockMultipartFile("filename", "filename.csv", "application/vnd.ms-excel", data.getBytes());
+		final MockPart part = new MockPart("inputfile", "filename.csv", file.getBytes());
+
+		// When
+		when(patientService.importPatientFile((MultipartFile) any())).thenReturn(patientsDTO);
+
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/patients/import")
+				.part(part))
+		        .andExpect(status().isOk())
+				.andExpect(jsonPath("$").isNotEmpty());
+	}
+	
+	@Test
+	public void shouldImportPatientsWhenIsNotCSV() throws IOException, Exception {
+		// Given
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100;bibi";
+		final MockMultipartFile file = new MockMultipartFile("filename", "filename.csv", "application/vnd.ms-excel", data.getBytes());
+		final MockPart part = new MockPart("inputfile", "filename.pdf", file.getBytes());
+
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/patients/import")
+				.part(part))
+		        .andExpect(status().isInternalServerError());
+	}
+	
+	@Test
+	public void shouldImportPatientsWhenThereIsInternalServerError() throws IOException, Exception {
+		// Given
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100;bibi";
+		final MockMultipartFile file = new MockMultipartFile("filename", "filename.csv", "application/vnd.ms-excel", data.getBytes());
+		final MockPart part = new MockPart("inputfile", "filename.csv", file.getBytes());
+
+		// When
+		when(patientService.importPatientFile((MultipartFile) any())).thenThrow(DailyFollowUpException.class);
+
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/patients/import")
+				.part(part))
+		        .andExpect(status().isInternalServerError())
+				.andExpect(jsonPath("$").isNotEmpty());
 	}
 }

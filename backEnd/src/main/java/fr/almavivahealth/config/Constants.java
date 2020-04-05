@@ -12,6 +12,11 @@ public final class Constants {
     public static final String HEADER = "header";
     public static final String BEARER = "Bearer ";
     public static final String STRING = "string";
+    
+    // Patients
+	public static final String CSV = "CSV";
+	public static final String SEMICOLON = ";";
+	public static final String COMMA = ",";
 
 	private Constants() {
 		// private constructor needed for Constants class.

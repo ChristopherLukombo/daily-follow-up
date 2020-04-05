@@ -221,7 +221,7 @@ INSERT INTO address (id, street_name, postal_code, city) VALUES
 ('70', '58 avenue Benoit Frachon', '75020', 'Paris');
 
 /******************** PATIENTS (68) ********************/
-INSERT INTO patient (id, first_name, last_name, sex, date_of_birth, situation, job, email, phone_number, mobile_phone, address, height, weight, blood_group, texture_id, comment_id, room_id, state) VALUES
+INSERT INTO patient (id, first_name, last_name, sex, date_of_birth, situation, job, email, phone_number, mobile_phone, address_id, height, weight, blood_group, texture_id, comment_id, room_id, state) VALUES
 ('1', 'Valérie', 'BORDIN', 'Femme', '1955-07-09', 'Marié', 'Retraité', 'bordin.v@gmail.com', '0126642363', '0652148965', '1', '163', '51.1', 'B+', '1', null, '1', 'true'),
 ('2', 'Charles', 'RAMASSAMY', 'Homme', '1975-02-13', 'Célibataire', 'job', 'ram.gaston@hotmail.fr', '0108216508', '0666658412', '2', '178', '98', 'O+', '1', null, '2', 'true'),
 ('3', 'Alena', 'KRAWCZYNSKI', 'Femme', '1957-11-14', 'Marié', 'Retraité', 'clarice_kr@hotmail.com', '0153003774', '0658697442', '3', '155', '51.1', 'A+', '1', null, '3', 'true'),
