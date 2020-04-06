@@ -80,4 +80,18 @@ public class UserServiceImpl implements UserService {
 		return roleRepository.findByName(roleName)
 				.orElseThrow(() -> new DailyFollowUpException("Role not found with roleName : " + roleName));
 	}
+
+	/**
+	 * Find one by pseudo.
+	 *
+	 * @param pseudo the pseudo
+	 * @return the user DTO
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public UserDTO findOneByPseudo(final String pseudo) {
+		return userRepository.findOneByPseudoIgnoreCase(pseudo)
+				.map(userMapper::userToUserDTO)
+				.orElseGet(() -> null);
+	}
 }

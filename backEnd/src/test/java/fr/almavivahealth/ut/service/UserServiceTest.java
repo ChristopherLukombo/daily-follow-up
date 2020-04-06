@@ -28,6 +28,8 @@ import fr.almavivahealth.service.mapper.UserMapper;
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 
+	private static final String PSEUDO = "Damien";
+
 	private static final long ID = 1L;
 
 	@Mock
@@ -48,6 +50,7 @@ public class UserServiceTest {
 	private static User createUser() {
 		final User user = new User();
 		user.setId(ID);
+		user.setPseudo(PSEUDO);
 		return user;
 	}
 
@@ -97,5 +100,33 @@ public class UserServiceTest {
 		// Then
 		assertThatThrownBy(() -> userServiceImpl.save(userDTO))
 		.isInstanceOf(NullPointerException.class);
+	}
+	
+	@Test
+	public void shouldFindOneByPseudoWhenIsOk() {
+		// Given
+		final User user = createUser();
+		final Role role = createRole();
+		user.setRole(role);
+		final UserDTO userDTO = createUserDTO();
+		
+		// When
+		when(userRepository.findOneByPseudoIgnoreCase(anyString())).thenReturn(Optional.ofNullable(user));
+		when(userMapper.userToUserDTO((User) any())).thenReturn(userDTO);
+		
+		// Then
+		assertThat(userServiceImpl.findOneByPseudo(PSEUDO)).isNotNull();
+	}
+	
+	@Test
+	public void shouldFindOneByPseudoWhenIsNull() {
+		// Given
+		final User user = null;
+		
+		// When
+		when(userRepository.findOneByPseudoIgnoreCase(anyString())).thenReturn(Optional.ofNullable(user));
+		
+		// Then
+		assertThat(userServiceImpl.findOneByPseudo(PSEUDO)).isNull();
 	}
 }

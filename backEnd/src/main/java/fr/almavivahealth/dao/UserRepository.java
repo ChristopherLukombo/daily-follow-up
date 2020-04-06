@@ -10,6 +10,6 @@ import fr.almavivahealth.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-	Optional<User> findOneByPseudoIgnoreCase(String toLowerCase);
+	Optional<User> findOneByPseudoIgnoreCase(String pseudo);
 
 }
