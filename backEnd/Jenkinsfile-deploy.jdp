@@ -1,0 +1,74 @@
+def CONF_DIR = "C:\Users\christopher\ProgramDev\conf\dailyFollowUp"
+def LOGGING_FILE = "C:\Users\christopher\ProgramDev\conf\dailyFollowUp\logback-spring.xml"
+def PROPERTIES_FILE = ""
+def APP_NAME = "daily-follow-up"
+def APP_VERSION = "0.0.1"
+def IMAGE_NAME = "Dockerfile"
+def mails = "christopher.lukombo@outlook.fr;neal.k@hotmail.fr;angelo.deliessche@gmail.com"
+
+pipeline {
+    agent any
+    stages {
+        stage('Prepare') {
+            steps {
+                script {
+                    println "Cleaning workspace..."
+                    cleanWs()
+                }
+            }
+        }
+        stage("Build & Test") {
+            options { timeout(time: 1, unit: 'HOURS') }
+            steps {
+                script {
+                    dir(projectName) {
+                        sh("mvn clean package -Pprod -e")
+                    }
+                }
+            } 
+            post {
+                always{
+                    junit '**/target/surefire-reports/*.xml'
+                }
+                failure {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] Failure - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
+                fixed {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] Fixed - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
+            }
+        }
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def JAR_NAME = "${APP_NAME}-${APP_VERSION}.jar"
+                    def JAR_ARGS = "-DCONF_DIR=${CONF_DIR} -Dlogging.config=file:${LOGGING_FILE} ${JAR_NAME}"
+                    def JAR_PATH = "C://Users/Neal/Documents/Cours M2/projet annuel/workspace_pa/daily-follow-up/backEnd/target/${JAR_NAME}"
+                    
+                    println "Jar name : ${JAR_NAME}"
+                    println "Java arguments : ${ARGS}"
+
+                    // on build juste l'img docker en lui passant en parametres (build-arg) tout ce dont on a besoin, le nom du jar, les args, et le path pour copier le jar dans le container
+                    // je sais pas si ça se fait avec cette commande,
+                    // mais du coup je build notre vrai img (Dockerfile-0.0.1) à partir de notre img template (DockerFile)
+                    sh("docker build --no-cache --rm --build-arg 'JAR_NAME=${JAR_NAME}' --build-arg 'JAR_ARGS=${JAR_ARGS}' --build-arg 'JAR_PATH=${JAR_PATH}' -t ${IMAGE_NAME}-${APP_VERSION}.")
+                }
+            }
+        }
+        stage('Run Docker Image') {
+            // on lance notre vraie img
+            sh("docker run ${IMAGE_NAME}-${APP_VERSION}.")
+        }
+        stage('Tag') {
+            // plus tard, on tag la version dans Git pour un historique de tags à la fin
+        }
+    }
+}
