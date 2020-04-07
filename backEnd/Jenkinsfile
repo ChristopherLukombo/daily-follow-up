@@ -10,7 +10,7 @@ pipeline{
             options { timeout(time: 1, unit: 'HOURS') }
             steps {
                 script {
-                    dir(projectName) {
+                    dir("projectDaily") {
                         sh("mvn clean package -X -e -Pprod")
                     }
                 }
