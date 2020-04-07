@@ -4,14 +4,13 @@ import {
   HttpHeaders,
   HttpErrorResponse,
 } from "@angular/common/http";
-import { throwError, Observable, BehaviorSubject } from "rxjs";
+import { throwError, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { LoginDTO } from "src/app/models/dto/loginDTO";
 import { environment } from "src/environments/environment";
 
 const httpOptions = {
   headers: new HttpHeaders({
-    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json",
   }),
 };

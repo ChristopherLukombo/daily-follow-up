@@ -13,8 +13,7 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
   loginForm: FormGroup;
-  errorForm: string;
-  closeErrorForm: Boolean = false;
+  submitted: Boolean = false;
   error: string;
   loading: Boolean = false;
 
@@ -33,8 +32,8 @@ export class LoginComponent implements OnInit {
    */
   createForm() {
     const target = {
-      username: ["", [Validators.required, Validators.maxLength(50)]],
-      password: ["", [Validators.required, Validators.maxLength(50)]],
+      username: ["", Validators.required],
+      password: ["", Validators.required],
     };
     this.loginForm = this.formBuilder.group(target);
   }
@@ -47,9 +46,9 @@ export class LoginComponent implements OnInit {
    * Connexion à l'application
    */
   onLogin(): void {
+    this.submitted = true;
     this.cleanErrorMessages();
     if (this.loginForm.invalid) {
-      this.errorForm = "Veuillez remplir tout les champs.";
       return;
     }
     this.loading = true;
@@ -85,7 +84,6 @@ export class LoginComponent implements OnInit {
    * Suppression des msg d'erreurs
    */
   cleanErrorMessages(): void {
-    this.errorForm = undefined;
     this.error = undefined;
   }
 }

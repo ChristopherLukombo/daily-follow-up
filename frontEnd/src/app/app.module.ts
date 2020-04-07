@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { HttpClientModule } from "@angular/common/http";
 
+import { AuthGuard } from "./utils/helpers/auth.guard";
+
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
@@ -20,7 +22,8 @@ import { HistoryPatientComponent } from "./components/patient/history-patient/hi
 import { PatientHistoryComponent } from "./components/patient-history/patient-history.component";
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
-import { AlertErrorComponent } from './components/utils-components/alert-error/alert-error.component';
+import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
+import { LoginService } from "./services/login/login.service";
 
 @NgModule({
   declarations: [
@@ -38,7 +41,7 @@ import { AlertErrorComponent } from './components/utils-components/alert-error/a
     PatientHistoryComponent,
     PatientAddComponent,
     LoginComponent,
-    AlertErrorComponent
+    AlertErrorComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,9 +49,9 @@ import { AlertErrorComponent } from './components/utils-components/alert-error/a
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [AuthGuard, LoginService],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
