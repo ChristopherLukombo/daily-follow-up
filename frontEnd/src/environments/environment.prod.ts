@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  appRootUrl: "http://localhost:8081/api"
 };
