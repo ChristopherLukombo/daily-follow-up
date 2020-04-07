@@ -2,39 +2,68 @@ import { TestBed } from "@angular/core/testing";
 
 import { LoginService } from "./login.service";
 import { LoginDTO } from "src/app/models/dto/loginDTO";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from "@angular/common/http/testing";
+import { environment } from "src/environments/environment";
 
 describe("LoginService", () => {
   let service: LoginService;
+  let httpMock: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
+      providers: [LoginService],
     });
     service = TestBed.inject(LoginService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   it("should be created", () => {
     expect(service).toBeTruthy();
   });
 
-  it("#login should return token of user", (done: DoneFn) => {
-    let token = "mLOZhh53QHNkxM_hwE27^rW@NIt{I6";
-    let loginDTO = new LoginDTO("username", "password");
-    service.login(loginDTO).subscribe((value) => {
-      expect(value).toBe(token);
-      done();
+  describe("#login", () => {
+    it("should return the token if authentification succeed", () => {
+      const expected = { token: "mLOZhh53QHNkxM_hwE27^rW@NIt{I6" };
+
+      let loginDTO = new LoginDTO("test_u", "123456789");
+      service.login(loginDTO).subscribe((data) => {
+        // expect(data.length).toBe(2);
+        expect(data.token).toEqual(expected.token);
+      });
+
+      const request = httpMock.expectOne(
+        `${environment.appRootUrl}/authenticate`
+      );
+      expect(request.request.method).toBe("POST");
+      request.flush(expected);
     });
   });
 
-  it("#login should return token of user", (done: DoneFn) => {
-    const loginServiceSpy = jasmine.createSpyObj("LoginService", ["login"]);
-    const expected = "mLOZhh53QHNkxM_hwE27^rW@NIt{I6";
-    loginServiceSpy.login.and.return(expected);
-    let loginDTO = new LoginDTO("username", "password");
-    service.login(loginDTO).subscribe((value) => {
-      expect(value).toBe(expected);
-      done();
+  describe("#login", () => {
+    it("should return error if authentification failed", () => {
+      const expected = 403;
+
+      let loginDTO = new LoginDTO("test_uuuu", "123456789");
+      service.login(loginDTO).subscribe(
+        () => {},
+        (error) => {
+          expect(error).toBe(expected);
+        }
+      );
+
+      const request = httpMock.expectOne(
+        `${environment.appRootUrl}/authenticate`
+      );
+      expect(request.request.method).toBe("POST");
+      request.flush(expected);
     });
   });
 });
