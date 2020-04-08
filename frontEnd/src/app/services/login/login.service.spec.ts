@@ -53,17 +53,18 @@ describe("LoginService", () => {
 
       let loginDTO = new LoginDTO("test_uuuu", "123456789");
       service.login(loginDTO).subscribe(
-        () => {},
+        () => {
+          fail("should have failed with the 403 error");
+        },
         (error) => {
-          expect(error).toBe(expected);
+          expect(error).toEqual(expected);
         }
       );
 
       const request = httpMock.expectOne(
         `${environment.appRootUrl}/authenticate`
       );
-      expect(request.request.method).toBe("POST");
-      request.flush(expected);
+      request.flush("403 error", { status: 403, statusText: "Not Authorized" });
     });
   });
 });
