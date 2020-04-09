@@ -4,9 +4,10 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AuthGuard } from "./utils/helpers/auth.guard";
+import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -23,6 +24,7 @@ import { PatientHistoryComponent } from "./components/patient-history/patient-hi
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
+
 import { LoginService } from "./services/login/login.service";
 
 @NgModule({
@@ -51,7 +53,11 @@ import { LoginService } from "./services/login/login.service";
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [AuthGuard, LoginService],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    AuthGuard,
+    LoginService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
