@@ -8,6 +8,7 @@ import { throwError, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { LoginDTO } from "src/app/models/dto/loginDTO";
 import { environment } from "src/environments/environment";
+import * as jwt_decode from "jwt-decode";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -50,6 +51,45 @@ export class LoginService {
    */
   isAuthenticated(): Boolean {
     return localStorage.getItem("token") ? true : false;
+  }
+
+  getToken(): string {
+    return localStorage.getItem("token");
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem("token", token);
+  }
+
+  getTokenPseudo(): string {
+    if (this.isAuthenticated() == false) return null;
+    const token = this.getToken();
+    const decoded = jwt_decode(token);
+    return decoded.sub == undefined ? null : decoded.sub;
+  }
+
+  getTokenRole(): string {
+    if (this.isAuthenticated() == false) return null;
+    const token = this.getToken();
+    const decoded = jwt_decode(token);
+    return decoded.auth == undefined ? null : decoded.auth;
+  }
+
+  getTokenExpirationDate(): Date {
+    if (this.isAuthenticated() == false) return null;
+    const token = this.getToken();
+    const decoded = jwt_decode(token);
+    if (decoded.exp == undefined) return null;
+    const date = new Date(0);
+    date.setUTCSeconds(decoded.exp);
+    return date;
+  }
+
+  isTokenExpired(): Boolean {
+    if (this.getToken() == null) return true;
+    const date = this.getTokenExpirationDate();
+    if (date == undefined) return false;
+    return !(date.valueOf() > new Date().valueOf());
   }
 
   /**
