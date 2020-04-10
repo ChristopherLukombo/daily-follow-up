@@ -1,6 +1,7 @@
 <input
   class="form-control mr-sm-2"
   type="text"
+  [(ngModel)]="lastName"
   placeholder="Nom du patient..."
 />
 <br />
@@ -14,8 +15,18 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let patient of patients">
-      <th scope="row">{{ patient.lastName }}</th>
+    <tr
+      *ngFor="
+        let patient of patients
+          | search: 'lastName':lastName
+          | paginate: { id: '1', itemsPerPage: 8, currentPage: page }
+      "
+      (click)="selectPatient(patient)"
+    >
+      <th
+        scope="row"
+        innerHTML="{{ patient.lastName | highlight: lastName }}"
+      ></th>
       <td>{{ patient.firstName }}</td>
       <td>{{ patient.dateOfBirth | age }}</td>
       <td *ngIf="patient.sex == 'Homme'" [ngStyle]="{ color: '#0652DD' }">
@@ -27,3 +38,8 @@
     </tr>
   </tbody>
 </table>
+<pagination-controls
+  (pageChange)="page = $event"
+  id="1"
+  responsive="true"
+></pagination-controls>

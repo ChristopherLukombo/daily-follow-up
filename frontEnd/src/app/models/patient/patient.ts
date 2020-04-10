@@ -18,6 +18,8 @@ export class Patient {
   /***/
   situation: string;
   /***/
+  dateOfBirth: Date;
+  /***/
   address: Address;
   /***/
   phoneNumber: string;
