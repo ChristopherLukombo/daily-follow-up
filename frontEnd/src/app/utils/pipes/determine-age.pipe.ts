@@ -1,12 +1,14 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, Injectable } from "@angular/core";
 
 @Pipe({
-  name: 'determineAge'
+  name: "age",
 })
+@Injectable()
 export class DetermineAgePipe implements PipeTransform {
-
-  transform(value: unknown, ...args: unknown[]): unknown {
-    return null;
+  transform(birthday: string): number {
+    if (!birthday) return;
+    let diff = Math.abs(Date.now() - new Date(birthday).getTime());
+    let age = Math.floor(diff / (1000 * 3600 * 24) / 365.25);
+    return age;
   }
-
 }
