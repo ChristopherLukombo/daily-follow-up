@@ -14,23 +14,16 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">Toto</th>
-      <td>Mark</td>
-      <td>52</td>
-      <td style="color:#0652DD;"><fa-icon [icon]="marsLogo"></fa-icon></td>
-    </tr>
-    <tr>
-      <th scope="row">Toto</th>
-      <td>Jacob</td>
-      <td>46</td>
-      <td style="color:#0652DD;"><fa-icon [icon]="marsLogo"></fa-icon></td>
-    </tr>
-    <tr>
-      <th scope="row">Toto</th>
-      <td>Tata</td>
-      <td>65</td>
-      <td style="color:#FC427B;"><fa-icon [icon]="venusLogo"></fa-icon></td>
+    <tr *ngFor="let patient of patients">
+      <th scope="row">{{ patient.lastName }}</th>
+      <td>{{ patient.firstName }}</td>
+      <td>{{ patient.dateOfBirth }}</td>
+      <td *ngIf="patient.sex == 'Homme'" [ngStyle]="{ color: '#0652DD' }">
+        <fa-icon [icon]="marsLogo"></fa-icon>
+      </td>
+      <td *ngIf="patient.sex == 'Femme'" [ngStyle]="{ color: '#FC427B' }">
+        <fa-icon [icon]="marsLogo"></fa-icon>
+      </td>
     </tr>
   </tbody>
 </table>

@@ -6,7 +6,7 @@ import {
 } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { Observable, throwError } from "rxjs";
-import { Patient } from "src/app/models/patient";
+import { Patient } from "src/app/models/patient/patient";
 import { catchError } from "rxjs/operators";
 
 const httpOptions = {
