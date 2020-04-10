@@ -26,6 +26,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 
 import { LoginService } from "./services/login/login.service";
+import { DetermineAgePipe } from './utils/pipes/determine-age.pipe';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { LoginService } from "./services/login/login.service";
     PatientAddComponent,
     LoginComponent,
     AlertErrorComponent,
+    DetermineAgePipe,
   ],
   imports: [
     BrowserModule,
