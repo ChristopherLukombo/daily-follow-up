@@ -17,12 +17,12 @@
     <tr *ngFor="let patient of patients">
       <th scope="row">{{ patient.lastName }}</th>
       <td>{{ patient.firstName }}</td>
-      <td>{{ patient.dateOfBirth }}</td>
+      <td>{{ patient.dateOfBirth | age }}</td>
       <td *ngIf="patient.sex == 'Homme'" [ngStyle]="{ color: '#0652DD' }">
         <fa-icon [icon]="marsLogo"></fa-icon>
       </td>
       <td *ngIf="patient.sex == 'Femme'" [ngStyle]="{ color: '#FC427B' }">
-        <fa-icon [icon]="marsLogo"></fa-icon>
+        <fa-icon [icon]="venusLogo"></fa-icon>
       </td>
     </tr>
   </tbody>
