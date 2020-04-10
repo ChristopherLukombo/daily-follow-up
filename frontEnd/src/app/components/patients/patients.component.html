@@ -1,11 +1,13 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-2">
-      <button type="button" class="btn btn-primary" routerLink="add">
-        <fa-icon [icon]="addLogo"></fa-icon> Nouveau patient
-      </button>
+      <nav class="nav flex-column">
+        <a class="nav-link" routerLink="add"
+          ><fa-icon [icon]="addLogo"></fa-icon> Nouveau patient</a
+        >
+      </nav>
     </div>
-    <div class="col-sm-5">
+    <div class="col">
       <h4>Patients de la clinique</h4>
       <br />
       <app-list-patients
@@ -13,7 +15,7 @@
         [patients]="patients"
       ></app-list-patients>
     </div>
-    <div class="col-sm-5">
+    <div *ngIf="patient" class="col">
       <h4>Détail du patient</h4>
       <br />
       <app-detail-patient [patient]="patient"></app-detail-patient>
