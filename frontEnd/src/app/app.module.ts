@@ -5,9 +5,10 @@ import { AppRoutingModule } from "./app-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-
 import { AuthGuard } from "./utils/helpers/auth.guard";
+
 import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
+import { NgxPaginationModule } from "ngx-pagination";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -26,7 +27,9 @@ import { LoginComponent } from "./components/login/login.component";
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 
 import { LoginService } from "./services/login/login.service";
-import { DetermineAgePipe } from './utils/pipes/determine-age.pipe';
+
+import { DetermineAgePipe } from "./utils/pipes/determine-age.pipe";
+import { SearchPipe, HighLightPipe } from "./utils/pipes/search.pipe";
 
 @NgModule({
   declarations: [
@@ -46,6 +49,8 @@ import { DetermineAgePipe } from './utils/pipes/determine-age.pipe';
     LoginComponent,
     AlertErrorComponent,
     DetermineAgePipe,
+    SearchPipe,
+    HighLightPipe,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +59,7 @@ import { DetermineAgePipe } from './utils/pipes/determine-age.pipe';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgxPaginationModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

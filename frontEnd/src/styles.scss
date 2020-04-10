@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+/** pour les tableaux de patients de n'importe quelles pages */
 .infos-patient {
   th {
     padding-right: 1em;
@@ -9,4 +9,10 @@
   //     overflow: hidden;
   //     text-overflow: ellipsis;
   //   }
+}
+
+/** highlight pour les pipe de recherche */
+.highlight {
+  color: white;
+  background-color: #00a8ff;
 }

@@ -26,4 +26,8 @@ export class PatientsComponent implements OnInit {
       }
     );
   }
+
+  setPatient(patient: Patient): void {
+    this.patient = patient;
+  }
 }
