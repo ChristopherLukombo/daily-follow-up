@@ -101,4 +101,19 @@ public class RoomServiceImpl implements RoomService {
 		LOGGER.debug("Request to delete Room : {}", id);
 		roomRepository.deleteById(id);
 	}
+
+	/**
+	 * Get the room by patient id.
+	 *
+	 * @param patientId the patient id
+	 * @return the entity
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<RoomDTO> findByPatientId(final Long patientId) {
+		LOGGER.debug("Request to get Room : {}", patientId);
+		return roomRepository.findByPatientId(patientId)
+				.map(roomMapper::roomToRoomDTO);
+	}
+	
 }

@@ -190,4 +190,32 @@ public class RoomServiceTest {
 		
 		verify(roomRepository, times(1)).deleteById(anyLong());
 	}
+	
+	@Test
+	public void shouldFindByPatientIdWhenIsOk() {
+		// Given
+		final Room room  = createRoom();
+		final RoomDTO roomDTO  = createRoomDTO();
+		
+		// When
+		when(roomRepository.findByPatientId(anyLong())).thenReturn(Optional.ofNullable(room));
+		when(roomMapper.roomToRoomDTO((Room) any())).thenReturn(roomDTO);
+		
+		// Then
+		assertThat(roomServiceImpl.findByPatientId(ID)).isEqualTo(Optional.ofNullable(roomDTO));
+	}
+	
+	@Test
+	public void shouldFindByPatientIdWhenIsNull() {
+		// Given
+		final Room room  = null;
+		final RoomDTO roomDTO  = null;
+		
+		// When
+		when(roomRepository.findByPatientId(anyLong())).thenReturn(Optional.ofNullable(room));
+		
+		// Then
+		assertThat(roomServiceImpl.findByPatientId(ID)).isEqualTo(Optional.ofNullable(roomDTO));
+	}
+	
 }
