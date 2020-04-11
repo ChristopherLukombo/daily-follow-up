@@ -25,6 +25,11 @@ export class PatientComponent implements OnInit {
 
   patient: Patient;
 
+  error: string;
+  warningTitle: string;
+  warning: string;
+  loading: Boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
@@ -32,14 +37,16 @@ export class PatientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.route.queryParams.forEach((params) => {
-      this.patientService.getPatient(params["id"]).subscribe(
+      this.patientService.getPatient(parseInt(params["id"])).subscribe(
         (data) => {
-          this.patient = data;
-          console.log(data);
+          this.loading = false;
+          data == null ? this.patientDoesNotExist() : (this.patient = data);
         },
         (error) => {
-          console.log(error);
+          this.loading = false;
+          this.catchError(error);
         }
       );
     });
@@ -47,5 +54,23 @@ export class PatientComponent implements OnInit {
 
   goBack(): void {
     this._location.back();
+  }
+
+  patientDoesNotExist(): void {
+    this.warningTitle = "Désolé";
+    this.warning = "Ce patient n'éxiste pas, veuillez réessayer.";
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   */
+  catchError(error: number): void {
+    if (error != undefined && error == 403) {
+      this.error =
+        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else {
+      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+    }
   }
 }
