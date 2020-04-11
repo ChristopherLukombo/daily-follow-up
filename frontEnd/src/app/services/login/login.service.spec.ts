@@ -53,7 +53,6 @@ describe("LoginService", () => {
       const expected = { token: "mLOZhh53QHNkxM_hwE27^rW@NIt{I6" };
       let loginDTO = new LoginDTO("test_u", "123456789");
       service.login(loginDTO).subscribe((data) => {
-        // expect(data.length).toBe(2);
         expect(data.token).toEqual(expected.token);
       });
       const request = httpMock.expectOne(
@@ -81,11 +80,42 @@ describe("LoginService", () => {
     });
   });
 
+  describe("#getToken", () => {
+    it("should return the token if the user is authenticated", () => {
+      const token = "mLOZhh53QHNkxM_hwE27^rW@NIt{I6";
+      localStorage.setItem("token", token);
+
+      const actual = service.getToken();
+
+      const expected = token;
+      expect(actual).toEqual(expected);
+    });
+
+    it("should return null if the user is not authenticated", () => {
+      const actual = service.getToken();
+
+      expect(actual).toBeNull();
+    });
+  });
+
+  describe("#setToken", () => {
+    it("should return the token if the localstorage has been set", () => {
+      const token = "mLOZhh53QHNkxM_hwE27^rW@NIt{I6";
+
+      service.setToken(token);
+
+      const expected = localStorage.getItem("token");
+      expect(token).toEqual(expected);
+    });
+  });
+
   describe("#logout", () => {
     it("should clear the local storage when logout", () => {
       const token = "mLOZhh53QHNkxM_hwE27^rW@NIt{I6";
       localStorage.setItem("token", token);
+
       service.logout().subscribe();
+
       expect(localStorage.getItem("token")).toBeNull();
     });
   });
@@ -94,14 +124,17 @@ describe("LoginService", () => {
     it("should return true if the user is authenticated", () => {
       const token = "mLOZhh53QHNkxM_hwE27^rW@NIt{I6";
       localStorage.setItem("token", token);
-      const expected = true;
+
       const actual = service.isAuthenticated();
+
+      const expected = true;
       expect(actual).toEqual(expected);
     });
 
     it("should return false if the user is not authenticated", () => {
-      const expected = false;
       const actual = service.isAuthenticated();
+
+      const expected = false;
       expect(actual).toEqual(expected);
     });
   });
