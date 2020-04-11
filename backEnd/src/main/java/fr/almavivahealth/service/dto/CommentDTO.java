@@ -1,6 +1,7 @@
 package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
@@ -23,6 +24,9 @@ public class CommentDTO implements Serializable {
 	
 	@NotNull
 	private String pseudo;
+	
+	@NotNull
+	private LocalDateTime lastModification;
 
 	public CommentDTO() {
 		// Empty constructor needed for Jackson.
@@ -52,9 +56,17 @@ public class CommentDTO implements Serializable {
 		this.pseudo = pseudo;
 	}
 
+	public LocalDateTime getLastModification() {
+		return lastModification;
+	}
+
+	public void setLastModification(final LocalDateTime lastModification) {
+		this.lastModification = lastModification;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(content, id, pseudo);
+		return Objects.hash(content, id, lastModification, pseudo);
 	}
 
 	@Override
@@ -67,7 +79,7 @@ public class CommentDTO implements Serializable {
 			return false;
 		final CommentDTO other = (CommentDTO) obj;
 		return Objects.equals(content, other.content) && Objects.equals(id, other.id)
-				&& Objects.equals(pseudo, other.pseudo);
+				&& Objects.equals(lastModification, other.lastModification) && Objects.equals(pseudo, other.pseudo);
 	}
 
 	@Override
@@ -87,8 +99,14 @@ public class CommentDTO implements Serializable {
 		if (pseudo != null) {
 			builder.append("pseudo=");
 			builder.append(pseudo);
+			builder.append(", ");
+		}
+		if (lastModification != null) {
+			builder.append("lastModification=");
+			builder.append(lastModification);
 		}
 		builder.append("]");
 		return builder.toString();
 	}
+	
 }

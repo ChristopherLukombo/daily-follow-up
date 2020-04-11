@@ -102,6 +102,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.id(patient.getId())
 				.content(patient.getComment().getContent())
 				.pseudo(patient.getComment().getPseudo())
+				.lastModification(patient.getComment().getLastModification())
 				.build();
 	}
 	
@@ -192,6 +193,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.id(patientDTO.getId())
 				.content(patientDTO.getComment().getContent())
 				.pseudo(patientDTO.getComment().getPseudo())
+				.lastModification(patientDTO.getComment().getLastModification())
 				.build();
 	}
 	
