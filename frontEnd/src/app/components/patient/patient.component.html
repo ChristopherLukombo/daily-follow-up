@@ -1,31 +1,28 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-2">
-      <button type="button" class="btn btn-warning">
-        <fa-icon [icon]="editLogo"></fa-icon> Modifier
-      </button>
-      <br /><br />
-      <button type="button" class="btn btn-danger">
-        <fa-icon [icon]="deleteLogo"></fa-icon> Supprimer
-      </button>
-      <br /><br />
-      <button type="button" class="btn btn-primary" routerLink="history">
-        <fa-icon [icon]="historyLogo"></fa-icon> Historique
-      </button>
-      <br /><br />
-      <button type="button" class="btn btn-primary" (click)="goBack()">
-        <fa-icon [icon]="goBackLogo"></fa-icon> Retour
-      </button>
+      <nav class="nav flex-column">
+        <a class="nav-link"><fa-icon [icon]="editLogo"></fa-icon> Modifier</a>
+        <a class="nav-link"
+          ><fa-icon [icon]="deleteLogo"></fa-icon> Supprimer</a
+        >
+        <a class="nav-link" routerLink="history"
+          ><fa-icon [icon]="historyLogo"></fa-icon> Historique du patient</a
+        >
+        <a class="nav-link" (click)="goBack()"
+          ><fa-icon [icon]="goBackLogo"></fa-icon> Retour</a
+        >
+      </nav>
     </div>
     <div class="col-sm-5">
-      <h4>Détail du patient n°11</h4>
+      <h4>Fiche détail du patient n°{{ patient?.id }}</h4>
       <br />
-      <app-infos-patient></app-infos-patient>
+      <app-infos-patient [patient]="patient"></app-infos-patient>
     </div>
     <div class="col-sm-5">
       <h4>Informations complémentaires</h4>
       <br />
-      <app-food-patient></app-food-patient>
+      <app-food-patient [patient]="patient"></app-food-patient>
     </div>
   </div>
 </div>

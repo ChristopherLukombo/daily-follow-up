@@ -23,9 +23,24 @@ const PATIENTS_URL = environment.appRootUrl + "/patients";
 export class PatientService {
   constructor(private http: HttpClient) {}
 
+  /**
+   * Retourne tout les patients de la clinique
+   * @return une liste de patients
+   */
   getAllPatients(): Observable<Patient[]> {
     return this.http
       .get<Patient[]>(PATIENTS_URL, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne un patient en fonction de son id
+   * @param id du patient
+   * @return un Patient
+   */
+  getPatient(id: number): Observable<Patient> {
+    return this.http
+      .get<Patient>(PATIENTS_URL + `/${id}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 

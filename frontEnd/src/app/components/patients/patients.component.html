@@ -14,6 +14,10 @@
         (selectedPatient)="setPatient($event)"
         [patients]="patients"
       ></app-list-patients>
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
     </div>
     <div *ngIf="patient" class="col">
       <h4>Détail du patient</h4>

@@ -5,19 +5,19 @@
         <tbody>
           <tr>
             <th>Nom</th>
-            <td>Toto</td>
+            <td>{{ patient?.lastName }}</td>
           </tr>
           <tr>
             <th>Prénom</th>
-            <td>Jacob</td>
+            <td>{{ patient?.firstName }}</td>
           </tr>
           <tr>
             <th>Âge</th>
-            <td>46 ans</td>
+            <td>{{ patient?.dateOfBirth | age }} ans</td>
           </tr>
           <tr>
             <th>Date de naissance</th>
-            <td>23/05/1974</td>
+            <td>{{ patient?.dateOfBirth | date: "dd/MM/yyyy" }}</td>
           </tr>
         </tbody>
       </table>
@@ -27,19 +27,19 @@
         <tbody>
           <tr>
             <th>Sexe</th>
-            <td>Masculin</td>
+            <td>{{ patient?.sex }}</td>
           </tr>
           <tr>
             <th>Groupe sanguin</th>
-            <td>O+</td>
+            <td>{{ patient?.bloodGroup }}</td>
           </tr>
           <tr>
             <th>Taille</th>
-            <td>175 cm</td>
+            <td>{{ patient?.height }} cm</td>
           </tr>
           <tr>
             <th>Poids</th>
-            <td>70 kg</td>
+            <td>{{ patient?.weight }} kg</td>
           </tr>
         </tbody>
       </table>
@@ -50,11 +50,11 @@
     <tbody>
       <tr>
         <th>Situation familliale</th>
-        <td>Marié(e)</td>
+        <td>{{ patient?.situation }}</td>
       </tr>
       <tr>
         <th>Situation pro</th>
-        <td>En activité</td>
+        <td>{{ patient?.job }}</td>
       </tr>
     </tbody>
   </table>
@@ -63,23 +63,27 @@
     <tbody>
       <tr>
         <th>Mail</th>
-        <td>Toto@gmail.com</td>
+        <td>{{ patient?.email }}</td>
       </tr>
       <tr>
         <th>Télephone</th>
-        <td>06 69 85 12 64</td>
+        <td>{{ patient?.phoneNumber }}</td>
+      </tr>
+      <tr>
+        <th>Télephone</th>
+        <td>{{ patient?.mobilePhone }}</td>
       </tr>
       <tr>
         <th>Adresse</th>
-        <td>242 rue du Faubourg Saint-Antoine</td>
+        <td>{{ patient?.address?.streetName }}</td>
       </tr>
       <tr>
         <th>Code postal</th>
-        <td>75012</td>
+        <td>{{ patient?.address?.postalCode }}</td>
       </tr>
       <tr>
         <th>Ville</th>
-        <td>Paris</td>
+        <td>{{ patient?.address?.city }}</td>
       </tr>
     </tbody>
   </table>
@@ -88,7 +92,7 @@
     <tbody>
       <tr>
         <th><fa-icon [icon]="roomLogo"></fa-icon> Chambre</th>
-        <td>106</td>
+        <td>{{ patient?.roomId }}</td>
       </tr>
       <tr>
         <th><fa-icon [icon]="userLogo"></fa-icon> Responsable</th>
