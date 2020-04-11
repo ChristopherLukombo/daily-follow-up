@@ -1,5 +1,7 @@
 package fr.almavivahealth.service;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.UserDTO;
 
@@ -25,4 +27,22 @@ public interface UserService {
 	 * @return the user DTO
 	 */
 	UserDTO findOneByPseudo(String pseudo);
+	
+	/**
+	 * Upload profile picture.
+	 *
+	 * @param file the file
+	 * @param userId the user id
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	void uploadProfilePicture(MultipartFile file, Long userId) throws DailyFollowUpException;
+	
+	/**
+	 * Find image.
+	 *
+	 * @param userId the user id
+	 * @return the byte[]
+	 */
+	byte[] findProfilePicture(Long userId);
+	
 }

@@ -1,10 +1,15 @@
 package fr.almavivahealth.ut.web;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
@@ -16,10 +21,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.context.MessageSource;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.enums.RoleName;
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
@@ -92,6 +102,23 @@ public class AccountResourceTest {
 	}
 	
 	@Test
+	public void shouldCreateUserWhenIsInternalError() throws IOException, Exception {
+		// Given
+		final UserDTO userDTO = createUserDTO();
+		userDTO.setId(null);
+
+		// When
+		doThrow(DailyFollowUpException.class).when(userService).save((UserDTO) any());
+
+		// Then
+		mockMvc.perform(post("/api/register")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(userDTO)))
+		        .andExpect(status().isInternalServerError());
+		verify(userService, times(1)).save((UserDTO) any());
+	}
+	
+	@Test
 	public void shouldCreateUserWhenIsNotValid() throws IOException, Exception {
 		// Given
 		final UserDTO userDTO = createUserDTO();
@@ -105,4 +132,79 @@ public class AccountResourceTest {
 		        .andExpect(status().isUnprocessableEntity());
 		verify(userService, times(0)).save(userDTO);
 	}
+	
+	@Test
+	public void shouldUploadFileWhenIsOk() throws Exception {
+		// Given
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain",
+				"some xml".getBytes());
+		final MockPart part = new MockPart("file", "filename.csv", file.getBytes());
+		
+		// When
+		doNothing().when(userService).uploadProfilePicture((MultipartFile) any(), anyLong());
+		
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/register/profilePicture/1")
+				.part(part))
+		        .andExpect(status().isOk())
+				.andExpect(jsonPath("$").isNotEmpty());
+		verify(userService, times(1)).uploadProfilePicture((MultipartFile) any(), anyLong());
+	}
+	
+	@Test
+	public void shouldUploadFileWhenIsKo() throws Exception {
+		// Given
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain",
+				"some xml".getBytes());
+		final MockPart part = new MockPart("file", "filename.csv", file.getBytes());
+		
+		// When
+		doThrow(DailyFollowUpException.class).when(userService).uploadProfilePicture((MultipartFile) any(), anyLong());
+		
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/register/profilePicture/1")
+				.part(part))
+		        .andExpect(status().isInternalServerError())
+				.andExpect(jsonPath("$").isNotEmpty());
+		verify(userService, times(1)).uploadProfilePicture((MultipartFile) any(), anyLong());
+	}
+	
+	@Test
+	public void shouldUploadFileWhenIsBadRequest() throws Exception {
+		// Given
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain",
+				"some xml".getBytes());
+		final MockPart part = new MockPart("file", "filename.csv", file.getBytes());
+		
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/register/profilePicture/test")
+				.part(part))
+		        .andExpect(status().isBadRequest());
+		verify(userService, times(0)).uploadProfilePicture((MultipartFile) any(), anyLong());
+	}
+ 	
+    @Test
+    public void shouldGetProfilePictureWhenIsOk() throws Exception {
+    	// Given
+    	final byte[] profilePicture = new byte[] {0};
+    	
+    	// When
+    	when(userService.findProfilePicture(anyLong())).thenReturn(profilePicture);
+    	
+    	// Then
+    	mockMvc.perform(get("/api/users/profilePicture/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isOk());
+		verify(userService, times(1)).findProfilePicture(anyLong());
+    }
+    
+    @Test
+    public void shouldGetProfilePictureWhenIsBadRequest() throws Exception {
+    	// Then
+    	mockMvc.perform(get("/api/users/profilePicture/test")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isBadRequest());
+		verify(userService, times(0)).findProfilePicture(anyLong());
+    }
+    
 }

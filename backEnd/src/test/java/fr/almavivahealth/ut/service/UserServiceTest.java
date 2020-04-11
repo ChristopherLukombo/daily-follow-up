@@ -3,18 +3,35 @@ package fr.almavivahealth.ut.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import fr.almavivahealth.config.UserProperties;
 import fr.almavivahealth.dao.RoleRepository;
 import fr.almavivahealth.dao.UserRepository;
 import fr.almavivahealth.domain.Role;
@@ -31,6 +48,10 @@ public class UserServiceTest {
 	private static final String PSEUDO = "Damien";
 
 	private static final long ID = 1L;
+	
+	private static final String IMAGES_FOLDER = "./images";
+	
+    private static final String IMAGE_DIRECTORY = ".";
 
 	@Mock
 	private UserRepository userRepository;
@@ -43,6 +64,9 @@ public class UserServiceTest {
 
 	@Mock
 	private PasswordEncoder passwordEncoder;
+	
+	@Mock
+    private UserProperties userProperties;
 
 	@InjectMocks
 	private UserServiceImpl userServiceImpl;
@@ -55,7 +79,9 @@ public class UserServiceTest {
 	}
 
 	private static UserDTO createUserDTO() {
-		return UserDTO.builder().id(ID).build();
+		return UserDTO.builder()
+				.id(ID)
+				.build();
 	}
 
 	private static Role createRole() {
@@ -129,4 +155,94 @@ public class UserServiceTest {
 		// Then
 		assertThat(userServiceImpl.findOneByPseudo(PSEUDO)).isNull();
 	}
+	
+	@Test
+	public void shouldUploadProfilePictureWhenIsOK() throws IOException, DailyFollowUpException {
+		// Given
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.txt", "text/plain",
+				"some xml".getBytes());
+		final User user = createUser();
+		final String imageDirectory = IMAGE_DIRECTORY + "/images/";
+
+		// When
+		when(userProperties.getPathProfiles()).thenReturn(imageDirectory);
+		doNothing().when(userRepository).setImageUrl(anyString(), anyLong());
+
+		// Then
+		userServiceImpl.uploadProfilePicture(file, user.getId());
+		
+		verify(userProperties, times(1)).getPathProfiles();
+		verify(userRepository, times(1)).setImageUrl(anyString(), anyLong());
+	}
+	
+	@Test
+	public void shouldFindProfilePictureWhenIsOk() throws IOException {
+		// Given
+    	final String imageDirectory = IMAGE_DIRECTORY + "/images/";
+    	final User user = createUser();
+    	user.setImageUrl("filename.txt");
+    	createFoldersAndFile();
+    	
+    	// When
+    	when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+    	when(userProperties.getPathProfiles()).thenReturn(imageDirectory);
+    	 
+    	// Then
+		assertThat(userServiceImpl.findProfilePicture(ID)).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldFindProfilePictureWhenUserNotExist() throws IOException {
+    	// When
+    	when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
+    	 
+    	// Then
+		assertThat(userServiceImpl.findProfilePicture(ID)).isEmpty();
+	}
+	
+	@Test
+	public void shouldFindProfilePictureWhenIsEmpty() throws IOException {
+		// Given
+    	final String imageDirectory = IMAGE_DIRECTORY + "/ded/";
+    	final User user = createUser();
+    	user.setImageUrl("filename.txt");
+    	
+    	// When
+    	when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+    	when(userProperties.getPathProfiles()).thenReturn(imageDirectory);
+    	 
+    	// Then
+		assertThat(userServiceImpl.findProfilePicture(ID)).isEmpty();
+	}
+	
+	private void createFoldersAndFile() throws IOException {
+		Files.createDirectory(Paths.get("./images"));
+		Files.createDirectory(Paths.get("./images/1"));
+		final File file = new File("./images/1/filename.txt");
+		file.createNewFile();
+		final String str = "Hello";
+		final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+		writer.write(str);
+		writer.close();
+	}
+    
+    @Before
+    @After
+    public void deleteFolder() throws IOException {
+        if (Files.isDirectory(Paths.get(IMAGES_FOLDER))) {
+            deleteFolderAndContents();
+        }
+    }
+
+    public void deleteFolderAndContents() throws IOException {
+        final List<String> fileNames = Arrays.asList(IMAGES_FOLDER);
+
+        for (final String fileName: fileNames) {
+        	final File file = new File(fileName);
+        	if (file.exists()) {
+        		FileUtils.forceDelete(new File(fileName));
+        	}
+        }
+    }
+
 }

@@ -7,3 +7,7 @@
 
 spring.jpa.properties.hibernate.jdbc.batch_size=4
 spring.jpa.properties.hibernate.order_inserts=true 
+------------------------------------------------------------------------------------------------------------------------
+# Dans le fichier "dailyFollowUp.properties", ajouter la variable de configuration suivante :
+
+user.pathProfiles=C:\\Users\\christopher\\ProgramDev\\daily-follow-up\\profiles\\
