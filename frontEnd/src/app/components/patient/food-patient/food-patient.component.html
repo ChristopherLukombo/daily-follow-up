@@ -4,22 +4,16 @@
       <h5>Alimentation(s)</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Normale</td>
-          </tr>
-          <tr>
-            <td>Sans sel</td>
-          </tr>
-          <tr>
-            <td>Diabétique</td>
+          <tr *ngFor="let diet of patient?.diets">
+            <td>{{ diet.name }}</td>
           </tr>
         </tbody>
       </table>
       <h5>Texture</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Mixé</td>
+          <tr *ngIf="patient?.texture">
+            <td>{{ patient.texture.name }}</td>
           </tr>
         </tbody>
       </table>
@@ -28,11 +22,8 @@
       <h5>Allergie(s)</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Arachide</td>
-          </tr>
-          <tr>
-            <td>Fruits à coque</td>
+          <tr *ngFor="let allergy of patient?.allergies">
+            <td>{{ allergy.name }}</td>
           </tr>
         </tbody>
       </table>
@@ -40,14 +31,14 @@
   </div>
   <br />
   <h5>Commentaire</h5>
-  <div class="comment">
+  <div *ngIf="patient?.comment" class="comment">
     <div class="comment-body">
       <p>
-        A tendance à changer son menu la veille.
+        {{ patient.comment.content }}
       </p>
     </div>
   </div>
-  <div class="comment-footer">
-    Mis à jour le 22/03/2020 par <strong>lukombo_c</strong>
+  <div *ngIf="patient?.comment" class="comment-footer">
+    Mis à jour le 22/03/2020 par <strong>{{ patient.comment.pseudo }}</strong>
   </div>
 </div>

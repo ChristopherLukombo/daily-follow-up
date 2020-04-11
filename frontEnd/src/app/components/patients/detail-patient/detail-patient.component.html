@@ -71,7 +71,10 @@
   <br />
   <div class="row">
     <div class="col-md-5 offset-md-7 text-right">
-      <a class="nav-link" routerLink="details"
+      <a
+        class="nav-link"
+        routerLink="details"
+        [queryParams]="{ id: patient?.id }"
         ><fa-icon [icon]="moreDetailsLogo"></fa-icon> Plus de detail</a
       >
     </div>

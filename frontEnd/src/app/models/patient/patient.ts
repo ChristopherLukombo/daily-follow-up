@@ -48,5 +48,5 @@ export class Patient {
   /***/
   comment: Comment;
   /***/
-  room: Room;
+  roomId: number;
 }

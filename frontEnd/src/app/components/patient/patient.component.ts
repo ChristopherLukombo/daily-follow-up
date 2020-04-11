@@ -5,13 +5,16 @@ import {
   faUserSlash,
   faClock,
   faUserPlus,
-  faAngleDoubleLeft
+  faAngleDoubleLeft,
 } from "@fortawesome/free-solid-svg-icons";
+import { Patient } from "src/app/models/patient/patient";
+import { ActivatedRoute } from "@angular/router";
+import { PatientService } from "src/app/services/patient/patient.service";
 
 @Component({
   selector: "app-patient",
   templateUrl: "./patient.component.html",
-  styleUrls: ["./patient.component.scss"]
+  styleUrls: ["./patient.component.scss"],
 })
 export class PatientComponent implements OnInit {
   editLogo = faUserEdit;
@@ -20,9 +23,27 @@ export class PatientComponent implements OnInit {
   addLogo = faUserPlus;
   goBackLogo = faAngleDoubleLeft;
 
-  constructor(private _location: Location) {}
+  patient: Patient;
 
-  ngOnInit(): void {}
+  constructor(
+    private route: ActivatedRoute,
+    private patientService: PatientService,
+    private _location: Location
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.forEach((params) => {
+      this.patientService.getPatient(params["id"]).subscribe(
+        (data) => {
+          this.patient = data;
+          console.log(data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    });
+  }
 
   goBack(): void {
     this._location.back();
