@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
@@ -42,11 +43,13 @@ public class Menu implements Serializable {
 	
 	private Integer weekNumber;
 	
+	@ManyToOne
 	private Texture texture;
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<TypeMeal> replacements;
 	
+	@ManyToOne
 	private Diet diet;
 	
 }
