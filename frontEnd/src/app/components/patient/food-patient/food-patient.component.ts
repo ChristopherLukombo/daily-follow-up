@@ -12,12 +12,4 @@ export class FoodPatientComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
-
-  onCreateForm(): void {
-    // TODO : affiche le textarea
-  }
-
-  onUpdateForm(): void {
-    // TODO : affiche le textarea préremplis
-  }
 }

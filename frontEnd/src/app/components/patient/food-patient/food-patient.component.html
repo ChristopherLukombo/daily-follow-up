@@ -30,17 +30,5 @@
     </div>
   </div>
   <br />
-  <h5>Commentaire</h5>
-  <div *ngIf="patient?.comment" class="comment">
-    <div class="comment-body">
-      <p>
-        {{ patient.comment.content }}
-      </p>
-    </div>
-  </div>
-  <div *ngIf="patient?.comment" class="comment-footer">
-    Mis à jour le
-    {{ patient.comment.lastModification | date: "dd/MM/yyyy à HH:mm" }} par
-    <strong>{{ patient.comment.pseudo }}</strong>
-  </div>
+  <app-comment-patient [comment]="patient?.comment"></app-comment-patient>
 </div>
