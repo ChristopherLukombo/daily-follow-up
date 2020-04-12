@@ -10,14 +10,14 @@ INSERT INTO role (id, name) VALUES
 ('4', 'ROLE_CAREGIVER');
 
 /******************** LES UTILISATEURS DE L'APPLICATION ********************/
-INSERT INTO "user" (id, first_name, last_name, email, birth_day, pseudo, password_hash, role_id, image_url, create_date, status) VALUES
-('1', 'Angelo', 'DELIESSCHE', 'angelo.d@gmail.com', '1996-12-23', 'deliessche_a', '$2a$10$5yxgKe6eIYfraHbAORTDFOgaWNNCpiIPzLZM29tT9Mz9ZctDXP3GW', '2', null, '2020-03-21', 'true'),
-('2', 'Christopher', 'LUKOMBO', 'christopher.l@gmail.com', '1996-08-31', 'lukombo_c', '$2a$10$RqauY9WksnugiHDSi2/4reDLJe2V1dubG5mNtkP6Y2bQNdu0FE3IG', '2', null, '2020-03-21', 'true'),
-('3', 'Neal', 'KEMISSI', 'neal.k@gmail.com', '1997-05-23', 'kemissi_n', '$2a$10$RQTz5GoOW5nsLxR13jS/RehkxUh04CQ/WI7uh9K0iRy4kt0zrTQJi', '2', null, '2020-03-21', 'true'),
+INSERT INTO "user" (first_name, last_name, email, birth_day, pseudo, password_hash, role_id, image_url, create_date, status) VALUES
+('Angelo', 'DELIESSCHE', 'angelo.d@gmail.com', '1996-12-23', 'deliessche_a', '$2a$10$5yxgKe6eIYfraHbAORTDFOgaWNNCpiIPzLZM29tT9Mz9ZctDXP3GW', '2', null, '2020-03-21', 'true'),
+('Christopher', 'LUKOMBO', 'christopher.l@gmail.com', '1996-08-31', 'lukombo_c', '$2a$10$RqauY9WksnugiHDSi2/4reDLJe2V1dubG5mNtkP6Y2bQNdu0FE3IG', '2', null, '2020-03-21', 'true'),
+('Neal', 'KEMISSI', 'neal.k@gmail.com', '1997-05-23', 'kemissi_n', '$2a$10$RQTz5GoOW5nsLxR13jS/RehkxUh04CQ/WI7uh9K0iRy4kt0zrTQJi', '2', null, '2020-03-21', 'true'),
 /** les aides soignants **/
-('4', 'Olivier', 'GOULET', 'goulet.o@gmail.com', '1995-06-17', 'goulet_o', '$2a$10$X7vMrgZptyHyxwMmEhnw4e8PdwHxMj0eNWa4NmgOjW18AKXv4Poqi', '4', null, '2020-03-21', 'true'),
-('5', 'Marie', 'BISAILLON', 'bisaillon.m@gmail.com', '1994-10-27', 'bisaillon_m', '$2a$10$YbaouKyB8r38OEyln.00tO2F0v0f9.OH0Yf3L5jVwAFgVQwrhoU3S', '4', null, '2020-03-21', 'true'),
-('6', 'Laetitia', 'BEAUCHEMIN', 'beauchemin.l@gmail.com', '1994-02-08', 'beauchemin_l', '$2a$10$tTLoZWpck0crX0QiC7Pyz.7cl7p4CZRwGDe9BhlCtHULDvEZcvWX.', '4', null, '2020-03-21', 'true');
+('Olivier', 'GOULET', 'goulet.o@gmail.com', '1995-06-17', 'goulet_o', '$2a$10$X7vMrgZptyHyxwMmEhnw4e8PdwHxMj0eNWa4NmgOjW18AKXv4Poqi', '4', null, '2020-03-21', 'true'),
+('Marie', 'BISAILLON', 'bisaillon.m@gmail.com', '1994-10-27', 'bisaillon_m', '$2a$10$YbaouKyB8r38OEyln.00tO2F0v0f9.OH0Yf3L5jVwAFgVQwrhoU3S', '4', null, '2020-03-21', 'true'),
+('Laetitia', 'BEAUCHEMIN', 'beauchemin.l@gmail.com', '1994-02-08', 'beauchemin_l', '$2a$10$tTLoZWpck0crX0QiC7Pyz.7cl7p4CZRwGDe9BhlCtHULDvEZcvWX.', '4', null, '2020-03-21', 'true');
 
 /******************** ETAGES DE LA CLINIQUE ********************/
 INSERT INTO floor (id, number, state) VALUES
@@ -93,7 +93,7 @@ INSERT INTO floor_rooms (floor_id, rooms_id) VALUES
 ('2', '21'), ('2', '22'), ('2', '23'), ('2', '24'), ('2', '25'), ('2', '26'), ('2', '27'), ('2', '28'), ('2', '29'), ('2', '30'), ('2', '31'), ('2', '32'), ('2', '33'), ('2', '34'), ('2', '35'), ('2', '36'), ('2', '37'), ('2', '38'), ('2', '39'), ('2', '40'), ('2', '41'), ('2', '42'), ('2', '43'), ('2', '44'), ('2', '45'),
 ('3', '46'), ('3', '47'), ('3', '48'), ('3', '49'), ('3', '50'), ('3', '51'), ('3', '52'), ('3', '53'), ('3', '54'), ('3', '55'), ('3', '56'), ('3', '57'), ('3', '58'), ('3', '59'), ('3', '60'), ('3', '61'), ('3', '62'), ('3', '63'), ('3', '64'), ('3', '65'), ('3', '66'), ('3', '67'), ('3', '68'), ('3', '69'), ('3', '70');
 /** les utilisateurs qui sont aides soignants **/
-INSERT INTO caregiver (id, floor, user_id) VALUES
+INSERT INTO caregiver (id, floor_id, user_id) VALUES
 ('1', '1','4'),
 ('2', '2', '5'),
 ('3', '3', '6');
