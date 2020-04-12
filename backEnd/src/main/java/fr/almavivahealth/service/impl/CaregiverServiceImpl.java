@@ -72,7 +72,7 @@ public class CaregiverServiceImpl implements CaregiverService {
 	@Transactional(readOnly = true)
 	public List<CaregiverDTO> findAll() {
 		LOGGER.debug("Request to get all Caregivers");
-		return caregiverRepository.findAll().stream()
+		return caregiverRepository.findAllByOrderByIdDesc().stream()
 				.map(caregiverMapper::caregiverToCaregiverDTO)
 				.collect(Collectors.toList());
 	}

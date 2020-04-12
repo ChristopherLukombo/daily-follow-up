@@ -10,5 +10,6 @@ import fr.almavivahealth.domain.Patient;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
-	List<Patient> findAllByStateTrue();
+	List<Patient> findAllByStateTrueOrderByIdDesc();
+
 }

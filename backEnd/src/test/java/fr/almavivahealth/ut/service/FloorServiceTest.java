@@ -113,7 +113,7 @@ public class FloorServiceTest {
 		final List<Floor> floors = Arrays.asList(createFloor());
 		
 		// Then
-		when(floorRepository.findAll()).thenReturn(floors);
+		when(floorRepository.findAllByOrderByIdDesc()).thenReturn(floors);
 		
 		// Then
 		assertThat(floorServiceImpl.findAll()).isNotEmpty();
@@ -125,7 +125,7 @@ public class FloorServiceTest {
 		final List<Floor> floors = Collections.emptyList();
 		
 		// Then
-		when(floorRepository.findAll()).thenReturn(floors);
+		when(floorRepository.findAllByOrderByIdDesc()).thenReturn(floors);
 		
 		// Then
 		assertThat(floorServiceImpl.findAll()).isEmpty();
@@ -137,7 +137,7 @@ public class FloorServiceTest {
 		final List<Floor> floors = null;
 		
 		// Then
-		when(floorRepository.findAll()).thenReturn(floors);
+		when(floorRepository.findAllByOrderByIdDesc()).thenReturn(floors);
 		
 		// Then
 		assertThatThrownBy(() -> floorServiceImpl.findAll())

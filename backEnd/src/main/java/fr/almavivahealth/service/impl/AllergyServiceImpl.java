@@ -72,7 +72,7 @@ public class AllergyServiceImpl implements AllergyService {
 	@Transactional(readOnly = true)
 	public List<AllergyDTO> findAll() {
 		LOGGER.debug("Request to get all Allergys");
-		return allergyRepository.findAll().stream()
+		return allergyRepository.findAllByOrderByIdDesc().stream()
 				.map(allergyMapper::allergyToAllergyDTO)
 				.collect(Collectors.toList());
 	}

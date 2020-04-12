@@ -106,7 +106,7 @@ public class PatientServiceImpl implements PatientService {
 	@Transactional(readOnly = true)
 	public List<PatientDTO> findAll() {
 		LOGGER.debug("Request to get all Patients");
-		return patientRepository.findAllByStateTrue().stream()
+		return patientRepository.findAllByStateTrueOrderByIdDesc().stream()
 				.map(patientMapper::patientToPatientDTO)
 				.collect(Collectors.toList());
 	}

@@ -1,5 +1,6 @@
 package fr.almavivahealth.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 	@Query("SELECT patient.room FROM Patient patient JOIN patient.room WHERE patient.id = :patientId")
 	Optional<Room> findByPatientId(@Param("patientId") Long patientId);
 
+	List<Room> findAllByOrderByIdDesc();
+	
 }

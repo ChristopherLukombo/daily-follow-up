@@ -121,7 +121,7 @@ public class ContentServiceTest {
 		final List<Content> contents = Arrays.asList(createContent());
 
 		// Then
-		when(contentRepository.findAll()).thenReturn(contents);
+		when(contentRepository.findAllByOrderByIdDesc()).thenReturn(contents);
 
 		// Then
 		assertThat(contentServiceImpl.findAll()).isNotEmpty();
@@ -133,7 +133,7 @@ public class ContentServiceTest {
 		final List<Content> contents = Collections.emptyList();
 
 		// Then
-		when(contentRepository.findAll()).thenReturn(contents);
+		when(contentRepository.findAllByOrderByIdDesc()).thenReturn(contents);
 
 		// Then
 		assertThat(contentServiceImpl.findAll()).isEmpty();
@@ -145,7 +145,7 @@ public class ContentServiceTest {
 		final List<Content> contents = null;
 
 		// Then
-		when(contentRepository.findAll()).thenReturn(contents);
+		when(contentRepository.findAllByOrderByIdDesc()).thenReturn(contents);
 
 		// Then
 		assertThatThrownBy(() -> contentServiceImpl.findAll())

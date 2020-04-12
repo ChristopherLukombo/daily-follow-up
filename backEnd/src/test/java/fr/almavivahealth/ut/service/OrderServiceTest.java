@@ -120,7 +120,7 @@ public class OrderServiceTest {
 		final List<Order> orders = Arrays.asList(createOrder());
 		
 		// Then
-		when(orderRepository.findAll()).thenReturn(orders);
+		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
 		
 		// Then
 		assertThat(orderServiceImpl.findAll()).isNotEmpty();
@@ -132,7 +132,7 @@ public class OrderServiceTest {
 		final List<Order> orders = Collections.emptyList();
 		
 		// Then
-		when(orderRepository.findAll()).thenReturn(orders);
+		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
 		
 		// Then
 		assertThat(orderServiceImpl.findAll()).isEmpty();
@@ -144,7 +144,7 @@ public class OrderServiceTest {
 		final List<Order> orders = null;
 		
 		// Then
-		when(orderRepository.findAll()).thenReturn(orders);
+		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
 		
 		// Then
 		assertThatThrownBy(() -> orderServiceImpl.findAll())

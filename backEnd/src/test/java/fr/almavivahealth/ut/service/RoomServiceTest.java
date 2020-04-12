@@ -122,7 +122,7 @@ public class RoomServiceTest {
 		final List<Room> rooms = Arrays.asList(createRoom());
 
 		// Then
-		when(roomRepository.findAll()).thenReturn(rooms);
+		when(roomRepository.findAllByOrderByIdDesc()).thenReturn(rooms);
 
 		// Then
 		assertThat(roomServiceImpl.findAll()).isNotEmpty();
@@ -134,7 +134,7 @@ public class RoomServiceTest {
 		final List<Room> rooms = Collections.emptyList();
 
 		// Then
-		when(roomRepository.findAll()).thenReturn(rooms);
+		when(roomRepository.findAllByOrderByIdDesc()).thenReturn(rooms);
 
 		// Then
 		assertThat(roomServiceImpl.findAll()).isEmpty();
@@ -146,7 +146,7 @@ public class RoomServiceTest {
 		final List<Room> rooms = null;
 
 		// Then
-		when(roomRepository.findAll()).thenReturn(rooms);
+		when(roomRepository.findAllByOrderByIdDesc()).thenReturn(rooms);
 
 		// Then
 		assertThatThrownBy(() -> roomServiceImpl.findAll())

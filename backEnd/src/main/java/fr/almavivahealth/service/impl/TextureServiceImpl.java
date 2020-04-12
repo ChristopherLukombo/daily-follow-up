@@ -72,7 +72,7 @@ public class TextureServiceImpl implements TextureService {
 	@Transactional(readOnly = true)
 	public List<TextureDTO> findAll() {
 		LOGGER.debug("Request to get all Textures");
-		return textureRepository.findAll().stream()
+		return textureRepository.findAllByOrderByIdDesc().stream()
 				.map(textureMapper::textureToTextureDTO)
 				.collect(Collectors.toList());
 	}

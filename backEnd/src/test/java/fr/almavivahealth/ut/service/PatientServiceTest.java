@@ -154,7 +154,7 @@ public class PatientServiceTest {
 		final List<Patient> patients = Arrays.asList(getPatient());
 		
 		// Then
-		when(patientRepository.findAllByStateTrue()).thenReturn(patients);
+		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
 		
 		// Then
 		assertThat(patientServiceImpl.findAll()).isNotEmpty();
@@ -166,7 +166,7 @@ public class PatientServiceTest {
 		final List<Patient> patients = Collections.emptyList();
 		
 		// Then
-		when(patientRepository.findAllByStateTrue()).thenReturn(patients);
+		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
 		
 		// Then
 		assertThat(patientServiceImpl.findAll()).isEmpty();
@@ -178,7 +178,7 @@ public class PatientServiceTest {
 		final List<Patient> patients = null;
 		
 		// Then
-		when(patientRepository.findAllByStateTrue()).thenReturn(patients);
+		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
 		
 		// Then
 		assertThatThrownBy(() -> patientServiceImpl.findAll())

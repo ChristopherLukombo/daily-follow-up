@@ -72,7 +72,7 @@ public class MenuServiceImpl implements MenuService {
 	@Transactional(readOnly = true)
 	public List<MenuDTO> findAll() {
 		LOGGER.debug("Request to get all Menus");
-		return menuRepository.findAll().stream()
+		return menuRepository.findAllByOrderByIdDesc().stream()
 				.map(menuMapper::menuToMenuDTO)
 				.collect(Collectors.toList());
 	}

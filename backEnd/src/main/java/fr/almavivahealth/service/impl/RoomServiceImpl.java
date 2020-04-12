@@ -72,7 +72,7 @@ public class RoomServiceImpl implements RoomService {
 	@Transactional(readOnly = true)
 	public List<RoomDTO> findAll() {
 		LOGGER.debug("Request to get all Rooms");
-		return roomRepository.findAll().stream()
+		return roomRepository.findAllByOrderByIdDesc().stream()
 				.map(roomMapper::roomToRoomDTO)
 				.collect(Collectors.toList());
 	}

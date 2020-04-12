@@ -117,7 +117,7 @@ public class MomentDayServiceTest {
 		final List<MomentDay> momentDays = Arrays.asList(createMomentDay());
 
 		// Then
-		when(momentDayRepository.findAll()).thenReturn(momentDays);
+		when(momentDayRepository.findAllByOrderByIdDesc()).thenReturn(momentDays);
 
 		// Then
 		assertThat(momentDayServiceImpl.findAll()).isNotEmpty();
@@ -129,7 +129,7 @@ public class MomentDayServiceTest {
 		final List<MomentDay> momentDays = Collections.emptyList();
 
 		// Then
-		when(momentDayRepository.findAll()).thenReturn(momentDays);
+		when(momentDayRepository.findAllByOrderByIdDesc()).thenReturn(momentDays);
 
 		// Then
 		assertThat(momentDayServiceImpl.findAll()).isEmpty();
@@ -141,7 +141,7 @@ public class MomentDayServiceTest {
 		final List<MomentDay> momentDays = null;
 
 		// Then
-		when(momentDayRepository.findAll()).thenReturn(momentDays);
+		when(momentDayRepository.findAllByOrderByIdDesc()).thenReturn(momentDays);
 
 		// Then
 		assertThatThrownBy(() -> momentDayServiceImpl.findAll())

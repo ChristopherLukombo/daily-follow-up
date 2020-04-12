@@ -117,7 +117,7 @@ public class TypeMealServiceTest {
 		final List<TypeMeal> typeMeals = Arrays.asList(createTypeMeal());
 
 		// Then
-		when(typeMealRepository.findAll()).thenReturn(typeMeals);
+		when(typeMealRepository.findAllByOrderByIdDesc()).thenReturn(typeMeals);
 
 		// Then
 		assertThat(typeMealServiceImpl.findAll()).isNotEmpty();
@@ -129,7 +129,7 @@ public class TypeMealServiceTest {
 		final List<TypeMeal> typeMeals = Collections.emptyList();
 
 		// Then
-		when(typeMealRepository.findAll()).thenReturn(typeMeals);
+		when(typeMealRepository.findAllByOrderByIdDesc()).thenReturn(typeMeals);
 
 		// Then
 		assertThat(typeMealServiceImpl.findAll()).isEmpty();
@@ -141,7 +141,7 @@ public class TypeMealServiceTest {
 		final List<TypeMeal> typeMeals = null;
 
 		// Then
-		when(typeMealRepository.findAll()).thenReturn(typeMeals);
+		when(typeMealRepository.findAllByOrderByIdDesc()).thenReturn(typeMeals);
 
 		// Then
 		assertThatThrownBy(() -> typeMealServiceImpl.findAll())

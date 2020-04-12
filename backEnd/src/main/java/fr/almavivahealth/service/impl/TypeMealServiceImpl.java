@@ -72,7 +72,7 @@ public class TypeMealServiceImpl implements TypeMealService {
 	@Transactional(readOnly = true)
 	public List<TypeMealDTO> findAll() {
 		LOGGER.debug("Request to get all TypeMeals");
-		return typeMealRepository.findAll().stream()
+		return typeMealRepository.findAllByOrderByIdDesc().stream()
 				.map(typeMealMapper::typeMealToTypeMealDTO)
 				.collect(Collectors.toList());
 	}

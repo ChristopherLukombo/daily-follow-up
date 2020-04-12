@@ -118,7 +118,7 @@ public class DietServiceTest {
 		final List<Diet> diets = Arrays.asList(createDiet());
 
 		// Then
-		when(dietRepository.findAll()).thenReturn(diets);
+		when(dietRepository.findAllByOrderByIdDesc()).thenReturn(diets);
 
 		// Then
 		assertThat(dietServiceImpl.findAll()).isNotEmpty();
@@ -130,7 +130,7 @@ public class DietServiceTest {
 		final List<Diet> diets = Collections.emptyList();
 
 		// Then
-		when(dietRepository.findAll()).thenReturn(diets);
+		when(dietRepository.findAllByOrderByIdDesc()).thenReturn(diets);
 
 		// Then
 		assertThat(dietServiceImpl.findAll()).isEmpty();
@@ -142,7 +142,7 @@ public class DietServiceTest {
 		final List<Diet> diets = null;
 
 		// Then
-		when(dietRepository.findAll()).thenReturn(diets);
+		when(dietRepository.findAllByOrderByIdDesc()).thenReturn(diets);
 
 		// Then
 		assertThatThrownBy(() -> dietServiceImpl.findAll())

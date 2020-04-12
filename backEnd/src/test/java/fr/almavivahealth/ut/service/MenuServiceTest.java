@@ -116,7 +116,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = Arrays.asList(createMenu());
 
 		// Then
-		when(menuRepository.findAll()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
 
 		// Then
 		assertThat(menuServiceImpl.findAll()).isNotEmpty();
@@ -128,7 +128,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = Collections.emptyList();
 
 		// Then
-		when(menuRepository.findAll()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
 
 		// Then
 		assertThat(menuServiceImpl.findAll()).isEmpty();
@@ -140,7 +140,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = null;
 
 		// Then
-		when(menuRepository.findAll()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
 
 		// Then
 		assertThatThrownBy(() -> menuServiceImpl.findAll()).isInstanceOf(NullPointerException.class);

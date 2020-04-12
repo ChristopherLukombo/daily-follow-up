@@ -72,7 +72,7 @@ public class MomentDayServiceImpl implements MomentDayService {
 	@Transactional(readOnly = true)
 	public List<MomentDayDTO> findAll() {
 		LOGGER.debug("Request to get all MomentDays");
-		return momentDayRepository.findAll().stream()
+		return momentDayRepository.findAllByOrderByIdDesc().stream()
 				.map(momentDayMapper::momentDayToMomentDayDTO)
 				.collect(Collectors.toList());
 	}

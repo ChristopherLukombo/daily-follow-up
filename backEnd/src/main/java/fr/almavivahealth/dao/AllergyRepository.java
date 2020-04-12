@@ -12,4 +12,7 @@ import fr.almavivahealth.domain.Allergy;
 public interface AllergyRepository extends JpaRepository<Allergy, Long> {
 
 	List<Allergy> findAllByNameIgnoreCaseIn(Set<String> names);
+	
+	List<Allergy> findAllByOrderByIdDesc();
+
 }

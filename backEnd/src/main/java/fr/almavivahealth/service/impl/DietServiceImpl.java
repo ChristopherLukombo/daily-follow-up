@@ -71,7 +71,7 @@ public class DietServiceImpl implements DietService {
 	@Override
 	public List<DietDTO> findAll() {
 		LOGGER.debug("Request to get all Diets");
-		return dietRepository.findAll().stream()
+		return dietRepository.findAllByOrderByIdDesc().stream()
 				.map(dietMapper::dietToDietDTO)
 				.collect(Collectors.toList());
 	}

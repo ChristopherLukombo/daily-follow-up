@@ -118,7 +118,7 @@ public class CaregiverServiceTest {
 		final List<Caregiver> caregivers = Arrays.asList(createCaregiver());
 		
 		// Then
-		when(caregiverRepository.findAll()).thenReturn(caregivers);
+		when(caregiverRepository.findAllByOrderByIdDesc()).thenReturn(caregivers);
 		
 		// Then
 		assertThat(caregiverServiceImpl.findAll()).isNotEmpty();
@@ -130,7 +130,7 @@ public class CaregiverServiceTest {
 		final List<Caregiver> caregivers = Collections.emptyList();
 		
 		// Then
-		when(caregiverRepository.findAll()).thenReturn(caregivers);
+		when(caregiverRepository.findAllByOrderByIdDesc()).thenReturn(caregivers);
 		
 		// Then
 		assertThat(caregiverServiceImpl.findAll()).isEmpty();
@@ -142,7 +142,7 @@ public class CaregiverServiceTest {
 		final List<Caregiver> caregivers = null;
 		
 		// Then
-		when(caregiverRepository.findAll()).thenReturn(caregivers);
+		when(caregiverRepository.findAllByOrderByIdDesc()).thenReturn(caregivers);
 		
 		// Then
 		assertThatThrownBy(() -> caregiverServiceImpl.findAll())

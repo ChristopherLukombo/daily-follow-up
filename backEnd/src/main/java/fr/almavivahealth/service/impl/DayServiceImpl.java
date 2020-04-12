@@ -72,7 +72,7 @@ public class DayServiceImpl implements DayService {
 	@Transactional(readOnly = true)
 	public List<DayDTO> findAll() {
 		LOGGER.debug("Request to get all Days");
-		return dayRepository.findAll().stream()
+		return dayRepository.findAllByOrderByIdDesc().stream()
 				.map(dayMapper::dayToDayDTO)
 				.collect(Collectors.toList());
 	}

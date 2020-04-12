@@ -72,7 +72,7 @@ public class ContentServiceImpl implements ContentService {
 	@Transactional(readOnly = true)
 	public List<ContentDTO> findAll() {
 		LOGGER.debug("Request to get all Contents");
-		return contentRepository.findAll().stream()
+		return contentRepository.findAllByOrderByIdDesc().stream()
 				.map(contentMapper::contentToContentDTO)
 				.collect(Collectors.toList());
 	}

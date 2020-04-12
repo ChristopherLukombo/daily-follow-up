@@ -117,7 +117,7 @@ public class AllergyServiceTest {
    		final List<Allergy> allergys = Arrays.asList(createAllergy());
    		
    		// Then
-   		when(allergyRepository.findAll()).thenReturn(allergys);
+   		when(allergyRepository.findAllByOrderByIdDesc()).thenReturn(allergys);
    		
    		// Then
    		assertThat(allergyServiceImpl.findAll()).isNotEmpty();
@@ -129,7 +129,7 @@ public class AllergyServiceTest {
    		final List<Allergy> allergys = Collections.emptyList();
    		
    		// Then
-   		when(allergyRepository.findAll()).thenReturn(allergys);
+   		when(allergyRepository.findAllByOrderByIdDesc()).thenReturn(allergys);
    		
    		// Then
    		assertThat(allergyServiceImpl.findAll()).isEmpty();
@@ -141,7 +141,7 @@ public class AllergyServiceTest {
    		final List<Allergy> allergys = null;
    		
    		// Then
-   		when(allergyRepository.findAll()).thenReturn(allergys);
+   		when(allergyRepository.findAllByOrderByIdDesc()).thenReturn(allergys);
    		
    		// Then
    		assertThatThrownBy(() -> allergyServiceImpl.findAll())
