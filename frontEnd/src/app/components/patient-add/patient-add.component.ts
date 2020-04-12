@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Location } from "@angular/common";
 import {
   faAngleDoubleLeft,
   faPlus,
@@ -34,9 +35,13 @@ export class PatientAddComponent implements OnInit {
     { id: 3, name: "Mixé" },
   ];
 
-  constructor() {}
+  constructor(private _location: Location) {}
 
   ngOnInit(): void {}
+
+  goBack(): void {
+    this._location.back();
+  }
 
   addAllergy(allergy: string): void {
     if (allergy != undefined) {

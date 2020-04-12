@@ -5,24 +5,31 @@
         <a class="nav-link" routerLink="add"
           ><fa-icon [icon]="addLogo"></fa-icon> Nouveau patient</a
         >
+        <a class="nav-link" routerLink="add"
+          ><fa-icon [icon]="addManyLogo"></fa-icon> Nouveaux patients</a
+        >
       </nav>
     </div>
     <div class="col">
-      <h4>Patients de la clinique</h4>
-      <br />
-      <app-list-patients
-        (selectedPatient)="setPatient($event)"
-        [patients]="patients"
-      ></app-list-patients>
-      <div *ngIf="loading"><app-loader></app-loader></div>
-      <div *ngIf="error">
-        <app-alert-error [content]="error"></app-alert-error>
+      <div class="row">
+        <div class="col">
+          <h4>Patients de la clinique</h4>
+          <br />
+          <app-list-patients
+            (selectedPatient)="setPatient($event)"
+            [patients]="patients"
+          ></app-list-patients>
+          <div *ngIf="loading"><app-loader></app-loader></div>
+          <div *ngIf="error">
+            <app-alert-error [content]="error"></app-alert-error>
+          </div>
+        </div>
+        <div *ngIf="patient" class="col">
+          <h4>Détail du patient</h4>
+          <br />
+          <app-detail-patient [patient]="patient"></app-detail-patient>
+        </div>
       </div>
-    </div>
-    <div *ngIf="patient" class="col">
-      <h4>Détail du patient</h4>
-      <br />
-      <app-detail-patient [patient]="patient"></app-detail-patient>
     </div>
   </div>
 </div>
