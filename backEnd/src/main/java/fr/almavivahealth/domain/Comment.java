@@ -1,6 +1,7 @@
 package fr.almavivahealth.domain;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -39,4 +40,8 @@ public class Comment implements Serializable {
 	
 	@NotNull
 	private String pseudo;
+	
+	@NotNull
+	private LocalDateTime lastModification;
+
 }

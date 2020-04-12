@@ -143,7 +143,7 @@ public class PatientResource {
 	 * or with status 204 (No Content) if the patient does not exist.
 	 *         
 	 */
-	@ApiOperation("Get all the patients.")
+	@ApiOperation("Get the \"id\" patient")
 	@ApiResponses({
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 204, message = "No Content"),

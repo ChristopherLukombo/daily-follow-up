@@ -137,15 +137,15 @@ INSERT INTO allergy (id, name) VALUES
 ('15', 'Mollusques');
 
 /******************** COMMENTAIRES A PROPOS DES PATIENTS ********************/
-INSERT INTO comment (id, content, pseudo) VALUES
-('1', 'Souvent fatigué', 'deliessche_a'),
-('2', 'A tendances à modifier son menu la veille', 'lukombo_c'),
-('3', 'Patient régulier dans la clinique, revient pour la 4eme fois', 'kemissi_n'),
-('4', 'Aime beaucoup les aliments sucrées', 'herbulot_s'),
-('5', 'A changer de chambre rapidement', 'deliessche_a'),
-('6', 'Présente des troubles du sommeil', 'lukombo_c'),
-('7', 'Ne mange pas en grande quantité', 'kemissi_n'),
-('8', 'Surveiller régulièrement son alimentation, car le patient ne connait pas toutes ses informations sur ses allergies', 'herbulot_s');
+INSERT INTO comment (id, content, pseudo, last_modification) VALUES
+('1', 'Souvent fatigué', 'deliessche_a', '2020-04-11T14:47:34.692Z'),
+('2', 'A tendances à modifier son menu la veille', 'lukombo_c', '2020-04-11T14:47:34.692Z'),
+('3', 'Patient régulier dans la clinique, revient pour la 4eme fois', 'kemissi_n', '2020-04-11T14:47:34.692Z'),
+('4', 'Aime beaucoup les aliments sucrées', 'herbulot_s', '2020-04-11T14:47:34.692Z'),
+('5', 'A changer de chambre rapidement', 'deliessche_a', '2020-04-11T14:47:34.692Z'),
+('6', 'Présente des troubles du sommeil', 'lukombo_c', '2020-04-11T14:47:34.692Z'),
+('7', 'Ne mange pas en grande quantité', 'kemissi_n', '2020-04-11T14:47:34.692Z'),
+('8', 'Surveiller régulièrement son alimentation, car le patient ne connait pas toutes ses informations sur ses allergies', 'herbulot_s', '2020-04-11T14:47:34.692Z');
 
 /******************** ADRESSES DES PATIENTS ********************/
 INSERT INTO address (id, street_name, postal_code, city) VALUES
