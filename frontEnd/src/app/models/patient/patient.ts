@@ -3,7 +3,6 @@ import { Diet } from "./diet";
 import { Allergy } from "./allergy";
 import { Address } from "./address";
 import { Comment } from "./comment";
-import { Room } from "../clinic/room";
 import { Order } from "./order";
 
 export class Patient {

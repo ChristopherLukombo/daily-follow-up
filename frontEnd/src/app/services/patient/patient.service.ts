@@ -8,6 +8,7 @@ import { environment } from "src/environments/environment";
 import { Observable, throwError } from "rxjs";
 import { Patient } from "src/app/models/patient/patient";
 import { catchError } from "rxjs/operators";
+import { PatientDTO } from "src/app/models/dto/patientDTO";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -41,6 +42,16 @@ export class PatientService {
   getPatient(id: number): Observable<Patient> {
     return this.http
       .get<Patient>(PATIENTS_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Met à jour un patient
+   * @param patientDTO
+   */
+  updatePatient(patientDTO: PatientDTO): Observable<Patient> {
+    return this.http
+      .put<Patient>(PATIENTS_URL, JSON.stringify(patientDTO), httpOptions)
       .pipe(catchError(this.handleError));
   }
 

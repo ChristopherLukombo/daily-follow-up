@@ -21,7 +21,6 @@ export class InfosPatientComponent implements OnInit {
     this.clinicService.getRoom(this.patient.roomId).subscribe(
       (data) => {
         this.room = data;
-        console.log(this.room);
       },
       (error) => {
         console.log(error);
