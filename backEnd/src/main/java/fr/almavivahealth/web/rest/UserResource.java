@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +20,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import fr.almavivahealth.security.jwt.JWTConfigurer;
 import fr.almavivahealth.security.jwt.TokenProvider;
-import fr.almavivahealth.service.UserService;
-import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.web.Login;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,15 +39,11 @@ public class UserResource {
 	private final TokenProvider tokenProvider;
 
 	private final AuthenticationManager authenticationManager;
-
-	private final UserService userService;
 	
     @Autowired
-	public UserResource(final TokenProvider tokenProvider, final AuthenticationManager authenticationManager,
-			final UserService userService) {
+	public UserResource(final TokenProvider tokenProvider, final AuthenticationManager authenticationManager) {
 		this.tokenProvider = tokenProvider;
 		this.authenticationManager = authenticationManager;
-		this.userService = userService;
 	}
 
 	/**
@@ -67,7 +60,7 @@ public class UserResource {
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
 	@PostMapping("/authenticate")
-	public ResponseEntity<UserInfo> authorize(@Valid @RequestBody final Login login) {
+	public ResponseEntity<JWTToken> authorize(@Valid @RequestBody final Login login) {
 
 		final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
 				login.getUsername(), login.getPassword());
@@ -76,28 +69,19 @@ public class UserResource {
 		final SecurityContext securityContext = SecurityContextHolder.getContext();
 		securityContext.setAuthentication(authentication);
 		final String jwt = tokenProvider.createToken(authentication);
-		UserDTO userDTO = null;
-		if (securityContext.getAuthentication() != null) {
-			final Object principal = securityContext.getAuthentication().getPrincipal();
-			final String username = ((UserDetails) principal).getUsername();
-			userDTO = userService.findOneByPseudo(username);
-		}
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
-		return new ResponseEntity<>(new UserInfo(userDTO, jwt), httpHeaders, HttpStatus.OK);
+		return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
 	}
 
 	/**
 	 * Object to return as body in JWT Authentication.
 	 */
-	static class UserInfo {
-
-		private UserDTO userDTO;
+	static class JWTToken {
 		
 		private String idToken;
 
-		public UserInfo(final UserDTO userDTO, final String idToken) {
-			this.userDTO = userDTO;
+		public JWTToken(final String idToken) {
 			this.idToken = idToken;
 		}
 
@@ -109,14 +93,7 @@ public class UserResource {
 		void setIdToken(final String idToken) {
 			this.idToken = idToken;
 		}
-
-		@JsonProperty("user")
-		UserDTO getUserDTO() {
-			return userDTO;
-		}
 		
-		void setUserDTO(final UserDTO userDTO) {
-			this.userDTO = userDTO;
-		}
 	}
+	
 }
