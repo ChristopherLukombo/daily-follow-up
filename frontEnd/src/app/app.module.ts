@@ -25,14 +25,15 @@ import { PatientHistoryComponent } from "./components/patient-history/patient-hi
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
+import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
+import { CommentPatientComponent } from "./components/patient/food-patient/comment-patient/comment-patient.component";
+import { PatientNavbarComponent } from "./components/navbar-vertical/patient-navbar/patient-navbar.component";
 
 import { LoginService } from "./services/login/login.service";
 
 import { DetermineAgePipe } from "./utils/pipes/determine-age.pipe";
 import { SearchPipe, HighLightPipe } from "./utils/pipes/search.pipe";
-import { AlertWarningComponent } from './components/utils-components/alert-warning/alert-warning.component';
-import { CommentPatientComponent } from './components/patient/food-patient/comment-patient/comment-patient.component';
-import { PatientNavbarComponent } from './components/navbar-vertical/patient-navbar/patient-navbar.component';
+import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { PatientNavbarComponent } from './components/navbar-vertical/patient-nav
     AlertWarningComponent,
     CommentPatientComponent,
     PatientNavbarComponent,
+    getInitialsPipe,
   ],
   imports: [
     BrowserModule,
