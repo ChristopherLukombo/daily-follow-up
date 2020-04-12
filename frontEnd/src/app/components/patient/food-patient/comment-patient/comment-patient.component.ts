@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { faEdit, faUndoAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Comment } from "src/app/models/patient/comment";
 
@@ -16,6 +16,7 @@ export class CommentPatientComponent implements OnInit {
 
   commentEdition: Boolean = false;
   content: string = "";
+  @Output() newComment = new EventEmitter<Comment>();
 
   constructor() {}
 
@@ -32,6 +33,12 @@ export class CommentPatientComponent implements OnInit {
   }
 
   onSubmitForm(): void {
+    // gerer tout les cas
+    this.postComment(this.comment);
     this.commentEdition = false;
+  }
+
+  postComment(comment: Comment): void {
+    this.newComment.emit(comment);
   }
 }

@@ -30,5 +30,8 @@
     </div>
   </div>
   <br />
-  <app-comment-patient [comment]="patient?.comment"></app-comment-patient>
+  <app-comment-patient
+    (newComment)="newComment($event)"
+    [comment]="patient?.comment"
+  ></app-comment-patient>
 </div>

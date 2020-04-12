@@ -12,4 +12,9 @@ export class FoodPatientComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  newComment(comment: Comment): void {
+    // this.patient = patient;
+    console.log("nouveau comment");
+  }
 }
