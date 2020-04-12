@@ -199,4 +199,37 @@ public class RoomResourceTest {
 		.andExpect(status().isNoContent());
 		verify(roomService, times(1)).delete(id);
 	}
+	
+	@Test
+	public void shouldGetRoomByPatientIdWhenIsOk() throws IOException, Exception {
+		// Given
+		final RoomDTO roomDTO = createRoomDTO();
+
+		// When
+		when(roomService.findByPatientId(anyLong())).thenReturn(Optional.ofNullable(roomDTO));
+
+		// Then
+		mockMvc.perform(get("/api/rooms/patient/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(roomDTO)))
+		.andExpect(status().isOk());
+		verify(roomService, times(1)).findByPatientId(1L);
+	}
+	
+	@Test
+	public void shouldGetRoomByPatientIdWhenIsNotFound() throws IOException, Exception {
+		// Given
+		final RoomDTO roomDTO = null;
+
+		// When
+		when(roomService.findByPatientId(anyLong())).thenReturn(Optional.ofNullable(roomDTO));
+
+		// Then
+		mockMvc.perform(get("/api/rooms/patient/2")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(roomDTO)))
+		.andExpect(status().isNoContent());
+		verify(roomService, times(1)).findByPatientId(2L);
+	}
+	
 }

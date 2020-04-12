@@ -177,4 +177,30 @@ public class RoomResource {
 		roomService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	/**
+	 * GET /rooms/patient/:id : Get the room by patient id.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok)
+	 * or with status 204 (No Content) if the room does not exist.
+	 *         
+	 */
+	@ApiOperation("Get the room by patient id.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@GetMapping("/rooms/patient/{patientId}")
+	public ResponseEntity<RoomDTO> getRoomByPatientId(@PathVariable final Long patientId) {
+		LOGGER.debug("REST request to get Room : {}", patientId);
+		final Optional<RoomDTO> result = roomService.findByPatientId(patientId);
+		if (result.isPresent()) {
+			return ResponseEntity.ok().body(result.get());
+		} else {
+			return ResponseEntity.noContent().build();
+		}
+	}
 }
