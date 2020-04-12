@@ -1,11 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { Location } from "@angular/common";
 import {
   faUserEdit,
   faUserSlash,
   faClock,
-  faUserPlus,
-  faAngleDoubleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
@@ -20,8 +17,6 @@ export class PatientComponent implements OnInit {
   editLogo = faUserEdit;
   deleteLogo = faUserSlash;
   historyLogo = faClock;
-  addLogo = faUserPlus;
-  goBackLogo = faAngleDoubleLeft;
 
   patient: Patient;
 
@@ -32,8 +27,7 @@ export class PatientComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private patientService: PatientService,
-    private _location: Location
+    private patientService: PatientService
   ) {}
 
   ngOnInit(): void {
@@ -50,10 +44,6 @@ export class PatientComponent implements OnInit {
         }
       );
     });
-  }
-
-  goBack(): void {
-    this._location.back();
   }
 
   patientDoesNotExist(): void {

@@ -1,18 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-2">
-      <nav class="nav flex-column">
-        <a class="nav-link"><fa-icon [icon]="editLogo"></fa-icon> Modifier</a>
-        <a class="nav-link"
-          ><fa-icon [icon]="deleteLogo"></fa-icon> Supprimer</a
-        >
-        <a class="nav-link" routerLink="history"
-          ><fa-icon [icon]="historyLogo"></fa-icon> Historique du patient</a
-        >
-        <a class="nav-link" (click)="goBack()"
-          ><fa-icon [icon]="goBackLogo"></fa-icon> Retour</a
-        >
-      </nav>
+      <app-patient-navbar></app-patient-navbar>
     </div>
     <div class="col">
       <div class="row">
@@ -35,6 +24,26 @@
           <h4>Informations complémentaires</h4>
           <br />
           <app-food-patient [patient]="patient"></app-food-patient>
+        </div>
+      </div>
+      <br />
+      <div class="row" *ngIf="patient">
+        <div class="col">
+          <div class="space-between-btn">
+            <button type="button" class="btn btn-info" routerLink="history">
+              <fa-icon [icon]="historyLogo"></fa-icon> Historique
+            </button>
+            <button type="button" class="btn btn-warning">
+              <fa-icon [icon]="editLogo"></fa-icon> Modifier les informations
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="text-right">
+            <button type="button" class="btn btn-danger">
+              <fa-icon [icon]="deleteLogo"></fa-icon> Supprimer le patient
+            </button>
+          </div>
         </div>
       </div>
     </div>

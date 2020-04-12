@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { faUserPlus, faUserFriends } from "@fortawesome/free-solid-svg-icons";
 import { PatientService } from "src/app/services/patient/patient.service";
 import { Patient } from "src/app/models/patient/patient";
 
@@ -9,9 +8,6 @@ import { Patient } from "src/app/models/patient/patient";
   styleUrls: ["./patients.component.scss"],
 })
 export class PatientsComponent implements OnInit {
-  addLogo = faUserPlus;
-  addManyLogo = faUserFriends;
-
   patients: Patient[] = [];
   patient: Patient;
 

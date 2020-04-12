@@ -1,10 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Location } from "@angular/common";
-import {
-  faAngleDoubleLeft,
-  faPlus,
-  faMinus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { Diet } from "src/app/models/patient/diet";
 import { Texture } from "src/app/models/food/texture";
 
@@ -14,7 +9,6 @@ import { Texture } from "src/app/models/food/texture";
   styleUrls: ["./patient-add.component.scss"],
 })
 export class PatientAddComponent implements OnInit {
-  goBackLogo = faAngleDoubleLeft;
   addLogo = faPlus;
   removeLogo = faMinus;
 
@@ -35,13 +29,9 @@ export class PatientAddComponent implements OnInit {
     { id: 3, name: "Mixé" },
   ];
 
-  constructor(private _location: Location) {}
+  constructor() {}
 
   ngOnInit(): void {}
-
-  goBack(): void {
-    this._location.back();
-  }
 
   addAllergy(allergy: string): void {
     if (allergy != undefined) {

@@ -32,6 +32,7 @@ import { DetermineAgePipe } from "./utils/pipes/determine-age.pipe";
 import { SearchPipe, HighLightPipe } from "./utils/pipes/search.pipe";
 import { AlertWarningComponent } from './components/utils-components/alert-warning/alert-warning.component';
 import { CommentPatientComponent } from './components/patient/food-patient/comment-patient/comment-patient.component';
+import { PatientNavbarComponent } from './components/navbar-vertical/patient-navbar/patient-navbar.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { CommentPatientComponent } from './components/patient/food-patient/comme
     HighLightPipe,
     AlertWarningComponent,
     CommentPatientComponent,
+    PatientNavbarComponent,
   ],
   imports: [
     BrowserModule,
