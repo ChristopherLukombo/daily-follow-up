@@ -88,15 +88,11 @@
     </tbody>
   </table>
   <br />
-  <table class="table table-bordered">
+  <table *ngIf="room" class="table table-bordered">
     <tbody>
       <tr>
         <th><fa-icon [icon]="roomLogo"></fa-icon> Chambre</th>
-        <td>{{ patient?.roomId }}</td>
-      </tr>
-      <tr>
-        <th><fa-icon [icon]="userLogo"></fa-icon> Responsable</th>
-        <td>deliessche_a</td>
+        <td>{{ room?.number }}</td>
       </tr>
     </tbody>
   </table>

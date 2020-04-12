@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { faBed, faUserNurse } from "@fortawesome/free-solid-svg-icons";
+import { faBed } from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
+import { Room } from "src/app/models/clinic/room";
+import { ClinicService } from "src/app/services/clinic/clinic.service";
 
 @Component({
   selector: "app-infos-patient",
@@ -9,11 +11,21 @@ import { Patient } from "src/app/models/patient/patient";
 })
 export class InfosPatientComponent implements OnInit {
   roomLogo = faBed;
-  userLogo = faUserNurse;
 
   @Input() patient: Patient;
+  room: Room;
 
-  constructor() {}
+  constructor(private clinicService: ClinicService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.clinicService.getRoom(this.patient.roomId).subscribe(
+      (data) => {
+        this.room = data;
+        console.log(this.room);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

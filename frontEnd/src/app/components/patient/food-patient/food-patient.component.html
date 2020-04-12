@@ -39,6 +39,8 @@
     </div>
   </div>
   <div *ngIf="patient?.comment" class="comment-footer">
-    Mis à jour le 22/03/2020 par <strong>{{ patient.comment.pseudo }}</strong>
+    Mis à jour le
+    {{ patient.comment.lastModification | date: "dd/MM/yyyy à HH:mm" }} par
+    <strong>{{ patient.comment.pseudo }}</strong>
   </div>
 </div>

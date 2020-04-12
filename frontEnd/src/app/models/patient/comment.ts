@@ -5,4 +5,6 @@ export class Comment {
   content: string;
   /***/
   pseudo: string;
+  /***/
+  lastModification: Date;
 }
