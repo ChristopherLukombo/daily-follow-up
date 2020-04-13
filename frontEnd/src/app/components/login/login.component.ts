@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
     );
     this.loginService.login(loginDTO).subscribe(
       (data) => {
-        localStorage.setItem("token", data.id_token);
+        this.loginService.setToken(data.id_token);
         this.router.navigate(["/patient"]);
       },
       (error) => {

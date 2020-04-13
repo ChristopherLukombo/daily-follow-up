@@ -4,9 +4,11 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { HttpClientModule } from "@angular/common/http";
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthGuard } from "./utils/helpers/auth.guard";
+
+import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
+import { NgxPaginationModule } from "ngx-pagination";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -23,7 +25,15 @@ import { PatientHistoryComponent } from "./components/patient-history/patient-hi
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
+import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
+import { CommentPatientComponent } from "./components/patient/food-patient/comment-patient/comment-patient.component";
+import { PatientNavbarComponent } from "./components/navbar-vertical/patient-navbar/patient-navbar.component";
+
 import { LoginService } from "./services/login/login.service";
+
+import { DetermineAgePipe } from "./utils/pipes/determine-age.pipe";
+import { SearchPipe, HighLightPipe } from "./utils/pipes/search.pipe";
+import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
 
 @NgModule({
   declarations: [
@@ -42,6 +52,13 @@ import { LoginService } from "./services/login/login.service";
     PatientAddComponent,
     LoginComponent,
     AlertErrorComponent,
+    DetermineAgePipe,
+    SearchPipe,
+    HighLightPipe,
+    AlertWarningComponent,
+    CommentPatientComponent,
+    PatientNavbarComponent,
+    getInitialsPipe,
   ],
   imports: [
     BrowserModule,
@@ -50,8 +67,13 @@ import { LoginService } from "./services/login/login.service";
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    NgxPaginationModule,
   ],
-  providers: [AuthGuard, LoginService],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    AuthGuard,
+    LoginService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

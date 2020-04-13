@@ -50,6 +50,13 @@ export class MenuComponent implements OnInit {
   }
 
   /**
+   * Retourne le pseudo
+   */
+  getPseudo(): string {
+    return this.loginService.getTokenPseudo();
+  }
+
+  /**
    * Déconnexion à l'application
    */
   onLogout(): void {

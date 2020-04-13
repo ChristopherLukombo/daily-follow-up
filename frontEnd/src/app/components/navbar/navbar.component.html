@@ -16,7 +16,7 @@
   </button>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul *ngIf="connected()" class="navbar-nav mr-auto">
       <li class="nav-item dropdown active">
         <a
           class="nav-link dropdown-toggle"
@@ -61,13 +61,9 @@
           <fa-icon [icon]="historyLogo"></fa-icon> Historique
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink="patient"
-            >Historique des patients</a
-          >
+          <a class="dropdown-item" href="#">Historique des patients</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="patient/add"
-            >Historique des menus</a
-          >
+          <a class="dropdown-item" href="#">Historique des menus</a>
         </div>
       </li>
     </ul>

@@ -1,31 +1,51 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-2">
-      <button type="button" class="btn btn-warning">
-        <fa-icon [icon]="editLogo"></fa-icon> Modifier
-      </button>
-      <br /><br />
-      <button type="button" class="btn btn-danger">
-        <fa-icon [icon]="deleteLogo"></fa-icon> Supprimer
-      </button>
-      <br /><br />
-      <button type="button" class="btn btn-primary" routerLink="history">
-        <fa-icon [icon]="historyLogo"></fa-icon> Historique
-      </button>
-      <br /><br />
-      <button type="button" class="btn btn-primary" (click)="goBack()">
-        <fa-icon [icon]="goBackLogo"></fa-icon> Retour
-      </button>
+      <app-patient-navbar></app-patient-navbar>
     </div>
-    <div class="col-sm-5">
-      <h4>Détail du patient n°11</h4>
+    <div class="col">
+      <div class="row">
+        <div *ngIf="loading" class="col"><app-loader></app-loader></div>
+        <div *ngIf="error" class="col">
+          <app-alert-error [content]="error"></app-alert-error>
+        </div>
+        <div *ngIf="!patient && !error && warning" class="col">
+          <app-alert-warning
+            [title]="warningTitle"
+            [content]="warning"
+          ></app-alert-warning>
+        </div>
+        <div *ngIf="patient" class="col">
+          <h4>Fiche détail du patient n°{{ patient?.id }}</h4>
+          <br />
+          <app-infos-patient [patient]="patient"></app-infos-patient>
+        </div>
+        <div *ngIf="patient" class="col">
+          <h4>Informations complémentaires</h4>
+          <br />
+          <app-food-patient [patient]="patient"></app-food-patient>
+        </div>
+      </div>
       <br />
-      <app-infos-patient></app-infos-patient>
-    </div>
-    <div class="col-sm-5">
-      <h4>Informations complémentaires</h4>
-      <br />
-      <app-food-patient></app-food-patient>
+      <div class="row" *ngIf="patient">
+        <div class="col">
+          <div class="space-between-btn">
+            <button type="button" class="btn btn-info" routerLink="history">
+              <fa-icon [icon]="historyLogo"></fa-icon> Historique
+            </button>
+            <button type="button" class="btn btn-warning">
+              <fa-icon [icon]="editLogo"></fa-icon> Modifier les informations
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="text-right">
+            <button type="button" class="btn btn-danger">
+              <fa-icon [icon]="deleteLogo"></fa-icon> Supprimer le patient
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
