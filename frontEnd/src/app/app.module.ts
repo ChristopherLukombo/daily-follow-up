@@ -38,6 +38,7 @@ import {
   OrderPipe,
 } from "./utils/pipes/search.pipe";
 import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
+import { PatientsImportComponent } from './components/patients-import/patients-import.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
     PatientNavbarComponent,
     getInitialsPipe,
     OrderPipe,
+    PatientsImportComponent,
   ],
   imports: [
     BrowserModule,
