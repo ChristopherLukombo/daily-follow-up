@@ -2,11 +2,11 @@ package fr.almavivahealth.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,8 +33,9 @@ public class Caregiver implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "user_id")
+	@ManyToOne
 	private User user;
 	
+	@ManyToOne
 	private Floor floor;
 }

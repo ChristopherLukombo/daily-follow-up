@@ -11,16 +11,12 @@ import javax.validation.constraints.Size;
  */
 public class Login {
 
-	public static final int PASSWORD_MIN_LENGTH = 4;
-
-	public static final int PASSWORD_MAX_LENGTH = 100;
-
 	@NotNull
 	@Size(min = 1, max = 50)
 	private String username;
 
 	@NotNull
-	@Size(min = PASSWORD_MIN_LENGTH, max = PASSWORD_MAX_LENGTH)
+	@Size(min = 4, max = 100)
 	private String password;
 
 	public String getUsername() {

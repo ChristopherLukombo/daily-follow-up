@@ -4,22 +4,16 @@
       <h5>Alimentation(s)</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Normale</td>
-          </tr>
-          <tr>
-            <td>Sans sel</td>
-          </tr>
-          <tr>
-            <td>Diabétique</td>
+          <tr *ngFor="let diet of patient?.diets">
+            <td>{{ diet.name }}</td>
           </tr>
         </tbody>
       </table>
       <h5>Texture</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Mixé</td>
+          <tr *ngIf="patient?.texture">
+            <td>{{ patient.texture.name }}</td>
           </tr>
         </tbody>
       </table>
@@ -28,26 +22,20 @@
       <h5>Allergie(s)</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Arachide</td>
-          </tr>
-          <tr>
-            <td>Fruits à coque</td>
+          <tr *ngFor="let allergy of patient?.allergies">
+            <td>{{ allergy.name }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
   <br />
-  <h5>Commentaire</h5>
-  <div class="comment">
-    <div class="comment-body">
-      <p>
-        A tendance à changer son menu la veille.
-      </p>
-    </div>
-  </div>
-  <div class="comment-footer">
-    Mis à jour le 22/03/2020 par <strong>lukombo_c</strong>
+  <app-comment-patient
+    (newComment)="newComment($event)"
+    [comment]="patient?.comment"
+  ></app-comment-patient>
+  <div *ngIf="loading"><app-loader></app-loader></div>
+  <div *ngIf="error">
+    <app-alert-error [content]="error"></app-alert-error>
   </div>
 </div>

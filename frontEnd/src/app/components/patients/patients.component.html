@@ -1,19 +1,28 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-2">
-      <button type="button" class="btn btn-primary" routerLink="add">
-        <fa-icon [icon]="addLogo"></fa-icon> Nouveau patient
-      </button>
+      <app-patient-navbar></app-patient-navbar>
     </div>
-    <div class="col-sm-5">
-      <h4>Patients de la clinique</h4>
-      <br />
-      <app-list-patients></app-list-patients>
-    </div>
-    <div class="col-sm-5">
-      <h4>Détail du patient</h4>
-      <br />
-      <app-detail-patient></app-detail-patient>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <h4>Patients de la clinique</h4>
+          <br />
+          <app-list-patients
+            (selectedPatient)="setPatient($event)"
+            [patients]="patients"
+          ></app-list-patients>
+          <div *ngIf="loading"><app-loader></app-loader></div>
+          <div *ngIf="error">
+            <app-alert-error [content]="error"></app-alert-error>
+          </div>
+        </div>
+        <div *ngIf="patient" class="col">
+          <h4>Détail du patient</h4>
+          <br />
+          <app-detail-patient [patient]="patient"></app-detail-patient>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -3,9 +3,14 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
+/**
+ * A DTO for the Allergy entity.
+ */
 @AllArgsConstructor
 @Builder
 public class AllergyDTO implements Serializable {
@@ -14,6 +19,7 @@ public class AllergyDTO implements Serializable {
 
 	private Long id;
 	
+	@NotNull
 	private String name;
 
 	public AllergyDTO() {

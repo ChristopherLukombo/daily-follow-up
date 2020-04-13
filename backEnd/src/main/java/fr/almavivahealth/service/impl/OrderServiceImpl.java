@@ -72,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
 	@Transactional(readOnly = true)
 	public List<OrderDTO> findAll() {
 		LOGGER.debug("Request to get all Orders");
-		return orderRepository.findAll().stream()
+		return orderRepository.findAllByOrderByIdDesc().stream()
 				.map(orderMapper::orderToOrderDTO).
 				collect(Collectors.toList());
 	}

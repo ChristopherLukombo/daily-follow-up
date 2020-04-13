@@ -43,6 +43,6 @@ public class Room implements Serializable {
     @Column(nullable = false)
 	private boolean state;
 	
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
 	private List<Patient> patients;
 }

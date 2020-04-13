@@ -5,12 +5,14 @@ import java.util.Objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 
-@Data
+/**
+ * A DTO for the Texture entity.
+ */
 @AllArgsConstructor
 @Builder
 public class TextureDTO implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 
 	private Long id;

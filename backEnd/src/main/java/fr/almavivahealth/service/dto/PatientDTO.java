@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -40,10 +39,6 @@ public class PatientDTO implements Serializable {
 	private LocalDate dateOfBirth;
 	
 	private AddressDTO address;
-	
-	@NotNull
-	@Pattern(regexp = "^(([0-8][0-9])|(9[0-5]))[0-9]{3}$")
-	private String postalCode;
 
 	@Pattern(regexp = "^[+](\\d{3})\\)?(\\d{3})(\\d{5,6})$|^(\\d{10,10})$")
 	private String phoneNumber;
@@ -72,6 +67,8 @@ public class PatientDTO implements Serializable {
 	private List<OrderDTO> orders;
 
 	private CommentDTO comment;
+	
+	private Long roomId;
 	
 	public PatientDTO() {
 		// Empty constructor needed for Jackson.
@@ -131,14 +128,6 @@ public class PatientDTO implements Serializable {
 
 	public void setAddress(final AddressDTO address) {
 		this.address = address;
-	}
-
-	public String getPostalCode() {
-		return postalCode;
-	}
-
-	public void setPostalCode(final String postalCode) {
-		this.postalCode = postalCode;
 	}
 
 	public String getPhoneNumber() {
@@ -245,10 +234,18 @@ public class PatientDTO implements Serializable {
 		this.comment = comment;
 	}
 
+	public Long getRoomId() {
+		return roomId;
+	}
+
+	public void setRoomId(final Long roomId) {
+		this.roomId = roomId;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(address, allergies, bloodGroup, comment, dateOfBirth, diets, email, firstName, height, id,
-				job, lastName, mobilePhone, orders, phoneNumber, postalCode, sex, situation, state, texture, weight);
+				job, lastName, mobilePhone, orders, phoneNumber, roomId, sex, situation, state, texture, weight);
 	}
 
 	@Override
@@ -267,7 +264,7 @@ public class PatientDTO implements Serializable {
 				&& Objects.equals(height, other.height) && Objects.equals(id, other.id)
 				&& Objects.equals(job, other.job) && Objects.equals(lastName, other.lastName)
 				&& Objects.equals(mobilePhone, other.mobilePhone) && Objects.equals(orders, other.orders)
-				&& Objects.equals(phoneNumber, other.phoneNumber) && Objects.equals(postalCode, other.postalCode)
+				&& Objects.equals(phoneNumber, other.phoneNumber) && Objects.equals(roomId, other.roomId)
 				&& Objects.equals(sex, other.sex) && Objects.equals(situation, other.situation)
 				&& Objects.equals(state, other.state) && Objects.equals(texture, other.texture)
 				&& Objects.equals(weight, other.weight);
@@ -310,11 +307,6 @@ public class PatientDTO implements Serializable {
 		if (address != null) {
 			builder.append("address=");
 			builder.append(address);
-			builder.append(", ");
-		}
-		if (postalCode != null) {
-			builder.append("postalCode=");
-			builder.append(postalCode);
 			builder.append(", ");
 		}
 		if (phoneNumber != null) {
@@ -380,6 +372,11 @@ public class PatientDTO implements Serializable {
 		if (comment != null) {
 			builder.append("comment=");
 			builder.append(comment);
+			builder.append(", ");
+		}
+		if (roomId != null) {
+			builder.append("roomId=");
+			builder.append(roomId);
 		}
 		builder.append("]");
 		return builder.toString();

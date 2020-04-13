@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,13 +23,15 @@ import fr.almavivahealth.security.jwt.TokenProvider;
 import fr.almavivahealth.web.Login;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * UserResource to authenticate users.
  * 
  * @author christopher
  */
-@Api(value = "User")
+@Api("User")
 @RestController
 @RequestMapping("/api")
 public class UserResource {
@@ -36,8 +39,8 @@ public class UserResource {
 	private final TokenProvider tokenProvider;
 
 	private final AuthenticationManager authenticationManager;
-
-	@Autowired
+	
+    @Autowired
 	public UserResource(final TokenProvider tokenProvider, final AuthenticationManager authenticationManager) {
 		this.tokenProvider = tokenProvider;
 		this.authenticationManager = authenticationManager;
@@ -49,7 +52,13 @@ public class UserResource {
 	 * @param login
 	 * @return JWTToken
 	 */
-	@ApiOperation(value = "Authenticate the user and return the token which identify him.")
+	@ApiOperation("Authenticate the user and return the token which identify him.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PostMapping("/authenticate")
 	public ResponseEntity<JWTToken> authorize(@Valid @RequestBody final Login login) {
 
@@ -57,7 +66,8 @@ public class UserResource {
 				login.getUsername(), login.getPassword());
 
 		final Authentication authentication = this.authenticationManager.authenticate(authenticationToken);
-		SecurityContextHolder.getContext().setAuthentication(authentication);
+		final SecurityContext securityContext = SecurityContextHolder.getContext();
+		securityContext.setAuthentication(authentication);
 		final String jwt = tokenProvider.createToken(authentication);
 		final HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
@@ -68,7 +78,7 @@ public class UserResource {
 	 * Object to return as body in JWT Authentication.
 	 */
 	static class JWTToken {
-
+		
 		private String idToken;
 
 		public JWTToken(final String idToken) {
@@ -83,5 +93,7 @@ public class UserResource {
 		void setIdToken(final String idToken) {
 			this.idToken = idToken;
 		}
+		
 	}
+	
 }

@@ -4,18 +4,19 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -59,9 +60,9 @@ public class Patient implements Serializable {
 	
 	private LocalDate dateOfBirth;
 	
+	@OneToOne(cascade = CascadeType.ALL)
 	private Address address;
 
-	@Pattern(regexp = "^[+](\\d{3})\\)?(\\d{3})(\\d{5,6})$|^(\\d{10,10})$")
 	private String phoneNumber;
 
 	private String mobilePhone;
@@ -81,18 +82,21 @@ public class Patient implements Serializable {
 	@NotNull
 	private Boolean state;
 
-	@ManyToOne
+	@OneToOne
 	private Texture texture;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Diet> diets;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Allergy> allergies;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
 	private List<Order> orders;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Comment comment;
+	
+	@ManyToOne
+	private Room room;
 }

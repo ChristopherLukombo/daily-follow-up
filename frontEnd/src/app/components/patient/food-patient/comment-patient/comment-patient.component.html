@@ -1,0 +1,51 @@
+<div class="comment-patient">
+  <h5>
+    Commentaire
+    <button
+      *ngIf="!commentEdition"
+      type="button"
+      (click)="onEditForm()"
+      class="btn btn-light btn-sm"
+    >
+      <fa-icon [icon]="editLogo"></fa-icon> Editer
+    </button>
+    <div *ngIf="commentEdition" class="btn-group btn-group-sm" role="group">
+      <button
+        type="button"
+        (click)="onCancelForm()"
+        class="btn btn-light btn-sm"
+      >
+        <fa-icon [icon]="cancelLogo"></fa-icon> Annuler
+      </button>
+      <button
+        type="button"
+        (click)="onSubmitForm()"
+        class="btn btn-light btn-sm"
+      >
+        <fa-icon [icon]="submitLogo"></fa-icon> Enregistrer
+      </button>
+    </div>
+  </h5>
+  <div *ngIf="!commentEdition">
+    <div class="comment">
+      <div class="comment-body">
+        <p>
+          {{ comment?.content }}
+        </p>
+      </div>
+    </div>
+    <div *ngIf="comment" class="comment-footer">
+      Mis à jour le
+      {{ comment.lastModification | date: "dd/MM/yyyy à HH:mm" }} par
+      <strong>{{ comment.pseudo }}</strong>
+    </div>
+  </div>
+  <div *ngIf="commentEdition" class="form-group">
+    <textarea
+      class="form-control"
+      [(ngModel)]="content"
+      rows="3"
+      placeholder="Nouveau commentaire"
+    ></textarea>
+  </div>
+</div>

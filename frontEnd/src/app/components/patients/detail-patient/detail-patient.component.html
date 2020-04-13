@@ -5,15 +5,15 @@
         <tbody>
           <tr>
             <th>Nom</th>
-            <td>Toto</td>
+            <td>{{ patient?.lastName }}</td>
           </tr>
           <tr>
             <th>Prénom</th>
-            <td>Jacob</td>
+            <td>{{ patient?.firstName }}</td>
           </tr>
           <tr>
             <th>Sexe</th>
-            <td>Masculin</td>
+            <td>{{ patient?.sex }}</td>
           </tr>
         </tbody>
       </table>
@@ -23,15 +23,15 @@
         <tbody>
           <tr>
             <th>Âge</th>
-            <td>46 ans</td>
+            <td>{{ patient?.dateOfBirth | age }}</td>
           </tr>
           <tr>
             <th>Date de naissance</th>
-            <td>23/05/1974</td>
+            <td>{{ patient?.dateOfBirth | date: "dd/MM/yyyy" }}</td>
           </tr>
           <tr>
             <th>Groupe sanguin</th>
-            <td>O+</td>
+            <td>{{ patient?.bloodGroup }}</td>
           </tr>
         </tbody>
       </table>
@@ -43,22 +43,16 @@
       <h5>Alimentation(s)</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Normale</td>
-          </tr>
-          <tr>
-            <td>Sans sel</td>
-          </tr>
-          <tr>
-            <td>Diabétique</td>
+          <tr *ngFor="let diet of patient?.diets">
+            <td>{{ diet.name }}</td>
           </tr>
         </tbody>
       </table>
       <h5>Texture</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Mixé</td>
+          <tr *ngIf="patient?.texture">
+            <td>{{ patient.texture.name }}</td>
           </tr>
         </tbody>
       </table>
@@ -67,11 +61,8 @@
       <h5>Allergie(s)</h5>
       <table class="table table-bordered">
         <tbody>
-          <tr>
-            <td>Arachide</td>
-          </tr>
-          <tr>
-            <td>Fruits à coque</td>
+          <tr *ngFor="let allergy of patient?.allergies">
+            <td>{{ allergy.name }}</td>
           </tr>
         </tbody>
       </table>
@@ -80,9 +71,12 @@
   <br />
   <div class="row">
     <div class="col-md-5 offset-md-7 text-right">
-      <button type="button" class="btn btn-primary" routerLink="details">
-        <fa-icon [icon]="moreDetailsLogo"></fa-icon> Plus de detail
-      </button>
+      <a
+        class="nav-link"
+        routerLink="details"
+        [queryParams]="{ id: patient?.id }"
+        ><fa-icon [icon]="moreDetailsLogo"></fa-icon> Plus de detail</a
+      >
     </div>
   </div>
 </div>

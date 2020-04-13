@@ -3,6 +3,9 @@ package fr.almavivahealth.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.PatientDTO;
 
 /**
@@ -47,4 +50,13 @@ public interface PatientService {
 	 * @param id the id of the entity
 	 */
 	void delete(Long id);
+	
+	/**
+	 * Import patient file in database.
+	 *
+	 * @param fileToImport the file to import
+	 * @return the list of entities
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	List<PatientDTO> importPatientFile(MultipartFile fileToImport) throws DailyFollowUpException;
 }

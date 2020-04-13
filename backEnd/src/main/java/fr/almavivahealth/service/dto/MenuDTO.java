@@ -1,11 +1,22 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class MenuDTO {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
-    private Long id;
+/**
+ * A DTO for the Menu entity.
+ */
+@AllArgsConstructor
+@Builder
+public class MenuDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private Long id;
 	
 	private LocalDate startDate;
 	
@@ -14,6 +25,8 @@ public class MenuDTO {
 	private Integer weekNumber;
 	
 	private Long textureId;
+	
+	private Long dietId;
 
 	public MenuDTO() {
 		// Empty constructor needed for Jackson.
@@ -59,9 +72,17 @@ public class MenuDTO {
 		this.textureId = textureId;
 	}
 
+	public Long getDietId() {
+		return dietId;
+	}
+
+	public void setDietId(final Long dietId) {
+		this.dietId = dietId;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(endDate, id, startDate, textureId, weekNumber);
+		return Objects.hash(dietId, endDate, id, startDate, textureId, weekNumber);
 	}
 
 	@Override
@@ -73,9 +94,9 @@ public class MenuDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		final MenuDTO other = (MenuDTO) obj;
-		return Objects.equals(endDate, other.endDate) && Objects.equals(id, other.id)
-				&& Objects.equals(startDate, other.startDate) && Objects.equals(textureId, other.textureId)
-				&& Objects.equals(weekNumber, other.weekNumber);
+		return Objects.equals(dietId, other.dietId) && Objects.equals(endDate, other.endDate)
+				&& Objects.equals(id, other.id) && Objects.equals(startDate, other.startDate)
+				&& Objects.equals(textureId, other.textureId) && Objects.equals(weekNumber, other.weekNumber);
 	}
 
 	@Override
@@ -105,6 +126,11 @@ public class MenuDTO {
 		if (textureId != null) {
 			builder.append("textureId=");
 			builder.append(textureId);
+			builder.append(", ");
+		}
+		if (dietId != null) {
+			builder.append("dietId=");
+			builder.append(dietId);
 		}
 		builder.append("]");
 		return builder.toString();

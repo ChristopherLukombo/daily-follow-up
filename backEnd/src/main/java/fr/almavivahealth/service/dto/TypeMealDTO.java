@@ -1,8 +1,20 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class TypeMealDTO {
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+/**
+ * A DTO for the TypeMeal entity.
+ */
+@AllArgsConstructor
+@Builder
+public class TypeMealDTO implements Serializable  {
+
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
 
 	private String name;

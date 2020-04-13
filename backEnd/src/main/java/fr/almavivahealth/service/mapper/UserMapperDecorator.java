@@ -1,5 +1,6 @@
 package fr.almavivahealth.service.mapper;
 
+import fr.almavivahealth.domain.Role;
 import fr.almavivahealth.domain.User;
 import fr.almavivahealth.service.dto.UserDTO;
 
@@ -27,7 +28,17 @@ public abstract class UserMapperDecorator implements UserMapper {
             user.setEmail(userDTO.getEmail());
             user.setImageUrl(userDTO.getImageUrl());
             user.setStatus(userDTO.isStatus());
+            user.setBirthDay(userDTO.getBirthDay());
+            final Role role = buildRole(userDTO);
+			user.setRole(role);
             return user;
         }
     }
+
+	private Role buildRole(final UserDTO userDTO) {
+		final String roleName = userDTO.getRoleName();
+		return Role.builder()
+				.name(roleName)
+				.build();
+	}
 }

@@ -1,16 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ListPatientsComponent } from './list-patients.component';
+import { ListPatientsComponent } from "./list-patients.component";
+import { NgxPaginationModule } from "ngx-pagination";
+import { SearchPipe, OrderPipe } from "src/app/utils/pipes/search.pipe";
 
-describe('ListPatientsComponent', () => {
+describe("ListPatientsComponent", () => {
   let component: ListPatientsComponent;
   let fixture: ComponentFixture<ListPatientsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListPatientsComponent ]
-    })
-    .compileComponents();
+      imports: [NgxPaginationModule],
+      declarations: [ListPatientsComponent, SearchPipe, OrderPipe],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +21,7 @@ describe('ListPatientsComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

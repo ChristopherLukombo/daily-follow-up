@@ -1,19 +1,14 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  faAngleDoubleLeft,
-  faPlus,
-  faMinus
-} from "@fortawesome/free-solid-svg-icons";
-import { Diet } from "src/app/models/diet";
-import { Texture } from "src/app/models/texture";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { Diet } from "src/app/models/patient/diet";
+import { Texture } from "src/app/models/food/texture";
 
 @Component({
   selector: "app-patient-add",
   templateUrl: "./patient-add.component.html",
-  styleUrls: ["./patient-add.component.scss"]
+  styleUrls: ["./patient-add.component.scss"],
 })
 export class PatientAddComponent implements OnInit {
-  goBackLogo = faAngleDoubleLeft;
   addLogo = faPlus;
   removeLogo = faMinus;
 
@@ -26,12 +21,12 @@ export class PatientAddComponent implements OnInit {
     { id: 3, name: "Hyperprotéiné" },
     { id: 4, name: "Sans sel" },
     { id: 5, name: "Sans résidu" },
-    { id: 6, name: "Diabétique" }
+    { id: 6, name: "Diabétique" },
   ];
   texturesAvailable: Array<Texture> = [
     { id: 1, name: "Normale" },
     { id: 2, name: "Haché" },
-    { id: 3, name: "Mixé" }
+    { id: 3, name: "Mixé" },
   ];
 
   constructor() {}

@@ -72,7 +72,7 @@ public class FloorServiceImpl implements FloorService {
 	@Transactional(readOnly = true)
 	public List<FloorDTO> findAll() {
 		LOGGER.debug("Request to get all Floors");
-		return floorRepository.findAll().stream()
+		return floorRepository.findAllByOrderByIdDesc().stream()
 				.map(floorMapper::floorToFloorDTO)
 				.collect(Collectors.toList());
 	}

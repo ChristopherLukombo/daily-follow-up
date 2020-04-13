@@ -25,13 +25,16 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.OrderService;
 import fr.almavivahealth.service.dto.OrderDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Order.
  * 
  * @author christopher
  */
-@Api(value = "Order")
+@Api("Order")
 @RestController
 @RequestMapping("/api")
 public class OrderResource {
@@ -55,13 +58,20 @@ public class OrderResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new order.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PostMapping("/orders")
 	public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody final OrderDTO orderDTO)
 			throws URISyntaxException, DailyFollowUpException {
 		LOGGER.debug("REST request to save Order : {}", orderDTO);
 		if (orderDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new order cannot already have an ID idexists {}" + orderDTO.getId());
+					"A new order cannot already have an ID idexists " + orderDTO.getId());
 		}
 		final OrderDTO result = orderService.save(orderDTO);
 		return ResponseEntity.created(new URI("/api/orders/" + result.getId())).body(result);
@@ -76,15 +86,22 @@ public class OrderResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a order.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@PutMapping("/orders")
 	public ResponseEntity<OrderDTO> updateOrder(@Valid @RequestBody final OrderDTO orderDTO)
 			throws DailyFollowUpException {
 		LOGGER.debug("REST request to update Order : {}", orderDTO);
 		if (orderDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A order must have an ID idexists {}" + orderDTO.getId());
+					"A order must have an ID idexists " + orderDTO.getId());
 		}
-		final OrderDTO result = orderService.save(orderDTO);
+		final OrderDTO result = orderService.update(orderDTO);
 		return ResponseEntity.ok().body(result);
 	}
 	
@@ -95,6 +112,14 @@ public class OrderResource {
 	 * or with status 204 (No Content) if there is no order.
 	 *         
 	 */
+	@ApiOperation("Get all the orders.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/orders")
 	public ResponseEntity<List<OrderDTO>> getAllOrders() {
 		LOGGER.debug("REST request to get All Orders");
@@ -112,6 +137,14 @@ public class OrderResource {
 	 * or with status 204 (No Content) if the order does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" order.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/orders/{id}")
 	public ResponseEntity<OrderDTO> getOrder(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Order : {}", id);
@@ -129,6 +162,13 @@ public class OrderResource {
 	 * @param id the id of the orderDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" order.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/orders/{id}")
 	public ResponseEntity<Void> deleteOrder(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Order : {}", id);

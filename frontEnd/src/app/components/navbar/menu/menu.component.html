@@ -1,16 +1,22 @@
-<div class="menu">
+<div *ngIf="connected()" class="menu">
   <span class="user" (click)="openDetails()">
-    NK
+    {{ getPseudo() | initialsOnly }}
   </span>
   <div *ngIf="opened" class="menu-popover">
     <div class="menu-details">
-      <h6><strong>Neal KEMISSI</strong></h6>
+      <h5>
+        {{ getPseudo() }}
+      </h5>
       <a class="menu-item" href="#">Modifier mes informations</a>
       <div class="divider"></div>
       <a class="menu-item" href="#">Ajouter un(e) aide-soignant(e)</a>
       <a class="menu-item" href="#">Ajouter un(e) diététicien(ne)</a>
       <div class="divider"></div>
-      <button class="btn btn-danger my-2 my-sm-1" type="submit">
+      <button
+        class="btn btn-danger my-2 my-sm-1"
+        type="submit"
+        (click)="onLogout()"
+      >
         <fa-icon [icon]="logoutLogo"></fa-icon> Déconnexion
       </button>
     </div>

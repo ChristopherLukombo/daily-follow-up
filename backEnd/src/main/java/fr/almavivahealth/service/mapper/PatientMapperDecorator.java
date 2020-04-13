@@ -9,6 +9,7 @@ import fr.almavivahealth.domain.Allergy;
 import fr.almavivahealth.domain.Comment;
 import fr.almavivahealth.domain.Diet;
 import fr.almavivahealth.domain.Patient;
+import fr.almavivahealth.domain.Room;
 import fr.almavivahealth.service.dto.AddressDTO;
 import fr.almavivahealth.service.dto.AllergyDTO;
 import fr.almavivahealth.service.dto.CommentDTO;
@@ -47,6 +48,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.diets(this.buildDietsDTO(patient))
 				.allergies(this.buildAllergiesDTO(patient))
 				.comment(this.buildCommentDTO(patient))
+				.roomId(this.buildRoomDTO(patient))
 				.build();
 	}
 	
@@ -100,7 +102,16 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.id(patient.getId())
 				.content(patient.getComment().getContent())
 				.pseudo(patient.getComment().getPseudo())
+				.lastModification(patient.getComment().getLastModification())
 				.build();
+	}
+	
+	private Long buildRoomDTO(final Patient patient) {
+		final Room room = patient.getRoom();
+		if (room == null) {
+			return null;
+		}
+		return room.getId();
 	}
 
 	@Override
@@ -128,6 +139,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.diets(this.buildDiets(patientDTO))
 				.allergies(this.buildAllergies(patientDTO))
 				.comment(this.buildComment(patientDTO))
+				.room(this.buildRoom(patientDTO))
 				.build();
 	}
 	
@@ -181,6 +193,16 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.id(patientDTO.getId())
 				.content(patientDTO.getComment().getContent())
 				.pseudo(patientDTO.getComment().getPseudo())
+				.lastModification(patientDTO.getComment().getLastModification())
+				.build();
+	}
+	
+	private Room buildRoom(final PatientDTO patientDTO) {
+		if (patientDTO.getRoomId() == null) {
+			return null;
+		} 
+		return Room.builder()
+				.id(patientDTO.getRoomId())
 				.build();
 	}
 }

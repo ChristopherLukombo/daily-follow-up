@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.config.Constants;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.PatientDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Patient.
  * 
  * @author christopher
  */
-@Api(value = "Patient")
+@Api("Patient")
 @RestController
 @RequestMapping("/api")
 public class PatientResource {
@@ -55,6 +62,14 @@ public class PatientResource {
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Create a new patient.")
+	@ApiResponses({
+        @ApiResponse(code = 201, message = "Created"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PostMapping("/patients")
 	public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,6 +91,14 @@ public class PatientResource {
 	 *         already an ID
 	 * @throws DailyFollowUpException
 	 */
+	@ApiOperation("Update a patient.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 422, message = "Unprocessable entity")
+        })
 	@PutMapping("/patients")
 	public ResponseEntity<PatientDTO> updatePatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws DailyFollowUpException {
@@ -84,7 +107,7 @@ public class PatientResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A patient must have an ID idexists {}" + patientDTO.getId());
 		}
-		final PatientDTO result = patientService.save(patientDTO);
+		final PatientDTO result = patientService.update(patientDTO);
 		return ResponseEntity.ok().body(result);
 	}
 	
@@ -95,6 +118,14 @@ public class PatientResource {
 	 * or with status 204 (No Content) if there is no patient.
 	 *         
 	 */
+	@ApiOperation("Get all the patients.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/patients")
 	public ResponseEntity<List<PatientDTO>> getAllPatients() {
 		LOGGER.debug("REST request to get All Patients");
@@ -112,6 +143,14 @@ public class PatientResource {
 	 * or with status 204 (No Content) if the patient does not exist.
 	 *         
 	 */
+	@ApiOperation("Get the \"id\" patient")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Patient : {}", id);
@@ -129,10 +168,50 @@ public class PatientResource {
 	 * @param id the id of the patientDTO to delete
 	 * @return the ResponseEntity with status 204 (OK)
 	 */
+	@ApiOperation("Delete the \"id\" patient.")
+	@ApiResponses({
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<Void> deletePatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Patient : {}", id);
 		patientService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+	
+	/**
+	 * POST /patients/import : Import patient file.
+	 *
+	 * @param id the id of the patientDTO to delete
+	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
+	 */
+	@ApiOperation("Import patient file.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 409, message = "Conflict"),
+        @ApiResponse(code = 422, message = "Unprocessable entity"),
+        @ApiResponse(code = 500, message = "Internal Server"),
+        })
+	@PostMapping("/patients/import")
+	public ResponseEntity<List<PatientDTO>> importPatientFile(@RequestPart final MultipartFile inputfile)
+			throws DailyFollowUpException {
+		LOGGER.debug("Request to import patient file : {}", inputfile.getName());
+		if (!Constants.CSV.equalsIgnoreCase(FilenameUtils.getExtension(inputfile.getOriginalFilename()))) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "the file must be of type CSV");
+		}
+		List<PatientDTO> patients;
+		try {
+			patients = patientService.importPatientFile(inputfile);
+		} catch (final DailyFollowUpException|IndexOutOfBoundsException e) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					"An error occurred while trying to import the patients", e);
+		}
+		return ResponseEntity.ok().body(patients);
+	}
+	
 }

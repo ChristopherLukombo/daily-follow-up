@@ -1,12 +1,27 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class RoomDTO {
+import javax.validation.constraints.NotNull;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+/**
+ * A DTO for the Room entity.
+ */
+@AllArgsConstructor
+@Builder
+public class RoomDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
 
 	private String number;
 
+	@NotNull
 	private boolean state;
 
 	public RoomDTO() {

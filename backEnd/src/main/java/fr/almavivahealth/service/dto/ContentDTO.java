@@ -1,16 +1,32 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class ContentDTO {
+import javax.validation.constraints.NotNull;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
+/**
+ * A DTO for the Content entity.
+ */
+@AllArgsConstructor
+@Builder
+public class ContentDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private Long id;
 
 	private String name;
 
 	private Long textureId;
 
+	@NotNull
 	private boolean salt;
 
+	@NotNull
 	private boolean sugar;
 
 	public ContentDTO() {

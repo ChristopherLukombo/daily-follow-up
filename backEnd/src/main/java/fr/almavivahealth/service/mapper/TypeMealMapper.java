@@ -3,10 +3,8 @@ package fr.almavivahealth.service.mapper;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
 import org.mapstruct.ReportingPolicy;
 
-import fr.almavivahealth.domain.Texture;
 import fr.almavivahealth.domain.TypeMeal;
 import fr.almavivahealth.service.dto.TypeMealDTO;
 
@@ -18,12 +16,10 @@ import fr.almavivahealth.service.dto.TypeMealDTO;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TypeMealMapper {
 
-	@Mappings({
-		@Mapping(source = "id", target = "id"),
-		@Mapping(source = "name", target = "name"),
-	})
+	@Mapping(source = "id", target = "id")
+	@Mapping(source = "name", target = "name")
 	TypeMealDTO typeMealToTypeMealDTO(TypeMeal typeMeal);
 
 	@InheritInverseConfiguration
-	Texture typeMealDTOToTypeMeal(TypeMeal typeMealDTO);
+	TypeMeal typeMealDTOToTypeMeal(TypeMealDTO typeMealDTO);
 }
