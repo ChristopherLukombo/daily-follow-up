@@ -14,15 +14,18 @@ export class ListPatientsComponent implements OnInit {
 
   page: number = 1;
   lastName: string;
+  firstName: string;
 
   @Input() patients: Patient[] = [];
   @Output() selectedPatient = new EventEmitter<Patient>();
+  selectedRow: number;
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  selectPatient(patient: Patient): void {
+  selectPatient(patient: Patient, index: number): void {
+    this.selectedRow = index;
     this.selectedPatient.emit(patient);
   }
 }
