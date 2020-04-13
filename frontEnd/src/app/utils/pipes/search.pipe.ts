@@ -5,11 +5,11 @@ import { Pipe, PipeTransform, Injectable } from "@angular/core";
 })
 @Injectable()
 export class SearchPipe implements PipeTransform {
-  transform(items: any[], value: string, search: string): any[] {
-    if (!search || !value) return items;
+  transform(items: any[], field: string, search: string): any[] {
+    if (!search || !field) return items;
 
     return items.filter((item) => {
-      const filter = item[value]
+      const filter = item[field]
         .toString()
         .toLowerCase()
         .includes(search.toLowerCase());
@@ -32,5 +32,17 @@ export class HighLightPipe implements PipeTransform {
         new RegExp(args, "gi"),
         '<span class="highlight">' + args + "</span>"
       );
+  }
+}
+
+@Pipe({
+  name: "orderBy",
+})
+@Injectable()
+export class OrderPipe implements PipeTransform {
+  transform(items: any[], field: string): any[] {
+    if (!field) return items;
+
+    return items.sort((a: any, b: any) => a[field].localeCompare(b[field]));
   }
 }

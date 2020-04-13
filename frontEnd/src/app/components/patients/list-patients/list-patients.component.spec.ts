@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { ListPatientsComponent } from "./list-patients.component";
 import { NgxPaginationModule } from "ngx-pagination";
-import { SearchPipe } from "src/app/utils/pipes/search.pipe";
+import { SearchPipe, OrderPipe } from "src/app/utils/pipes/search.pipe";
 
 describe("ListPatientsComponent", () => {
   let component: ListPatientsComponent;
@@ -11,7 +11,7 @@ describe("ListPatientsComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [NgxPaginationModule],
-      declarations: [ListPatientsComponent, SearchPipe],
+      declarations: [ListPatientsComponent, SearchPipe, OrderPipe],
     }).compileComponents();
   }));
 

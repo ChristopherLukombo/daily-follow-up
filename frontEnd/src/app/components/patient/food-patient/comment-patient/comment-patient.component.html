@@ -27,10 +27,10 @@
     </div>
   </h5>
   <div *ngIf="!commentEdition">
-    <div *ngIf="comment" class="comment">
+    <div class="comment">
       <div class="comment-body">
         <p>
-          {{ comment.content }}
+          {{ comment?.content }}
         </p>
       </div>
     </div>

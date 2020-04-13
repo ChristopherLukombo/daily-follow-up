@@ -3,4 +3,14 @@ tbody {
     background-color: #b8daff;
     cursor: pointer;
   }
+  tr.active {
+    background-color: #b8daff;
+    cursor: default;
+    border: 1px solid #c7cbcf;
+    th,
+    td {
+      border-top: 1px solid #c7cbcf;
+      border-bottom: 1px solid #c7cbcf;
+    }
+  }
 }

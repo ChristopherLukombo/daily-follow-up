@@ -32,7 +32,11 @@ import { PatientNavbarComponent } from "./components/navbar-vertical/patient-nav
 import { LoginService } from "./services/login/login.service";
 
 import { DetermineAgePipe } from "./utils/pipes/determine-age.pipe";
-import { SearchPipe, HighLightPipe } from "./utils/pipes/search.pipe";
+import {
+  SearchPipe,
+  HighLightPipe,
+  OrderPipe,
+} from "./utils/pipes/search.pipe";
 import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
 
 @NgModule({
@@ -59,6 +63,7 @@ import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
     CommentPatientComponent,
     PatientNavbarComponent,
     getInitialsPipe,
+    OrderPipe,
   ],
   imports: [
     BrowserModule,
