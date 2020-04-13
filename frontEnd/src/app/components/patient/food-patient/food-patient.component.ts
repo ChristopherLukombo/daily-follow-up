@@ -20,11 +20,10 @@ export class FoodPatientComponent implements OnInit {
   ngOnInit(): void {}
 
   newComment(comment: Comment): void {
+    this.error = undefined;
     this.loading = true;
     let dto = this.getPatientDTO();
-    console.log(dto.comment);
     dto.comment = comment;
-    console.log(dto.comment);
     this.patientService.updatePatient(dto).subscribe(
       (data) => {
         this.loading = false;
