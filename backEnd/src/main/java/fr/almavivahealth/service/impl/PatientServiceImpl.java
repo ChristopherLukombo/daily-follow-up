@@ -189,12 +189,10 @@ public class PatientServiceImpl implements PatientService {
 	    final Set<String> dietNames = stringToSet(columns[14]);
 	    final Set<String> allergyNames = stringToSet(columns[15]);
 
-	    final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 13))
-	    		.orElseGet(()-> null);
+		final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 13)).orElseGet(() -> null);
 	    final List<Diet> diets = dietRepository.findAllByNameIgnoreCaseIn(dietNames);
 	    final List<Allergy> allergies = allergyRepository.findAllByNameIgnoreCaseIn(allergyNames);
-	    final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 16))
-	    		.orElseGet(()-> null);
+		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 16)).orElseGet(() -> null);
 	    
 		final Address address = buildAddress(columns);
 	    
@@ -243,4 +241,5 @@ public class PatientServiceImpl implements PatientService {
 				.map(String::trim)
 				.collect(Collectors.toSet());
 	}
+
 }
