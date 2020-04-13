@@ -18,13 +18,15 @@ export class InfosPatientComponent implements OnInit {
   constructor(private clinicService: ClinicService) {}
 
   ngOnInit(): void {
-    this.clinicService.getRoom(this.patient.roomId).subscribe(
-      (data) => {
-        this.room = data;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    if (this.patient) {
+      this.clinicService.getRoom(this.patient.roomId).subscribe(
+        (data) => {
+          this.room = data;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   }
 }

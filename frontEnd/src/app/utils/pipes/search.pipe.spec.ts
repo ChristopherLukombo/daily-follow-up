@@ -1,4 +1,4 @@
-import { SearchPipe, HighLightPipe } from "./search.pipe";
+import { SearchPipe, HighLightPipe, OrderPipe } from "./search.pipe";
 
 describe("SearchPipe", () => {
   let pipe: SearchPipe;
@@ -103,7 +103,7 @@ describe("HightLightPipe", () => {
     expect(actual).toEqual(expected);
   });
 
-  it("providing value but with args returns value with highlighted args", () => {
+  it("providing value with args returns value with highlighted args", () => {
     const value = "This is an awesome unit test of the pipe hightlight";
     const args = "an awesome unit test";
 
@@ -113,6 +113,53 @@ describe("HightLightPipe", () => {
       args,
       `<span class="highlight">${args}</span>`
     );
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe("OrderPipe", () => {
+  let pipe: OrderPipe;
+
+  beforeEach(() => {
+    pipe = new OrderPipe();
+  });
+
+  it("create an instance", () => {
+    expect(pipe).toBeTruthy();
+  });
+
+  it("providing items but no field to order returns same items", () => {
+    const items = [
+      { firstProperty: "aRandomValue", secondProperty: "anotherRandomValue" },
+      { firstProperty: "anotherOne", secondProperty: "RandomValueAgain" },
+    ];
+    const field = "";
+
+    const actual = pipe.transform(items, field);
+
+    const expected = items;
+    expect(actual).toEqual(expected);
+  });
+
+  it("providing items with field to order returns items ordered asc", () => {
+    const firstItem = {
+      firstProperty: "theRandomValue",
+      secondProperty: "anotherRandomValue",
+    };
+    const secondItem = {
+      firstProperty: "anotherOne",
+      secondProperty: "RandomValueAgain",
+    };
+    const thirdItem = {
+      firstProperty: "myRandomAgain",
+      secondProperty: "shouldBeNotIncludedInResult",
+    };
+    const items = [firstItem, secondItem, thirdItem];
+    const field = "firstProperty";
+
+    const actual = pipe.transform(items, field);
+
+    const expected = [secondItem, thirdItem, firstItem];
     expect(actual).toEqual(expected);
   });
 });
