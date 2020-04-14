@@ -10,7 +10,11 @@ import { PatientsImportComponent } from "./components/patients-import/patients-i
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
-  { path: "patient", component: PatientsComponent, canActivate: [AuthGuard] },
+  {
+    path: "patient/all",
+    component: PatientsComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: "patient/details",
     component: PatientComponent,

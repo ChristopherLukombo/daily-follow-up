@@ -1,17 +1,61 @@
-<nav class="nav flex-column">
-  <a class="nav-link" routerLink="/patient/add"
-    ><fa-icon [icon]="addLogo"></fa-icon> Nouveau patient</a
-  >
-  <a class="nav-link" routerLink="/patient/import"
-    ><fa-icon [icon]="importLogo"></fa-icon> Importer des patients</a
-  >
-  <a class="nav-link" routerLink="/patient"
-    ><fa-icon [icon]="oldLogo"></fa-icon> Anciens patients</a
-  >
-  <a class="nav-link" routerLink="/patient"
-    ><fa-icon [icon]="allLogo"></fa-icon> Tous les patients</a
-  >
-</nav>
+<ul class="nav nav-pills flex-column" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="patient-add-tab"
+      data-toggle="tab"
+      routerLink="/patient/add"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="patient-add"
+      aria-selected="false"
+      ><fa-icon [icon]="addLogo"></fa-icon> Nouveau patient</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="patient-import-tab"
+      data-toggle="tab"
+      routerLink="/patient/import"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="patient-import"
+      aria-selected="false"
+      ><fa-icon [icon]="importLogo"></fa-icon> Importer des patients</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="patient-old-tab"
+      data-toggle="tab"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="patient-old"
+      aria-selected="false"
+      ><fa-icon [icon]="oldLogo"></fa-icon> Anciens patients</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="patient-all-tab"
+      data-toggle="tab"
+      routerLink="/patient/all"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="patient-all"
+      aria-selected="false"
+      ><fa-icon [icon]="allLogo"></fa-icon> Tous les patients</a
+    >
+  </li>
+</ul>
 
 <!--
   TODO :

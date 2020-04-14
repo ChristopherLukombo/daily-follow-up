@@ -21,8 +21,6 @@ export class NavbarComponent implements OnInit {
   clinicLogo = faClinicMedical;
   historyLogo = faClock;
   logInLogo = faUser;
-  /***/
-  token: string = localStorage.getItem("token");
 
   constructor(private loginService: LoginService) {}
 
@@ -32,6 +30,8 @@ export class NavbarComponent implements OnInit {
    * Check si l'utilisateur est connecté à l'application
    */
   connected(): Boolean {
-    return this.loginService.isAuthenticated();
+    return (
+      this.loginService.isAuthenticated() && !this.loginService.isTokenExpired()
+    );
   }
 }
