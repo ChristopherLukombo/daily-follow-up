@@ -150,7 +150,7 @@ public class AccountResource {
         })
 	@GetMapping(
 			value = "/users/profilePicture/{userId}",
-			produces = { "image/jpg", "image/gif", "image/png", "image/tif" })
+			produces = { "image/jpg", "image/jpeg", "image/gif", "image/png", "image/tif" })
 	public ResponseEntity<byte[]> getProfilePicture(@PathVariable final Long userId) {
 		LOGGER.debug("REST request to get profile picture");
 		final byte[] profilePicture = userService.findProfilePicture(userId);
