@@ -439,3 +439,61 @@ INSERT INTO patient_allergies (patient_id, allergies_id) VALUES
 ('65', '1'), ('65', '2'),
 ('66', '3'), ('66', '4'),
 ('67', '3'), ('67', '13');
+
+/** les menus **/
+INSERT INTO public.menu
+(end_date, start_date, week_number, diet_id, texture_id)
+VALUES('2020-04-11T14:47:34.692Z', '2020-04-11T14:47:34.692Z', 1, 1, 1);
+
+INSERT INTO public."day"
+("name")
+VALUES('Lundi');
+
+INSERT INTO public.menu_days
+(menu_id, days_id)
+VALUES(1, 1);
+
+INSERT INTO public.moment_day
+("name")
+values
+('DÉJEUNER'),
+('DINER');
+
+INSERT INTO public.day_moment_days
+(day_id, moment_days_id)
+VALUES(1, 1);
+
+INSERT INTO public.type_meal ("name") values
+('ENTRÉE'),
+('PLAT'),
+('GARNITURE'),
+('PRODUIT LAITIER'),
+('DESSERT');
+
+INSERT INTO public.moment_day_type_meals
+(moment_day_id, type_meals_id)
+values
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5);
+
+
+INSERT INTO public."content"
+("name", salt, sugar, texture_id)
+values
+('Betteraves rouges', true, false, 1),
+('Poulet basquaise', true, false, 1),
+('Tortis ', true, false, 1),
+('Edam', false, false, 1),
+('Fruit de saison', false, false, 1);
+
+INSERT INTO public.type_meal_contents
+(type_meal_id, contents_id)
+values
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);

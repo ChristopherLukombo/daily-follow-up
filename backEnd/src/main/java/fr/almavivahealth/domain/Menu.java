@@ -52,4 +52,7 @@ public class Menu implements Serializable {
 	@ManyToOne
 	private Diet diet;
 	
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Day> days;
+
 }

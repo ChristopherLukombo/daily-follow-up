@@ -1,5 +1,7 @@
 package fr.almavivahealth.service.impl;
 
+import static fr.almavivahealth.config.Constants.SLASH;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.config.Constants;
-import fr.almavivahealth.config.UserProperties;
 import fr.almavivahealth.dao.RoleRepository;
 import fr.almavivahealth.dao.UserRepository;
 import fr.almavivahealth.domain.Role;
@@ -27,6 +27,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.service.mapper.UserMapper;
+import fr.almavivahealth.service.propeties.UserProperties;
 
 /**
  * Service Implementation for managing User.
@@ -175,7 +176,7 @@ public class UserServiceImpl implements UserService {
 		return new StringBuilder()
 				.append(userProperties.getPathProfiles())
 				.append(userId)
-				.append(Constants.SLASH)
+				.append(SLASH)
 				.append(imageUrl)
 				.toString();
 	}
