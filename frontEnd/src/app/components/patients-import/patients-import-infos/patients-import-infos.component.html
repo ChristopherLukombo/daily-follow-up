@@ -1,0 +1,34 @@
+<div class="alert alert-primary" role="alert">
+  <div class="row infos-import">
+    <div class="col">
+      Le seul format de fichier autorisé est le <code>.csv</code>.<br />
+      Les données du fichier doivent être délimitées par des
+      <code>;</code>.<br />
+      Les seuls encodages de fichiers supportés sont <code>UTF-8</code> et
+      <code>ANSI</code>.<br />
+      Le fichier doit contenir au <code>maximum 60 patients</code>.<br />
+      Tout les champs ne sont pas obligatoire, hormis le <code>nom</code> et le
+      <code>prénom</code> du patient.<br />
+      Lors du traitement, la <code>première ligne</code> du fichier n'est pas
+      prise en compte.<br />
+      Le fichier doit comporter exactement <code>17 colonnes</code>.
+    </div>
+    <div class="col">
+      Les <code>colonnes</code> du fichiers doivent représenter dans l'ordre
+      :<br />
+      <div class="btn-group btn-group-sm infos-csv-headers">
+        <div *ngFor="let cln of csvCols | keyvalue">
+          <span class="csv-header"
+            ><code>{{ cln.key }} </code>{{ cln.value }}</span
+          >&nbsp;
+        </div>
+      </div>
+      <br /><br />
+      <div class="text-right">
+        <button class="btn btn-success btn-sm">
+          Télecharger un exemple de fichier attendu
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

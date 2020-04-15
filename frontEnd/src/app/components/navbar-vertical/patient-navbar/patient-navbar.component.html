@@ -2,6 +2,20 @@
   <li class="nav-item">
     <a
       class="nav-link"
+      id="patient-all-tab"
+      data-toggle="tab"
+      routerLink="/patient/all"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="patient-all"
+      aria-selected="false"
+      ><fa-icon [icon]="allLogo"></fa-icon> Tous les patients</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
       id="patient-add-tab"
       data-toggle="tab"
       routerLink="/patient/add"
@@ -39,20 +53,6 @@
       aria-controls="patient-old"
       aria-selected="false"
       ><fa-icon [icon]="oldLogo"></fa-icon> Anciens patients</a
-    >
-  </li>
-  <li class="nav-item">
-    <a
-      class="nav-link"
-      id="patient-all-tab"
-      data-toggle="tab"
-      routerLink="/patient/all"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-      role="tab"
-      aria-controls="patient-all"
-      aria-selected="false"
-      ><fa-icon [icon]="allLogo"></fa-icon> Tous les patients</a
     >
   </li>
 </ul>
