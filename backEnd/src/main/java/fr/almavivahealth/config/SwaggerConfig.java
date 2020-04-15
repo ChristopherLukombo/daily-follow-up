@@ -1,8 +1,15 @@
 package fr.almavivahealth.config;
 
-import java.util.ArrayList;
-import java.util.List;
+import static fr.almavivahealth.config.Constants.AUTHORIZATION;
+import static fr.almavivahealth.config.Constants.BEARER;
+import static fr.almavivahealth.config.Constants.HEADER;
+import static fr.almavivahealth.config.Constants.STRING;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,29 +49,27 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("fr.almavivahealth.web.rest"))
                 .paths(PathSelectors.any())
                 .build()
-                .pathMapping("")
+                .pathMapping(StringUtils.EMPTY)
                 .globalOperationParameters(getParameters())
                 .apiInfo(apiInfo());
     }
     
-    private ApiInfo apiInfo() {
-    	    return new ApiInfoBuilder()
-    	            .title("Daily follow up API")
-    	            .description("This API allows to manage Daily follow up.")
-    	            .build();
-    }
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder()
+				.title("Daily follow up API")
+				.description("This API allows to manage Daily follow up.")
+				.build();
+	}
 
     private List<Parameter> getParameters() {
-        final ParameterBuilder parameterBuilder = new ParameterBuilder();
-        parameterBuilder.name(Constants.AUTHORIZATION)
-                .modelRef(new ModelRef(Constants.STRING))
-                .parameterType(Constants.HEADER)
-                .defaultValue(Constants.BEARER + tokenProvider.createToken())
+         return Stream.of(new ParameterBuilder()
+                .name(AUTHORIZATION)
+                .modelRef(new ModelRef(STRING))
+                .parameterType(HEADER)
+                .defaultValue(BEARER + tokenProvider.createToken())
                 .required(true)
-                .build();
-
-        final List<Parameter> parameters = new ArrayList<>();
-        parameters.add(parameterBuilder.build());
-        return parameters;
+                .build())
+        		.collect(Collectors.toList());
     }
+
 }
