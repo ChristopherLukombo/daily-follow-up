@@ -204,14 +204,13 @@ public class PatientResource {
 		if (!Constants.CSV.equalsIgnoreCase(FilenameUtils.getExtension(inputfile.getOriginalFilename()))) {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "the file must be of type CSV");
 		}
-		List<PatientDTO> patients;
 		try {
-			patients = patientService.importPatientFile(inputfile);
+			final List<PatientDTO> patients = patientService.importPatientFile(inputfile);
+			return ResponseEntity.ok().body(patients);
 		} catch (final DailyFollowUpException|IndexOutOfBoundsException e) {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					"An error occurred while trying to import the patients", e);
 		}
-		return ResponseEntity.ok().body(patients);
 	}
 	
 }

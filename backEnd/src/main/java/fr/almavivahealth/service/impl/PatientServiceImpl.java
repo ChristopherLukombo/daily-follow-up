@@ -1,5 +1,8 @@
 package fr.almavivahealth.service.impl;
 
+import static fr.almavivahealth.config.Constants.COMMA;
+import static fr.almavivahealth.config.Constants.SEMICOLON;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -18,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.config.Constants;
 import fr.almavivahealth.dao.AllergyRepository;
 import fr.almavivahealth.dao.DietRepository;
 import fr.almavivahealth.dao.PatientRepository;
@@ -173,7 +175,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 	
 	private boolean isValidLine(final String line) {
-		return !StringUtils.isBlank(line) && 18 == line.split(Constants.SEMICOLON).length;
+		return !StringUtils.isBlank(line) && 18 == line.split(SEMICOLON).length;
 	}
 	
 	private Set<Patient> toPatients(final List<String> lines) {
@@ -184,7 +186,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 	
 	private Patient buildPatient(final String line) {
-		final String[] columns = line.split(Constants.SEMICOLON);
+		final String[] columns = line.split(SEMICOLON);
 		
 	    final Set<String> dietNames = stringToSet(columns[14]);
 	    final Set<String> allergyNames = stringToSet(columns[15]);
@@ -219,7 +221,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	private Address buildAddress(final String[] columns) {
-		final String[] addressValues = columns[17].split(Constants.COMMA);
+		final String[] addressValues = columns[17].split(COMMA);
 		if (addressValues.length > 3) {
 			throw new IndexOutOfBoundsException(
 					"The address field must not exceed 3 columns : " + Arrays.toString(addressValues));
@@ -237,7 +239,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 	
 	private Set<String> stringToSet(final String value) {
-		return Stream.of(value.split(Constants.COMMA))
+		return Stream.of(value.split(COMMA))
 				.map(String::trim)
 				.collect(Collectors.toSet());
 	}
