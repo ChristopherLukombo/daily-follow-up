@@ -29,4 +29,8 @@ export class PatientsImportInfosComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  downloadTemplate(): void {
+    // TODO : download from assets
+  }
 }

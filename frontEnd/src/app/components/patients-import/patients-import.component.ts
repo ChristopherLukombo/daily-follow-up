@@ -16,7 +16,7 @@ import {
 export class PatientsImportComponent implements OnInit {
   file: File = null;
   uploadForm: FormGroup;
-  submitted: boolean = false;
+  inputError: string;
   error: string;
 
   constructor(private formBuilder: FormBuilder) {}
@@ -26,46 +26,37 @@ export class PatientsImportComponent implements OnInit {
   }
 
   createForm() {
-    const target = {
-      file: [null, Validators.required],
-    };
-    this.uploadForm = this.formBuilder.group(target);
-  }
-
-  get f() {
-    return this.uploadForm.controls;
+    this.uploadForm = this.formBuilder.group({});
   }
 
   handleFile(files: FileList) {
+    this.file = undefined;
+    this.inputError = undefined;
     const input = files.item(0);
-    console.log(this.uploadForm.controls.file.value);
-    if (input && this.validExtension(input)) {
-      this.file = input;
-      //console.log(files.item(0));
-      //console.log(this.file.name);
-    } else {
-      console.log("l'extension doit etre du csv");
-      this.uploadForm.controls.file.setErrors({ incorrect: true });
+    console.log(input);
+    if (!input) {
+      this.inputError = "Le fichier est requis";
+      return;
     }
+    if (!this.validExtension(input)) {
+      this.inputError = "Le fichier doit être sous format .csv";
+      return;
+    }
+    this.file = input;
   }
 
-  // validFileExtension(type: string): ValidatorFn {
-  //   return (control: AbstractControl): { [key: string]: any } | null => {
-  //     const extension = control.value.name.split(".")[1].toLowerCase();
-  //     const unvalidExtension = extension !== type.toLowerCase();
-  //     return unvalidExtension
-  //       ? { unvalidFileExtension: { value: control.value } }
-  //       : null;
-  //   };
-  // }
-
-  validExtension(file: File) {
+  validExtension(file: File): boolean {
     const extension = file.name.split(".")[1].toLowerCase();
-    return extension == "csv" ? true : false;
+    if (extension !== "csv") return false;
+    const type = file.type.toLowerCase();
+    const valid =
+      type == "application/vnd.ms-excel" ||
+      type == "text/csv" ||
+      type == "text/plain";
+    return valid ? true : false;
   }
 
   onUpload(): void {
-    this.submitted = true;
     if (this.uploadForm.invalid) {
       console.log("no valid, no upload !");
       return;
