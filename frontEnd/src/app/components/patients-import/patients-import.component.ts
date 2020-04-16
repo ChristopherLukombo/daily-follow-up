@@ -1,12 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import {
-  Validators,
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  AbstractControl,
-  ValidatorFn,
-} from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
   selector: "app-patients-import",
