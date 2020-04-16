@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.exception.DailyFollowUpException;
+import fr.almavivahealth.service.dto.BulkResult;
 import fr.almavivahealth.service.dto.PatientDTO;
 
 /**
@@ -55,8 +56,16 @@ public interface PatientService {
 	 * Import patient file in database.
 	 *
 	 * @param fileToImport the file to import
-	 * @return the list of entities
+	 * @return BulkResult
 	 * @throws DailyFollowUpException the daily follow up exception
 	 */
-	List<PatientDTO> importPatientFile(MultipartFile fileToImport) throws DailyFollowUpException;
+	BulkResult importPatientFile(MultipartFile fileToImport) throws DailyFollowUpException;
+	
+	/**
+	 * Checks if is csv.
+	 *
+	 * @param fileToImport the file to import
+	 * @return true, if is csv
+	 */
+	boolean isCSV(MultipartFile fileToImport);
 }

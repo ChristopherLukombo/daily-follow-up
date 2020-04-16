@@ -88,7 +88,7 @@ public class Patient implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Diet> diets;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<Allergy> allergies;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
