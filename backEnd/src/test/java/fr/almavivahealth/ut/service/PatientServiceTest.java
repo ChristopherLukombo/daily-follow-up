@@ -231,8 +231,8 @@ public class PatientServiceTest {
 	@Test
 	public void shouldImportPatientsWhenIsOk() throws DailyFollowUpException {
 		// Given
-		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
-				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100";
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100";
 		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
 		final Texture texture = new Texture();
 		final List<Patient> patients = Arrays.asList(getPatient());
@@ -241,27 +241,26 @@ public class PatientServiceTest {
 		// When
         when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
         when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
-        when(allergyRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
         when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
+        when(patientRepository.findByFirstNameAndLastNameOrEmail(anyString(), anyString(), anyString())).thenReturn(Optional.ofNullable(getPatient()));
         when(patientRepository.saveAll(anyIterable())).thenReturn(patients);
         when(patientMapper.patientToPatientDTO((Patient) any())).thenReturn(patientDTO);
         
 		// Then
-		assertThat(patientServiceImpl.importPatientFile(file)).isNotEmpty();
+		assertThat(patientServiceImpl.importPatientFile(file)).isNotNull();
 	}
 	
 	@Test
 	public void shouldImportPatientsWhenColumnAddressExceed3Columns() throws DailyFollowUpException {
 		// Given
-		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
-				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100,dede";
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100,dede";
 		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
 		final Texture texture = new Texture();
 		
 		// When
         when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
         when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
-        when(allergyRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
         when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
         
 		// Then
@@ -284,8 +283,8 @@ public class PatientServiceTest {
 	@Test
 	public void shouldImportPatientsWhenIsOkWithNoAdress() throws DailyFollowUpException {
 		// Given
-		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" + 
-				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220; ";
+		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;texture;diets;allergyes;room;addresse\r\n" + 
+				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;Normale;Normale;Céréales,Gluten;220; ";
 		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
 		final Texture texture = new Texture();
 		final List<Patient> patients = Arrays.asList(getPatient());
@@ -294,12 +293,53 @@ public class PatientServiceTest {
 		// When
         when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
         when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
-        when(allergyRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
         when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
+        when(patientRepository.findByFirstNameAndLastNameOrEmail(anyString(), anyString(), anyString())).thenReturn(Optional.ofNullable(null));
         when(patientRepository.saveAll(anyIterable())).thenReturn(patients);
         when(patientMapper.patientToPatientDTO((Patient) any())).thenReturn(patientDTO);
         
 		// Then
-		assertThat(patientServiceImpl.importPatientFile(file)).isNotEmpty();
+		assertThat(patientServiceImpl.importPatientFile(file)).isNotNull();
 	}
+	
+	@Test
+	public void shouldIsCSVWhenIsOkForTextPlain() {
+		// Given
+		final String data = "test";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
+		
+		// Then
+		assertThat(patientServiceImpl.isCSV(file)).isTrue();
+	}
+	
+	@Test
+	public void shouldIsCSVWhenIsOkForCsv() {
+		// Given
+		final String data = "test";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/csv", data.getBytes());
+		
+		// Then
+		assertThat(patientServiceImpl.isCSV(file)).isTrue();
+	}
+	
+	@Test
+	public void shouldIsCSVWhenIsOkForVndmsExcel() {
+		// Given
+		final String data = "test";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.cs", "application/vnd.ms-excel", data.getBytes());
+		
+		// Then
+		assertThat(patientServiceImpl.isCSV(file)).isTrue();
+	}
+	
+	@Test
+	public void shouldIsCSVWhenIsNotOk() {
+		// Given
+		final String data = "test";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "image/bmp", data.getBytes());
+		
+		// Then
+		assertThat(patientServiceImpl.isCSV(file)).isFalse();
+	}
+	
 }
