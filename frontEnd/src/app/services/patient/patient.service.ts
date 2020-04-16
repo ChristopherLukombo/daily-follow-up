@@ -26,7 +26,7 @@ export class PatientService {
 
   /**
    * Retourne tout les patients de la clinique
-   * @return une liste de patients
+   * @returns une liste de patients
    */
   getAllPatients(): Observable<Patient[]> {
     return this.http
@@ -37,7 +37,7 @@ export class PatientService {
   /**
    * Retourne un patient en fonction de son id
    * @param id du patient
-   * @return un Patient
+   * @returns un Patient
    */
   getPatient(id: number): Observable<Patient> {
     return this.http
@@ -48,10 +48,24 @@ export class PatientService {
   /**
    * Met à jour un patient
    * @param patientDTO
+   * @returns un Patient
    */
   updatePatient(patientDTO: PatientDTO): Observable<Patient> {
     return this.http
       .put<Patient>(PATIENTS_URL, JSON.stringify(patientDTO), httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * creation des patients à partir d'un fichier csv
+   * @param file
+   * @returns la liste des patients crées
+   */
+  uploadPatientsFile(file: File): Observable<Patient[]> {
+    const data: FormData = new FormData();
+    data.append("fileKey", file, file.name);
+    return this.http
+      .post<Patient[]>(PATIENTS_URL + "/import", data, httpOptions)
       .pipe(catchError(this.handleError));
   }
 

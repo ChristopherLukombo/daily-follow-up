@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(loginDTO).subscribe(
       (data) => {
         this.loginService.setToken(data.id_token);
-        this.router.navigate(["/patient"]);
+        this.router.navigate(["/patient/all"]);
       },
       (error) => {
         this.catchError(error);
