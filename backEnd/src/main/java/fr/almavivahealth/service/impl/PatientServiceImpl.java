@@ -159,6 +159,10 @@ public class PatientServiceImpl implements PatientService {
 			throws DailyFollowUpException {
 		LOGGER.debug("Request to import File : {}", fileToImport.getName());
 		final List<String> lines = retrieveLines(fileToImport);
+		final boolean validLineCount = isValidLineCount(lines);
+		if (!validLineCount) {
+			throw new DailyFollowUpException("The number of patients to be inserted may not exceed 60.");
+		}
 		final boolean validCSV = lines.stream().allMatch(this::isValidLine);
 		if (!validCSV) {
 			throw new DailyFollowUpException(
@@ -185,6 +189,10 @@ public class PatientServiceImpl implements PatientService {
 	
 	private boolean isValidLine(final String line) {
 		return !StringUtils.isBlank(line) && 17 == line.split(SEMICOLON).length;
+	}
+	
+	private boolean isValidLineCount(final List<String> lines) {
+		return lines.size() <= 61;
 	}
 	
 	private Set<Patient> toPatients(final List<String> lines) {
