@@ -75,7 +75,7 @@ public class PatientResource {
 		LOGGER.debug("REST request to save Patient : {}", patientDTO);
 		if (patientDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new patient cannot already have an ID idexists {}" + patientDTO.getId());
+					"A new patient cannot already have an ID idexists " + patientDTO.getId());
 		}
 		final PatientDTO result = patientService.save(patientDTO);
 		return ResponseEntity.created(new URI("/api/patients/" + result.getId())).body(result);
@@ -104,7 +104,7 @@ public class PatientResource {
 		LOGGER.debug("REST request to update Patient : {}", patientDTO);
 		if (patientDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A patient must have an ID idexists {}" + patientDTO.getId());
+					"A patient must have an ID idexists " + patientDTO.getId());
 		}
 		final PatientDTO result = patientService.update(patientDTO);
 		return ResponseEntity.ok().body(result);
