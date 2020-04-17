@@ -15,6 +15,11 @@ const httpOptions = {
     "Content-Type": "application/json",
   }),
 };
+const httpOptionsMultiParts = {
+  headers: new HttpHeaders({
+    "Content-Type": "multipart/form-data",
+  }),
+};
 
 const PATIENTS_URL = environment.appRootUrl + "/patients";
 
@@ -62,10 +67,10 @@ export class PatientService {
    * @returns la liste des patients crées
    */
   uploadPatientsFile(file: File): Observable<Patient[]> {
-    const data: FormData = new FormData();
-    data.append("fileKey", file, file.name);
+    let data: FormData = new FormData();
+    data.append("file", file, file.name);
     return this.http
-      .post<Patient[]>(PATIENTS_URL + "/import", data, httpOptions)
+      .post<Patient[]>(PATIENTS_URL + "/import", data, httpOptionsMultiParts)
       .pipe(catchError(this.handleError));
   }
 
