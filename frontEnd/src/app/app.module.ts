@@ -40,6 +40,7 @@ import {
 import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
 import { PatientsImportComponent } from "./components/patients-import/patients-import.component";
 import { PatientsImportInfosComponent } from "./components/patients-import/patients-import-infos/patients-import-infos.component";
+import { PatientImportResultComponent } from './components/patients-import/patient-import-result/patient-import-result.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { PatientsImportInfosComponent } from "./components/patients-import/patie
     OrderPipe,
     PatientsImportComponent,
     PatientsImportInfosComponent,
+    PatientImportResultComponent,
   ],
   imports: [
     BrowserModule,

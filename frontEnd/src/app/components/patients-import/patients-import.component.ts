@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { PatientService } from "src/app/services/patient/patient.service";
-import { Patient } from "src/app/models/patient/patient";
+import { ResultCsvPatient } from "src/app/models/csv/result-csv-patient";
 
 @Component({
   selector: "app-patients-import",
@@ -17,7 +17,7 @@ export class PatientsImportComponent implements OnInit {
     "text/plain"
   );
   inputError: string;
-  result: Patient[] = [];
+  result: ResultCsvPatient;
   error: string;
 
   constructor(
