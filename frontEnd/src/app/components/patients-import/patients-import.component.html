@@ -33,10 +33,32 @@
                 [disabled]="!file || inputError"
                 type="submit"
               >
-                Importer
+                Démarrer l'importation
               </button>
             </div>
           </form>
+          <div class="progress form-group" *ngIf="progress > 0">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+              role="progressbar"
+              [style.width.%]="progress"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div *ngIf="error">
+            <app-alert-error [content]="error"></app-alert-error>
+          </div>
+          <div *ngIf="!error && result">
+            <span class="text-success">
+              <h6>Opération terminée</h6>
+            </span>
+            <app-patient-import-result
+              [result]="result"
+            ></app-patient-import-result>
+          </div>
         </div>
       </div>
     </div>

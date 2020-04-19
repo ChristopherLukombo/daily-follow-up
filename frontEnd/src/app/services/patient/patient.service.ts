@@ -57,19 +57,6 @@ export class PatientService {
   }
 
   /**
-   * creation des patients à partir d'un fichier csv
-   * @param file
-   * @returns la liste des patients crées
-   */
-  uploadPatientsFile(file: File): Observable<Patient[]> {
-    const data: FormData = new FormData();
-    data.append("fileKey", file, file.name);
-    return this.http
-      .post<Patient[]>(PATIENTS_URL + "/import", data, httpOptions)
-      .pipe(catchError(this.handleError));
-  }
-
-  /**
    * Gestion des erreurs du backend
    * @param error
    */
