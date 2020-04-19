@@ -13,6 +13,8 @@ export class ListPatientsComponent implements OnInit {
   venusLogo = faVenus;
 
   page: number = 1;
+  pagination = { itemsPerPage: 8, currentPage: this.page };
+
   lastName: string;
   firstName: string;
 
@@ -23,6 +25,10 @@ export class ListPatientsComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {}
+
+  pageChanged(event) {
+    this.pagination.currentPage = event;
+  }
 
   selectPatient(patient: Patient, index: number): void {
     this.selectedRow = index;

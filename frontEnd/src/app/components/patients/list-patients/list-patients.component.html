@@ -34,7 +34,7 @@
           | orderBy: 'lastName'
           | search: 'lastName':lastName
           | search: 'firstName':firstName
-          | paginate: { id: '1', itemsPerPage: 8, currentPage: page };
+          | paginate: pagination;
         let i = index
       "
       (click)="selectPatient(patient, i)"
@@ -56,7 +56,10 @@
   </tbody>
 </table>
 <pagination-controls
-  (pageChange)="page = $event"
-  id="1"
+  (pageChange)="pageChanged($event)"
+  (pageBoundsCorrection)="pageChanged($event)"
+  maxSize="6"
   responsive="true"
+  previousLabel="Précédent"
+  nextLabel="Suivant"
 ></pagination-controls>
