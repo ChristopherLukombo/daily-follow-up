@@ -1,12 +1,18 @@
 package fr.almavivahealth.config;
 
+import java.io.IOException;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -26,6 +32,31 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(localeInterceptor());
+    }
+    
+    @Override
+    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
+    	registry.addResourceHandler("swagger-ui.html")
+         .addResourceLocations("classpath:/META-INF/resources/");
+
+        registry.addResourceHandler("/webjars/**")
+         .addResourceLocations("classpath:/META-INF/resources/webjars/");
+       
+	    registry.addResourceHandler("/**/*")
+	        .setCachePeriod(0)
+	        .addResourceLocations("classpath:/static/")
+	        .resourceChain(true)
+	        .addResolver(new PathResourceResolver() {
+
+	            @Override
+	            protected Resource getResource(final String resourcePath,
+	                final Resource location) throws IOException {
+	                  final Resource requestedResource = location.createRelative(resourcePath);
+	                  return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
+	                : new ClassPathResource("/static/index.html");
+	            }
+
+	        });
     }
 
 }

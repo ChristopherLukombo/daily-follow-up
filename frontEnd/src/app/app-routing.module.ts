@@ -35,9 +35,17 @@ const routes: Routes = [
     component: PatientsImportComponent,
     canActivate: [AuthGuard],
   },
-
-  // plus tard rediriger vers l'ecran d'accueil des plats
-  //{ path: '**', redirectTo: '' }
+  {
+    path: '**',
+    // TODO: Si page non trouvé, rediriger vers une page 404
+    redirectTo: '/login'
+  },
+  // TODO: plus tard rediriger vers l'ecran d'accueil des plats
+  // {
+  //   path: '',
+  //   redirectTo: 'login',
+  //   pathMatch: 'full'
+  // },
 ];
 
 @NgModule({
