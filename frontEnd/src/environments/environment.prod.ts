@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  appRootUrl: "http://localhost:8081/api",
-  version: 3,
+  appRootUrl: "http://delissch.freeboxos.fr/api",
+  version: 3
 };
