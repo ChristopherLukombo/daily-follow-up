@@ -59,7 +59,7 @@ export class PatientsImportComponent implements OnInit {
     const extension = file.name.split(".")[1].toLowerCase();
     if (extension !== "csv") return false;
     const type = file.type.toLowerCase();
-    return this.validFile.indexOf(type) !== 1 ? true : false;
+    return this.validFile.indexOf(type) !== -1 ? true : false;
   }
 
   /**
