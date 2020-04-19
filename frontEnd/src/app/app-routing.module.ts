@@ -6,10 +6,15 @@ import { PatientComponent } from "./components/patient/patient.component";
 import { PatientHistoryComponent } from "./components/patient-history/patient-history.component";
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
+import { PatientsImportComponent } from "./components/patients-import/patients-import.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
-  { path: "patient", component: PatientsComponent, canActivate: [AuthGuard] },
+  {
+    path: "patient/all",
+    component: PatientsComponent,
+    canActivate: [AuthGuard],
+  },
   {
     path: "patient/details",
     component: PatientComponent,
@@ -25,9 +30,22 @@ const routes: Routes = [
     component: PatientAddComponent,
     canActivate: [AuthGuard],
   },
-
-  // plus tard rediriger vers l'ecran d'accueil des plats
-  //{ path: '**', redirectTo: '' }
+  {
+    path: "patient/import",
+    component: PatientsImportComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: '**',
+    // TODO: Si page non trouvé, rediriger vers une page 404
+    redirectTo: '/login'
+  },
+  // TODO: plus tard rediriger vers l'ecran d'accueil des plats
+  // {
+  //   path: '',
+  //   redirectTo: 'login',
+  //   pathMatch: 'full'
+  // },
 ];
 
 @NgModule({

@@ -1,0 +1,40 @@
+<div class="row">
+  <div *ngIf="result?.savedPatients.length > 0" class="col">
+    <h5>Nouveaux patients</h5>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Sexe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let saved of result?.savedPatients">
+          <td>{{ saved?.firstName }}</td>
+          <td>{{ saved?.lastName }}</td>
+          <td>{{ saved?.sex }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="result?.updatedPatients.length > 0" class="col">
+    <h5>Patients mis à jour</h5>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th scope="col">Nom</th>
+          <th scope="col">Prénom</th>
+          <th scope="col">Sexe</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let updated of result?.updatedPatients">
+          <td>{{ updated?.firstName }}</td>
+          <td>{{ updated?.lastName }}</td>
+          <td>{{ updated?.sex }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

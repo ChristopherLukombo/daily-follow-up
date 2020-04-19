@@ -11,3 +11,7 @@ spring.jpa.properties.hibernate.order_inserts=true
 # Dans le fichier "dailyFollowUp.properties", ajouter la variable de configuration suivante :
 
 user.pathProfiles=C:\\Users\\christopher\\ProgramDev\\daily-follow-up\\profiles\\
+
+------------------------------------------------------------------------------------------------------------------------
+# Dans le fichier "dailyFollowUp.properties", ajouter la variable de configuration suivante :
+spring.jpa.properties.hibernate.order_updates=true

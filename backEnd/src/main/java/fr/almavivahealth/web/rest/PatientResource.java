@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.config.Constants;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
+import fr.almavivahealth.service.dto.BulkResult;
 import fr.almavivahealth.service.dto.PatientDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -76,7 +75,7 @@ public class PatientResource {
 		LOGGER.debug("REST request to save Patient : {}", patientDTO);
 		if (patientDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A new patient cannot already have an ID idexists {}" + patientDTO.getId());
+					"A new patient cannot already have an ID idexists " + patientDTO.getId());
 		}
 		final PatientDTO result = patientService.save(patientDTO);
 		return ResponseEntity.created(new URI("/api/patients/" + result.getId())).body(result);
@@ -105,7 +104,7 @@ public class PatientResource {
 		LOGGER.debug("REST request to update Patient : {}", patientDTO);
 		if (patientDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
-					"A patient must have an ID idexists {}" + patientDTO.getId());
+					"A patient must have an ID idexists " + patientDTO.getId());
 		}
 		final PatientDTO result = patientService.update(patientDTO);
 		return ResponseEntity.ok().body(result);
@@ -186,7 +185,7 @@ public class PatientResource {
 	 * POST /patients/import : Import patient file.
 	 *
 	 * @param id the id of the patientDTO to delete
-	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
+	 * @return the ResponseEntity with status 200 (Ok) and bulkResult in body
 	 */
 	@ApiOperation("Import patient file.")
 	@ApiResponses({
@@ -198,20 +197,19 @@ public class PatientResource {
         @ApiResponse(code = 500, message = "Internal Server"),
         })
 	@PostMapping("/patients/import")
-	public ResponseEntity<List<PatientDTO>> importPatientFile(@RequestPart final MultipartFile inputfile)
+	public ResponseEntity<BulkResult> importPatientFile(@RequestPart final MultipartFile inputfile)
 			throws DailyFollowUpException {
 		LOGGER.debug("Request to import patient file : {}", inputfile.getName());
-		if (!Constants.CSV.equalsIgnoreCase(FilenameUtils.getExtension(inputfile.getOriginalFilename()))) {
+		if (!patientService.isCSV(inputfile)) {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "the file must be of type CSV");
 		}
-		List<PatientDTO> patients;
 		try {
-			patients = patientService.importPatientFile(inputfile);
+			final BulkResult bulkResult = patientService.importPatientFile(inputfile);
+			return ResponseEntity.ok().body(bulkResult);
 		} catch (final DailyFollowUpException|IndexOutOfBoundsException e) {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					"An error occurred while trying to import the patients", e);
 		}
-		return ResponseEntity.ok().body(patients);
 	}
 	
 }

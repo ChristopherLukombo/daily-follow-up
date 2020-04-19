@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
+import fr.almavivahealth.service.dto.BulkResult;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.PatientResource;
@@ -231,9 +232,14 @@ public class PatientResourceTest {
 				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100;bibi";
 		final MockMultipartFile file = new MockMultipartFile("filename", "filename.csv", "application/vnd.ms-excel", data.getBytes());
 		final MockPart part = new MockPart("inputfile", "filename.csv", file.getBytes());
-
+        final BulkResult bulkResult = BulkResult.builder()
+        		.savedPatients(patientsDTO)
+        		.updatedPatients(patientsDTO)
+        		.build();
+		
 		// When
-		when(patientService.importPatientFile((MultipartFile) any())).thenReturn(patientsDTO);
+        when(patientService.isCSV((MultipartFile) any())).thenReturn(true);
+		when(patientService.importPatientFile((MultipartFile) any())).thenReturn(bulkResult);
 
 		// Then
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/patients/import")
@@ -250,6 +256,9 @@ public class PatientResourceTest {
 		final MockMultipartFile file = new MockMultipartFile("filename", "filename.csv", "application/vnd.ms-excel", data.getBytes());
 		final MockPart part = new MockPart("inputfile", "filename.pdf", file.getBytes());
 
+		// When
+		when(patientService.isCSV((MultipartFile) any())).thenReturn(false);
+		
 		// Then
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/patients/import")
 				.part(part))
@@ -265,6 +274,7 @@ public class PatientResourceTest {
 		final MockPart part = new MockPart("inputfile", "filename.csv", file.getBytes());
 
 		// When
+		when(patientService.isCSV((MultipartFile) any())).thenReturn(true);
 		when(patientService.importPatientFile((MultipartFile) any())).thenThrow(DailyFollowUpException.class);
 
 		// Then
@@ -273,4 +283,5 @@ public class PatientResourceTest {
 		        .andExpect(status().isInternalServerError())
 				.andExpect(jsonPath("$").isNotEmpty());
 	}
+
 }

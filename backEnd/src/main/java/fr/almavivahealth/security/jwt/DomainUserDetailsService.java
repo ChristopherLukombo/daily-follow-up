@@ -71,4 +71,5 @@ public class DomainUserDetailsService implements UserDetailsService {
     			.map(Role::getName)
     			.orElse(StringUtils.EMPTY);
     }
+
 }

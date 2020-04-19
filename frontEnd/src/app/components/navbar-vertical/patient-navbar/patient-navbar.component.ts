@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import {
   faUserPlus,
   faUserFriends,
+  faUpload,
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -12,7 +13,8 @@ import {
 })
 export class PatientNavbarComponent implements OnInit {
   addLogo = faUserPlus;
-  addManyLogo = faUserFriends;
+  importLogo = faUpload;
+  oldLogo = faUserFriends;
   allLogo = faSearch;
 
   constructor() {}

@@ -28,9 +28,11 @@
           <fa-icon [icon]="patientLogo"></fa-icon> Patient
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink="patient">Liste des patients</a>
+          <a class="dropdown-item" routerLink="/patient/all"
+            >Liste des patients</a
+          >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="patient/add"
+          <a class="dropdown-item" routerLink="/patient/add"
             >Ajouter un patient</a
           >
         </div>
@@ -72,7 +74,7 @@
         *ngIf="!connected()"
         class="btn btn-light my-2 my-sm-0"
         type="submit"
-        routerLink="login"
+        routerLink="/login"
       >
         <fa-icon [icon]="logInLogo"></fa-icon> Authentification
       </button>
