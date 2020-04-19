@@ -9,7 +9,6 @@ import { Observable, throwError } from "rxjs";
 import { Patient } from "src/app/models/patient/patient";
 import { catchError } from "rxjs/operators";
 import { PatientDTO } from "src/app/models/dto/patientDTO";
-import { ResultCsvPatient } from "src/app/models/csv/result-csv-patient";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -54,19 +53,6 @@ export class PatientService {
   updatePatient(patientDTO: PatientDTO): Observable<Patient> {
     return this.http
       .put<Patient>(PATIENTS_URL, JSON.stringify(patientDTO), httpOptions)
-      .pipe(catchError(this.handleError));
-  }
-
-  /**
-   * Creation des patients à partir d'un fichier csv
-   * @param file
-   * @returns la liste des patients crées et mis à jour
-   */
-  uploadPatientsFile(file: File): Observable<ResultCsvPatient> {
-    let data: FormData = new FormData();
-    data.append("inputfile", file);
-    return this.http
-      .post<ResultCsvPatient>(PATIENTS_URL + "/import", data)
       .pipe(catchError(this.handleError));
   }
 

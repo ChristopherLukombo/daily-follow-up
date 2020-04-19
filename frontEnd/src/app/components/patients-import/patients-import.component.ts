@@ -1,7 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { PatientService } from "src/app/services/patient/patient.service";
 import { ResultCsvPatient } from "src/app/models/csv/result-csv-patient";
+import { HttpEventType } from "@angular/common/http";
+import { FileService } from "src/app/services/file/file.service";
 
 @Component({
   selector: "app-patients-import",
@@ -17,27 +18,27 @@ export class PatientsImportComponent implements OnInit {
     "text/plain"
   );
   inputError: string;
+  progress: number = 0;
   result: ResultCsvPatient;
   error: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private patientService: PatientService
+    private fileService: FileService
   ) {}
 
   ngOnInit(): void {
-    this.createForm();
-  }
-
-  createForm() {
     this.uploadForm = this.formBuilder.group({});
   }
 
+  /**
+   * Récuperation du fichier depuis le disque
+   * @param files
+   */
   handleFile(files: FileList) {
     this.file = undefined;
-    this.inputError = undefined;
+    this.cleanErrorMessages();
     const input = files.item(0);
-    console.log(input);
     if (!input) {
       this.inputError = "Le fichier est requis";
       return;
@@ -49,6 +50,11 @@ export class PatientsImportComponent implements OnInit {
     this.file = input;
   }
 
+  /**
+   * Vérifie la validité du fichier csv
+   * @param file
+   * @return true ou false si le fichier est valide
+   */
   validExtension(file: File): boolean {
     const extension = file.name.split(".")[1].toLowerCase();
     if (extension !== "csv") return false;
@@ -56,20 +62,27 @@ export class PatientsImportComponent implements OnInit {
     return this.validFile.indexOf(type) !== 1 ? true : false;
   }
 
+  /**
+   * Importation des patients
+   */
   onUpload(): void {
-    this.error = undefined;
-    if (!this.file) {
-      // a voir
-      return;
-    }
-    console.log("upload !");
-    this.patientService.uploadPatientsFile(this.file).subscribe(
+    this.cleanErrorMessages();
+    if (!this.file) return;
+    this.fileService.uploadPatientsFile(this.file).subscribe(
       (data) => {
-        this.result = data;
-        console.log(this.result);
+        switch (data.type) {
+          case HttpEventType.UploadProgress:
+            this.progress = Math.round((data.loaded / data.total) * 100);
+            break;
+          case HttpEventType.Response:
+            this.result = data.body;
+            this.resetProgressBar();
+            break;
+        }
       },
       (error) => {
         this.catchError(error);
+        this.resetProgressBar();
       }
     );
   }
@@ -98,5 +111,12 @@ export class PatientsImportComponent implements OnInit {
    */
   cleanErrorMessages(): void {
     this.error = undefined;
+    this.inputError = undefined;
+  }
+
+  resetProgressBar(): void {
+    setTimeout(() => {
+      this.progress = 0;
+    }, 250);
   }
 }

@@ -31,6 +31,6 @@ export class PatientsImportInfosComponent implements OnInit {
   ngOnInit(): void {}
 
   downloadTemplate(): void {
-    window.open("/assets/liste_patients.csv");
+    window.open("/assets/import_patients.csv");
   }
 }
