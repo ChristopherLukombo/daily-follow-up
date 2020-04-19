@@ -1,6 +1,7 @@
 import { TestBed, async } from "@angular/core/testing";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AppComponent } from "./app.component";
+import { environment } from "src/environments/environment";
 
 describe("AppComponent", () => {
   beforeEach(async(() => {
@@ -16,17 +17,18 @@ describe("AppComponent", () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'daily-follow-up'`, () => {
+  it("should get the good version of the app", () => {
+    const expected = environment.version;
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual("daily-follow-up");
+    expect(app.version).toEqual(expected);
   });
 
-  // TODO :
-  // it('should render title', () => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.nativeElement;
-  //   expect(compiled.querySelector('.content span').textContent).toContain('daily-follow-up app is running!');
-  // });
+  it("should render version in footer", () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const expected = fixture.componentInstance.version;
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement;
+    expect(compiled.querySelector(".footer").textContent).toContain(expected);
+  });
 });
