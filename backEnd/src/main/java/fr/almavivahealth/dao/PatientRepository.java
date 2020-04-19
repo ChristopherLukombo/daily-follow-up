@@ -4,9 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.Patient;
+import fr.almavivahealth.domain.PatientsByStatus;
+import fr.almavivahealth.domain.PatientsPerAllergy;
+import fr.almavivahealth.domain.PatientsPerDiet;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
@@ -14,4 +18,35 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 	List<Patient> findAllByStateTrueOrderByIdDesc();
 
 	Optional<Patient> findByFirstNameAndLastNameOrEmail(String firstName, String lastName, String email);
+
+	@Query(value = 
+			  "SELECT "
+			+ "DISTINCT UPPER(a.name) AS allergyName, "
+			+ "COUNT(UPPER(a.name)) OVER(PARTITION BY UPPER( a.name))  AS numberPatients, "
+			+ "( CAST ((COUNT(UPPER(a.name)) OVER(PARTITION BY UPPER( a.name))) AS NUMERIC)  / "
+			+ "CAST ((select count(id) FROM patient p2 WHERE state = true) AS numeric)) * 100 AS percentage "
+			+ "FROM patient_allergies pa "
+			+ "INNER JOIN allergy a on a.id = pa.allergies_id "
+			+ "INNER JOIN patient p on p.id = pa.patient_id WHERE p.state = true",
+			nativeQuery = true)
+	List<PatientsPerAllergy> findNumberOfPatientsPerAllergy();
+	
+	@Query(value = "SELECT "
+			+ "DISTINCT UPPER(d.name) as dietName, "
+			+ "COUNT(UPPER(d.name)) OVER(PARTITION BY UPPER( d.name)) AS numberPatients, "
+			+ "( CAST ((COUNT(UPPER(d.name)) OVER(PARTITION BY UPPER( d.name))) AS numeric) / "
+			+ "CAST ((SELECT count(id) FROM patient p2 WHERE state = true) AS numeric)) * 100 AS percentage "
+			+ "FROM patient_diets pd "
+			+ "INNER JOIN diet d on pd.diets_id = d.id "
+			+ "INNER JOIN patient p on p.id = pd.patient_id WHERE p.state = true",
+			nativeQuery = true)
+	List<PatientsPerDiet> findNumberOfPatientsPerDiet();
+	
+	@Query(value = "SELECT * FROM "
+			+ "(SELECT COUNT(*) AS activePatients FROM patient p WHERE state = true) AS a, "
+			+ "(SELECT COUNT(*) AS inactivePatients FROM patient p WHERE state = false) AS b, "
+			+ "(SELECT COUNT(*) AS totalPatients FROM patient p) AS c",
+			nativeQuery = true)
+	List<PatientsByStatus> findNumberOfPatientsByStatus();
+
 }
