@@ -36,15 +36,16 @@ public class AuditEventServiceImpl implements AuditEventService {
 	/**
 	 * Get all patient_historys.
 	 *
+	 * @param patientId the patientId
 	 * @param page the page
 	 * @param size the size
 	 * @return the page
 	 */
 	@Override
 	@Transactional(readOnly = true)	
-	public Page<PatientHistoryDTO> findAllPatientHistorys(final Integer page, final Integer size) {
+	public Page<PatientHistoryDTO> findAllPatientHistorysByPatientId(final Long patientId, final Integer page, final Integer size) {
 		LOGGER.debug("Request to get all PatientHistorys");
-		return patientHistoryRepository.findAll(PageRequest.of(page, size))
+		return patientHistoryRepository.findAllByPatientId(patientId, PageRequest.of(page, size))
 				.map(patientHistoryMapper::patientHistoryToPatientHistoryDTO);
 	}
 	

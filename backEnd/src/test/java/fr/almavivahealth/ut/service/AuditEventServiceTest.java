@@ -3,6 +3,7 @@ package fr.almavivahealth.ut.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -53,13 +54,13 @@ public class AuditEventServiceTest {
 		final PatientHistoryDTO patientHistoryDTO = createPatientHistoryDTO();
 
 		// When
-		when(patientHistoryRepository.findAll(((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientId(anyLong(), ((org.springframework.data.domain.Pageable) any())))
 				.thenReturn(patientHistorys);
 		when(patientHistoryMapper.patientHistoryToPatientHistoryDTO((PatientHistory) any()))
 				.thenReturn(patientHistoryDTO);
 
 		// Then
-		assertThat(auditEventServiceImpl.findAllPatientHistorys(0, 10)).isNotEmpty();
+		assertThat(auditEventServiceImpl.findAllPatientHistorysByPatientId(1L, 0, 10)).isNotEmpty();
 	}
 	
 	@Test
@@ -69,11 +70,11 @@ public class AuditEventServiceTest {
 		final Page<PatientHistory> patientHistorys = new PageImpl<>(content);
 
 		// When
-		when(patientHistoryRepository.findAll(((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientId(anyLong(), ((org.springframework.data.domain.Pageable) any())))
 				.thenReturn(patientHistorys);
 
 		// Then
-		assertThat(auditEventServiceImpl.findAllPatientHistorys(0, 10)).isEmpty();
+		assertThat(auditEventServiceImpl.findAllPatientHistorysByPatientId(1L, 0, 10)).isEmpty();
 	}
 	
 	@Test
@@ -82,11 +83,11 @@ public class AuditEventServiceTest {
 		final Page<PatientHistory> patientHistorys = null;
 
 		// When
-		when(patientHistoryRepository.findAll(((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientId(anyLong(), ((org.springframework.data.domain.Pageable) any())))
 				.thenReturn(patientHistorys);
 
 		// Then
-		assertThatThrownBy(() -> auditEventServiceImpl.findAllPatientHistorys(0, 10))
+		assertThatThrownBy(() -> auditEventServiceImpl.findAllPatientHistorysByPatientId(1L, 0, 10))
 		.isInstanceOf(NullPointerException.class);
 	}
 	
