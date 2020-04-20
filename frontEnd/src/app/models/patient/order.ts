@@ -1,6 +1,6 @@
 import { Patient } from "./patient";
 import { Content } from "../food/content";
-import { MomentDay } from "../food/momentDay";
+import { MomentDay } from "../food/moment-day";
 
 export class Order {
   /***/

@@ -1,4 +1,4 @@
-import { TypeMeal } from "./typeMeal";
+import { TypeMeal } from "./type-meal";
 
 export class MomentDay {
   /***/
