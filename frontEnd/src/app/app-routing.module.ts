@@ -3,7 +3,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "./utils/helpers/auth.guard";
 import { PatientsComponent } from "./components/patients/patients.component";
 import { PatientComponent } from "./components/patient/patient.component";
-import { PatientHistoryComponent } from "./components/patient-history/patient-history.component";
+import { PatientHistoryComponent } from "./components/patient/patient-history/patient-history.component";
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
 import { PatientsImportComponent } from "./components/patients-import/patients-import.component";
@@ -36,9 +36,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: '**',
+    path: "**",
     // TODO: Si page non trouvé, rediriger vers une page 404
-    redirectTo: '/login'
+    redirectTo: "/login",
   },
   // TODO: plus tard rediriger vers l'ecran d'accueil des plats
   // {
