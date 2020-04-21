@@ -77,14 +77,14 @@ public class AccountResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					messageSource.getMessage(ErrorMessage.ERROR_NEW_USER_CANNOT_ALREADY_HAVE_AN_ID, null, locale));
 		}
-		UserDTO result;
 		try {
-			result = userService.save(userDTO);
+			final UserDTO userCreated = userService.save(userDTO);
+			return ResponseEntity.created(new URI("/api/users/" + userCreated.getId()))
+					.body(userCreated);
 		} catch (final Exception e) {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					"Error occurred while trying to create a user", e);
 		}
-		return ResponseEntity.created(new URI("/api/users/" + result.getId())).body(result);
 	}
     
     /**
