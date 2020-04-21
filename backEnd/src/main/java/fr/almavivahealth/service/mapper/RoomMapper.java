@@ -19,6 +19,7 @@ public interface RoomMapper {
 	@Mapping(source = "id", target = "id")
 	@Mapping(source = "number", target = "number")
 	@Mapping(source = "state", target = "state")
+	@Mapping(source = "maxCapacity", target = "maxCapacity")
 	RoomDTO roomToRoomDTO(Room room);
 
 	@InheritInverseConfiguration
