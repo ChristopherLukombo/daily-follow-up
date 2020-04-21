@@ -17,6 +17,8 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
 	List<Patient> findAllByStateTrueOrderByIdDesc();
 
+	List<Patient> findAllByStateFalseOrderByIdDesc();
+
 	Optional<Patient> findByFirstNameAndLastNameOrEmail(String firstName, String lastName, String email);
 
 	@Query(value = 
