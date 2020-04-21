@@ -31,11 +31,18 @@ public interface PatientService {
 	PatientDTO update(PatientDTO patientDTO);
 
 	/**
-	 * Get all the patients.
+	 * Get all active patients.
 	 *
 	 * @return the list of entities
 	 */
-	List<PatientDTO> findAll();
+	List<PatientDTO> findAllActivePatients();
+	
+	/**
+	 * Get all former patients.
+	 *
+	 * @return the list of entities
+	 */
+	List<PatientDTO> findAllFormerPatients();
 
 	/**
 	 * Get the "id" patient.

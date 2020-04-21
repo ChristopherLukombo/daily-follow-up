@@ -149,7 +149,7 @@ public class PatientServiceTest {
 	}
 	
 	@Test
-	public void shouldGetAllPatientsWhenIsOk() {
+	public void shouldGetAllActivePatientsWhenIsOk() {
 		// Given
 		final List<Patient> patients = Arrays.asList(getPatient());
 		
@@ -157,11 +157,11 @@ public class PatientServiceTest {
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
 		
 		// Then
-		assertThat(patientServiceImpl.findAll()).isNotEmpty();
+		assertThat(patientServiceImpl.findAllActivePatients()).isNotEmpty();
 	}
 	
 	@Test
-	public void shouldGetAllPatientsWhenIsEmpty() {
+	public void shouldGetAllActivePatientsWhenIsEmpty() {
 		// Given
 		final List<Patient> patients = Collections.emptyList();
 		
@@ -169,11 +169,11 @@ public class PatientServiceTest {
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
 		
 		// Then
-		assertThat(patientServiceImpl.findAll()).isEmpty();
+		assertThat(patientServiceImpl.findAllActivePatients()).isEmpty();
 	}
 	
 	@Test
-	public void shouldGetAllPatientsWhenIsNull() {
+	public void shouldGetAllActivePatientsWhenIsNull() {
 		// Given
 		final List<Patient> patients = null;
 		
@@ -181,7 +181,44 @@ public class PatientServiceTest {
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
 		
 		// Then
-		assertThatThrownBy(() -> patientServiceImpl.findAll())
+		assertThatThrownBy(() -> patientServiceImpl.findAllActivePatients())
+		.isInstanceOf(NullPointerException.class);
+	}
+	
+	@Test
+	public void shouldGetAllFormerPatientsWhenIsOk() {
+		// Given
+		final List<Patient> patients = Arrays.asList(getPatient());
+		
+		// Then
+		when(patientRepository.findAllByStateFalseOrderByIdDesc()).thenReturn(patients);
+		
+		// Then
+		assertThat(patientServiceImpl.findAllFormerPatients()).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldGetAllFormerPatientsWhenIsEmpty() {
+		// Given
+		final List<Patient> patients = Collections.emptyList();
+		
+		// Then
+		when(patientRepository.findAllByStateFalseOrderByIdDesc()).thenReturn(patients);
+		
+		// Then
+		assertThat(patientServiceImpl.findAllFormerPatients()).isEmpty();
+	}
+	
+	@Test
+	public void shouldGetAllFormerPatientsWhenIsNull() {
+		// Given
+		final List<Patient> patients = null;
+		
+		// Then
+		when(patientRepository.findAllByStateFalseOrderByIdDesc()).thenReturn(patients);
+		
+		// Then
+		assertThatThrownBy(() -> patientServiceImpl.findAllFormerPatients())
 		.isInstanceOf(NullPointerException.class);
 	}
 	

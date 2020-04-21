@@ -106,15 +106,29 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	/**
-	 * Get all the patients.
+	 * Get all active patients.
 	 *
 	 * @return the list of entities
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<PatientDTO> findAll() {
+	public List<PatientDTO> findAllActivePatients() {
 		LOGGER.debug("Request to get all Patients");
 		return patientRepository.findAllByStateTrueOrderByIdDesc().stream()
+				.map(patientMapper::patientToPatientDTO)
+				.collect(Collectors.toList());
+	}
+	
+	/**
+	 * Get all former patients.
+	 *
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<PatientDTO> findAllFormerPatients() {
+		LOGGER.debug("Request to get all Patients");
+		return patientRepository.findAllByStateFalseOrderByIdDesc().stream()
 				.map(patientMapper::patientToPatientDTO)
 				.collect(Collectors.toList());
 	}
