@@ -3,6 +3,8 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,10 @@ public class RoomDTO implements Serializable {
 
 	@NotNull
 	private boolean state;
+	
+	@Min(0)
+	@Max(2)
+	private Integer maxCapacity;
 
 	public RoomDTO() {
 		// Empty constructor needed for Jackson.
@@ -52,9 +58,17 @@ public class RoomDTO implements Serializable {
 		this.state = state;
 	}
 
+	public Integer getMaxCapacity() {
+		return maxCapacity;
+	}
+
+	public void setMaxCapacity(final Integer maxCapacity) {
+		this.maxCapacity = maxCapacity;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, number, state);
+		return Objects.hash(id, maxCapacity, number, state);
 	}
 
 	@Override
@@ -66,7 +80,8 @@ public class RoomDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final RoomDTO other = (RoomDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(number, other.number) && state == other.state;
+		return Objects.equals(id, other.id) && Objects.equals(maxCapacity, other.maxCapacity)
+				&& Objects.equals(number, other.number) && state == other.state;
 	}
 
 	@Override
@@ -85,7 +100,13 @@ public class RoomDTO implements Serializable {
 		}
 		builder.append("state=");
 		builder.append(state);
+		builder.append(", ");
+		if (maxCapacity != null) {
+			builder.append("maxCapacity=");
+			builder.append(maxCapacity);
+		}
 		builder.append("]");
 		return builder.toString();
 	}
+	
 }
