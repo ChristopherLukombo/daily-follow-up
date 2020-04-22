@@ -17,6 +17,8 @@ export class PatientHistoryComponent implements OnInit {
   totalElements: number;
 
   error: string;
+  warning: string;
+  loading: Boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,20 +26,30 @@ export class PatientHistoryComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.route.queryParams.forEach((params) => {
       this.historyService
         .getAllPatientHistories(parseInt(params["patient"]), this.size)
         .subscribe(
           (data) => {
-            console.log(data);
-            this.histories = data ? data["content"] : null;
-            this.totalElements = data ? data["totalElements"] : null;
+            this.loading = false;
+            if (data) {
+              this.histories = data["content"];
+              this.totalElements = data["totalElements"];
+            } else {
+              this.HistoriesNotFound();
+            }
           },
           (error) => {
+            this.loading = false;
             this.catchError(error);
           }
         );
     });
+  }
+
+  HistoriesNotFound(): void {
+    this.warning = "Il n'y a aucun historique pour le patient recherché.";
   }
 
   loadMoreHistories(): void {
@@ -47,10 +59,11 @@ export class PatientHistoryComponent implements OnInit {
         .getAllPatientHistories(parseInt(params["patient"]), this.size)
         .subscribe(
           (data) => {
-            console.log(data);
+            this.loading = false;
             this.histories = data ? data["content"] : null;
           },
           (error) => {
+            this.loading = false;
             this.catchError(error);
           }
         );

@@ -32,16 +32,8 @@ export class ActivityPatientComponent implements OnInit {
 
   ngOnChanges(): void {
     if (this.histories) {
-      this.sortHistoriesByDate();
       this.activities = this.buildActivitiesByDate();
     }
-  }
-
-  sortHistoriesByDate(): void {
-    this.histories.sort(
-      (a, b) =>
-        new Date(b.modifiedDate).getTime() - new Date(a.modifiedDate).getTime()
-    );
   }
 
   /**

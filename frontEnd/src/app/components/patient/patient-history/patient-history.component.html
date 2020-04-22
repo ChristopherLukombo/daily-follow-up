@@ -5,12 +5,19 @@
     </div>
     <div class="col">
       <div class="row">
-        <div class="col">
+        <div *ngIf="loading" class="col"><app-loader></app-loader></div>
+        <div *ngIf="error" class="col">
+          <app-alert-error [content]="error"></app-alert-error>
+        </div>
+        <div *ngIf="warning" class="col">
+          <app-alert-warning [content]="warning"></app-alert-warning>
+        </div>
+        <div *ngIf="!error && !warning" class="col">
           <h4>Historique</h4>
           <br />
         </div>
       </div>
-      <div class="row">
+      <div *ngIf="!error && !warning" class="row">
         <div class="col">
           <h5>Informations</h5>
           <app-activity-patient [histories]="histories"></app-activity-patient>
