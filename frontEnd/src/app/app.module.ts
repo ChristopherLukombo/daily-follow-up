@@ -20,7 +20,7 @@ import { DetailPatientComponent } from "./components/patients/detail-patient/det
 import { PatientComponent } from "./components/patient/patient.component";
 import { InfosPatientComponent } from "./components/patient/infos-patient/infos-patient.component";
 import { FoodPatientComponent } from "./components/patient/food-patient/food-patient.component";
-import { HistoryPatientComponent } from "./components/patient/patient-history/history-patient/history-patient.component";
+import { ActivityPatientComponent } from "./components/patient/patient-history/activity-patient/activity-patient.component";
 import { PatientHistoryComponent } from "./components/patient/patient-history/patient-history.component";
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
@@ -40,7 +40,10 @@ import {
   HighLightPipe,
   OrderPipe,
 } from "./utils/pipes/search.pipe";
-import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
+import {
+  getInitialsPipe,
+  getActionPatientPipe,
+} from "./utils/pipes/string-utils.pipe";
 
 @NgModule({
   declarations: [
@@ -54,7 +57,7 @@ import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
     PatientComponent,
     InfosPatientComponent,
     FoodPatientComponent,
-    HistoryPatientComponent,
+    ActivityPatientComponent,
     PatientHistoryComponent,
     PatientAddComponent,
     LoginComponent,
@@ -67,6 +70,7 @@ import { getInitialsPipe } from "./utils/pipes/string-utils.pipe";
     PatientNavbarComponent,
     getInitialsPipe,
     OrderPipe,
+    getActionPatientPipe,
     PatientsImportComponent,
     PatientsImportInfosComponent,
     PatientImportResultComponent,

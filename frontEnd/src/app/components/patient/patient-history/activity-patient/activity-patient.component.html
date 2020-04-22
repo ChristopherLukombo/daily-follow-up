@@ -1,0 +1,26 @@
+<div *ngIf="activities" class="history">
+  <div class="activity-timeline">
+    <div
+      *ngFor="let activitiesAtDate of activities | keyvalue: dateAsc"
+      class="activities-at-date"
+    >
+      <h5>
+        <fa-icon [icon]="circleLogo"></fa-icon> {{ activitiesAtDate?.key }}
+      </h5>
+      <div *ngFor="let activity of activitiesAtDate?.value" class="activity">
+        <div class="activity-title">
+          <fa-icon [icon]="editLogo"></fa-icon>
+          {{ activity?.action | actionPatient }}
+        </div>
+        <div class="row">
+          <div class="col">
+            {{ activity?.modifiedBy }}
+          </div>
+          <div class="col text-right">
+            <i>{{ activity?.modifiedDate | date: "HH:mm" }}</i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

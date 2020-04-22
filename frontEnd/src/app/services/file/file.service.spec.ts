@@ -42,7 +42,7 @@ describe("FileService", () => {
         done();
       });
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/patients/import`
+        `${environment.appRootUrl}/api/patients/import`
       );
       expect(request.request.method).toBe("POST");
       request.event({
@@ -64,7 +64,7 @@ describe("FileService", () => {
         done();
       });
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/patients/import`
+        `${environment.appRootUrl}/api/patients/import`
       );
       expect(request.request.method).toBe("POST");
       request.event({
@@ -91,7 +91,7 @@ describe("FileService", () => {
         }
       );
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/patients/import`
+        `${environment.appRootUrl}/api/patients/import`
       );
       expect(request.request.method).toBe("POST");
       request.flush("422 error", {
@@ -112,7 +112,7 @@ describe("FileService", () => {
         }
       );
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/patients/import`
+        `${environment.appRootUrl}/api/patients/import`
       );
       expect(request.request.method).toBe("POST");
       request.flush("409 error", {

@@ -15,7 +15,7 @@ const httpOptions = {
     "Content-Type": "application/json",
   }),
 };
-const LOGIN_URL = environment.appRootUrl + "/authenticate";
+const LOGIN_URL = environment.appRootUrl + "/api/authenticate";
 
 @Injectable({
   providedIn: "root",

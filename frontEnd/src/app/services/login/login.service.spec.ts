@@ -56,7 +56,7 @@ describe("LoginService", () => {
         expect(data.token).toEqual(expected.token);
       });
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/authenticate`
+        `${environment.appRootUrl}/api/authenticate`
       );
       expect(request.request.method).toBe("POST");
       request.flush(expected);
@@ -74,7 +74,7 @@ describe("LoginService", () => {
         }
       );
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/authenticate`
+        `${environment.appRootUrl}/api/authenticate`
       );
       request.flush("403 error", { status: 403, statusText: "Not Authorized" });
     });

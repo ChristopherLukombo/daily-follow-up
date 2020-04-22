@@ -35,7 +35,9 @@ describe("PatientService", () => {
       service.getAllPatients().subscribe((data) => {
         expect(data.length).toBe(2);
       });
-      const request = httpMock.expectOne(`${environment.appRootUrl}/patients`);
+      const request = httpMock.expectOne(
+        `${environment.appRootUrl}/api/patients`
+      );
       expect(request.request.method).toBe("GET");
       request.flush(expected);
     });
@@ -45,7 +47,9 @@ describe("PatientService", () => {
       service.getAllPatients().subscribe((data) => {
         expect(data).toEqual(expected);
       });
-      const request = httpMock.expectOne(`${environment.appRootUrl}/patients`);
+      const request = httpMock.expectOne(
+        `${environment.appRootUrl}/api/patients`
+      );
       expect(request.request.method).toBe("GET");
       request.flush(expected);
     });
@@ -60,7 +64,9 @@ describe("PatientService", () => {
           expect(error).toEqual(expected);
         }
       );
-      const request = httpMock.expectOne(`${environment.appRootUrl}/patients`);
+      const request = httpMock.expectOne(
+        `${environment.appRootUrl}/api/patients`
+      );
       request.flush("403 error", { status: 403, statusText: "Not Authorized" });
     });
   });
@@ -73,7 +79,7 @@ describe("PatientService", () => {
         expect(Object.keys(data).sort()).toEqual(Object.keys(expected).sort());
       });
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/patients/${id}`
+        `${environment.appRootUrl}/api/patients/${id}`
       );
       expect(request.request.method).toBe("GET");
       request.flush(expected);
@@ -86,7 +92,7 @@ describe("PatientService", () => {
         expect(data).toEqual(expected);
       });
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/patients/${id}`
+        `${environment.appRootUrl}/api/patients/${id}`
       );
       expect(request.request.method).toBe("GET");
       request.flush(expected);
@@ -104,7 +110,7 @@ describe("PatientService", () => {
         }
       );
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/patients/${id}`
+        `${environment.appRootUrl}/api/patients/${id}`
       );
       request.flush("403 error", { status: 403, statusText: "Not Authorized" });
     });
