@@ -21,7 +21,6 @@ export class PatientComponent implements OnInit {
   patient: Patient;
 
   error: string;
-  warningTitle: string;
   warning: string;
   loading: Boolean = false;
 
@@ -47,8 +46,7 @@ export class PatientComponent implements OnInit {
   }
 
   patientDoesNotExist(): void {
-    this.warningTitle = "Désolé";
-    this.warning = "Ce patient n'éxiste pas, veuillez réessayer.";
+    this.warning = "Ce patient n'éxiste pas. Veuillez réessayer.";
   }
 
   /**

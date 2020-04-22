@@ -10,10 +10,7 @@
           <app-alert-error [content]="error"></app-alert-error>
         </div>
         <div *ngIf="!patient && !error && warning" class="col">
-          <app-alert-warning
-            [title]="warningTitle"
-            [content]="warning"
-          ></app-alert-warning>
+          <app-alert-warning [content]="warning"></app-alert-warning>
         </div>
         <div *ngIf="patient" class="col">
           <h4>
