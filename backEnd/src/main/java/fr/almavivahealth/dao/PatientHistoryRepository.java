@@ -10,6 +10,6 @@ import fr.almavivahealth.domain.PatientHistory;
 @Repository
 public interface PatientHistoryRepository extends JpaRepository<PatientHistory, Long>{
 
-	Page<PatientHistory> findAllByPatientId(Long patientId, Pageable pageable);
+	Page<PatientHistory> findAllByPatientIdOrderByModifiedDateDesc(Long patientId, Pageable pageable);
 	
 }

@@ -45,7 +45,7 @@ public class AuditEventServiceImpl implements AuditEventService {
 	@Transactional(readOnly = true)	
 	public Page<PatientHistoryDTO> findAllPatientHistorysByPatientId(final Long patientId, final Integer page, final Integer size) {
 		LOGGER.debug("Request to get all PatientHistorys");
-		return patientHistoryRepository.findAllByPatientId(patientId, PageRequest.of(page, size))
+		return patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(patientId, PageRequest.of(page, size))
 				.map(patientHistoryMapper::patientHistoryToPatientHistoryDTO);
 	}
 	

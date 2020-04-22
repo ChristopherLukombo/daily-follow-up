@@ -148,33 +148,63 @@ public class PatientResourceTest {
 	}
 
 	@Test
-	public void shouldGetAllPatientsWhenIsOk() throws IOException, Exception {
+	public void shouldGetAllActivePatientsWhenIsOk() throws IOException, Exception {
 		// Given
 		final List<PatientDTO> patientsDTO = Arrays.asList(createPatientDTO());
 
 		// When
-		when(patientService.findAll()).thenReturn(patientsDTO);
+		when(patientService.findAllActivePatients()).thenReturn(patientsDTO);
 
 		// Then
 		mockMvc.perform(get("/api/patients")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk());
-		verify(patientService, times(1)).findAll();
+		verify(patientService, times(1)).findAllActivePatients();
 	}
 
 	@Test
-	public void shouldGetAllPatientsWhenIsEmpty() throws IOException, Exception {
+	public void shouldGetAllActivePatientsWhenIsEmpty() throws IOException, Exception {
 		// Given
 		final List<PatientDTO> patientsDTO =  Collections.emptyList();
 
 		// When
-		when(patientService.findAll()).thenReturn(patientsDTO);
+		when(patientService.findAllActivePatients()).thenReturn(patientsDTO);
 
 		// Then
 		mockMvc.perform(get("/api/patients")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		.andExpect(status().isNoContent());
-		verify(patientService, times(1)).findAll();
+		verify(patientService, times(1)).findAllActivePatients();
+	}
+	
+	@Test
+	public void shouldGetAllFormerPatientsWhenIsOk() throws IOException, Exception {
+		// Given
+		final List<PatientDTO> patientsDTO = Arrays.asList(createPatientDTO());
+
+		// When
+		when(patientService.findAllFormerPatients()).thenReturn(patientsDTO);
+
+		// Then
+		mockMvc.perform(get("/api/patients/former")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(patientService, times(1)).findAllFormerPatients();
+	}
+
+	@Test
+	public void shouldGetAllFormerPatientsWhenIsEmpty() throws IOException, Exception {
+		// Given
+		final List<PatientDTO> patientsDTO =  Collections.emptyList();
+
+		// When
+		when(patientService.findAllFormerPatients()).thenReturn(patientsDTO);
+
+		// Then
+		mockMvc.perform(get("/api/patients/former")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(patientService, times(1)).findAllFormerPatients();
 	}
 
 	@Test

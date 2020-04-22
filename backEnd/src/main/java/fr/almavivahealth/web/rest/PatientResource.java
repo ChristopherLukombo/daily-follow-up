@@ -111,13 +111,13 @@ public class PatientResource {
 	}
 	
 	/**
-	 * GET /patients : Get all the patients.
+	 * GET /patients : Get all active patients.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
 	 * or with status 204 (No Content) if there is no patient.
 	 *         
 	 */
-	@ApiOperation("Get all the patients.")
+	@ApiOperation("Get all active patients.")
 	@ApiResponses({
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 204, message = "No Content"),
@@ -126,9 +126,34 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden")
         })
 	@GetMapping("/patients")
-	public ResponseEntity<List<PatientDTO>> getAllPatients() {
-		LOGGER.debug("REST request to get All Patients");
-		final List<PatientDTO> patients = patientService.findAll();
+	public ResponseEntity<List<PatientDTO>> getAllActivePatients() {
+		LOGGER.debug("REST request to get all active patients");
+		final List<PatientDTO> patients = patientService.findAllActivePatients();
+		if (patients.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(patients);
+	}
+	
+	/**
+	 * GET /patients : Get all former patients.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
+	 * or with status 204 (No Content) if there is no patient.
+	 *         
+	 */
+	@ApiOperation(" Get all former patients.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@GetMapping("/patients/former")
+	public ResponseEntity<List<PatientDTO>> getAllFormerPatients() {
+		LOGGER.debug("REST request to get all former patients");
+		final List<PatientDTO> patients = patientService.findAllFormerPatients();
 		if (patients.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}

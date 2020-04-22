@@ -54,7 +54,7 @@ public class AuditEventServiceTest {
 		final PatientHistoryDTO patientHistoryDTO = createPatientHistoryDTO();
 
 		// When
-		when(patientHistoryRepository.findAllByPatientId(anyLong(), ((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), ((org.springframework.data.domain.Pageable) any())))
 				.thenReturn(patientHistorys);
 		when(patientHistoryMapper.patientHistoryToPatientHistoryDTO((PatientHistory) any()))
 				.thenReturn(patientHistoryDTO);
@@ -70,7 +70,7 @@ public class AuditEventServiceTest {
 		final Page<PatientHistory> patientHistorys = new PageImpl<>(content);
 
 		// When
-		when(patientHistoryRepository.findAllByPatientId(anyLong(), ((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), ((org.springframework.data.domain.Pageable) any())))
 				.thenReturn(patientHistorys);
 
 		// Then
@@ -83,7 +83,7 @@ public class AuditEventServiceTest {
 		final Page<PatientHistory> patientHistorys = null;
 
 		// When
-		when(patientHistoryRepository.findAllByPatientId(anyLong(), ((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), ((org.springframework.data.domain.Pageable) any())))
 				.thenReturn(patientHistorys);
 
 		// Then
