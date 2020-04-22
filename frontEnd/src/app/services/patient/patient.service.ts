@@ -35,6 +35,16 @@ export class PatientService {
   }
 
   /**
+   * Retourne tout les anciens patients de la clinique
+   * @returns une liste d'anciens patients
+   */
+  getAllFormerPatients(): Observable<Patient[]> {
+    return this.http
+      .get<Patient[]>(PATIENTS_URL + `/former`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Retourne un patient en fonction de son id
    * @param id du patient
    * @returns un Patient
