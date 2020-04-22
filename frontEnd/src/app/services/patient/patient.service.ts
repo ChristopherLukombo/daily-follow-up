@@ -16,7 +16,7 @@ const httpOptions = {
   }),
 };
 
-const PATIENTS_URL = environment.appRootUrl + "/patients";
+const PATIENTS_URL = environment.appRootUrl + "/api/patients";
 
 @Injectable({
   providedIn: "root",

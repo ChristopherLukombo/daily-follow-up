@@ -22,7 +22,7 @@
               type="button"
               class="btn btn-light btn-sm"
               routerLink="history"
-              [queryParams]="{ id: patient?.id }"
+              [queryParams]="{ patient: patient?.id }"
             >
               <fa-icon [icon]="historyLogo"></fa-icon> Historique
             </button>

@@ -3,10 +3,11 @@ import {
   HttpHeaders,
   HttpClient,
   HttpErrorResponse,
+  HttpResponse,
 } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { Observable, throwError } from "rxjs";
-import { Room } from "src/app/models/clinic/room";
+import { HistoryPatient } from "src/app/models/history/history-patient";
 import { catchError } from "rxjs/operators";
 
 const httpOptions = {
@@ -15,29 +16,30 @@ const httpOptions = {
   }),
 };
 
-const ROOMS_URL = environment.appRootUrl + "/api/rooms";
+const MANAGE_URL = environment.appRootUrl + "/management/audits";
+const HISTORY_PATIENT_URL = MANAGE_URL + "/patient/history";
 
 @Injectable({
   providedIn: "root",
 })
-export class ClinicService {
+export class HistoryService {
   constructor(private http: HttpClient) {}
 
-  getAllRooms(): Observable<Room[]> {
+  /**
+   * Retourne l'historique des actions sur un patient
+   * @param idPatient
+   * @returns l'historique du patient
+   */
+  getAllPatientHistories(
+    idPatient: number,
+    size: number,
+    page: number = 0
+  ): Observable<HttpResponse<Object>> {
     return this.http
-      .get<Room[]>(ROOMS_URL, httpOptions)
-      .pipe(catchError(this.handleError));
-  }
-
-  getRoom(id: number): Observable<Room> {
-    return this.http
-      .get<Room>(ROOMS_URL + `/${id}`, httpOptions)
-      .pipe(catchError(this.handleError));
-  }
-
-  getRoomOfPatient(patientId: number): Observable<Room> {
-    return this.http
-      .get<Room>(ROOMS_URL + `/patient/${patientId}`, httpOptions)
+      .get<HttpResponse<Object>>(
+        HISTORY_PATIENT_URL + `/${idPatient}?page=${page}&size=${size}`,
+        httpOptions
+      )
       .pipe(catchError(this.handleError));
   }
 

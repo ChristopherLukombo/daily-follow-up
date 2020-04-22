@@ -1,4 +1,8 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { HistoryService } from "src/app/services/history/history.service";
+import { HistoryPatient } from "src/app/models/history/history-patient";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-patient-history",
@@ -6,7 +10,63 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./patient-history.component.scss"],
 })
 export class PatientHistoryComponent implements OnInit {
-  constructor() {}
+  moreLogo = faPlus;
 
-  ngOnInit(): void {}
+  histories: HistoryPatient[] = [];
+  size: number = 1;
+  totalElements: number;
+
+  error: string;
+
+  constructor(
+    private route: ActivatedRoute,
+    private historyService: HistoryService
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.forEach((params) => {
+      this.historyService
+        .getAllPatientHistories(parseInt(params["patient"]), this.size)
+        .subscribe(
+          (data) => {
+            console.log(data);
+            this.histories = data ? data["content"] : null;
+            this.totalElements = data ? data["totalElements"] : null;
+          },
+          (error) => {
+            this.catchError(error);
+          }
+        );
+    });
+  }
+
+  loadMoreHistories(): void {
+    this.size += 5;
+    this.route.queryParams.forEach((params) => {
+      this.historyService
+        .getAllPatientHistories(parseInt(params["patient"]), this.size)
+        .subscribe(
+          (data) => {
+            console.log(data);
+            this.histories = data ? data["content"] : null;
+          },
+          (error) => {
+            this.catchError(error);
+          }
+        );
+    });
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   */
+  catchError(error: number): void {
+    if (error && error === 403) {
+      this.error =
+        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else {
+      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+    }
+  }
 }

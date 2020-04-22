@@ -12,12 +12,20 @@
       </div>
       <div class="row">
         <div class="col">
-          <h5>Données du patients</h5>
-          <app-history-patient></app-history-patient>
+          <h5>Informations</h5>
+          <app-activity-patient [histories]="histories"></app-activity-patient>
+          <br />
+          <button
+            *ngIf="totalElements && size < totalElements"
+            type="button"
+            class="btn btn-sm"
+            (click)="loadMoreHistories()"
+          >
+            <fa-icon [icon]="moreLogo"></fa-icon> plus d'activités...
+          </button>
         </div>
         <div class="col">
           <h5>Plats et menus</h5>
-          <app-history-patient></app-history-patient>
         </div>
       </div>
     </div>
