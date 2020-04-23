@@ -34,9 +34,21 @@
         </div>
       </div>
       <br />
-      <div class="row" *ngIf="patient">
+      <div class="row" *ngIf="patient && !isActive">
+        <div class="col text-center">
+          <p class="text-info">
+            Ce patient a été supprimé et ne fait actuellement plus partie de la
+            clinique. Toutes ses informations ont néanmoins été sauvegardées,
+            afin de les réutiliser en cas de retour.
+          </p>
+          <button type="button" class="btn btn-info">
+            <fa-icon [icon]="restoreLogo"></fa-icon> Recréer le patient
+          </button>
+        </div>
+      </div>
+      <div class="row" *ngIf="patient && isActive">
         <div class="col">
-          <div class="space-between-btn">
+          <div class="text-left">
             <button type="button" class="btn btn-primary">
               <fa-icon [icon]="editLogo"></fa-icon> Modifier les informations
             </button>

@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-patient-navbar></app-patient-navbar>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <h4>Anciens patients de la clinique</h4>
+          <br />
+          <app-list-patients
+            (selectedPatient)="setPatient($event)"
+            [patients]="patients"
+          ></app-list-patients>
+          <div *ngIf="loading"><app-loader></app-loader></div>
+          <div *ngIf="error">
+            <app-alert-error [content]="error"></app-alert-error>
+          </div>
+        </div>
+        <div *ngIf="patient" class="col">
+          <h4>Détail du patient</h4>
+          <br />
+          <app-detail-patient [patient]="patient"></app-detail-patient>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

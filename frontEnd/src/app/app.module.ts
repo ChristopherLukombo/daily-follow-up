@@ -44,6 +44,7 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
+import { PatientsOldComponent } from './components/patients-old/patients-old.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {
     PatientsImportComponent,
     PatientsImportInfosComponent,
     PatientImportResultComponent,
+    PatientsOldComponent,
   ],
   imports: [
     BrowserModule,

@@ -7,12 +7,18 @@ import { PatientHistoryComponent } from "./components/patient/patient-history/pa
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
 import { PatientsImportComponent } from "./components/patients-import/patients-import.component";
+import { PatientsOldComponent } from "./components/patients-old/patients-old.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
   {
     path: "patient/all",
     component: PatientsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "patient/old",
+    component: PatientsOldComponent,
     canActivate: [AuthGuard],
   },
   {

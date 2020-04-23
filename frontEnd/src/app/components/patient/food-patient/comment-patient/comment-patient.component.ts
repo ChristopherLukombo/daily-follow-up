@@ -14,6 +14,7 @@ export class CommentPatientComponent implements OnInit {
   submitLogo = faCheck;
 
   @Input() comment: Comment;
+  @Input() isEditable: boolean = false;
 
   commentEdition: Boolean = false;
   content: string = "";
