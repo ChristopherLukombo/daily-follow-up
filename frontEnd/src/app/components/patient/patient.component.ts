@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {
   faUserEdit,
-  faUserSlash,
   faClock,
   faRecycle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -16,12 +15,15 @@ import { PatientService } from "src/app/services/patient/patient.service";
 })
 export class PatientComponent implements OnInit {
   editLogo = faUserEdit;
-  deleteLogo = faUserSlash;
   historyLogo = faClock;
   restoreLogo = faRecycle;
 
   patient: Patient;
   isActive: boolean;
+
+  btnDelete: string = "Supprimer le patient";
+  confirmDelete: string =
+    "Le patient se retrouvera dans la liste des anciens patients.";
 
   error: string;
   warning: string;
@@ -55,6 +57,10 @@ export class PatientComponent implements OnInit {
 
   patientDoesNotExist(): void {
     this.warning = "Ce patient n'éxiste pas. Veuillez réessayer.";
+  }
+
+  deletePatient(): void {
+    console.log("deleted !");
   }
 
   /**

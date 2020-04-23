@@ -56,9 +56,11 @@
         </div>
         <div class="col">
           <div class="text-right">
-            <button type="button" class="btn btn-danger">
-              <fa-icon [icon]="deleteLogo"></fa-icon> Supprimer le patient
-            </button>
+            <app-modal-danger
+              [btnTitle]="btnDelete"
+              [text]="confirmDelete"
+              (confirmation)="deletePatient()"
+            ></app-modal-danger>
           </div>
         </div>
       </div>
