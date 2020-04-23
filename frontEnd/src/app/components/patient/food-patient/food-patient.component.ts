@@ -11,13 +11,20 @@ import { Comment } from "src/app/models/patient/comment";
 })
 export class FoodPatientComponent implements OnInit {
   @Input() patient: Patient;
+  isActive: boolean;
 
-  loading: Boolean;
+  loading: boolean;
   error: string;
 
   constructor(private patientService: PatientService) {}
 
   ngOnInit(): void {}
+
+  ngOnChanges(): void {
+    if (this.patient) {
+      this.isActive = this.patient.state;
+    }
+  }
 
   newComment(comment: Comment): void {
     this.error = undefined;

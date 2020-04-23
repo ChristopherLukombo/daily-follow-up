@@ -3,6 +3,7 @@ import {
   faUserEdit,
   faUserSlash,
   faClock,
+  faRecycle,
 } from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
@@ -17,8 +18,10 @@ export class PatientComponent implements OnInit {
   editLogo = faUserEdit;
   deleteLogo = faUserSlash;
   historyLogo = faClock;
+  restoreLogo = faRecycle;
 
   patient: Patient;
+  isActive: boolean;
 
   error: string;
   warning: string;
@@ -35,7 +38,12 @@ export class PatientComponent implements OnInit {
       this.patientService.getPatient(parseInt(params["id"])).subscribe(
         (data) => {
           this.loading = false;
-          data == null ? this.patientDoesNotExist() : (this.patient = data);
+          if (data) {
+            this.patient = data;
+            this.isActive = this.patient.state;
+          } else {
+            this.patientDoesNotExist();
+          }
         },
         (error) => {
           this.loading = false;

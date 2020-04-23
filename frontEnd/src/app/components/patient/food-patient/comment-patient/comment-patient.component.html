@@ -2,7 +2,7 @@
   <h5>
     Commentaire
     <button
-      *ngIf="!commentEdition"
+      *ngIf="!commentEdition && isEditable"
       type="button"
       (click)="onEditForm()"
       class="btn btn-light btn-sm"

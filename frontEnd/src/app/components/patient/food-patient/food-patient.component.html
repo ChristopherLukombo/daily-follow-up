@@ -33,6 +33,7 @@
   <app-comment-patient
     (newComment)="newComment($event)"
     [comment]="patient?.comment"
+    [isEditable]="isActive"
   ></app-comment-patient>
   <div *ngIf="loading"><app-loader></app-loader></div>
   <div *ngIf="error">
