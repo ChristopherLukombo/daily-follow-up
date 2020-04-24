@@ -23,7 +23,7 @@ export class PatientComponent implements OnInit {
 
   btnDelete: string = "Supprimer le patient";
   confirmDelete: string =
-    "Le patient se retrouvera dans la liste des anciens patients.";
+    "Une fois supprimé, le patient se retrouvera dans la liste des anciens patients.";
 
   error: string;
   warning: string;
@@ -61,6 +61,19 @@ export class PatientComponent implements OnInit {
 
   deletePatient(): void {
     console.log("deleted !");
+    /**
+    this.route.queryParams.forEach((params) => {
+      this.patientService.deletePatient(parseInt(params["id"])).subscribe(
+        () => {
+          console.log("deleted !");
+          //this.isActive = false;
+        },
+        (error) => {
+          console.log("error, ", error);
+          this.catchError(error);
+        }
+      );
+    });*/
   }
 
   /**
