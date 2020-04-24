@@ -34,7 +34,7 @@
         </div>
       </div>
       <br />
-      <div class="row" *ngIf="patient && !isActive">
+      <div class="row" *ngIf="patient && !patient?.state">
         <div class="col text-center">
           <p class="text-info">
             Ce patient a été supprimé et ne fait actuellement plus partie de la
@@ -46,7 +46,7 @@
           </button>
         </div>
       </div>
-      <div class="row" *ngIf="patient && isActive">
+      <div class="row" *ngIf="patient && patient?.state">
         <div class="col">
           <div class="text-left">
             <button type="button" class="btn btn-primary">
@@ -67,3 +67,4 @@
     </div>
   </div>
 </div>
+<notifier-container></notifier-container>

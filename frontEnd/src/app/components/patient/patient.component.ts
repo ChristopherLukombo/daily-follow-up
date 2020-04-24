@@ -7,6 +7,7 @@ import {
 import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
 import { PatientService } from "src/app/services/patient/patient.service";
+import { NotifierService } from "angular-notifier";
 
 @Component({
   selector: "app-patient",
@@ -19,7 +20,6 @@ export class PatientComponent implements OnInit {
   restoreLogo = faRecycle;
 
   patient: Patient;
-  isActive: boolean;
 
   btnDelete: string = "Supprimer le patient";
   confirmDelete: string =
@@ -31,7 +31,8 @@ export class PatientComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private notifierService: NotifierService
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +43,6 @@ export class PatientComponent implements OnInit {
           this.loading = false;
           if (data) {
             this.patient = data;
-            this.isActive = this.patient.state;
           } else {
             this.patientDoesNotExist();
           }
@@ -60,20 +60,23 @@ export class PatientComponent implements OnInit {
   }
 
   deletePatient(): void {
-    console.log("deleted !");
-    /**
     this.route.queryParams.forEach((params) => {
       this.patientService.deletePatient(parseInt(params["id"])).subscribe(
         () => {
-          console.log("deleted !");
-          //this.isActive = false;
+          this.notifierService.notify(
+            "success",
+            "Le patient a bien été supprimé"
+          );
+          this.patient.state = false;
         },
         (error) => {
-          console.log("error, ", error);
-          this.catchError(error);
+          this.notifierService.notify(
+            "error",
+            "Une erreur est survenue, veuillez réessayer ultérieurement"
+          );
         }
       );
-    });*/
+    });
   }
 
   /**
