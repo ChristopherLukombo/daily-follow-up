@@ -34,7 +34,7 @@
         </div>
       </div>
       <br />
-      <div class="row" *ngIf="patient && !isActive">
+      <div class="row" *ngIf="patient && !patient?.state">
         <div class="col text-center">
           <p class="text-info">
             Ce patient a été supprimé et ne fait actuellement plus partie de la
@@ -46,7 +46,7 @@
           </button>
         </div>
       </div>
-      <div class="row" *ngIf="patient && isActive">
+      <div class="row" *ngIf="patient && patient?.state">
         <div class="col">
           <div class="text-left">
             <button type="button" class="btn btn-primary">
@@ -56,12 +56,15 @@
         </div>
         <div class="col">
           <div class="text-right">
-            <button type="button" class="btn btn-danger">
-              <fa-icon [icon]="deleteLogo"></fa-icon> Supprimer le patient
-            </button>
+            <app-modal-danger
+              [btnTitle]="btnDelete"
+              [text]="confirmDelete"
+              (confirmation)="deletePatient()"
+            ></app-modal-danger>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<notifier-container></notifier-container>

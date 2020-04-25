@@ -3,6 +3,7 @@ import {
   HttpHeaders,
   HttpClient,
   HttpErrorResponse,
+  HttpResponse,
 } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { Observable, throwError } from "rxjs";
@@ -63,6 +64,17 @@ export class PatientService {
   updatePatient(patientDTO: PatientDTO): Observable<Patient> {
     return this.http
       .put<Patient>(PATIENTS_URL, JSON.stringify(patientDTO), httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Supprime un patient en fonction de son id
+   * @param id
+   * @returns HttpResponse<Object>
+   */
+  deletePatient(id: number): Observable<HttpResponse<Object>> {
+    return this.http
+      .delete<HttpResponse<Object>>(PATIENTS_URL + `/${id}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 

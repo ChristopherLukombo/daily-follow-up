@@ -9,6 +9,7 @@ import { AuthGuard } from "./utils/helpers/auth.guard";
 
 import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
 import { NgxPaginationModule } from "ngx-pagination";
+import { NotifierModule } from "angular-notifier";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -24,13 +25,16 @@ import { ActivityPatientComponent } from "./components/patient/patient-history/a
 import { PatientHistoryComponent } from "./components/patient/patient-history/patient-history.component";
 import { PatientAddComponent } from "./components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
-import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
-import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
 import { CommentPatientComponent } from "./components/patient/food-patient/comment-patient/comment-patient.component";
 import { PatientNavbarComponent } from "./components/navbar-vertical/patient-navbar/patient-navbar.component";
 import { PatientsImportComponent } from "./components/patients-import/patients-import.component";
 import { PatientsImportInfosComponent } from "./components/patients-import/patients-import-infos/patients-import-infos.component";
 import { PatientImportResultComponent } from "./components/patients-import/patient-import-result/patient-import-result.component";
+import { PatientsOldComponent } from "./components/patients-old/patients-old.component";
+
+import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
+import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
+import { ModalDangerComponent } from "./components/utils-components/modal-danger/modal-danger.component";
 
 import { LoginService } from "./services/login/login.service";
 
@@ -44,7 +48,6 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { PatientsOldComponent } from './components/patients-old/patients-old.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +79,7 @@ import { PatientsOldComponent } from './components/patients-old/patients-old.com
     PatientsImportInfosComponent,
     PatientImportResultComponent,
     PatientsOldComponent,
+    ModalDangerComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +89,7 @@ import { PatientsOldComponent } from './components/patients-old/patients-old.com
     ReactiveFormsModule,
     HttpClientModule,
     NgxPaginationModule,
+    NotifierModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
