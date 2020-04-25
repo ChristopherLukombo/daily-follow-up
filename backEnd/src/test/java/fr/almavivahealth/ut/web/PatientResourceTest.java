@@ -32,6 +32,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
@@ -64,6 +65,16 @@ public class PatientResourceTest {
 	
 	private static PatientDTO createPatientDTO() {
 		return PatientDTO.builder()
+				.id(ID)
+				.firstName("Ben")
+				.lastName(LASTNAME)
+				.email(EMAIL)
+				.state(true)
+				.build();
+	}
+	
+	private static Patient createPatient() {
+		return Patient.builder()
 				.id(ID)
 				.firstName("Ben")
 				.lastName(LASTNAME)
@@ -313,5 +324,35 @@ public class PatientResourceTest {
 		        .andExpect(status().isInternalServerError())
 				.andExpect(jsonPath("$").isNotEmpty());
 	}
+	
+	@Test
+	public void shouldReactivatePatientWhenPatientExist() throws Exception {
+		// Given
+        final Optional<Patient> patient = Optional.ofNullable(createPatient());
+		
+		// When
+        when(patientService.reactivatePatient(anyLong())).thenReturn(patient);
+
+		// Then
+		mockMvc.perform(get("/api/patients/reactivate/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(patientService, times(1)).reactivatePatient(anyLong());
+	}
+	
+	@Test
+	public void shouldThrowPatientWhenPatientNotExist() throws Exception {
+		// Given
+        final Optional<Patient> patient = Optional.empty();
+		
+		// When
+        when(patientService.reactivatePatient(anyLong())).thenReturn(patient);
+
+		// Then
+		mockMvc.perform(get("/api/patients/reactivate/2")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isInternalServerError());
+		verify(patientService, times(1)).reactivatePatient(anyLong());
+	} 
 
 }
