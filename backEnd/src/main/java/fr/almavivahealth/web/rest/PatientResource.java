@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
@@ -235,6 +236,32 @@ public class PatientResource {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					"An error occurred while trying to import the patients", e);
 		}
+	}
+	
+	/**
+	 * GET /patients/reactivate/:id : Reactivate patient.
+	 *
+	 * @param id the id of the patient to reactivate
+	 * @return the ResponseEntity with status 200 (OK)
+	 * @throws DailyFollowUpException 
+	 */
+	@ApiOperation("Reactivate patient.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 500, message = "Internal Server")
+        })
+	@GetMapping("/patients/reactivate/{id}")
+	public ResponseEntity<Void> reactivatePatient(@PathVariable final Long id) throws DailyFollowUpException {
+		LOGGER.debug("REST request to reactivate Patient : {}", id);
+		final Optional<Patient> patient = patientService.reactivatePatient(id);
+		if (!patient.isPresent()) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					"No patient was found for this id");
+		}
+		return ResponseEntity.ok().build();
 	}
 	
 }

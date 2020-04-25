@@ -379,4 +379,35 @@ public class PatientServiceTest {
 		assertThat(patientServiceImpl.isCSV(file)).isFalse();
 	}
 	
+	@Test
+	public void shouldReactivatePatientWhenPatientExist() {
+		// Given
+		final Patient patient = getPatient();
+		
+		// When
+		when(patientRepository.findById(anyLong())).thenReturn(Optional.ofNullable(patient));
+		when(patientRepository.saveAndFlush((Patient) any())).thenReturn(patient);
+		
+		// Then
+		patientServiceImpl.reactivatePatient(ID);
+		
+		verify(patientRepository, times(1)).findById(anyLong());
+		verify(patientRepository, times(1)).saveAndFlush((Patient) any());
+	}
+	
+	@Test
+	public void shouldNotReactivatePatientWhenPatientNotExist() {
+		// Given
+		final Patient patient = null;
+		
+		// When
+		when(patientRepository.findById(anyLong())).thenReturn(Optional.ofNullable(patient));
+		
+		// Then
+		patientServiceImpl.reactivatePatient(ID);
+		
+		verify(patientRepository, times(1)).findById(anyLong());
+		verify(patientRepository, times(0)).saveAndFlush((Patient) any());
+	}
+	
 }

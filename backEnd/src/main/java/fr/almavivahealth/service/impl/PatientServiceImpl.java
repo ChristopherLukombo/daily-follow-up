@@ -63,7 +63,6 @@ public class PatientServiceImpl implements PatientService {
 
 	private final DietRepository dietRepository;
 
-
 	private final RoomRepository roomRepository;
 
     @Autowired
@@ -157,6 +156,8 @@ public class PatientServiceImpl implements PatientService {
 		LOGGER.debug("Request to delete Patient : {}", id);
 		patientRepository.findById(id).ifPresent(patient -> {
 			patient.setState(false);
+			// free the room
+			patient.setRoom(null);
 			patientRepository.saveAndFlush(patient);
 		});
 	}
@@ -347,6 +348,25 @@ public class PatientServiceImpl implements PatientService {
 	public boolean isCSV(final MultipartFile fileToImport) {
 		final List<String> mimeTypes = Arrays.asList(MIME_APPLICATION_VND_MSEXCEL, MIME_TEXT_PLAIN, MIME_TEXT_CSV);
 		return MimeTypes.isMatchingMimeTypes(mimeTypes, fileToImport);
+	}
+	
+	/**
+	 * Reactivate patient.
+	 *
+	 * @param id the id of the entity
+	 * @return the entity
+	 */
+	@Override
+	public Optional<Patient> reactivatePatient(final Long id) {
+		LOGGER.debug("Request to reactivate Patient : {}", id);
+		return patientRepository.findById(id)
+				.map(patient -> {
+			// reactivate given patient for the id.
+			patient.setState(true);
+			patientRepository.saveAndFlush(patient);
+			LOGGER.debug("Activated patient : {}", id);
+			return patient;
+		});
 	}
 
 }
