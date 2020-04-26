@@ -88,6 +88,9 @@
     </tbody>
   </table>
   <br />
+  <div *ngIf="!room && warning">
+    <app-alert-warning [content]="warning" [close]="false"></app-alert-warning>
+  </div>
   <table *ngIf="room" class="table table-bordered">
     <tbody>
       <tr>
