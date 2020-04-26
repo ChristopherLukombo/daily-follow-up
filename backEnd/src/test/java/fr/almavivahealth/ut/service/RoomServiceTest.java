@@ -218,4 +218,41 @@ public class RoomServiceTest {
 		assertThat(roomServiceImpl.findByPatientId(ID)).isEqualTo(Optional.ofNullable(roomDTO));
 	}
 	
+	@Test
+	public void shouldReturnListOfNotEmptyVacantRooms() {
+		// Given
+		final List<Room> rooms = Arrays.asList(createRoom());
+		
+		// When
+		when(roomRepository.findAllVacantRooms()).thenReturn(rooms);
+		
+		// Then
+		assertThat(roomServiceImpl.findAllVacantRooms()).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldThrowWhenListVacantRoomsIsNull() {
+		// Given
+		final List<Room> rooms = null;
+		
+		// When
+		when(roomRepository.findAllVacantRooms()).thenReturn(rooms);
+		
+		// Then
+		assertThatThrownBy(() -> roomServiceImpl.findAllVacantRooms())
+		.isInstanceOf(NullPointerException.class);
+	}
+	
+	@Test
+	public void shouldReturnListOfEmptyVacantRooms() {
+		// Given
+		final List<Room> rooms = Collections.emptyList();
+		
+		// When
+		when(roomRepository.findAllVacantRooms()).thenReturn(rooms);
+		
+		// Then
+		assertThat(roomServiceImpl.findAllVacantRooms()).isEmpty();
+	}
+	
 }

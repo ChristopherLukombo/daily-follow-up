@@ -55,4 +55,11 @@ public interface RoomService {
 	 * @return the entity
 	 */
 	Optional<RoomDTO> findByPatientId(Long patientId);
+	
+	/**
+	 * Find all vacant rooms.
+	 *
+	 * @return the list of entities
+	 */
+	List<RoomDTO> findAllVacantRooms();
 }
