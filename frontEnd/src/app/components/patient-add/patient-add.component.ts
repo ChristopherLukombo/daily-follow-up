@@ -11,6 +11,7 @@ import {
   FormArray,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
+import { NotifierService } from "angular-notifier";
 
 @Component({
   selector: "app-patient-add",
@@ -42,10 +43,12 @@ export class PatientAddComponent implements OnInit {
   allergies: string[] = [];
 
   loading: boolean = false;
+  error: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private alimentationService: AlimentationService
+    private alimentationService: AlimentationService,
+    private notifierService: NotifierService
   ) {}
 
   ngOnInit(): void {
@@ -60,13 +63,13 @@ export class PatientAddComponent implements OnInit {
             this.loading = false;
           },
           (error) => {
-            console.log(error);
+            this.catchError(error);
             this.loading = false;
           }
         );
       },
       (error) => {
-        console.log(error);
+        this.catchError(error);
         this.loading = false;
       }
     );
@@ -74,8 +77,22 @@ export class PatientAddComponent implements OnInit {
 
   createForm(): void {
     const target = {
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
+      firstName: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(20),
+        ],
+      ],
+      lastName: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(20),
+        ],
+      ],
       sex: [this.sexes[0], Validators.required],
       dateOfBirth: [""], // TODO : faire le check
       situation: [this.situations[0]],
@@ -157,9 +174,22 @@ export class PatientAddComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    console.log("created !");
-    console.log("input to test :" + this.form.controls.comment.value);
+    this.notifierService.notify("success", "Le patient a bien été crée");
+    console.log(this.form.controls.dateOfBirth.value);
     console.log("les diets :" + this.getSelectedDiets());
     console.log(this.allergies);
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   */
+  catchError(error: number): void {
+    if (error && error === 403) {
+      this.error =
+        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else {
+      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+    }
   }
 }
