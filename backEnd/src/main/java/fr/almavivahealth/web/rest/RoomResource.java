@@ -203,4 +203,30 @@ public class RoomResource {
 			return ResponseEntity.noContent().build();
 		}
 	}
+	
+	/**
+	 * GET /rooms/vacant : Get all vacant rooms.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of rooms in body
+	 * or with status 204 (No Content) if there is no room.
+	 *         
+	 */
+	@ApiOperation("Get all vacant rooms.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@GetMapping("/rooms/vacant")
+	public ResponseEntity<List<RoomDTO>> getAllVacantRooms() {
+		LOGGER.debug("REST request to get all vacant rooms");
+		final List<RoomDTO> rooms = roomService.findAllVacantRooms();
+		if (rooms.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(rooms);
+	}
+	
 }

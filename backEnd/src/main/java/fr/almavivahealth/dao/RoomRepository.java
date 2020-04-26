@@ -20,4 +20,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 
 	List<Room> findAllByOrderByIdDesc();
 	
+	@Query("SELECT room FROM Room room WHERE size(room.patients) < room.maxCapacity")
+	List<Room> findAllVacantRooms();
+	
 }

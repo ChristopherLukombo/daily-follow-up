@@ -115,5 +115,19 @@ public class RoomServiceImpl implements RoomService {
 		return roomRepository.findByPatientId(patientId)
 				.map(roomMapper::roomToRoomDTO);
 	}
+
+	/**
+	 * Find all vacant rooms.
+	 *
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<RoomDTO> findAllVacantRooms() {
+		LOGGER.debug("Request to get all vacant rooms");
+		return roomRepository.findAllVacantRooms().stream()
+				.map(roomMapper::roomToRoomDTO)
+				.collect(Collectors.toList());
+	}
 	
 }
