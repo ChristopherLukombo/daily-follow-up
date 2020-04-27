@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -44,4 +45,8 @@ public class Address implements Serializable {
 	@Pattern(regexp = "^(([0-8][0-9])|(9[0-5]))[0-9]{3}$")
 	@Column(name = "postal_code", nullable = false)
 	private String postalCode;
+	
+	@OneToOne(mappedBy = "address")
+	private Patient patient;
+	 
 }

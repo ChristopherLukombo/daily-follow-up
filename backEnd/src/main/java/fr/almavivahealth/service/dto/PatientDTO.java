@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import fr.almavivahealth.domain.Texture;
+import fr.almavivahealth.service.validator.patient.ValidBloodGroup;
+import fr.almavivahealth.service.validator.patient.ValidGender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -24,10 +27,10 @@ public class PatientDTO implements Serializable {
 
 	private Long id;
 	
-    @Size(max = 50)
+    @Size(min = 2, max = 20)
     private String firstName;
 
-    @Size(max = 50)
+    @Size(min = 2, max = 20)
     private String lastName;
 
     @Email
@@ -40,20 +43,26 @@ public class PatientDTO implements Serializable {
 	
 	private AddressDTO address;
 
-	@Pattern(regexp = "^[+](\\d{3})\\)?(\\d{3})(\\d{5,6})$|^(\\d{10,10})$")
+	@Pattern(regexp = "^((\\+|00)33\\s?|0)[1-59](\\s?\\d{2}){4}$", message = "{error.patient.phoneNumber_not_valid}")
 	private String phoneNumber;
 
+	@Pattern(regexp = "^((\\+|00)33\\s?|0)[67](\\s?\\d{2}){4}$", message = "{error.patient.phoneMobilePhone_not_valid}")
 	private String mobilePhone;
 	
 	@Size(max = 50)
 	private String job;
 
+	@Size(max = 3)
+	@ValidBloodGroup
 	private String bloodGroup;
 	
+	@Max(251)
     private Double height;
 	
+	@Max(597)
 	private Double weight;
 	
+	@ValidGender
     private String sex;
 	
 	private Boolean state;

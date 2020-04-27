@@ -43,6 +43,10 @@ import fr.almavivahealth.web.rest.PatientResource;
 @RunWith(MockitoJUnitRunner.class)
 public class PatientResourceTest {
 
+	private static final String BLOOD_GROUP = "A+";
+
+	private static final String SEX = "Homme";
+
 	private static final String EMAIL = "ben.zotito@gmail.com";
 
 	private static final long ID = 1L;
@@ -69,6 +73,8 @@ public class PatientResourceTest {
 				.firstName("Ben")
 				.lastName(LASTNAME)
 				.email(EMAIL)
+				.sex(SEX)
+				.bloodGroup(BLOOD_GROUP)
 				.state(true)
 				.build();
 	}
@@ -79,6 +85,8 @@ public class PatientResourceTest {
 				.firstName("Ben")
 				.lastName(LASTNAME)
 				.email(EMAIL)
+				.sex(SEX)
+				.bloodGroup(BLOOD_GROUP)
 				.state(true)
 				.build();
 	}
