@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,6 +71,7 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@PostMapping("/patients")
 	public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -99,6 +101,7 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@PutMapping("/patients")
 	public ResponseEntity<PatientDTO> updatePatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws DailyFollowUpException {
@@ -126,6 +129,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@GetMapping("/patients")
 	public ResponseEntity<List<PatientDTO>> getAllActivePatients() {
 		LOGGER.debug("REST request to get all active patients");
@@ -151,6 +155,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@GetMapping("/patients/former")
 	public ResponseEntity<List<PatientDTO>> getAllFormerPatients() {
 		LOGGER.debug("REST request to get all former patients");
@@ -176,6 +181,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Patient : {}", id);
@@ -200,6 +206,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<Void> deletePatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Patient : {}", id);
@@ -222,6 +229,7 @@ public class PatientResource {
         @ApiResponse(code = 422, message = "Unprocessable entity"),
         @ApiResponse(code = 500, message = "Internal Server"),
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@PostMapping("/patients/import")
 	public ResponseEntity<BulkResult> importPatientFile(@RequestPart final MultipartFile inputfile)
 			throws DailyFollowUpException {
@@ -253,6 +261,7 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@GetMapping("/patients/reactivate/{id}")
 	public ResponseEntity<Void> reactivatePatient(@PathVariable final Long id) throws DailyFollowUpException {
 		LOGGER.debug("REST request to reactivate Patient : {}", id);
