@@ -95,7 +95,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/v2/api-docs", "/configuration/**", "/swagger*/**", "/webjars/**").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
-                .apply(securityConfigurerAdapter());
+                .apply(securityConfigurerAdapter())
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(securityExceptionEntryPoint());
 
     }
   
@@ -108,4 +111,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    
+    @Bean
+    public RestAuthenticationEntryPoint securityExceptionEntryPoint(){
+        return new RestAuthenticationEntryPoint();
+    }
+
 }
