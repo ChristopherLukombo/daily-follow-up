@@ -15,16 +15,21 @@ export class InfosPatientComponent implements OnInit {
   @Input() patient: Patient;
   room: Room;
 
+  warning: string;
+
   constructor(private clinicService: ClinicService) {}
 
-  ngOnInit(): void {
-    if (this.patient) {
+  ngOnInit(): void {}
+
+  ngOnChanges(): void {
+    this.room = null;
+    if (this.patient && this.patient.roomId && this.patient.state == true) {
       this.clinicService.getRoom(this.patient.roomId).subscribe(
         (data) => {
           this.room = data;
         },
         (error) => {
-          console.log(error);
+          this.warning = "Informations sur la chambre indisponibles.";
         }
       );
     }
