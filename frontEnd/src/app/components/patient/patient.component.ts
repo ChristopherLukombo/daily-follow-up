@@ -8,6 +8,7 @@ import {
 import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
 import { PatientService } from "src/app/services/patient/patient.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-patient",
@@ -32,7 +33,8 @@ export class PatientComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private patientService: PatientService
+    private patientService: PatientService,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -66,10 +68,16 @@ export class PatientComponent implements OnInit {
           this.patient.state = false;
           this.patient.roomId = null;
           this.patient = Object.assign({}, this.patient);
-          console.log("notifier success");
+          this.toastrService.success(
+            "Le patient a bien été supprimé",
+            "Suppression réussie !"
+          );
         },
         (error) => {
-          console.log("notifier error");
+          this.toastrService.error(
+            "Une erreur s'est produite, veuillez réessayer plus tard",
+            "Oops !"
+          );
         }
       );
     });
@@ -81,10 +89,16 @@ export class PatientComponent implements OnInit {
         () => {
           this.patient.state = true;
           this.patient = Object.assign({}, this.patient);
-          console.log("notifier success");
+          this.toastrService.success(
+            "Le patient est de retour à la clinique",
+            "Restauration réussie !"
+          );
         },
         (error) => {
-          console.log("notifier error");
+          this.toastrService.error(
+            "Une erreur s'est produite, veuillez réessayer plus tard",
+            "Oops !"
+          );
         }
       );
     });

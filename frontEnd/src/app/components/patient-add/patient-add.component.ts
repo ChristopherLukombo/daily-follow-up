@@ -172,7 +172,6 @@ export class PatientAddComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    console.log("notifier success");
     console.log(this.form.controls.dateOfBirth.value);
     console.log("les diets :" + this.getSelectedDiets());
     console.log(this.allergies);

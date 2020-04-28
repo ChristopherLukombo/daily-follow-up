@@ -1,5 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -9,6 +10,7 @@ import { AuthGuard } from "./utils/helpers/auth.guard";
 
 import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
 import { NgxPaginationModule } from "ngx-pagination";
+import { ToastrModule } from "ngx-toastr";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -88,6 +90,14 @@ import {
     ReactiveFormsModule,
     HttpClientModule,
     NgxPaginationModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      progressBar: true,
+      closeButton: true,
+      enableHtml: true,
+      preventDuplicates: true,
+      countDuplicates: true,
+    }),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
