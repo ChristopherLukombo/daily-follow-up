@@ -8,7 +8,6 @@ import {
 import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
 import { PatientService } from "src/app/services/patient/patient.service";
-import { NotifierService } from "angular-notifier";
 
 @Component({
   selector: "app-patient",
@@ -33,8 +32,7 @@ export class PatientComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private patientService: PatientService,
-    private notifierService: NotifierService
+    private patientService: PatientService
   ) {}
 
   ngOnInit(): void {
@@ -68,16 +66,10 @@ export class PatientComponent implements OnInit {
           this.patient.state = false;
           this.patient.roomId = null;
           this.patient = Object.assign({}, this.patient);
-          this.notifierService.notify(
-            "success",
-            "Le patient a bien été supprimé"
-          );
+          console.log("notifier success");
         },
         (error) => {
-          this.notifierService.notify(
-            "error",
-            "Une erreur est survenue, veuillez réessayer ultérieurement"
-          );
+          console.log("notifier error");
         }
       );
     });
@@ -89,16 +81,10 @@ export class PatientComponent implements OnInit {
         () => {
           this.patient.state = true;
           this.patient = Object.assign({}, this.patient);
-          this.notifierService.notify(
-            "success",
-            "Le patient a bien été restoré"
-          );
+          console.log("notifier success");
         },
         (error) => {
-          this.notifierService.notify(
-            "error",
-            "Une erreur est survenue, veuillez réessayer ultérieurement"
-          );
+          console.log("notifier error");
         }
       );
     });

@@ -9,7 +9,6 @@ import { AuthGuard } from "./utils/helpers/auth.guard";
 
 import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
 import { NgxPaginationModule } from "ngx-pagination";
-import { NotifierModule } from "angular-notifier";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -89,7 +88,6 @@ import {
     ReactiveFormsModule,
     HttpClientModule,
     NgxPaginationModule,
-    NotifierModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
