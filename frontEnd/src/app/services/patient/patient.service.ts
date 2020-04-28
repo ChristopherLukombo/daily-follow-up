@@ -79,6 +79,20 @@ export class PatientService {
   }
 
   /**
+   * Recréer un patient en fonction de son id
+   * @param id
+   * @returns HttpResponse<Object>
+   */
+  restorePatient(id: number): Observable<HttpResponse<Object>> {
+    return this.http
+      .get<HttpResponse<Object>>(
+        PATIENTS_URL + `/reactivate/${id}`,
+        httpOptions
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Gestion des erreurs du backend
    * @param error
    */

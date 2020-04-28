@@ -19,8 +19,11 @@ export class InfosPatientComponent implements OnInit {
 
   constructor(private clinicService: ClinicService) {}
 
-  ngOnInit(): void {
-    if (this.patient && this.patient.roomId) {
+  ngOnInit(): void {}
+
+  ngOnChanges(): void {
+    this.room = null;
+    if (this.patient && this.patient.roomId && this.patient.state == true) {
       this.clinicService.getRoom(this.patient.roomId).subscribe(
         (data) => {
           this.room = data;

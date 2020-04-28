@@ -3,6 +3,7 @@ import {
   faUserEdit,
   faClock,
   faRecycle,
+  faLock,
 } from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
@@ -15,6 +16,7 @@ import { NotifierService } from "angular-notifier";
   styleUrls: ["./patient.component.scss"],
 })
 export class PatientComponent implements OnInit {
+  lockLogo = faLock;
   editLogo = faUserEdit;
   historyLogo = faClock;
   restoreLogo = faRecycle;
@@ -63,11 +65,34 @@ export class PatientComponent implements OnInit {
     this.route.queryParams.forEach((params) => {
       this.patientService.deletePatient(parseInt(params["id"])).subscribe(
         () => {
+          this.patient.state = false;
+          this.patient.roomId = null;
+          this.patient = Object.assign({}, this.patient);
           this.notifierService.notify(
             "success",
             "Le patient a bien été supprimé"
           );
-          this.patient.state = false;
+        },
+        (error) => {
+          this.notifierService.notify(
+            "error",
+            "Une erreur est survenue, veuillez réessayer ultérieurement"
+          );
+        }
+      );
+    });
+  }
+
+  restorePatient(): void {
+    this.route.queryParams.forEach((params) => {
+      this.patientService.restorePatient(parseInt(params["id"])).subscribe(
+        () => {
+          this.patient.state = true;
+          this.patient = Object.assign({}, this.patient);
+          this.notifierService.notify(
+            "success",
+            "Le patient a bien été restoré"
+          );
         },
         (error) => {
           this.notifierService.notify(
