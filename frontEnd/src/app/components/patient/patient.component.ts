@@ -8,7 +8,7 @@ import {
 import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
 import { PatientService } from "src/app/services/patient/patient.service";
-import { NotifierService } from "angular-notifier";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-patient",
@@ -34,7 +34,7 @@ export class PatientComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private notifierService: NotifierService
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -68,15 +68,15 @@ export class PatientComponent implements OnInit {
           this.patient.state = false;
           this.patient.roomId = null;
           this.patient = Object.assign({}, this.patient);
-          this.notifierService.notify(
-            "success",
-            "Le patient a bien été supprimé"
+          this.toastrService.success(
+            "Le patient a bien été supprimé",
+            "Suppression réussie !"
           );
         },
         (error) => {
-          this.notifierService.notify(
-            "error",
-            "Une erreur est survenue, veuillez réessayer ultérieurement"
+          this.toastrService.error(
+            "Une erreur s'est produite, veuillez réessayer plus tard",
+            "Oops !"
           );
         }
       );
@@ -89,15 +89,15 @@ export class PatientComponent implements OnInit {
         () => {
           this.patient.state = true;
           this.patient = Object.assign({}, this.patient);
-          this.notifierService.notify(
-            "success",
-            "Le patient a bien été restoré"
+          this.toastrService.success(
+            "Le patient est de retour à la clinique",
+            "Restauration réussie !"
           );
         },
         (error) => {
-          this.notifierService.notify(
-            "error",
-            "Une erreur est survenue, veuillez réessayer ultérieurement"
+          this.toastrService.error(
+            "Une erreur s'est produite, veuillez réessayer plus tard",
+            "Oops !"
           );
         }
       );

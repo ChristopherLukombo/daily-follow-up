@@ -11,7 +11,6 @@ import {
   FormArray,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
-import { NotifierService } from "angular-notifier";
 
 @Component({
   selector: "app-patient-add",
@@ -47,8 +46,7 @@ export class PatientAddComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private alimentationService: AlimentationService,
-    private notifierService: NotifierService
+    private alimentationService: AlimentationService
   ) {}
 
   ngOnInit(): void {
@@ -174,7 +172,6 @@ export class PatientAddComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.notifierService.notify("success", "Le patient a bien été crée");
     console.log(this.form.controls.dateOfBirth.value);
     console.log("les diets :" + this.getSelectedDiets());
     console.log(this.allergies);
