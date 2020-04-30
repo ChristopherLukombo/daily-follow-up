@@ -23,21 +23,45 @@ const ROOMS_URL = environment.appRootUrl + "/api/rooms";
 export class ClinicService {
   constructor(private http: HttpClient) {}
 
+  /**
+   * Retourne toutes les chambres de la clinique
+   * @returns une liste de chambre
+   */
   getAllRooms(): Observable<Room[]> {
     return this.http
       .get<Room[]>(ROOMS_URL, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Retourne une chambre en fonction de son id
+   * @param id
+   * @returns une chambre
+   */
   getRoom(id: number): Observable<Room> {
     return this.http
       .get<Room>(ROOMS_URL + `/${id}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Retourne une chambre en fonction de son patient
+   * @param patientId
+   * @returns la chambre du patient
+   */
   getRoomOfPatient(patientId: number): Observable<Room> {
     return this.http
       .get<Room>(ROOMS_URL + `/patient/${patientId}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne toutes les chambres libres de la clinique
+   * @returns une liste de chambre
+   */
+  getAllAvailableRooms(): Observable<Room[]> {
+    return this.http
+      .get<Room[]>(ROOMS_URL + `/vacant`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 

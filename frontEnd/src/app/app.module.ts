@@ -49,6 +49,7 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
+import { RoomAvailableSelectorComponent } from './components/patient-add/room-available-selector/room-available-selector.component';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import {
     PatientImportResultComponent,
     PatientsOldComponent,
     ModalDangerComponent,
+    RoomAvailableSelectorComponent,
   ],
   imports: [
     BrowserModule,
