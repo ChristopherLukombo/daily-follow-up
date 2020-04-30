@@ -1,5 +1,6 @@
 package fr.almavivahealth.service.mapper;
 
+import org.mapstruct.DecoratedWith;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,6 +15,7 @@ import fr.almavivahealth.service.dto.RoomDTO;
  * @author christopher
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@DecoratedWith(RoomMapperDecorator.class)
 public interface RoomMapper {
 
 	@Mapping(source = "id", target = "id")
@@ -24,4 +26,5 @@ public interface RoomMapper {
 
 	@InheritInverseConfiguration
 	Room roomDTOToRoom(RoomDTO roomDTO);
+
 }
