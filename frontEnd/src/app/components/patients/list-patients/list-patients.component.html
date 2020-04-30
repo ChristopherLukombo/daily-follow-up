@@ -44,7 +44,9 @@
         scope="row"
         innerHTML="{{ patient.lastName | highlight: lastName }}"
       ></th>
-      <td innerHTML="{{ patient.firstName | highlight: firstName }}"></td>
+      <td
+        innerHTML="{{ patient.firstName | titlecase | highlight: firstName }}"
+      ></td>
       <td>{{ patient.dateOfBirth | age }}</td>
       <td *ngIf="patient.sex == 'Homme'" [ngStyle]="{ color: '#0652DD' }">
         <fa-icon [icon]="marsLogo"></fa-icon>
