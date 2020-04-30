@@ -17,11 +17,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import org.apache.commons.lang3.SerializationUtils;
 
 import fr.almavivahealth.listener.PatientEntityListener;
 import fr.almavivahealth.service.validator.patient.ValidBloodGroup;
@@ -116,5 +120,17 @@ public class Patient implements Serializable {
 
 	@ManyToOne
 	private Room room;
+	
+	@Transient
+	private transient Patient previousPatient;
+
+	@PostLoad
+	private void savePreviousPatient() {
+		this.previousPatient = SerializationUtils.clone(this);
+	}
+
+	public Patient getPreviousPatient() {
+		return previousPatient;
+	}
 	
 }
