@@ -1,16 +1,19 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { RoomAvailableSelectorComponent } from './room-available-selector.component';
+import { RoomAvailableSelectorComponent } from "./room-available-selector.component";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { NgxPaginationModule } from "ngx-pagination";
+import { SearchPipe } from "src/app/utils/pipes/search.pipe";
 
-describe('RoomAvailableSelectorComponent', () => {
+describe("RoomAvailableSelectorComponent", () => {
   let component: RoomAvailableSelectorComponent;
   let fixture: ComponentFixture<RoomAvailableSelectorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoomAvailableSelectorComponent ]
-    })
-    .compileComponents();
+      imports: [HttpClientTestingModule, NgxPaginationModule],
+      declarations: [RoomAvailableSelectorComponent, SearchPipe],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +22,7 @@ describe('RoomAvailableSelectorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
