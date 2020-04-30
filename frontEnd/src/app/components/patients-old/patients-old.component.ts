@@ -39,7 +39,7 @@ export class PatientsOldComponent implements OnInit {
    * @param error
    */
   catchError(error: number): void {
-    if (error && error === 403) {
+    if (error && error === 401) {
       this.error =
         "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
     } else {
