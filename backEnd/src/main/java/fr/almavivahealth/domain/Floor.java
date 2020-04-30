@@ -44,4 +44,5 @@ public class Floor implements Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Caregiver> caregivers;
+
 }

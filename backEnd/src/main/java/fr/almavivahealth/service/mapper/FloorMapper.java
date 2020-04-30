@@ -13,14 +13,16 @@ import fr.almavivahealth.service.dto.FloorDTO;
  * 
  * @author christopher
  */
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = RoomMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FloorMapper {
 
 	@Mapping(source = "id", target = "id")
 	@Mapping(source = "number", target = "number")
 	@Mapping(source = "state", target = "state")
+	@Mapping(source = "rooms", target = "rooms")
 	FloorDTO floorToFloorDTO(Floor floor);
 
 	@InheritInverseConfiguration
 	Floor floorDTOToFloor(FloorDTO floorDTO);
+
 }
