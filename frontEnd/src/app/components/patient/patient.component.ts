@@ -9,6 +9,7 @@ import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
 import { PatientService } from "src/app/services/patient/patient.service";
 import { ToastrService } from "ngx-toastr";
+import { mergeMap, flatMap } from "rxjs/operators";
 
 @Component({
   selector: "app-patient",
@@ -26,10 +27,12 @@ export class PatientComponent implements OnInit {
   btnDelete: string = "Supprimer le patient";
   confirmDelete: string =
     "Une fois supprimé, le patient se retrouvera dans la liste des anciens patients.";
+  deleting: boolean = false;
+  restoring: boolean = false;
 
   error: string;
   warning: string;
-  loading: Boolean = false;
+  loading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -62,58 +65,58 @@ export class PatientComponent implements OnInit {
   }
 
   deletePatient(): void {
+    this.deleting = true;
     this.route.queryParams.forEach((params) => {
-      this.patientService.deletePatient(parseInt(params["id"])).subscribe(
-        () => {
-          this.patientService.getPatient(parseInt(params["id"])).subscribe(
-            (data) => {
-              this.patient = data;
-              this.toastrService.success(
-                "Le patient a bien été supprimé",
-                "Suppression réussie !"
-              );
-            },
-            (error) => {
-              this.loading = false;
-              this.catchError(error);
-            }
-          );
-        },
-        (error) => {
-          this.toastrService.error(
-            "Une erreur s'est produite, veuillez réessayer plus tard",
-            "Oops !"
-          );
-        }
-      );
+      this.patientService
+        .deletePatient(parseInt(params["id"]))
+        .pipe(
+          mergeMap(() => this.patientService.getPatient(parseInt(params["id"])))
+        )
+        .subscribe(
+          (data) => {
+            this.patient = data;
+            this.deleting = false;
+            this.toastrService.success(
+              "Le patient a bien été supprimé",
+              "Suppression réussie !"
+            );
+          },
+          () => {
+            this.deleting = false;
+            this.toastrService.error(
+              "Une erreur s'est produite, veuillez réessayer plus tard",
+              "Oops !"
+            );
+          }
+        );
     });
   }
 
   restorePatient(): void {
+    this.restoring = true;
     this.route.queryParams.forEach((params) => {
-      this.patientService.restorePatient(parseInt(params["id"])).subscribe(
-        () => {
-          this.patientService.getPatient(parseInt(params["id"])).subscribe(
-            (data) => {
-              this.patient = data;
-              this.toastrService.success(
-                "Le patient est de retour à la clinique",
-                "Restauration réussie !"
-              );
-            },
-            (error) => {
-              this.loading = false;
-              this.catchError(error);
-            }
-          );
-        },
-        (error) => {
-          this.toastrService.error(
-            "Une erreur s'est produite, veuillez réessayer plus tard",
-            "Oops !"
-          );
-        }
-      );
+      this.patientService
+        .restorePatient(parseInt(params["id"]))
+        .pipe(
+          mergeMap(() => this.patientService.getPatient(parseInt(params["id"])))
+        )
+        .subscribe(
+          (data) => {
+            this.patient = data;
+            this.restoring = false;
+            this.toastrService.success(
+              "Le patient est de retour à la clinique",
+              "Restauration réussie !"
+            );
+          },
+          () => {
+            this.restoring = false;
+            this.toastrService.error(
+              "Une erreur s'est produite, veuillez réessayer plus tard",
+              "Oops !"
+            );
+          }
+        );
     });
   }
 
