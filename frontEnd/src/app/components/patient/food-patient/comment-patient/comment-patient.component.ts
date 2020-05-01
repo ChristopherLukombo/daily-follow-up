@@ -1,7 +1,11 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input } from "@angular/core";
 import { faEdit, faUndoAlt, faCheck } from "@fortawesome/free-solid-svg-icons";
 import { Comment } from "src/app/models/patient/comment";
 import { LoginService } from "src/app/services/login/login.service";
+import { Patient } from "src/app/models/patient/patient";
+import { PatientService } from "src/app/services/patient/patient.service";
+import { PatientDTO } from "src/app/models/dto/patientDTO";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-comment-patient",
@@ -13,16 +17,28 @@ export class CommentPatientComponent implements OnInit {
   cancelLogo = faUndoAlt;
   submitLogo = faCheck;
 
-  @Input() comment: Comment;
+  @Input() patient: Patient;
   @Input() isEditable: boolean = false;
+  comment: Comment;
 
   commentEdition: Boolean = false;
   content: string = "";
-  @Output() newComment = new EventEmitter<Comment>();
 
-  constructor(private loginService: LoginService) {}
+  loading: boolean;
+
+  constructor(
+    private loginService: LoginService,
+    private patientService: PatientService,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {}
+
+  ngOnChanges(): void {
+    if (this.patient) {
+      this.comment = this.patient.comment;
+    }
+  }
 
   onEditForm(): void {
     this.content =
@@ -35,16 +51,75 @@ export class CommentPatientComponent implements OnInit {
   }
 
   onSubmitForm(): void {
-    let editedComment = !this.comment ? new Comment() : this.comment;
+    let editedComment = new Comment();
     editedComment.content = this.content;
     editedComment.lastModification = new Date();
     editedComment.pseudo = this.loginService.getTokenPseudo();
     this.postComment(editedComment);
-
     this.commentEdition = false;
   }
 
   postComment(comment: Comment): void {
-    this.newComment.emit(comment);
+    this.loading = true;
+    let dto = this.getPatientDTO(comment);
+    this.patientService.updatePatient(dto).subscribe(
+      (data) => {
+        this.patient = data;
+        this.comment = this.patient.comment;
+        this.loading = false;
+        this.toastrService.success(
+          "Le commentaire du patient a été mis à jour",
+          "Édition terminée !"
+        );
+      },
+      (error) => {
+        this.loading = false;
+        this.toastrService.error(this.getError(error), "Oops !");
+      }
+    );
+  }
+
+  /**
+   * Géneration du DTO
+   * @return le DTO du patient
+   */
+  getPatientDTO(comment: Comment): PatientDTO {
+    const dto = new PatientDTO(
+      this.patient.id,
+      this.patient.firstName,
+      this.patient.lastName,
+      this.patient.email,
+      this.patient.situation,
+      this.patient.dateOfBirth,
+      this.patient.address,
+      this.patient.phoneNumber,
+      this.patient.mobilePhone,
+      this.patient.job,
+      this.patient.bloodGroup,
+      this.patient.height,
+      this.patient.weight,
+      this.patient.sex,
+      this.patient.state,
+      this.patient.texture,
+      this.patient.diets,
+      this.patient.allergies,
+      this.patient.orders,
+      comment,
+      this.patient.roomId
+    );
+    return dto;
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
+  getError(error: number): string {
+    if (error === 401) {
+      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else {
+      return "Une erreur s'est produite. Veuillez réessayer plus tard";
+    }
   }
 }

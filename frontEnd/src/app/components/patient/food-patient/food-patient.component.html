@@ -5,7 +5,7 @@
       <table class="table table-bordered">
         <tbody>
           <tr *ngFor="let diet of patient?.diets">
-            <td>{{ diet.name }}</td>
+            <td>{{ diet.name | titlecase }}</td>
           </tr>
         </tbody>
       </table>
@@ -13,7 +13,7 @@
       <table class="table table-bordered">
         <tbody>
           <tr *ngIf="patient?.texture">
-            <td>{{ patient.texture.name }}</td>
+            <td>{{ patient.texture.name | titlecase }}</td>
           </tr>
         </tbody>
       </table>
@@ -23,7 +23,7 @@
       <table class="table table-bordered">
         <tbody>
           <tr *ngFor="let allergy of patient?.allergies">
-            <td>{{ allergy.name }}</td>
+            <td>{{ allergy.name | titlecase }}</td>
           </tr>
         </tbody>
       </table>
@@ -31,12 +31,7 @@
   </div>
   <br />
   <app-comment-patient
-    (newComment)="newComment($event)"
-    [comment]="patient?.comment"
+    [patient]="patient"
     [isEditable]="isActive"
   ></app-comment-patient>
-  <div *ngIf="loading"><app-loader></app-loader></div>
-  <div *ngIf="error">
-    <app-alert-error [content]="error"></app-alert-error>
-  </div>
 </div>

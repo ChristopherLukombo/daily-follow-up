@@ -22,5 +22,6 @@ export class getActionPatientPipe implements PipeTransform {
     if (action === "INSERTED") return "Arrivée du patient";
     if (action === "UPDATED") return "Modification du patient";
     if (action === "DELETED") return "Le patient a quitté la clinique";
+    if (action === "RECREATED") return "Le patient est revenu dans la clinique";
   }
 }

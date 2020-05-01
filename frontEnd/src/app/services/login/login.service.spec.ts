@@ -63,11 +63,11 @@ describe("LoginService", () => {
     });
 
     it("should return error if authentification failed", () => {
-      const expected = 403;
+      const expected = 401;
       let loginDTO = new LoginDTO("test_uuuu", "123456789");
       service.login(loginDTO).subscribe(
         () => {
-          fail("should have failed with the 403 error");
+          fail("should have failed with the 401 error");
         },
         (error) => {
           expect(error).toEqual(expected);
@@ -76,7 +76,7 @@ describe("LoginService", () => {
       const request = httpMock.expectOne(
         `${environment.appRootUrl}/api/authenticate`
       );
-      request.flush("403 error", { status: 403, statusText: "Not Authorized" });
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 

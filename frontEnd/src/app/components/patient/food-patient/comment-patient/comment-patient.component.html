@@ -2,14 +2,18 @@
   <h5>
     Commentaire
     <button
-      *ngIf="!commentEdition && isEditable"
+      *ngIf="!commentEdition && isEditable && !loading"
       type="button"
       (click)="onEditForm()"
       class="btn btn-light btn-sm"
     >
       <fa-icon [icon]="editLogo"></fa-icon> Editer
     </button>
-    <div *ngIf="commentEdition" class="btn-group btn-group-sm" role="group">
+    <div
+      *ngIf="commentEdition && !loading"
+      class="btn-group btn-group-sm"
+      role="group"
+    >
       <button
         type="button"
         (click)="onCancelForm()"
@@ -26,7 +30,8 @@
       </button>
     </div>
   </h5>
-  <div *ngIf="!commentEdition">
+  <div *ngIf="loading"><app-loader></app-loader></div>
+  <div *ngIf="!commentEdition && !loading">
     <div class="comment">
       <div class="comment-body">
         <p>
@@ -40,7 +45,7 @@
       <strong>{{ comment.pseudo }}</strong>
     </div>
   </div>
-  <div *ngIf="commentEdition" class="form-group">
+  <div *ngIf="commentEdition && !loading" class="form-group">
     <textarea
       class="form-control"
       [(ngModel)]="content"

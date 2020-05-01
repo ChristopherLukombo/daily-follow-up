@@ -11,9 +11,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let saved of result?.savedPatients">
-          <td>{{ saved?.firstName }}</td>
-          <td>{{ saved?.lastName }}</td>
-          <td>{{ saved?.sex }}</td>
+          <td>{{ saved?.lastName | uppercase }}</td>
+          <td>{{ saved?.firstName | titlecase }}</td>
+          <td>{{ saved?.sex | titlecase }}</td>
         </tr>
       </tbody>
     </table>
@@ -30,9 +30,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let updated of result?.updatedPatients">
-          <td>{{ updated?.firstName }}</td>
-          <td>{{ updated?.lastName }}</td>
-          <td>{{ updated?.sex }}</td>
+          <td>{{ updated?.lastName | uppercase }}</td>
+          <td>{{ updated?.firstName | titlecase }}</td>
+          <td>{{ updated?.sex | titlecase }}</td>
         </tr>
       </tbody>
     </table>

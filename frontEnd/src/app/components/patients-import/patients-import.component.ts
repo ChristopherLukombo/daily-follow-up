@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from "@angular/forms";
 import { ResultCsvPatient } from "src/app/models/csv/result-csv-patient";
 import { HttpEventType } from "@angular/common/http";
 import { FileService } from "src/app/services/file/file.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-patients-import",
@@ -24,7 +25,8 @@ export class PatientsImportComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private fileService: FileService
+    private fileService: FileService,
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +79,10 @@ export class PatientsImportComponent implements OnInit {
           case HttpEventType.Response:
             this.result = data.body;
             this.resetProgressBar();
+            this.toastrService.success(
+              "Les patients ont bien été crées",
+              "Opération terminée !"
+            );
             break;
         }
       },
@@ -92,7 +98,7 @@ export class PatientsImportComponent implements OnInit {
    * @param error
    */
   catchError(error: number): void {
-    if (error && error === 403) {
+    if (error && error === 401) {
       this.error =
         "Vous n'êtes plus connecté, veuillez rafraichir le navigateur.";
     } else if (error && error === 422) {

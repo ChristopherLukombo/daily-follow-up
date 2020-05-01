@@ -1,3 +1,7 @@
 .custom-file-input ~ .custom-file-label::after {
   content: "Parcourir ou faire glisser";
 }
+
+.csv-progress {
+  max-width: 96%;
+}

@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { PatientsImportComponent } from "./patients-import.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ToastrService, ToastrModule } from "ngx-toastr";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 describe("PatientsImportComponent", () => {
   let component: PatientsImportComponent;
@@ -10,8 +12,15 @@ describe("PatientsImportComponent", () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, FormsModule, HttpClientTestingModule],
+      imports: [
+        BrowserAnimationsModule,
+        ToastrModule.forRoot(),
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule,
+      ],
       declarations: [PatientsImportComponent],
+      providers: [ToastrService],
     }).compileComponents();
   }));
 

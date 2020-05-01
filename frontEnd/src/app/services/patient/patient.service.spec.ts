@@ -56,11 +56,11 @@ describe("PatientService", () => {
       request.flush(expected);
     });
 
-    it("should return error if user not authorized", () => {
-      const expected = 403;
+    it("should return error if user not logged", () => {
+      const expected = 401;
       service.getAllPatients().subscribe(
         () => {
-          fail("should have failed with the 403 error");
+          fail("should have failed with the 401 error");
         },
         (error) => {
           expect(error).toEqual(expected);
@@ -69,7 +69,7 @@ describe("PatientService", () => {
       const request = httpMock.expectOne(
         `${environment.appRootUrl}/api/patients`
       );
-      request.flush("403 error", { status: 403, statusText: "Not Authorized" });
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 
@@ -100,12 +100,12 @@ describe("PatientService", () => {
       request.flush(expected);
     });
 
-    it("should return error if user not authorized", () => {
+    it("should return error if user not logged", () => {
       const id = 3;
-      const expected = 403;
+      const expected = 401;
       service.getPatient(id).subscribe(
         () => {
-          fail("should have failed with the 403 error");
+          fail("should have failed with the 401 error");
         },
         (error) => {
           expect(error).toEqual(expected);
@@ -114,7 +114,7 @@ describe("PatientService", () => {
       const request = httpMock.expectOne(
         `${environment.appRootUrl}/api/patients/${id}`
       );
-      request.flush("403 error", { status: 403, statusText: "Not Authorized" });
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 
@@ -155,7 +155,7 @@ describe("PatientService", () => {
       request.flush(expected);
     });
 
-    it("should return error if user not authorized", () => {
+    it("should return error if user logged", () => {
       const patientToUpdate = new Patient();
       const dto = new PatientDTO(
         patientToUpdate.id,
@@ -192,7 +192,7 @@ describe("PatientService", () => {
       const request = httpMock.expectOne(
         `${environment.appRootUrl}/api/patients`
       );
-      request.flush("401 error", { status: 401, statusText: "Not Authorized" });
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 
@@ -210,7 +210,7 @@ describe("PatientService", () => {
       request.flush("200 OK", { status: 200, statusText: "OK" });
     });
 
-    it("should return error if user not authorized", () => {
+    it("should return error if user not logged", () => {
       const id = 3;
       const expected = 401;
       service.deletePatient(id).subscribe(
@@ -225,7 +225,7 @@ describe("PatientService", () => {
         `${environment.appRootUrl}/api/patients/${id}`
       );
       expect(request.request.method).toBe("DELETE");
-      request.flush("401 error", { status: 401, statusText: "Not Authorized" });
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 
@@ -243,7 +243,7 @@ describe("PatientService", () => {
       request.flush("200 OK", { status: 200, statusText: "OK" });
     });
 
-    it("should return error if user not authorized", () => {
+    it("should return error if user not logged", () => {
       const id = 3;
       const expected = 401;
       service.restorePatient(id).subscribe(
@@ -258,7 +258,7 @@ describe("PatientService", () => {
         `${environment.appRootUrl}/api/patients/reactivate/${id}`
       );
       expect(request.request.method).toBe("GET");
-      request.flush("401 error", { status: 401, statusText: "Not Authorized" });
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 });

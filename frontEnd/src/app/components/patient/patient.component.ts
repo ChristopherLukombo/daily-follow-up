@@ -58,19 +58,25 @@ export class PatientComponent implements OnInit {
   }
 
   patientDoesNotExist(): void {
-    this.warning = "Ce patient n'éxiste pas. Veuillez réessayer.";
+    this.warning = "Ce patient n'existe pas. Veuillez réessayer.";
   }
 
   deletePatient(): void {
     this.route.queryParams.forEach((params) => {
       this.patientService.deletePatient(parseInt(params["id"])).subscribe(
         () => {
-          this.patient.state = false;
-          this.patient.roomId = null;
-          this.patient = Object.assign({}, this.patient);
-          this.toastrService.success(
-            "Le patient a bien été supprimé",
-            "Suppression réussie !"
+          this.patientService.getPatient(parseInt(params["id"])).subscribe(
+            (data) => {
+              this.patient = data;
+              this.toastrService.success(
+                "Le patient a bien été supprimé",
+                "Suppression réussie !"
+              );
+            },
+            (error) => {
+              this.loading = false;
+              this.catchError(error);
+            }
           );
         },
         (error) => {
@@ -87,11 +93,18 @@ export class PatientComponent implements OnInit {
     this.route.queryParams.forEach((params) => {
       this.patientService.restorePatient(parseInt(params["id"])).subscribe(
         () => {
-          this.patient.state = true;
-          this.patient = Object.assign({}, this.patient);
-          this.toastrService.success(
-            "Le patient est de retour à la clinique",
-            "Restauration réussie !"
+          this.patientService.getPatient(parseInt(params["id"])).subscribe(
+            (data) => {
+              this.patient = data;
+              this.toastrService.success(
+                "Le patient est de retour à la clinique",
+                "Restauration réussie !"
+              );
+            },
+            (error) => {
+              this.loading = false;
+              this.catchError(error);
+            }
           );
         },
         (error) => {
@@ -109,7 +122,7 @@ export class PatientComponent implements OnInit {
    * @param error
    */
   catchError(error: number): void {
-    if (error && error === 403) {
+    if (error && error === 401) {
       this.error =
         "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
     } else {

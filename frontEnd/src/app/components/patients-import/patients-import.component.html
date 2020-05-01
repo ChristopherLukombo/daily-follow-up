@@ -39,7 +39,7 @@
           </form>
           <div class="progress form-group" *ngIf="progress > 0">
             <div
-              class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+              class="progress-bar progress-bar-striped progress-bar-animated bg-primary csv-progress"
               role="progressbar"
               [style.width.%]="progress"
             ></div>
@@ -52,8 +52,8 @@
             <app-alert-error [content]="error"></app-alert-error>
           </div>
           <div *ngIf="!error && result">
-            <span class="text-success">
-              <h6>Opération terminée</h6>
+            <span class="text-primary">
+              <h6>Résultat de l'importation :</h6>
             </span>
             <app-patient-import-result
               [result]="result"

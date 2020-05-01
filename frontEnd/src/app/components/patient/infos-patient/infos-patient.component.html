@@ -9,7 +9,7 @@
           </tr>
           <tr>
             <th>Prénom</th>
-            <td>{{ patient?.firstName }}</td>
+            <td>{{ patient?.firstName | titlecase }}</td>
           </tr>
           <tr>
             <th>Âge</th>
@@ -27,7 +27,7 @@
         <tbody>
           <tr>
             <th>Sexe</th>
-            <td>{{ patient?.sex }}</td>
+            <td>{{ patient?.sex | titlecase }}</td>
           </tr>
           <tr>
             <th>Groupe sanguin</th>
@@ -83,7 +83,7 @@
       </tr>
       <tr>
         <th>Ville</th>
-        <td>{{ patient?.address?.city }}</td>
+        <td>{{ patient?.address?.city | titlecase }}</td>
       </tr>
     </tbody>
   </table>

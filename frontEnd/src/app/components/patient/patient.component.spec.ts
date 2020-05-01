@@ -5,7 +5,7 @@ import { RouterTestingModule } from "@angular/router/testing";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { ToastrModule, ToastrService } from "ngx-toastr";
 import { Patient } from "src/app/models/patient/patient";
-import { of } from "rxjs";
+import { of, Observable } from "rxjs";
 import { PatientService } from "src/app/services/patient/patient.service";
 import { HttpResponse } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -42,12 +42,15 @@ describe("PatientComponent", () => {
   describe("#deletePatient", () => {
     it("should refresh patient property when the request succeed", () => {
       let mock: HttpResponse<Object>;
-      const patient = new Patient();
-      patient.roomId = 5;
-      patient.state = true;
-      component.patient = patient;
+      component.patient = new Patient();
+      component.patient.state = true;
+      component.patient.roomId = 5;
+      const mockPatient = new Patient();
+      mockPatient.state = false;
+      mockPatient.roomId = null;
 
       spyOn(patientService, "deletePatient").and.returnValue(of(mock));
+      spyOn(patientService, "getPatient").and.returnValue(of(mockPatient));
       component.deletePatient();
       fixture.detectChanges();
 
@@ -57,16 +60,15 @@ describe("PatientComponent", () => {
 
     it("should not refresh patient property when the request failed", () => {
       let mock: Error;
-      const patient = new Patient();
-      patient.roomId = 5;
-      patient.state = true;
-      component.patient = patient;
+      component.patient = new Patient();
+      component.patient.roomId = 5;
+      component.patient.state = true;
 
       spyOn(patientService, "deletePatient").and.throwError(mock);
       component.deletePatient();
       fixture.detectChanges();
 
-      const expected = patient.roomId;
+      const expected = 5;
       expect(component.patient.state).toBeTrue();
       expect(component.patient.roomId).toBe(expected);
     });
@@ -75,11 +77,13 @@ describe("PatientComponent", () => {
   describe("#restorePatient", () => {
     it("should refresh patient state when the request succeed", () => {
       let mock: HttpResponse<Object>;
-      const patient = new Patient();
-      patient.state = false;
-      component.patient = patient;
+      component.patient = new Patient();
+      component.patient.state = false;
+      const mockPatient = new Patient();
+      mockPatient.state = true;
 
       spyOn(patientService, "restorePatient").and.returnValue(of(mock));
+      spyOn(patientService, "getPatient").and.returnValue(of(mockPatient));
       component.restorePatient();
       fixture.detectChanges();
 
@@ -88,9 +92,8 @@ describe("PatientComponent", () => {
 
     it("should not refresh patient state when the request failed", () => {
       let mock: Error;
-      const patient = new Patient();
-      patient.state = false;
-      component.patient = patient;
+      component.patient = new Patient();
+      component.patient.state = false;
 
       spyOn(patientService, "restorePatient").and.throwError(mock);
       component.restorePatient();
