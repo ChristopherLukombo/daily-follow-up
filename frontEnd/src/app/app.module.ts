@@ -32,6 +32,7 @@ import { PatientsImportComponent } from "./components/patients-import/patients-i
 import { PatientsImportInfosComponent } from "./components/patients-import/patients-import-infos/patients-import-infos.component";
 import { PatientImportResultComponent } from "./components/patients-import/patient-import-result/patient-import-result.component";
 import { PatientsOldComponent } from "./components/patients-old/patients-old.component";
+import { RoomAvailableSelectorComponent } from "./components/patient-add/room-available-selector/room-available-selector.component";
 
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
@@ -49,7 +50,6 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { RoomAvailableSelectorComponent } from './components/patient-add/room-available-selector/room-available-selector.component';
 
 @NgModule({
   declarations: [

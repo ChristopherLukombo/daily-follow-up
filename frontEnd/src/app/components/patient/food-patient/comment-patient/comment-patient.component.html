@@ -41,7 +41,7 @@
     </div>
     <div *ngIf="comment" class="comment-footer">
       Mis à jour le
-      {{ comment.lastModification | date: "dd/MM/yyyy à HH:mm" }} par
+      {{ comment.lastModification | date: "dd/MM/yyyy à HH:mm":"GMT+4" }} par
       <strong>{{ comment.pseudo }}</strong>
     </div>
   </div>
