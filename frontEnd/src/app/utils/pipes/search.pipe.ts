@@ -41,7 +41,7 @@ export class HighLightPipe implements PipeTransform {
 @Injectable()
 export class OrderPipe implements PipeTransform {
   transform(items: any[], field: string): any[] {
-    if (!field) return items;
+    if (!field || !items) return items;
 
     return items.sort((a: any, b: any) => a[field].localeCompare(b[field]));
   }
