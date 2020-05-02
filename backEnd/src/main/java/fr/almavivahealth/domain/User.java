@@ -44,6 +44,7 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	// TODO : Changer la regex pour le pseudo.
 	@NotNull
     @Pattern(regexp = "^[_'.@A-Za-z0-9-]*$")
     @Size(min = 1, max = 50)
