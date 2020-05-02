@@ -11,6 +11,7 @@ import {
   FormArray,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
+import { forkJoin } from "rxjs";
 
 @Component({
   selector: "app-patient-add",
@@ -51,20 +52,14 @@ export class PatientAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.alimentationService.getAllDiets().subscribe(
-      (data) => {
-        this.dietsAvailable = data;
-        this.alimentationService.getAllTextures().subscribe(
-          (data) => {
-            this.texturesAvailable = data;
-            this.createForm();
-            this.loading = false;
-          },
-          (error) => {
-            this.catchError(error);
-            this.loading = false;
-          }
-        );
+    let allDiets = this.alimentationService.getAllDiets();
+    let allTextures = this.alimentationService.getAllTextures();
+    forkJoin([allDiets, allTextures]).subscribe(
+      (datas) => {
+        this.dietsAvailable = datas[0];
+        this.texturesAvailable = datas[1];
+        this.createForm();
+        this.loading = false;
       },
       (error) => {
         this.catchError(error);
