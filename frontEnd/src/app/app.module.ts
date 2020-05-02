@@ -40,7 +40,7 @@ import { ModalDangerComponent } from "./components/utils-components/modal-danger
 
 import { LoginService } from "./services/login/login.service";
 
-import { DetermineAgePipe } from "./utils/pipes/determine-age.pipe";
+import { DetermineAgePipe, GapPipe } from "./utils/pipes/number-utils.pipe";
 import {
   SearchPipe,
   HighLightPipe,
@@ -50,6 +50,7 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
+import { ListRoomsAvailableComponent } from './components/patient-add/room-available-selector/list-rooms-available/list-rooms-available.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,8 @@ import {
     PatientsOldComponent,
     ModalDangerComponent,
     RoomAvailableSelectorComponent,
+    GapPipe,
+    ListRoomsAvailableComponent,
   ],
   imports: [
     BrowserModule,

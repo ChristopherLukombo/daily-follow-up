@@ -12,3 +12,14 @@ export class DetermineAgePipe implements PipeTransform {
     return age;
   }
 }
+
+@Pipe({
+  name: "gap",
+})
+@Injectable()
+export class GapPipe implements PipeTransform {
+  transform(first: number, second: number): number {
+    if (first === undefined || !second === undefined) return;
+    return Math.abs(first - second);
+  }
+}

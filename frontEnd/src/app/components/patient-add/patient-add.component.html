@@ -299,8 +299,15 @@
                 </table>
               </div>
             </div>
-            <label>Chambre <span class="required">*</span></label>
-            <app-room-available-selector></app-room-available-selector>
+            <div class="form-group">
+              <label>Chambre <span class="required">*</span></label>
+              <app-room-available-selector
+                (selectedRoom)="setRoom($event)"
+              ></app-room-available-selector>
+              <small *ngIf="submitted && f.room.errors" class="text-danger">
+                Le patient doit être affecté à une chambre
+              </small>
+            </div>
             <br />
             <div class="form-group">
               <label>Commentaire / informations complémentaires</label>

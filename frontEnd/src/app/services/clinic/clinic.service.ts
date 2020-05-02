@@ -8,6 +8,7 @@ import { environment } from "src/environments/environment";
 import { Observable, throwError } from "rxjs";
 import { Room } from "src/app/models/clinic/room";
 import { catchError } from "rxjs/operators";
+import { Floor } from "src/app/models/clinic/floor";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -16,6 +17,7 @@ const httpOptions = {
 };
 
 const ROOMS_URL = environment.appRootUrl + "/api/rooms";
+const FLOORS_URL = environment.appRootUrl + "/api/floors";
 
 @Injectable({
   providedIn: "root",
@@ -62,6 +64,16 @@ export class ClinicService {
   getAllAvailableRooms(): Observable<Room[]> {
     return this.http
       .get<Room[]>(ROOMS_URL + `/vacant`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne tout les étages de la clinique
+   * @returns une liste d'étage
+   */
+  getAllFloors(): Observable<Floor[]> {
+    return this.http
+      .get<Floor[]>(FLOORS_URL, httpOptions)
       .pipe(catchError(this.handleError));
   }
 

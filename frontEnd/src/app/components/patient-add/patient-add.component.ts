@@ -12,6 +12,7 @@ import {
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
 import { forkJoin } from "rxjs";
+import { Room } from "src/app/models/clinic/room";
 
 @Component({
   selector: "app-patient-add",
@@ -103,6 +104,7 @@ export class PatientAddComponent implements OnInit {
       texture: [this.texturesAvailable[0].name],
       allergy: [""],
       comment: [""],
+      room: [null, Validators.required],
     };
     this.form = this.formBuilder.group(target);
   }
@@ -160,6 +162,11 @@ export class PatientAddComponent implements OnInit {
   deleteAllergy(allergy: string): void {
     let i = this.allergies.indexOf(allergy);
     this.allergies.splice(i, 1);
+  }
+
+  setRoom(room: Room): void {
+    this.form.controls.room.setValue(room);
+    console.log(this.form.controls.room.value);
   }
 
   onSubmit(): void {

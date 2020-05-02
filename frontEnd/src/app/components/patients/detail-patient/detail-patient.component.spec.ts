@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { DetailPatientComponent } from "./detail-patient.component";
-import { DetermineAgePipe } from "src/app/utils/pipes/determine-age.pipe";
+import { DetermineAgePipe } from "src/app/utils/pipes/number-utils.pipe";
 
 describe("DetailPatientComponent", () => {
   let component: DetailPatientComponent;
