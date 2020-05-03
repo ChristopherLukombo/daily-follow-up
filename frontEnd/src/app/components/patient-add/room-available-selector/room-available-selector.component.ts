@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { ClinicService } from "src/app/services/clinic/clinic.service";
 import { Room } from "src/app/models/clinic/room";
 import { Floor } from "src/app/models/clinic/floor";
-import { faIdBadge } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-room-available-selector",
@@ -10,7 +10,7 @@ import { faIdBadge } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ["./room-available-selector.component.scss"],
 })
 export class RoomAvailableSelectorComponent implements OnInit {
-  roomLogo = faIdBadge;
+  roomLogo = faCheckCircle;
 
   floors: Floor[] = [];
   room: Room;

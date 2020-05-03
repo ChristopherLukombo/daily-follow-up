@@ -7,7 +7,7 @@ import {
 } from "@angular/common/http/testing";
 import { environment } from "src/environments/environment";
 import { Patient } from "src/app/models/patient/patient";
-import { PatientDTO } from "src/app/models/dto/patientDTO";
+import { PatientDTO } from "src/app/models/dto/patient/patientDTO";
 import { HttpResponse } from "@angular/common/http";
 
 describe("PatientService", () => {

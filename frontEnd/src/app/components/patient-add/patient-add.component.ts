@@ -13,6 +13,13 @@ import {
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
 import { forkJoin } from "rxjs";
 import { Room } from "src/app/models/clinic/room";
+import { PatientDTO } from "src/app/models/dto/patient/patientDTO";
+import { TextureDTO } from "src/app/models/dto/food/textureDTO";
+import { AddressDTO } from "src/app/models/dto/patient/addressDTO";
+import { DietDTO } from "src/app/models/dto/patient/dietDTO";
+import { AllergyDTO } from "src/app/models/dto/patient/allergyDTO";
+import { CommentDTO } from "src/app/models/dto/patient/commentDTO";
+import { LoginService } from "src/app/services/login/login.service";
 
 @Component({
   selector: "app-patient-add",
@@ -48,7 +55,8 @@ export class PatientAddComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private alimentationService: AlimentationService
+    private alimentationService: AlimentationService,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
@@ -97,8 +105,8 @@ export class PatientAddComponent implements OnInit {
       streetName: [""],
       postalCode: ["", Validators.pattern("[0-9]{5}")],
       city: [""],
-      height: ["", [Validators.min(0), Validators.max(251)]],
-      weight: ["", [Validators.min(0), Validators.max(597)]], // TODO: faire le check sur pattern float
+      height: [null, [Validators.min(0), Validators.max(251)]],
+      weight: [null, [Validators.min(0), Validators.max(597)]],
       bloodGroup: [this.bloodGroups[0]],
       diets: this.buildCheckboxes(),
       texture: [this.texturesAvailable[0].name],
@@ -128,18 +136,6 @@ export class PatientAddComponent implements OnInit {
     return this.form.controls.diets["controls"];
   }
 
-  getSelectedDiets(): string[] {
-    let selectedDiets: string[] = [];
-    this.form.controls.diets["controls"].forEach(
-      (diet: FormControl, i: number) => {
-        if (diet.value === true && this.dietsAvailable[i]) {
-          selectedDiets.push(this.dietsAvailable[i].name);
-        }
-      }
-    );
-    return selectedDiets;
-  }
-
   validateInt(event: KeyboardEvent): void {
     if (this.illegalInputInt.indexOf(event.key) !== -1) {
       event.preventDefault();
@@ -166,7 +162,6 @@ export class PatientAddComponent implements OnInit {
 
   setRoom(room: Room): void {
     this.form.controls.room.setValue(room);
-    console.log(this.form.controls.room.value);
   }
 
   onSubmit(): void {
@@ -174,9 +169,97 @@ export class PatientAddComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form.controls.dateOfBirth.value);
-    console.log("les diets :" + this.getSelectedDiets());
-    console.log(this.allergies);
+    //console.log(this.f.dateOfBirth.value);
+    //console.log("les diets :" + this.getDiets());
+    //console.log(this.allergies);
+    const dto = this.getPatientDTO();
+    console.log(dto);
+  }
+
+  /**
+   * Géneration du DTO
+   * @return le DTO du patient
+   */
+  getPatientDTO(): PatientDTO {
+    const dto = new PatientDTO(
+      null,
+      this.f.firstName.value,
+      this.f.lastName.value,
+      this.f.email.value,
+      this.f.situation.value,
+      this.f.dateOfBirth.value,
+      this.getAdress(),
+      this.f.phoneNumber.value,
+      this.f.mobilePhone.value,
+      this.f.job.value,
+      this.f.bloodGroup.value,
+      parseInt(this.f.height.value),
+      parseFloat(this.f.weight.value),
+      this.f.sex.value,
+      true,
+      this.getTexture(),
+      this.getDiets(),
+      this.getAllergies(),
+      null,
+      this.getComment(),
+      this.f.room.value.id
+    );
+    return dto;
+  }
+
+  getAdress(): AddressDTO {
+    if (
+      this.f.streetName.value === "" ||
+      this.f.city.value === "" ||
+      this.f.postalCode.value === ""
+    )
+      return null;
+    return new AddressDTO(
+      null,
+      this.f.streetName.value,
+      this.f.city.value,
+      this.f.postalCode.value
+    );
+  }
+
+  getTexture(): TextureDTO {
+    let id: number = this.texturesAvailable.find(
+      (t) => t.name === this.f.texture.value
+    ).id;
+    if (!id) return null;
+    return new TextureDTO(id, this.f.texture.value);
+  }
+
+  getDiets(): Array<DietDTO> {
+    let diets: Array<DietDTO> = new Array<DietDTO>();
+    this.form.controls.diets["controls"].forEach(
+      (diet: FormControl, i: number) => {
+        if (diet.value === true && this.dietsAvailable[i]) {
+          diets.push(
+            new DietDTO(this.dietsAvailable[i].id, this.dietsAvailable[i].name)
+          );
+        }
+      }
+    );
+    return diets;
+  }
+
+  getAllergies(): Array<AllergyDTO> {
+    let allergies: Array<AllergyDTO> = new Array<AllergyDTO>();
+    this.allergies.forEach((name) => {
+      allergies.push(new AllergyDTO(null, name));
+    });
+    return allergies;
+  }
+
+  getComment(): CommentDTO {
+    if (this.f.comment.value === "") return null;
+    return new CommentDTO(
+      null,
+      this.f.comment.value,
+      this.loginService.getTokenPseudo(),
+      new Date()
+    );
   }
 
   /**

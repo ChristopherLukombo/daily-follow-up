@@ -9,7 +9,7 @@ import { environment } from "src/environments/environment";
 import { Observable, throwError } from "rxjs";
 import { Patient } from "src/app/models/patient/patient";
 import { catchError } from "rxjs/operators";
-import { PatientDTO } from "src/app/models/dto/patientDTO";
+import { PatientDTO } from "src/app/models/dto/patient/patientDTO";
 
 const httpOptions = {
   headers: new HttpHeaders({

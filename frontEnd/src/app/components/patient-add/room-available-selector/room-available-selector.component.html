@@ -11,7 +11,9 @@
   <span *ngIf="!input" class="text-muted">
     Aucune chambre selectionnée
   </span>
-  <span *ngIf="input" class="text-success"> Chambre {{ input.number }} </span>
+  <span *ngIf="input" class="text-success">
+    <fa-icon [icon]="roomLogo"></fa-icon> Chambre {{ input.number }}
+  </span>
 </div>
 
 <div
