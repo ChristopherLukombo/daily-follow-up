@@ -19,9 +19,9 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
 	List<Patient> findAllByStateFalseOrderByIdDesc();
 
-	Optional<Patient> findByFirstNameAndLastNameOrEmail(String firstName, String lastName, String email);
+	Optional<Patient> findByFirstNameAndLastName(String firstName, String lastName);
 
-	@Query(value = 
+	@Query(value =
 			  "SELECT "
 			+ "DISTINCT UPPER(a.name) AS allergyName, "
 			+ "COUNT(UPPER(a.name)) OVER(PARTITION BY UPPER( a.name))  AS numberPatients, "
@@ -32,7 +32,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 			+ "INNER JOIN patient p on p.id = pa.patient_id WHERE p.state = true",
 			nativeQuery = true)
 	List<PatientsPerAllergy> findNumberOfPatientsPerAllergy();
-	
+
 	@Query(value = "SELECT "
 			+ "DISTINCT UPPER(d.name) as dietName, "
 			+ "COUNT(UPPER(d.name)) OVER(PARTITION BY UPPER( d.name)) AS numberPatients, "
@@ -43,7 +43,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 			+ "INNER JOIN patient p on p.id = pd.patient_id WHERE p.state = true",
 			nativeQuery = true)
 	List<PatientsPerDiet> findNumberOfPatientsPerDiet();
-	
+
 	@Query(value = "SELECT * FROM "
 			+ "(SELECT COUNT(*) AS activePatients FROM patient p WHERE state = true) AS a, "
 			+ "(SELECT COUNT(*) AS inactivePatients FROM patient p WHERE state = false) AS b, "

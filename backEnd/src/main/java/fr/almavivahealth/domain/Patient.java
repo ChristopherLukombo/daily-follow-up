@@ -21,6 +21,7 @@ import javax.persistence.PostLoad;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -57,10 +58,12 @@ public class Patient implements Serializable {
 
 	@Size(min = 2, max = 20)
 	@Column(name = "first_name", length = 20)
+	@NotNull(message = "{error.patient.firstName_not_null}")
 	private String firstName;
 
 	@Size(min = 2, max = 20)
 	@Column(name = "last_name", length = 20)
+	@NotNull(message = "{error.patient.lastName_not_null}")
 	private String lastName;
 
 	@Email
@@ -104,9 +107,11 @@ public class Patient implements Serializable {
 	private Boolean state;
 
 	@OneToOne
+	@NotNull(message = "{error.patient.texture_not_null}")
 	private Texture texture;
 
 	@ManyToMany(fetch = FetchType.LAZY)
+	@NotEmpty(message = "{error.patient.diet_not_empty}")
 	private List<Diet> diets;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -120,9 +125,9 @@ public class Patient implements Serializable {
 
 	@ManyToOne
 	private Room room;
-	
+
 	@Transient
-	private transient Patient previousPatient;
+	private Patient previousPatient;
 
 	@PostLoad
 	private void savePreviousPatient() {
@@ -132,5 +137,5 @@ public class Patient implements Serializable {
 	public Patient getPreviousPatient() {
 		return previousPatient;
 	}
-	
+
 }
