@@ -9,6 +9,7 @@ import {
   FormBuilder,
   FormControl,
   FormArray,
+  ValidatorFn,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
 import { forkJoin } from "rxjs";
@@ -20,6 +21,9 @@ import { DietDTO } from "src/app/models/dto/patient/dietDTO";
 import { AllergyDTO } from "src/app/models/dto/patient/allergyDTO";
 import { CommentDTO } from "src/app/models/dto/patient/commentDTO";
 import { LoginService } from "src/app/services/login/login.service";
+import { PatientService } from "src/app/services/patient/patient.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-patient-add",
@@ -50,13 +54,18 @@ export class PatientAddComponent implements OnInit {
   texturesAvailable: Texture[] = [];
   allergies: string[] = [];
 
+  creating: boolean = false;
+
   loading: boolean = false;
   error: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private alimentationService: AlimentationService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private patientService: PatientService,
+    private toastrService: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +80,7 @@ export class PatientAddComponent implements OnInit {
         this.loading = false;
       },
       (error) => {
-        this.catchError(error);
+        this.error = this.getError(error);
         this.loading = false;
       }
     );
@@ -109,7 +118,7 @@ export class PatientAddComponent implements OnInit {
       weight: [null, [Validators.min(0), Validators.max(597)]],
       bloodGroup: [this.bloodGroups[0]],
       diets: this.buildCheckboxes(),
-      texture: [this.texturesAvailable[0].name],
+      texture: ["", Validators.required],
       allergy: [""],
       comment: [""],
       room: [null, Validators.required],
@@ -125,7 +134,17 @@ export class PatientAddComponent implements OnInit {
     const list = checkboxes.map((c) => {
       return new FormControl(c.selected);
     });
-    return new FormArray(list);
+    return this.formBuilder.array(list, this.atLeastOneValidators());
+  }
+
+  atLeastOneValidators(min: number = 1): ValidatorFn {
+    const validator: ValidatorFn = (formArray: FormArray) => {
+      const totalSelected = formArray.controls
+        .map((control) => control.value)
+        .reduce((prev, next) => (next ? prev + next : prev), 0);
+      return totalSelected >= min ? null : { required: true };
+    };
+    return validator;
   }
 
   get f() {
@@ -169,11 +188,24 @@ export class PatientAddComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    //console.log(this.f.dateOfBirth.value);
-    //console.log("les diets :" + this.getDiets());
-    //console.log(this.allergies);
+    this.creating = true;
     const dto = this.getPatientDTO();
     console.log(dto);
+    this.patientService.createPatient(dto).subscribe(
+      (data) => {
+        const id = data.id;
+        this.creating = false;
+        this.toastrService.success(
+          "Le patient a bien été crée",
+          "Création terminée !"
+        );
+        this.router.navigate(["/patient/details"], { queryParams: { id: id } });
+      },
+      (error) => {
+        this.creating = false;
+        this.toastrService.error(this.getError(error), "Oops !");
+      }
+    );
   }
 
   /**
@@ -189,8 +221,8 @@ export class PatientAddComponent implements OnInit {
       this.f.situation.value,
       this.f.dateOfBirth.value,
       this.getAdress(),
-      this.f.phoneNumber.value,
-      this.f.mobilePhone.value,
+      "01".concat(this.f.phoneNumber.value),
+      "06".concat(this.f.mobilePhone.value),
       this.f.job.value,
       this.f.bloodGroup.value,
       parseInt(this.f.height.value),
@@ -265,13 +297,13 @@ export class PatientAddComponent implements OnInit {
   /**
    * Récupération du code erreur et ajout du message à afficher
    * @param error
+   * @returns le msg d'erreur
    */
-  catchError(error: number): void {
+  getError(error: number): string {
     if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
     }
   }
 }

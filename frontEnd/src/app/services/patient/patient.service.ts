@@ -57,6 +57,17 @@ export class PatientService {
   }
 
   /**
+   * Créer un patient
+   * @param patientDTO
+   * @returns un Patient
+   */
+  createPatient(patientDTO: PatientDTO): Observable<Patient> {
+    return this.http
+      .post<Patient>(PATIENTS_URL, JSON.stringify(patientDTO), httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Met à jour un patient
    * @param patientDTO
    * @returns un Patient
