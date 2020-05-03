@@ -1,9 +1,9 @@
-import { Address } from "../patient/address";
-import { Texture } from "../food/texture";
-import { Diet } from "../patient/diet";
-import { Allergy } from "../patient/allergy";
-import { Order } from "../patient/order";
-import { Comment } from "../patient/comment";
+import { TextureDTO } from "../food/textureDTO";
+import { AddressDTO } from "./addressDTO";
+import { DietDTO } from "./dietDTO";
+import { AllergyDTO } from "./allergyDTO";
+import { CommentDTO } from "./commentDTO";
+import { OrderDTO } from "./orderDTO";
 
 export class PatientDTO {
   /***/
@@ -19,7 +19,7 @@ export class PatientDTO {
   /***/
   dateOfBirth: Date;
   /***/
-  address: Address;
+  address: AddressDTO;
   /***/
   phoneNumber: string;
   /***/
@@ -37,15 +37,15 @@ export class PatientDTO {
   /***/
   state: boolean;
   /***/
-  texture: Texture;
+  texture: TextureDTO;
   /***/
-  diets: Array<Diet>;
+  diets: Array<DietDTO>;
   /***/
-  allergies: Array<Allergy>;
+  allergies: Array<AllergyDTO>;
   /***/
-  orders: Array<Order>;
+  orders: Array<OrderDTO>;
   /***/
-  comment: Comment;
+  comment: CommentDTO;
   /***/
   roomId: number;
 
@@ -56,7 +56,7 @@ export class PatientDTO {
     email: string,
     situation: string,
     dateOfBirth: Date,
-    address: Address,
+    address: AddressDTO,
     phoneNumber: string,
     mobilePhone: string,
     job: string,
@@ -65,11 +65,11 @@ export class PatientDTO {
     weight: number,
     sex: string,
     state: boolean,
-    texture: Texture,
-    diets: Array<Diet>,
-    allergies: Array<Allergy>,
-    orders: Array<Order>,
-    comment: Comment,
+    texture: TextureDTO,
+    diets: Array<DietDTO>,
+    allergies: Array<AllergyDTO>,
+    orders: Array<OrderDTO>,
+    comment: CommentDTO,
     roomId: number
   ) {
     (this.id = id),

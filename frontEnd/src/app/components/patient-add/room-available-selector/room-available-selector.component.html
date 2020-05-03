@@ -1,18 +1,19 @@
-<div class="form-group">
-  <div>
-    <button
-      type="button"
-      data-toggle="modal"
-      data-target="#roomSelector"
-      class="btn btn-outline-primary"
-    >
-      Choisir une chambre disponible...
-    </button>
-    &nbsp;
-    <span class="text-muted">
-      Aucune chambre selectionnée
-    </span>
-  </div>
+<div>
+  <button
+    type="button"
+    data-toggle="modal"
+    data-target="#roomSelector"
+    class="btn btn-outline-primary"
+  >
+    Choisir une chambre disponible...
+  </button>
+  &nbsp;
+  <span *ngIf="!input" class="text-muted">
+    Aucune chambre selectionnée
+  </span>
+  <span *ngIf="input" class="text-success">
+    <fa-icon [icon]="roomLogo"></fa-icon> Chambre {{ input.number }}
+  </span>
 </div>
 
 <div
@@ -39,57 +40,20 @@
         </button>
       </div>
       <div class="modal-body">
-        <!--------------------------------------------- TODO : externaliser cela ---------------------------------------------------->
-        <div class="form-row">
-          <div class="form-group col">
-            <input
-              class="form-control"
-              type="text"
-              [(ngModel)]="filter"
-              placeholder="Numéro de chambre..."
-            />
-          </div>
-        </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Numéro</th>
-              <th scope="col">Capacité</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="
-                let room of rooms
-                  | search: 'number':filter
-                  | paginate: pagination;
-                let i = index
-              "
-              (click)="selectRoom(room, i)"
-              [class.active]="i == selectedRow"
-            >
-              <td innerHTML="{{ room.number | highlight: filter }}"></td>
-              <td innerHTML="{{ room.maxCapacity }}"></td>
-            </tr>
-          </tbody>
-        </table>
-        <pagination-controls
-          (pageChange)="pageChanged($event)"
-          (pageBoundsCorrection)="pageChanged($event)"
-          maxSize="6"
-          responsive="true"
-          previousLabel="Précédent"
-          nextLabel="Suivant"
-        ></pagination-controls>
+        <app-list-rooms-available
+          [floors]="floors"
+          (selectedRoom)="selectRoom($event)"
+        ></app-list-rooms-available>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           Fermer
         </button>
         <button
-          [disabled]="!selectedRow"
           type="button"
+          [disabled]="!room"
           class="btn btn-primary"
+          (click)="confirm()"
           data-dismiss="modal"
         >
           Valider

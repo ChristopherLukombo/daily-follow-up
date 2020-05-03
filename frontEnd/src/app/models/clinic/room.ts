@@ -1,12 +1,14 @@
-import { Patient } from "../patient/patient";
-
 export class Room {
   /***/
   id: number;
   /***/
+  isFull: boolean;
+  /***/
+  maxCapacity: number;
+  /***/
   number: string;
   /***/
-  state: Boolean;
+  numberOfPatients: number;
   /***/
-  patients: Array<Patient>;
+  state: boolean;
 }

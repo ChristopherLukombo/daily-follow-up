@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { ClinicService } from "src/app/services/clinic/clinic.service";
 import { Room } from "src/app/models/clinic/room";
+import { Floor } from "src/app/models/clinic/floor";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-room-available-selector",
@@ -8,22 +10,19 @@ import { Room } from "src/app/models/clinic/room";
   styleUrls: ["./room-available-selector.component.scss"],
 })
 export class RoomAvailableSelectorComponent implements OnInit {
-  rooms: Room[] = [];
+  roomLogo = faCheckCircle;
 
-  filter: string;
-
-  page: number = 1;
-  pagination = { itemsPerPage: 8, currentPage: this.page };
-
+  floors: Floor[] = [];
+  room: Room;
+  input: Room;
   @Output() selectedRoom = new EventEmitter<Room>();
-  selectedRow: number;
 
   constructor(private clinicService: ClinicService) {}
 
   ngOnInit(): void {
-    this.clinicService.getAllAvailableRooms().subscribe(
+    this.clinicService.getAllFloors().subscribe(
       (data) => {
-        this.rooms = data;
+        this.floors = data;
       },
       (error) => {
         console.log(error);
@@ -31,12 +30,13 @@ export class RoomAvailableSelectorComponent implements OnInit {
     );
   }
 
-  pageChanged(event) {
-    this.pagination.currentPage = event;
+  selectRoom(room: Room): void {
+    this.room = room;
   }
 
-  selectRoom(room: Room, index: number): void {
-    this.selectedRow = index;
-    this.selectedRoom.emit(room);
+  confirm(): void {
+    this.input = this.room;
+    if (!this.input) return;
+    this.selectedRoom.emit(this.input);
   }
 }

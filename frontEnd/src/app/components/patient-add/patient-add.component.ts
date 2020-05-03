@@ -9,9 +9,21 @@ import {
   FormBuilder,
   FormControl,
   FormArray,
+  ValidatorFn,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
 import { forkJoin } from "rxjs";
+import { Room } from "src/app/models/clinic/room";
+import { PatientDTO } from "src/app/models/dto/patient/patientDTO";
+import { TextureDTO } from "src/app/models/dto/food/textureDTO";
+import { AddressDTO } from "src/app/models/dto/patient/addressDTO";
+import { DietDTO } from "src/app/models/dto/patient/dietDTO";
+import { AllergyDTO } from "src/app/models/dto/patient/allergyDTO";
+import { CommentDTO } from "src/app/models/dto/patient/commentDTO";
+import { LoginService } from "src/app/services/login/login.service";
+import { PatientService } from "src/app/services/patient/patient.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-patient-add",
@@ -42,12 +54,18 @@ export class PatientAddComponent implements OnInit {
   texturesAvailable: Texture[] = [];
   allergies: string[] = [];
 
+  creating: boolean = false;
+
   loading: boolean = false;
   error: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private alimentationService: AlimentationService
+    private alimentationService: AlimentationService,
+    private loginService: LoginService,
+    private patientService: PatientService,
+    private toastrService: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -62,7 +80,7 @@ export class PatientAddComponent implements OnInit {
         this.loading = false;
       },
       (error) => {
-        this.catchError(error);
+        this.error = this.getError(error);
         this.loading = false;
       }
     );
@@ -96,13 +114,14 @@ export class PatientAddComponent implements OnInit {
       streetName: [""],
       postalCode: ["", Validators.pattern("[0-9]{5}")],
       city: [""],
-      height: ["", [Validators.min(0), Validators.max(251)]],
-      weight: ["", [Validators.min(0), Validators.max(597)]], // TODO: faire le check sur pattern float
+      height: [null, [Validators.min(0), Validators.max(251)]],
+      weight: [null, [Validators.min(0), Validators.max(597)]],
       bloodGroup: [this.bloodGroups[0]],
       diets: this.buildCheckboxes(),
-      texture: [this.texturesAvailable[0].name],
+      texture: ["", Validators.required],
       allergy: [""],
       comment: [""],
+      room: [null, Validators.required],
     };
     this.form = this.formBuilder.group(target);
   }
@@ -115,7 +134,17 @@ export class PatientAddComponent implements OnInit {
     const list = checkboxes.map((c) => {
       return new FormControl(c.selected);
     });
-    return new FormArray(list);
+    return this.formBuilder.array(list, this.atLeastOneValidators());
+  }
+
+  atLeastOneValidators(min: number = 1): ValidatorFn {
+    const validator: ValidatorFn = (formArray: FormArray) => {
+      const totalSelected = formArray.controls
+        .map((control) => control.value)
+        .reduce((prev, next) => (next ? prev + next : prev), 0);
+      return totalSelected >= min ? null : { required: true };
+    };
+    return validator;
   }
 
   get f() {
@@ -124,18 +153,6 @@ export class PatientAddComponent implements OnInit {
 
   get diets(): FormArray {
     return this.form.controls.diets["controls"];
-  }
-
-  getSelectedDiets(): string[] {
-    let selectedDiets: string[] = [];
-    this.form.controls.diets["controls"].forEach(
-      (diet: FormControl, i: number) => {
-        if (diet.value === true && this.dietsAvailable[i]) {
-          selectedDiets.push(this.dietsAvailable[i].name);
-        }
-      }
-    );
-    return selectedDiets;
   }
 
   validateInt(event: KeyboardEvent): void {
@@ -162,26 +179,131 @@ export class PatientAddComponent implements OnInit {
     this.allergies.splice(i, 1);
   }
 
+  setRoom(room: Room): void {
+    this.form.controls.room.setValue(room);
+  }
+
   onSubmit(): void {
     this.submitted = true;
     if (this.form.invalid) {
       return;
     }
-    console.log(this.form.controls.dateOfBirth.value);
-    console.log("les diets :" + this.getSelectedDiets());
-    console.log(this.allergies);
+    this.creating = true;
+    const dto = this.getPatientDTO();
+    console.log(dto);
+    this.patientService.createPatient(dto).subscribe(
+      (data) => {
+        const id = data.id;
+        this.creating = false;
+        this.toastrService.success(
+          "Le patient a bien été crée",
+          "Création terminée !"
+        );
+        this.router.navigate(["/patient/details"], { queryParams: { id: id } });
+      },
+      (error) => {
+        this.creating = false;
+        this.toastrService.error(this.getError(error), "Oops !");
+      }
+    );
+  }
+
+  /**
+   * Géneration du DTO
+   * @return le DTO du patient
+   */
+  getPatientDTO(): PatientDTO {
+    const dto = new PatientDTO(
+      null,
+      this.f.firstName.value,
+      this.f.lastName.value,
+      this.f.email.value,
+      this.f.situation.value,
+      this.f.dateOfBirth.value,
+      this.getAdress(),
+      "01".concat(this.f.phoneNumber.value),
+      "06".concat(this.f.mobilePhone.value),
+      this.f.job.value,
+      this.f.bloodGroup.value,
+      parseInt(this.f.height.value),
+      parseFloat(this.f.weight.value),
+      this.f.sex.value,
+      true,
+      this.getTexture(),
+      this.getDiets(),
+      this.getAllergies(),
+      null,
+      this.getComment(),
+      this.f.room.value.id
+    );
+    return dto;
+  }
+
+  getAdress(): AddressDTO {
+    if (
+      this.f.streetName.value === "" ||
+      this.f.city.value === "" ||
+      this.f.postalCode.value === ""
+    )
+      return null;
+    return new AddressDTO(
+      null,
+      this.f.streetName.value,
+      this.f.city.value,
+      this.f.postalCode.value
+    );
+  }
+
+  getTexture(): TextureDTO {
+    let id: number = this.texturesAvailable.find(
+      (t) => t.name === this.f.texture.value
+    ).id;
+    if (!id) return null;
+    return new TextureDTO(id, this.f.texture.value);
+  }
+
+  getDiets(): Array<DietDTO> {
+    let diets: Array<DietDTO> = new Array<DietDTO>();
+    this.form.controls.diets["controls"].forEach(
+      (diet: FormControl, i: number) => {
+        if (diet.value === true && this.dietsAvailable[i]) {
+          diets.push(
+            new DietDTO(this.dietsAvailable[i].id, this.dietsAvailable[i].name)
+          );
+        }
+      }
+    );
+    return diets;
+  }
+
+  getAllergies(): Array<AllergyDTO> {
+    let allergies: Array<AllergyDTO> = new Array<AllergyDTO>();
+    this.allergies.forEach((name) => {
+      allergies.push(new AllergyDTO(null, name));
+    });
+    return allergies;
+  }
+
+  getComment(): CommentDTO {
+    if (this.f.comment.value === "") return null;
+    return new CommentDTO(
+      null,
+      this.f.comment.value,
+      this.loginService.getTokenPseudo(),
+      new Date()
+    );
   }
 
   /**
    * Récupération du code erreur et ajout du message à afficher
    * @param error
+   * @returns le msg d'erreur
    */
-  catchError(error: number): void {
+  getError(error: number): string {
     if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
     }
   }
 }

@@ -1,4 +1,4 @@
-import { DetermineAgePipe } from "./determine-age.pipe";
+import { DetermineAgePipe } from "./number-utils.pipe";
 
 describe("DetermineAgePipe", () => {
   let pipe: DetermineAgePipe;

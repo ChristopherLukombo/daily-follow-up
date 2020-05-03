@@ -4,8 +4,9 @@ import { Comment } from "src/app/models/patient/comment";
 import { LoginService } from "src/app/services/login/login.service";
 import { Patient } from "src/app/models/patient/patient";
 import { PatientService } from "src/app/services/patient/patient.service";
-import { PatientDTO } from "src/app/models/dto/patientDTO";
+import { PatientDTO } from "src/app/models/dto/patient/patientDTO";
 import { ToastrService } from "ngx-toastr";
+import { CommentDTO } from "src/app/models/dto/patient/commentDTO";
 
 @Component({
   selector: "app-comment-patient",
@@ -51,15 +52,21 @@ export class CommentPatientComponent implements OnInit {
   }
 
   onSubmitForm(): void {
-    let editedComment = new Comment();
-    editedComment.content = this.content;
-    editedComment.lastModification = new Date();
-    editedComment.pseudo = this.loginService.getTokenPseudo();
+    const editedComment = this.getCommentDTO();
     this.postComment(editedComment);
     this.commentEdition = false;
   }
 
-  postComment(comment: Comment): void {
+  getCommentDTO(): CommentDTO {
+    return new CommentDTO(
+      this.comment ? this.comment.id : null,
+      this.content,
+      this.loginService.getTokenPseudo(),
+      new Date()
+    );
+  }
+
+  postComment(comment: CommentDTO): void {
     this.loading = true;
     let dto = this.getPatientDTO(comment);
     this.patientService.updatePatient(dto).subscribe(
@@ -83,7 +90,7 @@ export class CommentPatientComponent implements OnInit {
    * Géneration du DTO
    * @return le DTO du patient
    */
-  getPatientDTO(comment: Comment): PatientDTO {
+  getPatientDTO(comment: CommentDTO): PatientDTO {
     const dto = new PatientDTO(
       this.patient.id,
       this.patient.firstName,
