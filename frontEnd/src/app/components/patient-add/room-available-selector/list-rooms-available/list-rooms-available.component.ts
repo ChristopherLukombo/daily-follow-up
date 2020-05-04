@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 import { Floor } from "src/app/models/clinic/floor";
-import { ClinicService } from "src/app/services/clinic/clinic.service";
 import { Room } from "src/app/models/clinic/room";
 
 @Component({
@@ -34,14 +33,7 @@ export class ListRoomsAvailableComponent implements OnInit {
   }
 
   getRoomsAvailable(floors: Floor[]): Floor[] {
-    floors.forEach((f) =>
-      f.rooms.forEach((r) => {
-        if (r.isFull === true) {
-          const index = f.rooms.indexOf(r);
-          f.rooms.splice(index, 1);
-        }
-      })
-    );
+    floors.forEach((f) => (f.rooms = f.rooms.filter((room) => !room.isFull)));
     return floors.sort((a, b) => a.number - b.number);
   }
 

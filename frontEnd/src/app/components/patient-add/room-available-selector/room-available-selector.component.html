@@ -1,4 +1,8 @@
-<div>
+<div *ngIf="loading" class="col"><app-loader></app-loader></div>
+<div *ngIf="warning" class="col">
+  <app-alert-warning [content]="warning" [close]="false"></app-alert-warning>
+</div>
+<div *ngIf="!loading && !warning">
   <button
     type="button"
     data-toggle="modal"

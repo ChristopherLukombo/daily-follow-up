@@ -51,6 +51,7 @@ import {
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
 import { ListRoomsAvailableComponent } from './components/patient-add/room-available-selector/list-rooms-available/list-rooms-available.component';
+import { FormPatientAddComponent } from './components/patient-add/form-patient-add/form-patient-add.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { ListRoomsAvailableComponent } from './components/patient-add/room-avail
     RoomAvailableSelectorComponent,
     GapPipe,
     ListRoomsAvailableComponent,
+    FormPatientAddComponent,
   ],
   imports: [
     BrowserModule,

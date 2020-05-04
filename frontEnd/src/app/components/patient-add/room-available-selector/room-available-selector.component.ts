@@ -17,15 +17,22 @@ export class RoomAvailableSelectorComponent implements OnInit {
   input: Room;
   @Output() selectedRoom = new EventEmitter<Room>();
 
+  loading: boolean = false;
+  warning: string;
+
   constructor(private clinicService: ClinicService) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.clinicService.getAllFloors().subscribe(
       (data) => {
         this.floors = data;
+        this.loading = false;
       },
       (error) => {
-        console.log(error);
+        this.warning =
+          "Impossible de récupérer les chambres disponibles pour le moment.";
+        this.loading = false;
       }
     );
   }
