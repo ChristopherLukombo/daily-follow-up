@@ -1,4 +1,4 @@
-package fr.almavivahealth.util;
+package fr.almavivahealth.utils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

@@ -1,4 +1,4 @@
-package fr.almavivahealth.util;
+package fr.almavivahealth.utils;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +47,5 @@ public final class MimeTypes {
 				.map(MultipartFile::getContentType)
 				.orElse(StringUtils.EMPTY);
 	}
-
 
 }

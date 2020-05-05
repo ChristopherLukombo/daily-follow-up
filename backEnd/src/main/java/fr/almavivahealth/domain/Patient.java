@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.SerializationUtils;
 
-import fr.almavivahealth.listener.PatientEntityListener;
+import fr.almavivahealth.domain.listeners.PatientEntityListener;
 import fr.almavivahealth.service.validator.patient.ValidBloodGroup;
 import fr.almavivahealth.service.validator.patient.ValidGender;
 import lombok.AllArgsConstructor;
