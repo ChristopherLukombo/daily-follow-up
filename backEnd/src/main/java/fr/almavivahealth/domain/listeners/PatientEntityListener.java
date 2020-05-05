@@ -1,4 +1,4 @@
-package fr.almavivahealth.listener;
+package fr.almavivahealth.domain.listeners;
 
 import java.util.Optional;
 
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.domain.PatientHistory;
 import fr.almavivahealth.enums.Action;
-import fr.almavivahealth.util.BeanUtil;
+import fr.almavivahealth.utils.BeanUtil;
 
 @Transactional
 public class PatientEntityListener {

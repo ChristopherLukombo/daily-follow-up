@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import fr.almavivahealth.config.CorsFilter;
+import fr.almavivahealth.security.filters.CorsFilter;
 import fr.almavivahealth.security.jwt.JWTConfigurer;
 import fr.almavivahealth.security.jwt.TokenProvider;
 

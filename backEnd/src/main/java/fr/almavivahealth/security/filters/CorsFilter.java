@@ -1,4 +1,4 @@
-package fr.almavivahealth.config;
+package fr.almavivahealth.security.filters;
 
 import java.io.IOException;
 
@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
+
+import fr.almavivahealth.config.ConfigurationProperties;
 
 /**
  * Cors filter allowing cross-domain requests

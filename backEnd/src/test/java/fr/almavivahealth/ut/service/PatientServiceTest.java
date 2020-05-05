@@ -323,17 +323,27 @@ public class PatientServiceTest {
 	public void shouldIsCSVWhenIsOkForVndmsExcel() {
 		// Given
 		final String data = "test";
-		final MockMultipartFile file = new MockMultipartFile("file", "filename.cs", "application/vnd.ms-excel", data.getBytes());
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "application/vnd.ms-excel", data.getBytes());
 
 		// Then
 		assertThat(patientServiceImpl.isCSV(file)).isTrue();
 	}
 
 	@Test
-	public void shouldIsCSVWhenIsNotOk() {
+	public void shouldReturnFalseWhenCSVHasNotValidMimeType() {
 		// Given
 		final String data = "test";
 		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "image/bmp", data.getBytes());
+
+		// Then
+		assertThat(patientServiceImpl.isCSV(file)).isFalse();
+	}
+
+	@Test
+	public void shouldReturnFalseWhenCSVHasNotValidExtension() {
+		// Given
+		final String data = "test";
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.cs", "application/vnd.ms-excel", data.getBytes());
 
 		// Then
 		assertThat(patientServiceImpl.isCSV(file)).isFalse();

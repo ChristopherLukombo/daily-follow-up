@@ -199,7 +199,7 @@ public class RoomResourceTest {
 		.andExpect(status().isNoContent());
 		verify(roomService, times(1)).delete(id);
 	}
-	
+
 	@Test
 	public void shouldGetRoomByPatientIdWhenIsOk() throws IOException, Exception {
 		// Given
@@ -215,7 +215,7 @@ public class RoomResourceTest {
 		.andExpect(status().isOk());
 		verify(roomService, times(1)).findByPatientId(1L);
 	}
-	
+
 	@Test
 	public void shouldGetRoomByPatientIdWhenIsNotFound() throws IOException, Exception {
 		// Given
@@ -231,37 +231,5 @@ public class RoomResourceTest {
 		.andExpect(status().isNoContent());
 		verify(roomService, times(1)).findByPatientId(2L);
 	}
-	
-	@Test
-	public void shouldReturnListOfNotEmptyVacantRooms() throws IOException, Exception {
-		// Given
-		final List<RoomDTO> rooms = Arrays.asList(createRoomDTO());
-		
-		// When
-		when(roomService.findAllVacantRooms()).thenReturn(rooms);
-		
-		// Then
-		mockMvc.perform(get("/api/rooms/vacant")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(rooms)))
-		.andExpect(status().isOk());
-		verify(roomService, times(1)).findAllVacantRooms();
-	}
-	
-	@Test
-	public void shouldReturnListOfEmptyVacantRooms() throws IOException, Exception {
-		// Given
-		final List<RoomDTO> rooms = Collections.emptyList();
-		
-		// When
-		when(roomService.findAllVacantRooms()).thenReturn(rooms);
-		
-		// Then
-		mockMvc.perform(get("/api/rooms/vacant")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(rooms)))
-		.andExpect(status().isNoContent());
-		verify(roomService, times(1)).findAllVacantRooms();
-	}
-	
+
 }

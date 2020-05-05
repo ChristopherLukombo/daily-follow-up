@@ -1,10 +1,11 @@
 package fr.almavivahealth.service.impl;
 
 import static fr.almavivahealth.config.Constants.COMMA;
+import static fr.almavivahealth.config.Constants.CSV;
 import static fr.almavivahealth.config.Constants.SEMICOLON;
-import static fr.almavivahealth.util.MimeTypes.MIME_APPLICATION_VND_MSEXCEL;
-import static fr.almavivahealth.util.MimeTypes.MIME_TEXT_CSV;
-import static fr.almavivahealth.util.MimeTypes.MIME_TEXT_PLAIN;
+import static fr.almavivahealth.utils.MimeTypes.MIME_APPLICATION_VND_MSEXCEL;
+import static fr.almavivahealth.utils.MimeTypes.MIME_TEXT_CSV;
+import static fr.almavivahealth.utils.MimeTypes.MIME_TEXT_PLAIN;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.any23.encoding.TikaEncodingDetector;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -41,7 +43,7 @@ import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.mapper.PatientMapper;
-import fr.almavivahealth.util.MimeTypes;
+import fr.almavivahealth.utils.MimeTypes;
 
 /**
  * Service Implementation for managing Patient.
@@ -63,8 +65,11 @@ public class PatientServiceImpl implements PatientService {
 	private final RoomRepository roomRepository;
 
     @Autowired
-	public PatientServiceImpl(final PatientRepository patientRepository, final PatientMapper patientMapper,
-			final TextureRepository textureRepository, final DietRepository dietRepository,
+	public PatientServiceImpl(
+			final PatientRepository patientRepository,
+			final PatientMapper patientMapper,
+			final TextureRepository textureRepository,
+			final DietRepository dietRepository,
 			final RoomRepository roomRepository) {
 		this.patientRepository = patientRepository;
 		this.patientMapper = patientMapper;
@@ -314,7 +319,8 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public boolean isCSV(final MultipartFile fileToImport) {
 		final List<String> mimeTypes = Arrays.asList(MIME_APPLICATION_VND_MSEXCEL, MIME_TEXT_PLAIN, MIME_TEXT_CSV);
-		return MimeTypes.isMatchingMimeTypes(mimeTypes, fileToImport);
+		return CSV.equalsIgnoreCase(FilenameUtils.getExtension(fileToImport.getOriginalFilename()))
+				&& MimeTypes.isMatchingMimeTypes(mimeTypes, fileToImport);
 	}
 
 	/**

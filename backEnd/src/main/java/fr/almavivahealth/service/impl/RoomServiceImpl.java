@@ -22,13 +22,13 @@ import fr.almavivahealth.service.mapper.RoomMapper;
 @Service
 @Transactional
 public class RoomServiceImpl implements RoomService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomServiceImpl.class);
 
 	private final RoomRepository roomRepository;
-	
+
 	private final RoomMapper roomMapper;
-	
+
 	@Autowired
 	public RoomServiceImpl(final RoomRepository roomRepository, final RoomMapper roomMapper) {
 		this.roomRepository = roomRepository;
@@ -116,18 +116,4 @@ public class RoomServiceImpl implements RoomService {
 				.map(roomMapper::roomToRoomDTO);
 	}
 
-	/**
-	 * Find all vacant rooms.
-	 *
-	 * @return the list of entities
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<RoomDTO> findAllVacantRooms() {
-		LOGGER.debug("Request to get all vacant rooms");
-		return roomRepository.findAllVacantRooms().stream()
-				.map(roomMapper::roomToRoomDTO)
-				.collect(Collectors.toList());
-	}
-	
 }

@@ -1,4 +1,4 @@
-package fr.almavivahealth.util;
+package fr.almavivahealth.utils;
 
 import org.springframework.context.ApplicationContext;
 
