@@ -1,16 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ListRoomsAvailableComponent } from './list-rooms-available.component';
+import { ListRoomsAvailableComponent } from "./list-rooms-available.component";
+import { NgxPaginationModule } from "ngx-pagination";
+import { SearchPipe } from "src/app/utils/pipes/search.pipe";
 
-describe('ListRoomsAvailableComponent', () => {
+describe("ListRoomsAvailableComponent", () => {
   let component: ListRoomsAvailableComponent;
   let fixture: ComponentFixture<ListRoomsAvailableComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListRoomsAvailableComponent ]
-    })
-    .compileComponents();
+      imports: [NgxPaginationModule],
+      declarations: [ListRoomsAvailableComponent, SearchPipe],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +21,7 @@ describe('ListRoomsAvailableComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

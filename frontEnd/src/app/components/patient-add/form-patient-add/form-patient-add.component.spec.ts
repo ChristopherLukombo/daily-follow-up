@@ -1,16 +1,27 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FormPatientAddComponent } from './form-patient-add.component';
+import { FormPatientAddComponent } from "./form-patient-add.component";
+import { ReactiveFormsModule, FormsModule } from "@angular/forms";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ToastrService, ToastrModule } from "ngx-toastr";
+import { RouterTestingModule } from "@angular/router/testing";
 
-describe('FormPatientAddComponent', () => {
+describe("FormPatientAddComponent", () => {
   let component: FormPatientAddComponent;
   let fixture: ComponentFixture<FormPatientAddComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormPatientAddComponent ]
-    })
-    .compileComponents();
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        RouterTestingModule,
+      ],
+      declarations: [FormPatientAddComponent],
+      providers: [ToastrService],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +30,7 @@ describe('FormPatientAddComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
