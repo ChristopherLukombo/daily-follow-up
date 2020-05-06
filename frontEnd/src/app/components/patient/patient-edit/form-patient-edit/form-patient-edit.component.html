@@ -1,1 +1,281 @@
-<p>form-patient-edit works!</p>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Nom <span class="required">*</span></label>
+      <input
+        type="text"
+        formControlName="lastName"
+        [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
+        class="form-control"
+      />
+      <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+        Un nom entre 2 et 20 caractères est requis
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Prénom <span class="required">*</span></label>
+      <input
+        type="text"
+        formControlName="firstName"
+        [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
+        class="form-control"
+      />
+      <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+        Un prénom entre 2 et 20 caractères est requis
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Sexe <span class="required">*</span></label>
+      <select class="form-control" formControlName="sex">
+        <option *ngFor="let sex of sexes" [ngValue]="sex">
+          {{ sex }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Date de naissance</label>
+    <input type="date" formControlName="dateOfBirth" class="form-control" />
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label>Situation familliale</label>
+      <select class="form-control" formControlName="situation">
+        <option *ngFor="let situation of situations" [ngValue]="situation">{{
+          situation
+        }}</option>
+      </select>
+    </div>
+    <div class="form-group col-md-6">
+      <label>Situation professionnelle</label>
+      <select class="form-control" formControlName="job">
+        <option *ngFor="let job of jobs" [ngValue]="job">
+          {{ job }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <br />
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Mail</label>
+      <input
+        type="email"
+        formControlName="email"
+        [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+        class="form-control"
+      />
+      <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        Le mail doit être valide
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Télephone</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">+33</div>
+        </div>
+        <input
+          type="tel"
+          formControlName="phoneNumber"
+          [ngClass]="{
+            'is-invalid': submitted && f.phoneNumber.errors
+          }"
+          class="form-control"
+        />
+        <div *ngIf="submitted && f.phoneNumber.errors" class="invalid-feedback">
+          Le numéro doit être valide (ex: 192292029)
+        </div>
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Télephone personnel</label>
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">+33</div>
+        </div>
+        <input
+          type="tel"
+          formControlName="mobilePhone"
+          [ngClass]="{
+            'is-invalid': submitted && f.mobilePhone.errors
+          }"
+          class="form-control"
+        />
+        <div *ngIf="submitted && f.mobilePhone.errors" class="invalid-feedback">
+          Le numéro doit être valide (ex: 654110010)
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Adresse</label>
+    <input
+      type="text"
+      formControlName="streetName"
+      class="form-control"
+      placeholder="242 rue du faubourg st Antoine"
+    />
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Code postal</label>
+      <input
+        type="number"
+        formControlName="postalCode"
+        [ngClass]="{
+          'is-invalid': submitted && f.postalCode.errors
+        }"
+        class="form-control"
+        (keypress)="validateInt($event)"
+        placeholder="75012"
+      />
+      <div *ngIf="submitted && f.postalCode.errors" class="invalid-feedback">
+        Le code postal doit être valide (ex: 75012)
+      </div>
+    </div>
+    <div class="form-group col-md-8">
+      <label>Ville</label>
+      <input
+        type="text"
+        formControlName="city"
+        class="form-control"
+        placeholder="Paris"
+      />
+    </div>
+  </div>
+  <br />
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="height">Taille (cm)</label>
+      <input
+        type="number"
+        formControlName="height"
+        [ngClass]="{ 'is-invalid': submitted && f.height.errors }"
+        min="000"
+        max="251"
+        (keypress)="validateInt($event)"
+        class="form-control"
+      />
+      <div *ngIf="submitted && f.height.errors" class="invalid-feedback">
+        La taille doit être valide
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Poids (kg)</label>
+      <input
+        type="number"
+        formControlName="weight"
+        [ngClass]="{ 'is-invalid': submitted && f.weight.errors }"
+        min="000"
+        max="597"
+        (keypress)="validateFloat($event)"
+        class="form-control"
+      />
+      <div *ngIf="submitted && f.weight.errors" class="invalid-feedback">
+        Le poids doit être valide
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label for="blood">Groupe sanguin</label>
+      <select class="form-control" formControlName="bloodGroup">
+        <option *ngFor="let bloodGroup of bloodGroups" [ngValue]="bloodGroup">
+          {{ bloodGroup }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label>Alimentation(s) <span class="required">*</span></label>
+      <div class="diet-form-checkboxes">
+        <label
+          *ngFor="let diet of diets; let i = index"
+          class="checkbox-inline"
+        >
+          <input type="checkbox" [formControl]="diet" />
+          {{ dietsAvailable[i].name }}
+        </label>
+      </div>
+      <small *ngIf="submitted && f.diets.errors" class="text-danger">
+        Le patient doit avoir au moins une alimentation
+      </small>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Texture des plats <span class="required">*</span></label>
+      <select
+        class="form-control"
+        [ngClass]="{ 'is-invalid': submitted && f.texture.errors }"
+        formControlName="texture"
+      >
+        <option
+          *ngFor="let texture of texturesAvailable"
+          [ngValue]="texture.name"
+        >
+          {{ texture.name }}
+        </option>
+      </select>
+      <div *ngIf="submitted && f.texture.errors" class="invalid-feedback">
+        La texture des plats doit être renseigné
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <label>Allergie(s)</label>
+      <div class="input-group">
+        <input
+          type="text"
+          formControlName="allergy"
+          class="form-control"
+          placeholder="Renseigner..."
+        />
+        <div class="input-group-prepend">
+          <button type="button" class="input-group-text" (click)="addAllergy()">
+            <fa-icon [icon]="addLogo"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <br />
+      <table *ngIf="allergies.length > 0" class="table table-bordered">
+        <tbody>
+          <tr *ngFor="let allergy of allergies">
+            <td>
+              {{ allergy }}
+              <button
+                type="button"
+                class="btn btn-sm"
+                (click)="deleteAllergy(allergy)"
+              >
+                <fa-icon [icon]="removeLogo"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="form-group">
+    <label>Chambre <span class="required">*</span></label>
+    <app-room-available-selector
+      [firstSelected]="patient?.roomId"
+      (selectedRoom)="setRoom($event)"
+    ></app-room-available-selector>
+    <small *ngIf="submitted && f.room.errors" class="text-danger">
+      Le patient doit être affecté à une chambre
+    </small>
+  </div>
+  <br />
+  <div class="form-group">
+    <label>Commentaire / informations complémentaires</label>
+    <textarea
+      class="form-control"
+      formControlName="comment"
+      rows="2"
+    ></textarea>
+  </div>
+  <button *ngIf="!updating" type="submit" class="btn btn-primary">
+    Enregistrer les informations
+  </button>
+  <button *ngIf="updating" type="submit" class="btn btn-primary" disabled>
+    <span class="spinner-border spinner-border-sm"></span>Mise à jour...
+  </button>
+</form>

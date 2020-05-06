@@ -15,7 +15,11 @@
         <div *ngIf="patient && !error && !warning" class="col">
           <h4>Édition du patient n°{{ patient?.id }}</h4>
           <br />
-          <app-form-patient-edit></app-form-patient-edit>
+          <app-form-patient-edit
+            [patient]="patient"
+            [dietsAvailable]="dietsAvailable"
+            [texturesAvailable]="texturesAvailable"
+          ></app-form-patient-edit>
           <br />
         </div>
       </div>
