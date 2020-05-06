@@ -1,5 +1,5 @@
 def projectName = "backEnd"
-def mails = "christopher.lukombo@outlook.fr"
+def mails = "christopher.lukombo@outlook.fr;neal.k@hotmail.fr;Angelo.deliessche@gmail.com"
 
 pipeline{
     triggers { pollSCM('H/30 * * * *') }
@@ -18,6 +18,13 @@ pipeline{
             post {
                 always{
                     junit '**/target/surefire-reports/*.xml'
+                }
+                success {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] Success - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
                 }
                 failure {
                     emailext(
