@@ -9,7 +9,7 @@ import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
 import { PatientService } from "src/app/services/patient/patient.service";
 import { ToastrService } from "ngx-toastr";
-import { mergeMap, flatMap } from "rxjs/operators";
+import { mergeMap } from "rxjs/operators";
 
 @Component({
   selector: "app-patient",

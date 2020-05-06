@@ -21,7 +21,7 @@
             <button
               type="button"
               class="btn btn-light btn-sm"
-              routerLink="history"
+              routerLink="/patient/details/history"
               [queryParams]="{ patient: patient?.id }"
             >
               <fa-icon [icon]="historyLogo"></fa-icon> Historique
@@ -58,7 +58,12 @@
       <div class="row" *ngIf="patient && patient?.state">
         <div class="col">
           <div class="text-left">
-            <button type="button" class="btn btn-primary">
+            <button
+              type="button"
+              class="btn btn-primary"
+              routerLink="/patient/details/edit"
+              [queryParams]="{ id: patient?.id }"
+            >
               <fa-icon [icon]="editLogo"></fa-icon> Modifier les informations
             </button>
           </div>

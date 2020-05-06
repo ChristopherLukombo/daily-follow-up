@@ -13,7 +13,7 @@ export class PatientHistoryComponent implements OnInit {
   moreLogo = faPlus;
 
   histories: HistoryPatient[] = [];
-  size: number = 1;
+  size: number = 5;
   totalElements: number;
 
   error: string;

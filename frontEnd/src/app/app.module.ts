@@ -52,6 +52,8 @@ import {
 } from "./utils/pipes/string-utils.pipe";
 import { ListRoomsAvailableComponent } from './components/patient-add/room-available-selector/list-rooms-available/list-rooms-available.component';
 import { FormPatientAddComponent } from './components/patient-add/form-patient-add/form-patient-add.component';
+import { PatientEditComponent } from './components/patient/patient-edit/patient-edit.component';
+import { FormPatientEditComponent } from './components/patient/patient-edit/form-patient-edit/form-patient-edit.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +90,8 @@ import { FormPatientAddComponent } from './components/patient-add/form-patient-a
     GapPipe,
     ListRoomsAvailableComponent,
     FormPatientAddComponent,
+    PatientEditComponent,
+    FormPatientEditComponent,
   ],
   imports: [
     BrowserModule,
