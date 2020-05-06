@@ -4,7 +4,6 @@
 
 /******************** ROLES ********************/
 INSERT INTO role (name) VALUES
-('ROLE_PATIENT'),
 ('ROLE_ADMIN'),
 ('ROLE_DIET'),
 ('ROLE_CAREGIVER');
