@@ -16,23 +16,27 @@ import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { MenuComponent } from "./components/navbar/menu/menu.component";
-import { PatientsComponent } from "./components/patients/patients.component";
-import { ListPatientsComponent } from "./components/patients/list-patients/list-patients.component";
-import { DetailPatientComponent } from "./components/patients/detail-patient/detail-patient.component";
-import { PatientComponent } from "./components/patient/patient.component";
-import { InfosPatientComponent } from "./components/patient/infos-patient/infos-patient.component";
-import { FoodPatientComponent } from "./components/patient/food-patient/food-patient.component";
-import { ActivityPatientComponent } from "./components/patient/patient-history/activity-patient/activity-patient.component";
-import { PatientHistoryComponent } from "./components/patient/patient-history/patient-history.component";
-import { PatientAddComponent } from "./components/patient-add/patient-add.component";
+import { PatientsComponent } from "./components/patient-components/patients/patients.component";
+import { ListPatientsComponent } from "./components/patient-components/patients/list-patients/list-patients.component";
+import { DetailPatientComponent } from "./components/patient-components/patients/detail-patient/detail-patient.component";
+import { PatientComponent } from "./components/patient-components/patient/patient.component";
+import { InfosPatientComponent } from "./components/patient-components/patient/infos-patient/infos-patient.component";
+import { FoodPatientComponent } from "./components/patient-components/patient/food-patient/food-patient.component";
+import { ActivityPatientComponent } from "./components/patient-components/patient/patient-history/activity-patient/activity-patient.component";
+import { PatientHistoryComponent } from "./components/patient-components/patient/patient-history/patient-history.component";
+import { PatientAddComponent } from "./components/patient-components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
-import { CommentPatientComponent } from "./components/patient/food-patient/comment-patient/comment-patient.component";
+import { CommentPatientComponent } from "./components/patient-components/patient/food-patient/comment-patient/comment-patient.component";
 import { PatientNavbarComponent } from "./components/navbar-vertical/patient-navbar/patient-navbar.component";
-import { PatientsImportComponent } from "./components/patients-import/patients-import.component";
-import { PatientsImportInfosComponent } from "./components/patients-import/patients-import-infos/patients-import-infos.component";
-import { PatientImportResultComponent } from "./components/patients-import/patient-import-result/patient-import-result.component";
-import { PatientsOldComponent } from "./components/patients-old/patients-old.component";
-import { RoomAvailableSelectorComponent } from "./components/patient-add/room-available-selector/room-available-selector.component";
+import { PatientsImportComponent } from "./components/patient-components/patients-import/patients-import.component";
+import { PatientsImportInfosComponent } from "./components/patient-components/patients-import/patients-import-infos/patients-import-infos.component";
+import { PatientImportResultComponent } from "./components/patient-components/patients-import/patient-import-result/patient-import-result.component";
+import { PatientsOldComponent } from "./components/patient-components/patients-old/patients-old.component";
+import { RoomAvailableSelectorComponent } from "./components/patient-components/patient-add/room-available-selector/room-available-selector.component";
+import { ListRoomsAvailableComponent } from "./components/patient-components/patient-add/room-available-selector/list-rooms-available/list-rooms-available.component";
+import { FormPatientAddComponent } from "./components/patient-components/patient-add/form-patient-add/form-patient-add.component";
+import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
+import { FormPatientEditComponent } from "./components/patient-components/patient/patient-edit/form-patient-edit/form-patient-edit.component";
 
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
@@ -50,10 +54,6 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { ListRoomsAvailableComponent } from './components/patient-add/room-available-selector/list-rooms-available/list-rooms-available.component';
-import { FormPatientAddComponent } from './components/patient-add/form-patient-add/form-patient-add.component';
-import { PatientEditComponent } from './components/patient/patient-edit/patient-edit.component';
-import { FormPatientEditComponent } from './components/patient/patient-edit/form-patient-edit/form-patient-edit.component';
 
 @NgModule({
   declarations: [

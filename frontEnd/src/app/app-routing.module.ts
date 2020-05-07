@@ -1,14 +1,14 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGuard } from "./utils/helpers/auth.guard";
-import { PatientsComponent } from "./components/patients/patients.component";
-import { PatientComponent } from "./components/patient/patient.component";
-import { PatientHistoryComponent } from "./components/patient/patient-history/patient-history.component";
-import { PatientAddComponent } from "./components/patient-add/patient-add.component";
+import { PatientsComponent } from "./components/patient-components/patients/patients.component";
+import { PatientComponent } from "./components/patient-components/patient/patient.component";
+import { PatientHistoryComponent } from "./components/patient-components/patient/patient-history/patient-history.component";
+import { PatientAddComponent } from "./components/patient-components/patient-add/patient-add.component";
 import { LoginComponent } from "./components/login/login.component";
-import { PatientsImportComponent } from "./components/patients-import/patients-import.component";
-import { PatientsOldComponent } from "./components/patients-old/patients-old.component";
-import { PatientEditComponent } from "./components/patient/patient-edit/patient-edit.component";
+import { PatientsImportComponent } from "./components/patient-components/patients-import/patients-import.component";
+import { PatientsOldComponent } from "./components/patient-components/patients-old/patients-old.component";
+import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
