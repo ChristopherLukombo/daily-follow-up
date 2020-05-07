@@ -1,5 +1,5 @@
 def projectName = "backEnd"
-def mails = "Angelo.deliessche@gmail.com"
+def mails = "christopher.lukombo@outlook.fr;neal.k@hotmail.fr;angelo.deliessche@gmail.com"
 
 pipeline{
     triggers { pollSCM('* * * * *') }
@@ -14,7 +14,7 @@ pipeline{
                     def dateFormated = now.format("yy-MMdd.HHmm", TimeZone.getTimeZone('UTC'))
                     dir(projectName) {
                         sh("mvn clean package -Pprod -e")
-                        
+
                         sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
                         sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ ProdContainer/")
                     }
@@ -23,7 +23,7 @@ pipeline{
                         sh("docker service update --image prodimage:${dateFormated} prod_prodapplication")
                     }
                 }
-            } 
+            }
             post {
                 always{
                     junit '**/target/surefire-reports/*.xml'
@@ -49,7 +49,10 @@ pipeline{
                         to: "${mails}", recipientProviders: []
                     )
                 }
-            }
+            } 
+        }
+        stage('Tag and Terminate') {
+            // plus tard, on tag la version dans Git pour un historique de tags à la fin
         }
     }
 }
