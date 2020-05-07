@@ -17,7 +17,10 @@ pipeline{
                         sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ ProdContainer/")
                         sh("cd ProdContainer/")
                         sh("pwd")
-                        sh("docker build -t prodimage:latest -f ProdContainer/Dockerfile .")
+                    }
+                    dir("backEnd/ProdContainer"){
+                        sh("pwd")
+                        sh("docker build -t prodimage:latest .")
                         sh("docker service update --image prodimage:latest prod_prodapplication")
                     }
                 }
