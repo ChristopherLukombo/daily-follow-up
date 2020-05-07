@@ -46,7 +46,7 @@ pipeline{
                     def dateFormated = now.format("yy-MMdd.HHmm", TimeZone.getTimeZone('UTC'))
                     
                     dir("backEnd/ProdContainer"){
-                        sh("docker build -t prodimage${dateFormated}:${dateFormated} .")
+                        sh("docker build -t prodimage${dateFormated}:${dateFormated} --no-cache .")
                         sh("docker service update --image prodimage${dateFormated}:${dateFormated} prod_prodapplication")
                     }
                     
