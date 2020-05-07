@@ -54,13 +54,7 @@ pipeline{
             }
             post{
                 
-                success {
-                    emailext(
-                        body: "MEP Correctly done\nPlus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
-                        replyTo: '', subject: "[${env.JOB_NAME}] Success - Rapport de build",
-                        to: "${mails}", recipientProviders: []
-                    )
-                }
+                
                 failure {
                     emailext(
                         body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
