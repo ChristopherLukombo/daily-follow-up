@@ -12,7 +12,7 @@ pipeline{
                 script {
                     dir(projectName) {
                         sh("mvn clean package -Pprod -e")
-                        sh("docker build --build-arg jar=/var/lib/jenkins/workspace/daily_follow_up_ic_master/backEnd/target/daily-follow-up-0.0.1.jar /home/pi/Documents/Projec    t/Dockerz/ProdContainer/")
+                        sh("docker build --build-arg jar=/var/lib/jenkins/workspace/daily_follow_up_ic_master/backEnd/target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/")
                         sh("docker service update --image prodimage:latest prod_prodapplication")
                     }
                 }
