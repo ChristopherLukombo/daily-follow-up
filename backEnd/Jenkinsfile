@@ -11,7 +11,7 @@ pipeline{
             steps {
                 script {
                     dir(projectName) {
-                        sh("mvn clean package -X -e -Pprod")
+                        sh("mvn clean package -Pprod -e")
                     }
                 }
             } 
@@ -21,7 +21,7 @@ pipeline{
                 }
                 success {
                     emailext(
-                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        body: "MEP Correctly done\nPlus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
                         replyTo: '', subject: "[${env.JOB_NAME}] Success - Rapport de build",
                         to: "${mails}", recipientProviders: []
                     )
@@ -29,7 +29,7 @@ pipeline{
                 failure {
                     emailext(
                         body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
-                        replyTo: '', subject: "[${env.JOB_NAME}] Failure - Rapport de build",
+                        replyTo: '', subject: "[${env.JOB_NAME}] FAILURE - Rapport de build",
                         to: "${mails}", recipientProviders: []
                     )
                 }
