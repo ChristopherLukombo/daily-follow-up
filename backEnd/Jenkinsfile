@@ -10,17 +10,11 @@ pipeline{
             options { timeout(time: 1, unit: 'HOURS') }
             steps {
                 script {
-                    def now = new Date()
-                    def dateFormated = now.format("yy-MMdd.HHmm", TimeZone.getTimeZone('UTC'))
                     dir(projectName) {
                         sh("mvn clean package -Pprod -e")
 
                         sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
                         sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ ProdContainer/")
-                    }
-                    dir("backEnd/ProdContainer"){
-                        sh("docker build -t prodimage:${dateFormated} .")
-                        sh("docker service update --image prodimage:${dateFormated} prod_prodapplication")
                     }
                 }
             }
@@ -28,6 +22,38 @@ pipeline{
                 always{
                     junit '**/target/surefire-reports/*.xml'
                 }
+                failure {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] FAILURE - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
+                fixed {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] Fixed - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
+            } 
+        }
+        stage("Deploy"){
+            options { timeout(time: 1, unit: 'HOURS') }
+            steps {
+                script {
+                    def now = new Date()
+                    def dateFormated = now.format("yy-MMdd.HHmm", TimeZone.getTimeZone('UTC'))
+                    
+                    dir("backEnd/ProdContainer"){
+                        sh("docker build -t prodimage:${dateFormated} .")
+                        sh("docker service update --image prodimage:${dateFormated} prod_prodapplication")
+                    }
+                    
+                }
+            }
+            post{
+                
                 success {
                     emailext(
                         body: "MEP Correctly done\nPlus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
@@ -49,7 +75,7 @@ pipeline{
                         to: "${mails}", recipientProviders: []
                     )
                 }
-            } 
+            }
         }
     }
 }
