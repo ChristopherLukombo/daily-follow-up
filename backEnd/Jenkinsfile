@@ -51,8 +51,5 @@ pipeline{
                 }
             } 
         }
-        stage('Tag and Terminate') {
-            // plus tard, on tag la version dans Git pour un historique de tags à la fin
-        }
     }
 }
