@@ -14,7 +14,7 @@ pipeline{
                         sh("mvn clean package -Pprod -e")
                         sh("pwd")
                         sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
-                        sh("cp /home/pi/Documents/Project/Dockerz/ProdContainer/ ProdContainer/")
+                        sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ ProdContainer/")
                         sh("cd ProdContainer")
                         sh("pwd")
                         sh("docker build -t prodimage:latest .")
