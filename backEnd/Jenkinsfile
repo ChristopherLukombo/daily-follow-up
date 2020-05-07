@@ -20,8 +20,8 @@ pipeline{
                     }
                     dir("backEnd/ProdContainer"){
                         sh("pwd")
-                        sh("docker build -t prodimage:latest .")
-                        sh("docker service update --image prodimage:latest prod_prodapplication")
+                        sh("docker build -t prodimage:V2 .")
+                        sh("docker service update --image prodimage:V2 prod_prodapplication")
                     }
                 }
             } 
