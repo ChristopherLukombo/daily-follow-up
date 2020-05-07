@@ -15,13 +15,11 @@ pipeline{
                         sh("pwd")
                         sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
                         sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ ProdContainer/")
-                        sh("cd ProdContainer/")
-                        sh("pwd")
                     }
                     dir("backEnd/ProdContainer"){
                         sh("pwd")
-                        sh("docker build -t prodimage:V2 .")
-                        sh("docker service update --image prodimage:V2 prod_prodapplication")
+                        sh("docker build -t prodimage .")
+                        sh("docker service update --image prodimage prod_prodapplication")
                     }
                 }
             } 

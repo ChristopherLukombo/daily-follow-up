@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   appRootUrl: "http://localhost:8081/api",
-  version: 4,
+  version: 5,
 };
 
 /*
