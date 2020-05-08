@@ -11,7 +11,7 @@ pipeline{
             steps {
                 script {
                     dir(projectName) {
-                        sh("git pull")
+                        //sh("git pull")
                         sh("mvn clean package -Pprod -e")
 
                         sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
