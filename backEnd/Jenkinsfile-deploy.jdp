@@ -1,6 +1,7 @@
 def projectName = "backEnd"
 def mails = "angelo.deliessche@gmail.com"
 //christopher.lukombo@outlook.fr;neal.k@hotmail.fr;
+
 pipeline{
     triggers { pollSCM('* * * * *') }
     options { timeout(time: 1, unit: 'HOURS') }
