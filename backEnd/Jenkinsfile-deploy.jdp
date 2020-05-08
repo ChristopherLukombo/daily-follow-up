@@ -1,3 +1,90 @@
+def projectName = "backEnd"
+def mails = "angelo.deliessche@gmail.com"
+//christopher.lukombo@outlook.fr;neal.k@hotmail.fr;
+pipeline{
+    triggers { pollSCM('* * * * *') }
+    options { timeout(time: 1, unit: 'HOURS') }
+    agent any
+    stages {
+        stage("Build & Test") {
+            options { timeout(time: 1, unit: 'HOURS') }
+            steps {
+                script {
+                    dir(projectName) {
+                        //sh("git pull")
+                        sh("mvn clean package -Pprod -e")
+
+                        sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
+                        sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ ProdContainer")
+                    }
+                }
+            }
+            post {
+                always{
+                    junit '**/target/surefire-reports/*.xml'
+                }
+                failure {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] FAILURE - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
+                fixed {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] Fixed - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
+            } 
+        }
+        stage("Deploy"){
+            options { timeout(time: 1, unit: 'HOURS') }
+            steps {
+                script {
+                    def now = new Date()
+                    def dateFormated = now.format("yy-MMdd.HHmm", TimeZone.getTimeZone('UTC'))
+                    
+                    dir("backEnd/ProdContainer"){
+                        sh("docker build -t prodimage${dateFormated}:${dateFormated} --no-cache .")
+                        sh("docker service update --image prodimage${dateFormated}:${dateFormated} prod_prodapplication")
+                    }
+                    
+                }
+            }
+            post{
+                
+                
+                failure {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] FAILURE - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
+                fixed {
+                    emailext(
+                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] Fixed - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+
+
+
+
+/*
+
+
+
+
 def CONF_DIR = "C:\Users\christopher\ProgramDev\conf\dailyFollowUp"
 def LOGGING_FILE = "C:\Users\christopher\ProgramDev\conf\dailyFollowUp\logback-spring.xml"
 def PROPERTIES_FILE = ""
@@ -28,7 +115,7 @@ pipeline {
             } 
             post {
                 always{
-                    junit '**/target/surefire-reports/*.xml'
+                    junit '**//*target/surefire-reports/*.xml'
                 }
                 failure {
                     emailext(
@@ -72,3 +159,4 @@ pipeline {
         }
     }
 }
+*/
