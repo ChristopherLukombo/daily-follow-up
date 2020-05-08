@@ -1,6 +1,6 @@
 import { Patient } from "./patient";
-import { Content } from "../food/content";
-import { MomentDay } from "../food/momentDay";
+import { MomentDay } from "../food/moment-day";
+import { ContentDTO } from "../dto/food/contentDTO";
 
 export class Order {
   /***/
@@ -8,7 +8,7 @@ export class Order {
   /***/
   date: Date;
   /***/
-  contents: Array<Content>;
+  contents: Array<ContentDTO>;
   /***/
   momentDays: Array<MomentDay>;
   /***/

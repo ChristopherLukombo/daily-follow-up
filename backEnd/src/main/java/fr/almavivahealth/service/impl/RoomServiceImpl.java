@@ -22,13 +22,13 @@ import fr.almavivahealth.service.mapper.RoomMapper;
 @Service
 @Transactional
 public class RoomServiceImpl implements RoomService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomServiceImpl.class);
 
 	private final RoomRepository roomRepository;
-	
+
 	private final RoomMapper roomMapper;
-	
+
 	@Autowired
 	public RoomServiceImpl(final RoomRepository roomRepository, final RoomMapper roomMapper) {
 		this.roomRepository = roomRepository;
@@ -115,5 +115,5 @@ public class RoomServiceImpl implements RoomService {
 		return roomRepository.findByPatientId(patientId)
 				.map(roomMapper::roomToRoomDTO);
 	}
-	
+
 }

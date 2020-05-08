@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
@@ -69,6 +71,7 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@PostMapping("/patients")
 	public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -98,6 +101,7 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@PutMapping("/patients")
 	public ResponseEntity<PatientDTO> updatePatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws DailyFollowUpException {
@@ -111,13 +115,13 @@ public class PatientResource {
 	}
 	
 	/**
-	 * GET /patients : Get all the patients.
+	 * GET /patients : Get all active patients.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
 	 * or with status 204 (No Content) if there is no patient.
 	 *         
 	 */
-	@ApiOperation("Get all the patients.")
+	@ApiOperation("Get all active patients.")
 	@ApiResponses({
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 204, message = "No Content"),
@@ -125,10 +129,37 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@GetMapping("/patients")
-	public ResponseEntity<List<PatientDTO>> getAllPatients() {
-		LOGGER.debug("REST request to get All Patients");
-		final List<PatientDTO> patients = patientService.findAll();
+	public ResponseEntity<List<PatientDTO>> getAllActivePatients() {
+		LOGGER.debug("REST request to get all active patients");
+		final List<PatientDTO> patients = patientService.findAllActivePatients();
+		if (patients.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(patients);
+	}
+	
+	/**
+	 * GET /patients : Get all former patients.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
+	 * or with status 204 (No Content) if there is no patient.
+	 *         
+	 */
+	@ApiOperation(" Get all former patients.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@GetMapping("/patients/former")
+	public ResponseEntity<List<PatientDTO>> getAllFormerPatients() {
+		LOGGER.debug("REST request to get all former patients");
+		final List<PatientDTO> patients = patientService.findAllFormerPatients();
 		if (patients.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
@@ -150,6 +181,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Patient : {}", id);
@@ -174,6 +206,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<Void> deletePatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Patient : {}", id);
@@ -196,6 +229,7 @@ public class PatientResource {
         @ApiResponse(code = 422, message = "Unprocessable entity"),
         @ApiResponse(code = 500, message = "Internal Server"),
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@PostMapping("/patients/import")
 	public ResponseEntity<BulkResult> importPatientFile(@RequestPart final MultipartFile inputfile)
 			throws DailyFollowUpException {
@@ -210,6 +244,33 @@ public class PatientResource {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					"An error occurred while trying to import the patients", e);
 		}
+	}
+	
+	/**
+	 * GET /patients/reactivate/:id : Reactivate patient.
+	 *
+	 * @param id the id of the patient to reactivate
+	 * @return the ResponseEntity with status 200 (OK)
+	 * @throws DailyFollowUpException 
+	 */
+	@ApiOperation("Reactivate patient.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 500, message = "Internal Server")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@GetMapping("/patients/reactivate/{id}")
+	public ResponseEntity<Void> reactivatePatient(@PathVariable final Long id) throws DailyFollowUpException {
+		LOGGER.debug("REST request to reactivate Patient : {}", id);
+		final Optional<Patient> patient = patientService.reactivatePatient(id);
+		if (!patient.isPresent()) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					"No patient was found for this id");
+		}
+		return ResponseEntity.ok().build();
 	}
 	
 }

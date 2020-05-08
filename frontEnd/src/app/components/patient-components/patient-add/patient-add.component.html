@@ -1,0 +1,24 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-patient-navbar></app-patient-navbar>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div *ngIf="loading" class="col"><app-loader></app-loader></div>
+        <div *ngIf="error" class="col">
+          <app-alert-error [content]="error"></app-alert-error>
+        </div>
+        <div *ngIf="!loading && !error" class="col">
+          <h4>Nouveau patient</h4>
+          <br />
+          <app-form-patient-add
+            [dietsAvailable]="dietsAvailable"
+            [texturesAvailable]="texturesAvailable"
+          ></app-form-patient-add>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

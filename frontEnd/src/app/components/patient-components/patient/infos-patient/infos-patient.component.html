@@ -1,0 +1,102 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <table class="infos-patient">
+        <tbody>
+          <tr>
+            <th>Nom</th>
+            <td>{{ patient?.lastName | uppercase }}</td>
+          </tr>
+          <tr>
+            <th>Prénom</th>
+            <td>{{ patient?.firstName | titlecase }}</td>
+          </tr>
+          <tr>
+            <th>Âge</th>
+            <td>{{ patient?.dateOfBirth | age }} ans</td>
+          </tr>
+          <tr>
+            <th>Date de naissance</th>
+            <td>{{ patient?.dateOfBirth | date: "dd/MM/yyyy" }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <table class="infos-patient">
+        <tbody>
+          <tr>
+            <th>Sexe</th>
+            <td>{{ patient?.sex | titlecase }}</td>
+          </tr>
+          <tr>
+            <th>Groupe sanguin</th>
+            <td>{{ patient?.bloodGroup }}</td>
+          </tr>
+          <tr>
+            <th>Taille</th>
+            <td>{{ patient?.height }} cm</td>
+          </tr>
+          <tr>
+            <th>Poids</th>
+            <td>{{ patient?.weight }} kg</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br />
+  <table class="infos-patient">
+    <tbody>
+      <tr>
+        <th>Situation familliale</th>
+        <td>{{ patient?.situation }}</td>
+      </tr>
+      <tr>
+        <th>Situation pro</th>
+        <td>{{ patient?.job }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <table class="infos-patient">
+    <tbody>
+      <tr>
+        <th>Mail</th>
+        <td>{{ patient?.email }}</td>
+      </tr>
+      <tr>
+        <th>Télephone</th>
+        <td>{{ patient?.phoneNumber }}</td>
+      </tr>
+      <tr>
+        <th>Télephone</th>
+        <td>{{ patient?.mobilePhone }}</td>
+      </tr>
+      <tr>
+        <th>Adresse</th>
+        <td>{{ patient?.address?.streetName }}</td>
+      </tr>
+      <tr>
+        <th>Code postal</th>
+        <td>{{ patient?.address?.postalCode }}</td>
+      </tr>
+      <tr>
+        <th>Ville</th>
+        <td>{{ patient?.address?.city | titlecase }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <div *ngIf="!room && warning">
+    <app-alert-warning [content]="warning" [close]="false"></app-alert-warning>
+  </div>
+  <table *ngIf="room" class="table table-bordered">
+    <tbody>
+      <tr>
+        <th><fa-icon [icon]="roomLogo"></fa-icon> Chambre</th>
+        <td>{{ room?.number }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

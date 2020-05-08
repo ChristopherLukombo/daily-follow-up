@@ -18,6 +18,9 @@ public final class Constants {
 	public static final String SEMICOLON = ";";
 	public static final String COMMA = ",";
 	public static final String SLASH = "/";
+	
+	// Menus
+	public static final String CLINIQUE_BERGER = "Clinique Berger";
 
 	private Constants() {
 		// private constructor needed for Constants class.

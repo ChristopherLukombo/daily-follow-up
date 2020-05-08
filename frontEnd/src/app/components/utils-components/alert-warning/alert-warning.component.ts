@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-alert-warning",
@@ -6,9 +7,10 @@ import { Component, OnInit, Input } from "@angular/core";
   styleUrls: ["./alert-warning.component.scss"],
 })
 export class AlertWarningComponent implements OnInit {
-  @Input() title: string = "Attention";
+  warningLogo = faExclamationTriangle;
+
   @Input() content: string;
-  @Input() check: Boolean = true;
+  @Input() close: boolean = true;
 
   constructor() {}
 

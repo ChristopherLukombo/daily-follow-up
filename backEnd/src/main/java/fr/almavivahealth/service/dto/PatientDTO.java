@@ -6,10 +6,17 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import fr.almavivahealth.domain.Texture;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
+import fr.almavivahealth.service.validator.patient.ValidBloodGroup;
+import fr.almavivahealth.service.validator.patient.ValidGender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -23,53 +30,63 @@ public class PatientDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
-    @Size(max = 50)
+
+    @Size(min = 2, max = 20)
+	@NotNull(message = "{error.patient.firstName_not_null}")
     private String firstName;
 
-    @Size(max = 50)
+    @Size(min = 2, max = 20)
+	@NotNull(message = "{error.patient.lastName_not_null}")
     private String lastName;
 
     @Email
     @Size(min = 5, max = 100)
     private String email;
-	
+
 	private String situation;
-	
+
 	private LocalDate dateOfBirth;
-	
+
 	private AddressDTO address;
 
-	@Pattern(regexp = "^[+](\\d{3})\\)?(\\d{3})(\\d{5,6})$|^(\\d{10,10})$")
+	@Pattern(regexp = "^((\\+|00)33\\s?|0)[1-59](\\s?\\d{2}){4}$", message = "{error.patient.phoneNumber_not_valid}")
 	private String phoneNumber;
 
+	@Pattern(regexp = "^((\\+|00)33\\s?|0)[67](\\s?\\d{2}){4}$", message = "{error.patient.phoneMobilePhone_not_valid}")
 	private String mobilePhone;
-	
+
 	@Size(max = 50)
 	private String job;
 
+	@Size(max = 3)
+	@ValidBloodGroup
 	private String bloodGroup;
-	
+
+	@Max(251)
     private Double height;
-	
+
+	@Max(597)
 	private Double weight;
-	
+
+	@ValidGender
     private String sex;
-	
+
 	private Boolean state;
 
-	private Texture texture;
-	
+	@NotNull(message = "{error.patient.texture_not_null}")
+	private TextureDTO texture;
+
+	@NotEmpty(message = "{error.patient.diet_not_empty}")
 	private List<DietDTO> diets;
-	
+
 	private List<AllergyDTO> allergies;
-	
+
 	private List<OrderDTO> orders;
 
 	private CommentDTO comment;
-	
+
 	private Long roomId;
-	
+
 	public PatientDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -194,11 +211,11 @@ public class PatientDTO implements Serializable {
 		this.state = state;
 	}
 
-	public Texture getTexture() {
+	public TextureDTO getTexture() {
 		return texture;
 	}
 
-	public void setTexture(final Texture texture) {
+	public void setTexture(final TextureDTO texture) {
 		this.texture = texture;
 	}
 
@@ -272,113 +289,7 @@ public class PatientDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("PatientDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (firstName != null) {
-			builder.append("firstName=");
-			builder.append(firstName);
-			builder.append(", ");
-		}
-		if (lastName != null) {
-			builder.append("lastName=");
-			builder.append(lastName);
-			builder.append(", ");
-		}
-		if (email != null) {
-			builder.append("email=");
-			builder.append(email);
-			builder.append(", ");
-		}
-		if (situation != null) {
-			builder.append("situation=");
-			builder.append(situation);
-			builder.append(", ");
-		}
-		if (dateOfBirth != null) {
-			builder.append("dateOfBirth=");
-			builder.append(dateOfBirth);
-			builder.append(", ");
-		}
-		if (address != null) {
-			builder.append("address=");
-			builder.append(address);
-			builder.append(", ");
-		}
-		if (phoneNumber != null) {
-			builder.append("phoneNumber=");
-			builder.append(phoneNumber);
-			builder.append(", ");
-		}
-		if (mobilePhone != null) {
-			builder.append("mobilePhone=");
-			builder.append(mobilePhone);
-			builder.append(", ");
-		}
-		if (job != null) {
-			builder.append("job=");
-			builder.append(job);
-			builder.append(", ");
-		}
-		if (bloodGroup != null) {
-			builder.append("bloodGroup=");
-			builder.append(bloodGroup);
-			builder.append(", ");
-		}
-		if (height != null) {
-			builder.append("height=");
-			builder.append(height);
-			builder.append(", ");
-		}
-		if (weight != null) {
-			builder.append("weight=");
-			builder.append(weight);
-			builder.append(", ");
-		}
-		if (sex != null) {
-			builder.append("sex=");
-			builder.append(sex);
-			builder.append(", ");
-		}
-		if (state != null) {
-			builder.append("state=");
-			builder.append(state);
-			builder.append(", ");
-		}
-		if (texture != null) {
-			builder.append("texture=");
-			builder.append(texture);
-			builder.append(", ");
-		}
-		if (diets != null) {
-			builder.append("diets=");
-			builder.append(diets);
-			builder.append(", ");
-		}
-		if (allergies != null) {
-			builder.append("allergies=");
-			builder.append(allergies);
-			builder.append(", ");
-		}
-		if (orders != null) {
-			builder.append("orders=");
-			builder.append(orders);
-			builder.append(", ");
-		}
-		if (comment != null) {
-			builder.append("comment=");
-			builder.append(comment);
-			builder.append(", ");
-		}
-		if (roomId != null) {
-			builder.append("roomId=");
-			builder.append(roomId);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
 }

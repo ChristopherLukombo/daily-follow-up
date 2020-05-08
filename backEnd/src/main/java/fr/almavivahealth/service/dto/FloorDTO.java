@@ -1,6 +1,7 @@
 package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +21,8 @@ public class FloorDTO implements Serializable {
 	private Integer number;
 	
 	private boolean state;
+	
+	private List<RoomDTO> rooms;
 
 	public FloorDTO() {
 		// Empty constructor needed for Jackson.
@@ -49,9 +52,17 @@ public class FloorDTO implements Serializable {
 		this.state = state;
 	}
 
+	public List<RoomDTO> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(final List<RoomDTO> rooms) {
+		this.rooms = rooms;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, number, state);
+		return Objects.hash(id, number, rooms, state);
 	}
 
 	@Override
@@ -63,7 +74,8 @@ public class FloorDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final FloorDTO other = (FloorDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(number, other.number) && state == other.state;
+		return Objects.equals(id, other.id) && Objects.equals(number, other.number)
+				&& Objects.equals(rooms, other.rooms) && state == other.state;
 	}
 
 	@Override
@@ -82,7 +94,13 @@ public class FloorDTO implements Serializable {
 		}
 		builder.append("state=");
 		builder.append(state);
+		builder.append(", ");
+		if (rooms != null) {
+			builder.append("rooms=");
+			builder.append(rooms);
+		}
 		builder.append("]");
 		return builder.toString();
 	}
+	
 }

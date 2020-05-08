@@ -31,7 +31,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import fr.almavivahealth.config.UserProperties;
 import fr.almavivahealth.dao.RoleRepository;
 import fr.almavivahealth.dao.UserRepository;
 import fr.almavivahealth.domain.Role;
@@ -41,6 +40,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.service.impl.UserServiceImpl;
 import fr.almavivahealth.service.mapper.UserMapper;
+import fr.almavivahealth.service.propeties.UserProperties;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {

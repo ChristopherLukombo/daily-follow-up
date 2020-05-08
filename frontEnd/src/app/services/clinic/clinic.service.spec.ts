@@ -35,7 +35,7 @@ describe("ClinicService", () => {
       service.getAllRooms().subscribe((data) => {
         expect(data.length).toBe(2);
       });
-      const request = httpMock.expectOne(`${environment.appRootUrl}/rooms`);
+      const request = httpMock.expectOne(`${environment.appRootUrl}/api/rooms`);
       expect(request.request.method).toBe("GET");
       request.flush(expected);
     });
@@ -45,23 +45,23 @@ describe("ClinicService", () => {
       service.getAllRooms().subscribe((data) => {
         expect(data).toEqual(expected);
       });
-      const request = httpMock.expectOne(`${environment.appRootUrl}/rooms`);
+      const request = httpMock.expectOne(`${environment.appRootUrl}/api/rooms`);
       expect(request.request.method).toBe("GET");
       request.flush(expected);
     });
 
-    it("should return error if user not authorized", () => {
-      const expected = 403;
+    it("should return error if user not logged", () => {
+      const expected = 401;
       service.getAllRooms().subscribe(
         () => {
-          fail("should have failed with the 403 error");
+          fail("should have failed with the 401 error");
         },
         (error) => {
           expect(error).toEqual(expected);
         }
       );
-      const request = httpMock.expectOne(`${environment.appRootUrl}/rooms`);
-      request.flush("403 error", { status: 403, statusText: "Not Authorized" });
+      const request = httpMock.expectOne(`${environment.appRootUrl}/api/rooms`);
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 
@@ -73,27 +73,27 @@ describe("ClinicService", () => {
         expect(Object.keys(data).sort()).toEqual(Object.keys(expected).sort());
       });
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/rooms/${id}`
+        `${environment.appRootUrl}/api/rooms/${id}`
       );
       expect(request.request.method).toBe("GET");
       request.flush(expected);
     });
 
-    it("should return error if user not authorized", () => {
+    it("should return error if user not logged", () => {
       const id = 3;
-      const expected = 403;
+      const expected = 401;
       service.getRoom(id).subscribe(
         () => {
-          fail("should have failed with the 403 error");
+          fail("should have failed with the 401 error");
         },
         (error) => {
           expect(error).toEqual(expected);
         }
       );
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/rooms/${id}`
+        `${environment.appRootUrl}/api/rooms/${id}`
       );
-      request.flush("403 error", { status: 403, statusText: "Not Authorized" });
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 
@@ -105,7 +105,7 @@ describe("ClinicService", () => {
         expect(Object.keys(data).sort()).toEqual(Object.keys(expected).sort());
       });
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/rooms/patient/${id}`
+        `${environment.appRootUrl}/api/rooms/patient/${id}`
       );
       expect(request.request.method).toBe("GET");
       request.flush(expected);
@@ -118,27 +118,27 @@ describe("ClinicService", () => {
         expect(data).toEqual(expected);
       });
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/rooms/patient/${id}`
+        `${environment.appRootUrl}/api/rooms/patient/${id}`
       );
       expect(request.request.method).toBe("GET");
       request.flush(expected);
     });
 
-    it("should return error if user not authorized", () => {
+    it("should return error if user not logged", () => {
       const id = 3;
-      const expected = 403;
+      const expected = 401;
       service.getRoomOfPatient(id).subscribe(
         () => {
-          fail("should have failed with the 403 error");
+          fail("should have failed with the 401 error");
         },
         (error) => {
           expect(error).toEqual(expected);
         }
       );
       const request = httpMock.expectOne(
-        `${environment.appRootUrl}/rooms/patient/${id}`
+        `${environment.appRootUrl}/api/rooms/patient/${id}`
       );
-      request.flush("403 error", { status: 403, statusText: "Not Authorized" });
+      request.flush("401 error", { status: 401, statusText: "Unauthorized" });
     });
   });
 });

@@ -1,0 +1,59 @@
+<div class="form-row">
+  <div class="btn-group floor-selector">
+    <button
+      *ngFor="let floor of floors; let f = index"
+      type="button"
+      class="btn btn-secondary"
+      (click)="selectFloor(floor, f)"
+      [class.active]="f == selectedButton"
+    >
+      Étage {{ floor?.number }}
+    </button>
+  </div>
+</div>
+<br />
+<div class="form-row">
+  <div class="form-group col">
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="filter"
+      placeholder="Numéro de chambre..."
+    />
+  </div>
+</div>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Chambre</th>
+      <th scope="col">Capacité</th>
+      <th scope="col">Place(s) disponible(s)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let room of floor?.rooms
+          | search: 'number':filter
+          | paginate: pagination;
+        let i = index
+      "
+      (click)="selectRoom(room, i)"
+      [class.active]="i == selectedRow"
+    >
+      <td innerHTML="{{ room?.number | highlight: filter }}"></td>
+      <td innerHTML="{{ room?.maxCapacity }}"></td>
+      <td
+        innerHTML="{{ room?.maxCapacity | gap: room?.numberOfPatients }}"
+      ></td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls
+  (pageChange)="pageChanged($event)"
+  (pageBoundsCorrection)="pageChanged($event)"
+  maxSize="6"
+  responsive="true"
+  previousLabel="Précédent"
+  nextLabel="Suivant"
+></pagination-controls>

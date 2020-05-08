@@ -12,7 +12,10 @@ public enum Action {
 	UPDATED("UPDATED"),
 	
 	/** The deleted. */
-	DELETED("DELETED");
+	DELETED("DELETED"),
+	
+	/** The recreated. */
+	RECREATED("RECREATED");
 	
 	private final String name;
 	

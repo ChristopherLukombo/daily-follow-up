@@ -4,7 +4,6 @@
 
 /******************** ROLES ********************/
 INSERT INTO role (name) VALUES
-('ROLE_PATIENT'),
 ('ROLE_ADMIN'),
 ('ROLE_DIET'),
 ('ROLE_CAREGIVER');
@@ -26,77 +25,77 @@ INSERT INTO floor (number, state) VALUES
 ('2', 'true');
 
 /******************** CHAMBRES DE LA CLINIQUE ********************/
-INSERT INTO room (number, state) VALUES
-('1', 'true'),
-('2', 'true'),
-('3', 'true'),
-('4', 'true'),
-('5', 'true'),
-('6A', 'true'), ('6B', 'true'),
-('7A', 'true'), ('7B', 'true'),
-('8', 'true'),
-('9', 'true'),
-('10', 'true'),
-('11', 'true'),
-('12', 'true'),
-('12A', 'true'),
-('12B', 'true'),
-('14', 'true'),
-('15', 'true'),
-('16A', 'true'),
-('16B', 'true'),
+INSERT INTO room (number, state, max_capacity) VALUES
+('1', 'true', 2),
+('2', 'true', 2),
+('3', 'true', 2),
+('4', 'true', 2),
+('5', 'true', 2),
+('6A', 'true', 2), ('6B', 'true', 2),
+('7A', 'true', 2), ('7B', 'true', 2),
+('8', 'true', 2),
+('9', 'true', 2),
+('10', 'true', 2),
+('11', 'true', 2),
+('12', 'true', 2),
+('12A', 'true', 2),
+('12B', 'true', 2),
+('14', 'true', 2),
+('15', 'true', 2),
+('16A', 'true', 2),
+('16B', 'true', 2),
 /** 1ere etage **/
-('101', 'true'),
-('102', 'true'),
-('103', 'true'),
-('104', 'true'),
-('105', 'true'),
-('106', 'true'),
-('107', 'true'),
-('108A', 'true'), 
-('108B', 'true'),
-('109', 'true'),
-('110A', 'true'),
-('110B', 'true'),
-('111', 'true'),
-('112', 'true'),
-('113', 'true'),
-('114', 'true'),
-('115', 'true'),
-('116', 'true'),
-('117A', 'true'),
-('117B', 'true'),
-('118', 'true'),
-('119', 'true'),
-('120', 'true'),
-('121A', 'true'),
-('121B', 'true'),
+('101', 'true', 2),
+('102', 'true', 2),
+('103', 'true', 2),
+('104', 'true', 2),
+('105', 'true', 2),
+('106', 'true', 2),
+('107', 'true', 2),
+('108A', 'true', 2), 
+('108B', 'true', 2),
+('109', 'true', 2),
+('110A', 'true', 2),
+('110B', 'true', 2),
+('111', 'true', 2),
+('112', 'true', 2),
+('113', 'true', 2),
+('114', 'true', 2),
+('115', 'true', 2),
+('116', 'true', 2),
+('117A', 'true', 2),
+('117B', 'true', 2),
+('118', 'true', 2),
+('119', 'true', 2),
+('120', 'true', 2),
+('121A', 'true', 2),
+('121B', 'true', 2),
 /** 2eme etage **/
-('201', 'true'),
-('202', 'true'),
-('203', 'true'),
-('204', 'true'),
-('205', 'true'),
-('206', 'true'),
-('207', 'true'),
-('208A', 'true'),
-('208B', 'true'),
-('210A', 'true'),
-('210B', 'true'),
-('211', 'true'),
-('212', 'true'),
-('213', 'true'),
-('214', 'true'),
-('215', 'true'),
-('216', 'true'),
-('217A', 'true'),
-('217B', 'true'),
-('218', 'true'),
-('219', 'true'),
-('220', 'true'),
-('221', 'true'),
-('222A', 'true'),
-('222B', 'true');
+('201', 'true', 2),
+('202', 'true', 2),
+('203', 'true', 2),
+('204', 'true', 2),
+('205', 'true', 2),
+('206', 'true', 2),
+('207', 'true', 2),
+('208A', 'true', 2),
+('208B', 'true', 2),
+('210A', 'true', 2),
+('210B', 'true', 2),
+('211', 'true', 2),
+('212', 'true', 2),
+('213', 'true', 2),
+('214', 'true', 2),
+('215', 'true', 2),
+('216', 'true', 2),
+('217A', 'true', 2),
+('217B', 'true', 2),
+('218', 'true', 2),
+('219', 'true', 2),
+('220', 'true', 2),
+('221', 'true', 2),
+('222A', 'true', 2),
+('222B', 'true', 2);
 /** les chambres de chaque etage **/
 INSERT INTO floor_rooms (floor_id, rooms_id) VALUES
 ('1', '1'), ('1', '2'), ('1', '3'), ('1', '4'), ('1', '5'), ('1', '6'), ('1', '7'), ('1', '8'), ('1', '9'), ('1', '10'), ('1', '11'), ('1', '12'), ('1', '13'), ('1', '14'), ('1', '15'), ('1', '16'), ('1', '17'), ('1', '18'), ('1', '19'), ('1', '20'),
@@ -439,3 +438,61 @@ INSERT INTO patient_allergies (patient_id, allergies_id) VALUES
 ('65', '1'), ('65', '2'),
 ('66', '3'), ('66', '4'),
 ('67', '3'), ('67', '13');
+
+/** les menus **/
+INSERT INTO public.menu
+(end_date, start_date, week_number, diet_id, texture_id)
+VALUES('2020-04-11T14:47:34.692Z', '2020-04-11T14:47:34.692Z', 1, 1, 1);
+
+INSERT INTO public."day"
+("name")
+VALUES('Lundi');
+
+INSERT INTO public.menu_days
+(menu_id, days_id)
+VALUES(1, 1);
+
+INSERT INTO public.moment_day
+("name")
+values
+('DÉJEUNER'),
+('DINER');
+
+INSERT INTO public.day_moment_days
+(day_id, moment_days_id)
+VALUES(1, 1);
+
+INSERT INTO public.type_meal ("name") values
+('ENTRÉE'),
+('PLAT'),
+('GARNITURE'),
+('PRODUIT LAITIER'),
+('DESSERT');
+
+INSERT INTO public.moment_day_type_meals
+(moment_day_id, type_meals_id)
+values
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5);
+
+
+INSERT INTO public."content"
+("name", salt, sugar, texture_id)
+values
+('Betteraves rouges', true, false, 1),
+('Poulet basquaise', true, false, 1),
+('Tortis ', true, false, 1),
+('Edam', false, false, 1),
+('Fruit de saison', false, false, 1);
+
+INSERT INTO public.type_meal_contents
+(type_meal_id, contents_id)
+values
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5);

@@ -10,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -45,4 +47,9 @@ public class Room implements Serializable {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
 	private List<Patient> patients;
+	
+	@Min(0)
+	@Max(2)
+	private Integer maxCapacity;
+	
 }

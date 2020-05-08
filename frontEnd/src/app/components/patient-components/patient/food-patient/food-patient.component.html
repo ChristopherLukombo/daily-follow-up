@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h5>Alimentation(s)</h5>
+      <table class="table table-bordered">
+        <tbody>
+          <tr *ngFor="let diet of patient?.diets">
+            <td>{{ diet.name | titlecase }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <h5>Texture</h5>
+      <table class="table table-bordered">
+        <tbody>
+          <tr *ngIf="patient?.texture">
+            <td>{{ patient.texture.name | titlecase }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <h5>Allergie(s)</h5>
+      <table class="table table-bordered">
+        <tbody>
+          <tr *ngFor="let allergy of patient?.allergies">
+            <td>{{ allergy.name | titlecase }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <br />
+  <app-comment-patient
+    [patient]="patient"
+    [isEditable]="isActive"
+  ></app-comment-patient>
+</div>

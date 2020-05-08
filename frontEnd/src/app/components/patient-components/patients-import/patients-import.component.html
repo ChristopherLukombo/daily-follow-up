@@ -1,0 +1,66 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-patient-navbar></app-patient-navbar>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <h4>Importer des patients</h4>
+          <br />
+          <app-patients-import-infos></app-patients-import-infos>
+          <form [formGroup]="uploadForm" (ngSubmit)="onUpload()">
+            <div class="form-group">
+              <div class="custom-file">
+                <input
+                  type="file"
+                  accept=".csv"
+                  class="custom-file-input"
+                  [ngClass]="{ 'is-invalid': inputError }"
+                  (change)="handleFile($event.target.files)"
+                />
+                <label class="custom-file-label">{{
+                  file ? file.name : "Choisissez votre fichier *.csv"
+                }}</label>
+                <div *ngIf="inputError" class="invalid-feedback">
+                  {{ inputError }}
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button
+                class="btn btn-primary"
+                [disabled]="!file || inputError"
+                type="submit"
+              >
+                Démarrer l'importation
+              </button>
+            </div>
+          </form>
+          <div class="progress form-group" *ngIf="progress > 0">
+            <div
+              class="progress-bar progress-bar-striped progress-bar-animated bg-primary csv-progress"
+              role="progressbar"
+              [style.width.%]="progress"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div *ngIf="error">
+            <app-alert-error [content]="error"></app-alert-error>
+          </div>
+          <div *ngIf="!error && result">
+            <span class="text-primary">
+              <h6>Résultat de l'importation :</h6>
+            </span>
+            <app-patient-import-result
+              [result]="result"
+            ></app-patient-import-result>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

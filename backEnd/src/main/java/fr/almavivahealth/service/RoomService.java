@@ -47,7 +47,7 @@ public interface RoomService {
 	 * @param id the id of the entity
 	 */
 	void delete(Long id);
-	
+
 	/**
 	 * Get the room by patient id.
 	 *
@@ -55,4 +55,5 @@ public interface RoomService {
 	 * @return the entity
 	 */
 	Optional<RoomDTO> findByPatientId(Long patientId);
+
 }

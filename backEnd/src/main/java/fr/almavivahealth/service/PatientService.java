@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.BulkResult;
 import fr.almavivahealth.service.dto.PatientDTO;
@@ -31,11 +32,18 @@ public interface PatientService {
 	PatientDTO update(PatientDTO patientDTO);
 
 	/**
-	 * Get all the patients.
+	 * Get all active patients.
 	 *
 	 * @return the list of entities
 	 */
-	List<PatientDTO> findAll();
+	List<PatientDTO> findAllActivePatients();
+	
+	/**
+	 * Get all former patients.
+	 *
+	 * @return the list of entities
+	 */
+	List<PatientDTO> findAllFormerPatients();
 
 	/**
 	 * Get the "id" patient.
@@ -68,4 +76,12 @@ public interface PatientService {
 	 * @return true, if is csv
 	 */
 	boolean isCSV(MultipartFile fileToImport);
+	
+	/**
+	 * Reactivate patient.
+	 *
+	 * @param id the id of the entity
+	 * @return the entity
+	 */
+	Optional<Patient> reactivatePatient(Long id);
 }

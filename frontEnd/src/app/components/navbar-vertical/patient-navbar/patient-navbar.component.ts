@@ -4,6 +4,7 @@ import {
   faUserFriends,
   faUpload,
   faSearch,
+  faUserLock,
 } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -14,8 +15,8 @@ import {
 export class PatientNavbarComponent implements OnInit {
   addLogo = faUserPlus;
   importLogo = faUpload;
-  oldLogo = faUserFriends;
-  allLogo = faSearch;
+  oldLogo = faUserLock;
+  allLogo = faUserFriends;
 
   constructor() {}
 

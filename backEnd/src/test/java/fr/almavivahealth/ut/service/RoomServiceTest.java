@@ -30,7 +30,7 @@ import fr.almavivahealth.service.mapper.RoomMapper;
 public class RoomServiceTest {
 
 	private static final long ID = 1L;
-	
+
 	private static final boolean STATE = true;
 
 	private static final String NUMBER = "1-1234";
@@ -51,7 +51,7 @@ public class RoomServiceTest {
 				.state(true)
 				.build();
 	}
-	
+
 	private static RoomDTO createRoomDTO() {
 		return RoomDTO.builder()
 				.id(ID)
@@ -59,63 +59,63 @@ public class RoomServiceTest {
 				.state(STATE)
 				.build();
 	}
-	
+
 	@Test
 	public void shouldSaveRoomWhenIsOk() {
 		// Given
 		final Room room = createRoom();
 		final RoomDTO roomDTO = createRoomDTO();
-		
+
 		// When
 		when(roomRepository.save((Room) any())).thenReturn(room);
 		when(roomMapper.roomToRoomDTO((Room) any())).thenReturn(roomDTO);
-		
+
 		// Then
 		assertThat(roomServiceImpl.save(roomDTO)).isEqualTo(roomDTO);
 	}
-	
+
 	@Test
 	public void shouldSaveRoomWhenIsKo() {
 		// Given
 		final Room room = null;
 		final RoomDTO roomDTO = null;
-		
+
 		// When
 		when(roomRepository.save((Room) any())).thenReturn(room);
 		when(roomMapper.roomToRoomDTO((Room) any())).thenReturn(roomDTO);
-		
+
 		// Then
 		assertThat(roomServiceImpl.save(roomDTO)).isEqualTo(roomDTO);
 	}
-	
+
 	@Test
 	public void shouldUpdateRoomWhenIsOk() {
 		// Given
 		final Room room = createRoom();
 		final RoomDTO roomDTO = createRoomDTO();
-		
+
 		// When
 		when(roomRepository.saveAndFlush((Room) any())).thenReturn(room);
 		when(roomMapper.roomToRoomDTO((Room) any())).thenReturn(roomDTO);
-		
+
 		// Then
 		assertThat(roomServiceImpl.update(roomDTO)).isEqualTo(roomDTO);
 	}
-	
+
 	@Test
 	public void shouldUpdateRoomWhenIsKo() {
 		// Given
 		final Room room = null;
 		final RoomDTO roomDTO = null;
-		
+
 		// When
 		when(roomRepository.saveAndFlush((Room) any())).thenReturn(room);
 		when(roomMapper.roomToRoomDTO((Room) any())).thenReturn(roomDTO);
-		
+
 		// Then
 		assertThat(roomServiceImpl.update(roomDTO)).isEqualTo(roomDTO);
 	}
-	
+
 	@Test
 	public void shouldGetAllRoomsWhenIsOk() {
 		// Given
@@ -152,7 +152,7 @@ public class RoomServiceTest {
 		assertThatThrownBy(() -> roomServiceImpl.findAll())
 		.isInstanceOf(NullPointerException.class);
 	}
-	
+
 	@Test
 	public void shouldGetRoomWhenIsOk() {
 		// Given
@@ -162,11 +162,11 @@ public class RoomServiceTest {
 		// When
 		when(roomRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(room));
 		when(roomMapper.roomToRoomDTO((Room) any())).thenReturn(roomDTO);
-		
+
 		// Then
 		assertThat(roomServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(roomDTO));
 	}
-	
+
 	@Test
 	public void shouldGetRoomWhenIsNull() {
 		// Given
@@ -175,11 +175,11 @@ public class RoomServiceTest {
 
 		// When
 		when(roomRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(room));
-		
+
 		// Then
 		assertThat(roomServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(roomDTO));
 	}
-	
+
 	@Test
 	public void shouldDeleteRoomWhenIsOk() {
 		// When
@@ -187,35 +187,35 @@ public class RoomServiceTest {
 
 		// Then
 		roomServiceImpl.delete(ID);
-		
+
 		verify(roomRepository, times(1)).deleteById(anyLong());
 	}
-	
+
 	@Test
 	public void shouldFindByPatientIdWhenIsOk() {
 		// Given
 		final Room room  = createRoom();
 		final RoomDTO roomDTO  = createRoomDTO();
-		
+
 		// When
 		when(roomRepository.findByPatientId(anyLong())).thenReturn(Optional.ofNullable(room));
 		when(roomMapper.roomToRoomDTO((Room) any())).thenReturn(roomDTO);
-		
+
 		// Then
 		assertThat(roomServiceImpl.findByPatientId(ID)).isEqualTo(Optional.ofNullable(roomDTO));
 	}
-	
+
 	@Test
 	public void shouldFindByPatientIdWhenIsNull() {
 		// Given
 		final Room room  = null;
 		final RoomDTO roomDTO  = null;
-		
+
 		// When
 		when(roomRepository.findByPatientId(anyLong())).thenReturn(Optional.ofNullable(room));
-		
+
 		// Then
 		assertThat(roomServiceImpl.findByPatientId(ID)).isEqualTo(Optional.ofNullable(roomDTO));
 	}
-	
+
 }

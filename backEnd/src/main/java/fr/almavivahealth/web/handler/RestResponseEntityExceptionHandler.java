@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import fr.almavivahealth.exception.DailyFollowUpException;
+import fr.almavivahealth.exception.DetailedErrorApi;
 import fr.almavivahealth.exception.ErrorApi;
 
 /**
@@ -31,16 +34,18 @@ import fr.almavivahealth.exception.ErrorApi;
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
+	private static final String EUROPE_PARIS = "Europe/Paris";
+
 	@ExceptionHandler(value = { DailyFollowUpException.class })
 	protected ResponseEntity<Object> handleDailyFollowUpException(final DailyFollowUpException ex,
 			final WebRequest request) {
-		final Throwable throwable = ex.getCause();
-		final ErrorApi errorApi = new ErrorApi(ex.getErrorMessage(),
-				throwable != null ? throwable.getLocalizedMessage() : StringUtils.EMPTY,
-				HttpStatus.valueOf(ex.getErrorCode()), ZonedDateTime.now(ZoneId.of("Z")));
-		return handleExceptionInternal(ex, errorApi, new HttpHeaders(), HttpStatus.valueOf(ex.getErrorCode()), request);
+		final Throwable rootCause = ExceptionUtils.getRootCause(ex);
+		final DetailedErrorApi detailedErrorApi = new DetailedErrorApi(ex.getErrorMessage(),
+				rootCause != null ? rootCause.getMessage() : StringUtils.EMPTY,
+				HttpStatus.valueOf(ex.getErrorCode()), ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
+		return handleExceptionInternal(ex, detailedErrorApi, new HttpHeaders(), HttpStatus.valueOf(ex.getErrorCode()), request);
 	}
-
+	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
 			final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
@@ -54,8 +59,20 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	@ExceptionHandler({ DataIntegrityViolationException.class })
 	protected ResponseEntity<Object> handleDataIntegrityViolationException(final DataIntegrityViolationException ex,
 			final WebRequest request) {
-		final Throwable throwable = ex.getCause();
-		final Throwable cause = throwable.getCause();
-		return handleExceptionInternal(ex, cause.getMessage(), new HttpHeaders(), HttpStatus.CONFLICT, request);
+		final Throwable rootCause = ExceptionUtils.getRootCause(ex);
+		final ErrorApi errorApi = new ErrorApi(
+				rootCause.getMessage(), HttpStatus.CONFLICT,
+				ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
+		return handleExceptionInternal(ex, errorApi, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
+	
+	@ExceptionHandler({ DataAccessException.class })
+	protected ResponseEntity<Object> handleDataAccessException(final DataAccessException ex, final WebRequest request) {
+		final Throwable rootCause = ExceptionUtils.getRootCause(ex);
+		final ErrorApi errorApi = new ErrorApi(
+				rootCause.getMessage(), HttpStatus.CONFLICT,
+				ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
+		return handleExceptionInternal(ex, errorApi, new HttpHeaders(), HttpStatus.CONFLICT, request);
+	}
+	
 }

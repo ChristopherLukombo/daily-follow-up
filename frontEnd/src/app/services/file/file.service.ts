@@ -4,7 +4,7 @@ import { environment } from "src/environments/environment";
 import { throwError, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
-const PATIENTS_URL = environment.appRootUrl + "/patients";
+const PATIENTS_URL = environment.appRootUrl + "/api/patients";
 
 @Injectable({
   providedIn: "root",

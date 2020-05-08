@@ -3,6 +3,8 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -23,6 +25,14 @@ public class RoomDTO implements Serializable {
 
 	@NotNull
 	private boolean state;
+	
+	@Min(0)
+	@Max(2)
+	private Integer maxCapacity;
+	
+	private Integer numberOfPatients;
+	
+	private Boolean isFull;
 
 	public RoomDTO() {
 		// Empty constructor needed for Jackson.
@@ -30,10 +40,6 @@ public class RoomDTO implements Serializable {
 
 	public Long getId() {
 		return id;
-	}
-
-	public void setId(final Long id) {
-		this.id = id;
 	}
 
 	public String getNumber() {
@@ -52,9 +58,37 @@ public class RoomDTO implements Serializable {
 		this.state = state;
 	}
 
+	public Integer getMaxCapacity() {
+		return maxCapacity;
+	}
+
+	public void setMaxCapacity(final Integer maxCapacity) {
+		this.maxCapacity = maxCapacity;
+	}
+
+	public Integer getNumberOfPatients() {
+		return numberOfPatients;
+	}
+
+	public void setNumberOfPatients(final Integer numberOfPatients) {
+		this.numberOfPatients = numberOfPatients;
+	}
+
+	public Boolean getIsFull() {
+		return isFull;
+	}
+
+	public void setIsFull(final Boolean isFull) {
+		this.isFull = isFull;
+	}
+
+	public void setId(final Long id) {
+		this.id = id;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, number, state);
+		return Objects.hash(id, isFull, maxCapacity, number, numberOfPatients, state);
 	}
 
 	@Override
@@ -66,7 +100,9 @@ public class RoomDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final RoomDTO other = (RoomDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(number, other.number) && state == other.state;
+		return Objects.equals(id, other.id) && Objects.equals(isFull, other.isFull)
+				&& Objects.equals(maxCapacity, other.maxCapacity) && Objects.equals(number, other.number)
+				&& Objects.equals(numberOfPatients, other.numberOfPatients) && state == other.state;
 	}
 
 	@Override
@@ -85,7 +121,23 @@ public class RoomDTO implements Serializable {
 		}
 		builder.append("state=");
 		builder.append(state);
+		builder.append(", ");
+		if (maxCapacity != null) {
+			builder.append("maxCapacity=");
+			builder.append(maxCapacity);
+			builder.append(", ");
+		}
+		if (numberOfPatients != null) {
+			builder.append("numberOfPatients=");
+			builder.append(numberOfPatients);
+			builder.append(", ");
+		}
+		if (isFull != null) {
+			builder.append("isFull=");
+			builder.append(isFull);
+		}
 		builder.append("]");
 		return builder.toString();
 	}
+
 }

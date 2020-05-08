@@ -73,7 +73,7 @@ export class LoginComponent implements OnInit {
    * @param error
    */
   catchError(error: number): void {
-    if (error && error === 403) {
+    if (error && error === 401) {
       this.error =
         "Le nom d'utilisateur et le mot de passe ne correspondent pas.";
     } else {

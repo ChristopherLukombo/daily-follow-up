@@ -1,0 +1,32 @@
+.history {
+  $border-activity: 1px solid #cccccc;
+  $border-line: 2px solid #c5cae9;
+  .activity-timeline {
+    border-left: $border-line;
+    margin-left: 20px;
+    padding-left: 27px;
+    .activities-at-date {
+      fa-icon {
+        background-color: white;
+      }
+      h5 {
+        font-weight: normal;
+        font-size: 1.2em;
+        margin: 1.5em 0 1em -37px;
+        color: #3f51b5;
+      }
+      .activity {
+        border: $border-activity;
+        border-bottom: 0;
+        padding: 0.7em;
+        &:last-child {
+          border-bottom: $border-activity;
+        }
+        .activity-title {
+          font-weight: bold;
+          margin-bottom: 0.5em;
+        }
+      }
+    }
+  }
+}

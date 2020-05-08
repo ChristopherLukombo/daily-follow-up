@@ -1,0 +1,89 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-patient-navbar></app-patient-navbar>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div *ngIf="loading" class="col"><app-loader></app-loader></div>
+        <div *ngIf="error" class="col">
+          <app-alert-error [content]="error"></app-alert-error>
+        </div>
+        <div *ngIf="!patient && !error && warning" class="col">
+          <app-alert-warning [content]="warning"></app-alert-warning>
+        </div>
+        <div *ngIf="patient" class="col">
+          <h4>
+            <span *ngIf="!patient?.state">
+              <fa-icon [icon]="lockLogo"></fa-icon>
+            </span>
+            Fiche détail du patient n°{{ patient?.id }}
+            <button
+              type="button"
+              class="btn btn-light btn-sm"
+              routerLink="/patient/details/history"
+              [queryParams]="{ patient: patient?.id }"
+            >
+              <fa-icon [icon]="historyLogo"></fa-icon> Historique
+            </button>
+          </h4>
+          <br />
+          <app-infos-patient [patient]="patient"></app-infos-patient>
+        </div>
+        <div *ngIf="patient" class="col">
+          <app-food-patient [patient]="patient"></app-food-patient>
+        </div>
+      </div>
+      <div class="row" *ngIf="patient && !patient?.state">
+        <div class="col text-center">
+          <div class="alert alert-info">
+            Ce patient a été supprimé. Il ne fait plus partie de la clinique, et
+            ses informations ne peuvent plus être modifiées. Elles restent
+            néanmoins accessibles, afin de les réutiliser en cas de retour du
+            patient à la clinique.
+          </div>
+          <button
+            *ngIf="!restoring"
+            type="button"
+            class="btn btn-info"
+            (click)="restorePatient()"
+          >
+            <fa-icon [icon]="restoreLogo"></fa-icon> Recréer le patient
+          </button>
+          <button *ngIf="restoring" type="button" class="btn btn-info" disabled>
+            <span class="spinner-border spinner-border-sm"></span>Recréation...
+          </button>
+        </div>
+      </div>
+      <div class="row" *ngIf="patient && patient?.state">
+        <div class="col">
+          <div class="text-left">
+            <button
+              type="button"
+              class="btn btn-primary"
+              routerLink="/patient/details/edit"
+              [queryParams]="{ id: patient?.id }"
+            >
+              <fa-icon [icon]="editLogo"></fa-icon> Modifier les informations
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div *ngIf="!deleting" class="text-right">
+            <app-modal-danger
+              [btnTitle]="btnDelete"
+              [text]="confirmDelete"
+              (confirmation)="deletePatient()"
+            ></app-modal-danger>
+          </div>
+          <div *ngIf="deleting" class="text-right">
+            <button class="btn btn-danger" type="button" disabled>
+              <span class="spinner-border spinner-border-sm"></span
+              >Suppression...
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

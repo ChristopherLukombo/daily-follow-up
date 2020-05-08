@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,12 +47,13 @@ public class AuditResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-    @GetMapping(value = "/patient/history", params = {"page", "size"})
-	public ResponseEntity<Page<PatientHistoryDTO>> getAllPatientHistorys(
+    @GetMapping(value = "/patient/history/{patientId}", params = {"page", "size"})
+	public ResponseEntity<Page<PatientHistoryDTO>> getAllPatientHistorysByPatientId(
+			@PathVariable(required = true) final Long patientId,
 			@RequestParam(required = true) final Integer page,
 			@RequestParam(required = true) final Integer size) {
 		LOGGER.debug("REST request to get All PatientHistorys");
-		final Page<PatientHistoryDTO> patientHistorys = auditEventService.findAllPatientHistorys(page, size);
+		final Page<PatientHistoryDTO> patientHistorys = auditEventService.findAllPatientHistorysByPatientId(patientId, page, size);
 		if (patientHistorys.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}

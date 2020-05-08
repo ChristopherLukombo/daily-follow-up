@@ -1,6 +1,7 @@
 package fr.almavivahealth.ut.web;
 
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -56,13 +57,13 @@ public class AuditResourceTest {
 		final Page<PatientHistoryDTO> patientHistorys = new PageImpl<>(content);
 		
 		// When
-		when(auditEventService.findAllPatientHistorys(anyInt(), anyInt())).thenReturn(patientHistorys);
+		when(auditEventService.findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt())).thenReturn(patientHistorys);
 		
 		// Then
-		mockMvc.perform(get("/management/audits/patient/history?page=0&size=10")
+		mockMvc.perform(get("/management/audits/patient/history/1?page=0&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isOk());
-		verify(auditEventService, times(1)).findAllPatientHistorys(anyInt(), anyInt());
+		verify(auditEventService, times(1)).findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt());
 	}
 	
 	@Test
@@ -72,31 +73,31 @@ public class AuditResourceTest {
 		final Page<PatientHistoryDTO> patientHistorys = new PageImpl<>(content);
 		
 		// When
-		when(auditEventService.findAllPatientHistorys(anyInt(), anyInt())).thenReturn(patientHistorys);
+		when(auditEventService.findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt())).thenReturn(patientHistorys);
 		
 		// Then
-		mockMvc.perform(get("/management/audits/patient/history?page=0&size=10")
+		mockMvc.perform(get("/management/audits/patient/history/1?page=0&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isNoContent());
-		verify(auditEventService, times(1)).findAllPatientHistorys(anyInt(), anyInt());
+		verify(auditEventService, times(1)).findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt());
 	}
 	
 	@Test
 	public void shouldGetAllPatientHistorysWhenIsBadRequest() throws Exception {
 		// Then
-		mockMvc.perform(get("/management/audits/patient/history")
+		mockMvc.perform(get("/management/audits/patient/history/1")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isBadRequest());
-		verify(auditEventService, times(0)).findAllPatientHistorys(anyInt(), anyInt());
+		verify(auditEventService, times(0)).findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt());
 	}
 	
 	@Test
 	public void shouldGetAllPatientHistorysWhenIsNotValidParam() throws Exception {
 		// Then
-		mockMvc.perform(get("/management/audits/patient/history?page=a&size=10")
+		mockMvc.perform(get("/management/audits/patient/history/1?page=a&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isBadRequest());
-		verify(auditEventService, times(0)).findAllPatientHistorys(anyInt(), anyInt());
+		verify(auditEventService, times(0)).findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt());
 	}
 
 }

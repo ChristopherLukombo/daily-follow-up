@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Room.
- * 
+ *
  * @author christopher
  */
 @Api("Room")
@@ -40,7 +40,7 @@ import io.swagger.annotations.ApiResponses;
 public class RoomResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RoomResource.class);
-	
+
 	private final RoomService roomService;
 
 	@Autowired
@@ -77,7 +77,7 @@ public class RoomResource {
 		final RoomDTO result = roomService.save(roomDTO);
 		return ResponseEntity.created(new URI("/api/rooms/" + result.getId())).body(result);
 	}
-	
+
 	/**
 	 * PUT /rooms : Update a room.
 	 *
@@ -106,13 +106,13 @@ public class RoomResource {
 		final RoomDTO result = roomService.update(roomDTO);
 		return ResponseEntity.ok().body(result);
 	}
-	
+
 	/**
 	 * GET /rooms : Get all the rooms.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of rooms in body
 	 * or with status 204 (No Content) if there is no room.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get all the rooms.")
 	@ApiResponses({
@@ -131,13 +131,13 @@ public class RoomResource {
 		}
 		return ResponseEntity.ok().body(rooms);
 	}
-	
+
 	/**
 	 * GET /rooms/:id : Get the "id" room.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the room does not exist.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get the \"id\" room.")
 	@ApiResponses({
@@ -177,13 +177,13 @@ public class RoomResource {
 		roomService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	/**
 	 * GET /rooms/patient/:id : Get the room by patient id.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the room does not exist.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get the room by patient id.")
 	@ApiResponses({
@@ -203,4 +203,5 @@ public class RoomResource {
 			return ResponseEntity.noContent().build();
 		}
 	}
+
 }

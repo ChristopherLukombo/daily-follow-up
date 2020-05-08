@@ -1,0 +1,67 @@
+<div class="form-row">
+  <div class="form-group col">
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="lastName"
+      placeholder="Nom du patient..."
+    />
+  </div>
+  <div class="form-group col">
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="firstName"
+      placeholder="Prénom du patient..."
+    />
+  </div>
+</div>
+
+<br />
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+      <th scope="col">Âge</th>
+      <th scope="col">Sexe</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let patient of patients
+          | orderBy: 'lastName'
+          | search: 'lastName':lastName
+          | search: 'firstName':firstName
+          | paginate: pagination;
+        let i = index
+      "
+      (click)="selectPatient(patient, i)"
+      [class.active]="i == selectedRow"
+    >
+      <th
+        scope="row"
+        innerHTML="{{ patient.lastName | highlight: lastName }}"
+      ></th>
+      <td
+        innerHTML="{{ patient.firstName | titlecase | highlight: firstName }}"
+      ></td>
+      <td>{{ patient.dateOfBirth | age }}</td>
+      <td *ngIf="patient.sex == 'Homme'" [ngStyle]="{ color: '#0652DD' }">
+        <fa-icon [icon]="marsLogo"></fa-icon>
+      </td>
+      <td *ngIf="patient.sex == 'Femme'" [ngStyle]="{ color: '#FC427B' }">
+        <fa-icon [icon]="venusLogo"></fa-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls
+  (pageChange)="pageChanged($event)"
+  (pageBoundsCorrection)="pageChanged($event)"
+  maxSize="6"
+  responsive="true"
+  previousLabel="Précédent"
+  nextLabel="Suivant"
+></pagination-controls>

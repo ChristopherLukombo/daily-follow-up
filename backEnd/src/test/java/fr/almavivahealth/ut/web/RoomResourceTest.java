@@ -199,7 +199,7 @@ public class RoomResourceTest {
 		.andExpect(status().isNoContent());
 		verify(roomService, times(1)).delete(id);
 	}
-	
+
 	@Test
 	public void shouldGetRoomByPatientIdWhenIsOk() throws IOException, Exception {
 		// Given
@@ -215,7 +215,7 @@ public class RoomResourceTest {
 		.andExpect(status().isOk());
 		verify(roomService, times(1)).findByPatientId(1L);
 	}
-	
+
 	@Test
 	public void shouldGetRoomByPatientIdWhenIsNotFound() throws IOException, Exception {
 		// Given
@@ -231,5 +231,5 @@ public class RoomResourceTest {
 		.andExpect(status().isNoContent());
 		verify(roomService, times(1)).findByPatientId(2L);
 	}
-	
+
 }

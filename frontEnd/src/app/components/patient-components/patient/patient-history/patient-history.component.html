@@ -1,0 +1,40 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-patient-navbar></app-patient-navbar>
+    </div>
+    <div class="col">
+      <div class="row">
+        <div *ngIf="loading" class="col"><app-loader></app-loader></div>
+        <div *ngIf="error" class="col">
+          <app-alert-error [content]="error"></app-alert-error>
+        </div>
+        <div *ngIf="warning" class="col">
+          <app-alert-warning [content]="warning"></app-alert-warning>
+        </div>
+        <div *ngIf="!error && !warning" class="col">
+          <h4>Historique</h4>
+          <br />
+        </div>
+      </div>
+      <div *ngIf="!error && !warning" class="row">
+        <div class="col">
+          <h5>Informations</h5>
+          <app-activity-patient [histories]="histories"></app-activity-patient>
+          <br />
+          <button
+            *ngIf="totalElements && size < totalElements"
+            type="button"
+            class="btn btn-sm"
+            (click)="loadMoreHistories()"
+          >
+            <fa-icon [icon]="moreLogo"></fa-icon> plus d'activités...
+          </button>
+        </div>
+        <div class="col">
+          <h5>Plats et menus</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

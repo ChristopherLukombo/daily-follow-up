@@ -1,10 +1,11 @@
 package fr.almavivahealth.service.impl;
 
 import static fr.almavivahealth.config.Constants.COMMA;
+import static fr.almavivahealth.config.Constants.CSV;
 import static fr.almavivahealth.config.Constants.SEMICOLON;
-import static fr.almavivahealth.util.MimeTypes.MIME_APPLICATION_VND_MSEXCEL;
-import static fr.almavivahealth.util.MimeTypes.MIME_TEXT_CSV;
-import static fr.almavivahealth.util.MimeTypes.MIME_TEXT_PLAIN;
+import static fr.almavivahealth.utils.MimeTypes.MIME_APPLICATION_VND_MSEXCEL;
+import static fr.almavivahealth.utils.MimeTypes.MIME_TEXT_CSV;
+import static fr.almavivahealth.utils.MimeTypes.MIME_TEXT_PLAIN;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.any23.encoding.TikaEncodingDetector;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -31,20 +33,17 @@ import fr.almavivahealth.dao.DietRepository;
 import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.dao.RoomRepository;
 import fr.almavivahealth.dao.TextureRepository;
-import fr.almavivahealth.domain.Address;
 import fr.almavivahealth.domain.Allergy;
 import fr.almavivahealth.domain.Diet;
 import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.domain.Room;
 import fr.almavivahealth.domain.Texture;
-import fr.almavivahealth.enums.MaritalStatus;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.mapper.PatientMapper;
-import fr.almavivahealth.util.DateUtils;
-import fr.almavivahealth.util.MimeTypes;
+import fr.almavivahealth.utils.MimeTypes;
 
 /**
  * Service Implementation for managing Patient.
@@ -58,17 +57,19 @@ public class PatientServiceImpl implements PatientService {
 	private final PatientRepository patientRepository;
 
 	private final PatientMapper patientMapper;
-	
+
 	private final TextureRepository textureRepository;
 
 	private final DietRepository dietRepository;
 
-
 	private final RoomRepository roomRepository;
 
     @Autowired
-	public PatientServiceImpl(final PatientRepository patientRepository, final PatientMapper patientMapper,
-			final TextureRepository textureRepository, final DietRepository dietRepository,
+	public PatientServiceImpl(
+			final PatientRepository patientRepository,
+			final PatientMapper patientMapper,
+			final TextureRepository textureRepository,
+			final DietRepository dietRepository,
 			final RoomRepository roomRepository) {
 		this.patientRepository = patientRepository;
 		this.patientMapper = patientMapper;
@@ -87,7 +88,7 @@ public class PatientServiceImpl implements PatientService {
 	public PatientDTO save(final PatientDTO patientDTO) {
 		LOGGER.debug("Request to save Patient : {}", patientDTO);
         Patient patient = patientMapper.patientDTOToPatient(patientDTO);
-        patient = patientRepository.save(patient); 
+        patient = patientRepository.save(patient);
 		return patientMapper.patientToPatientDTO(patient);
 	}
 
@@ -106,15 +107,29 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	/**
-	 * Get all the patients.
+	 * Get all active patients.
 	 *
 	 * @return the list of entities
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<PatientDTO> findAll() {
+	public List<PatientDTO> findAllActivePatients() {
 		LOGGER.debug("Request to get all Patients");
 		return patientRepository.findAllByStateTrueOrderByIdDesc().stream()
+				.map(patientMapper::patientToPatientDTO)
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Get all former patients.
+	 *
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<PatientDTO> findAllFormerPatients() {
+		LOGGER.debug("Request to get all Patients");
+		return patientRepository.findAllByStateFalseOrderByIdDesc().stream()
 				.map(patientMapper::patientToPatientDTO)
 				.collect(Collectors.toList());
 	}
@@ -143,10 +158,12 @@ public class PatientServiceImpl implements PatientService {
 		LOGGER.debug("Request to delete Patient : {}", id);
 		patientRepository.findById(id).ifPresent(patient -> {
 			patient.setState(false);
+			// free the room
+			patient.setRoom(null);
 			patientRepository.saveAndFlush(patient);
 		});
 	}
-	
+
 	/**
 	 * Import patient file in database.
 	 *
@@ -169,7 +186,7 @@ public class PatientServiceImpl implements PatientService {
 					"One or more of the lines in the file do not have the correct number of columns");
 		}
 		final Set<Patient> patients = toPatients(lines);
-		
+
 		return saveOrUpdatePatients(patients);
 	}
 
@@ -182,53 +199,41 @@ public class PatientServiceImpl implements PatientService {
 					"An error occurred while trying to read the contents of the file : " + fileToImport.getName(), e);
 		}
 	}
-	
+
 	private Charset guessCharset(final InputStream is) throws IOException {
 		return Charset.forName(new TikaEncodingDetector().guessEncoding(is));
 	}
-	
+
 	private boolean isValidLine(final String line) {
-		return !StringUtils.isBlank(line) && 17 == line.split(SEMICOLON).length;
+		return !StringUtils.isBlank(line) && 7 == line.split(SEMICOLON).length;
 	}
-	
+
 	private boolean isValidLineCount(final List<String> lines) {
 		return lines.size() <= 61;
 	}
-	
+
 	private Set<Patient> toPatients(final List<String> lines) {
 		return lines.stream()
 				.skip(1)
 				.map(this::buildPatient)
 				.collect(Collectors.toSet());
 	}
-	
+
 	private Patient buildPatient(final String line) {
 		final String[] columns = line.split(SEMICOLON);
-		
-	    final Set<String> dietNames = stringToSet(columns[13]);
-	    final Set<String> allergyNames = stringToSet(columns[14]);
 
-		final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 12)).orElseGet(() -> null);
+	    final Set<String> dietNames = stringToSet(columns[4]);
+	    final Set<String> allergyNames = stringToSet(columns[5]);
+
+		final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 3)).orElseGet(() -> null);
 	    final List<Diet> diets = dietRepository.findAllByNameIgnoreCaseIn(dietNames);
 	    final List<Allergy> allergies = createAllergies(allergyNames);
-		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 15)).orElseGet(() -> null);
-		final Address address = buildAddress(columns);
-		final String situation = fetchSituation(getField(columns, 3));
-		
+		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 6)).orElseGet(() -> null);
+
 		return Patient.builder()
 				.firstName(getField(columns, 0))
 				.lastName(getField(columns, 1))
-				.email(getField(columns, 2))
- 				.situation(situation)
-				.dateOfBirth(DateUtils.convertToDate(columns[4]))
-				.address(address)
-				.phoneNumber(getField(columns, 5))
-				.mobilePhone(getField(columns, 6))
-				.job(getField(columns, 7))
-				.bloodGroup(getField(columns, 8))
-				.height(Double.parseDouble(getField(columns, 9)))
-				.weight(Double.parseDouble(getField(columns, 10)))
-				.sex(getField(columns, 11))
+				.sex(getField(columns, 2))
 				.state(true)
 				.texture(texture)
 				.diets(diets)
@@ -237,68 +242,40 @@ public class PatientServiceImpl implements PatientService {
 				.build();
 	}
 
-	private Address buildAddress(final String[] columns) {
-		final String[] addressValues = columns[16].split(COMMA);
-		if (addressValues.length > 3) {
-			throw new IndexOutOfBoundsException(
-					"The address field must not exceed 3 columns : " + Arrays.toString(addressValues));
-		}
-		return (addressValues.length > 0)
-				? Address.builder()
-						.streetName(getField(addressValues, 0))
-						.city(getField(addressValues, 1))
-						.postalCode(getField(addressValues, 2)).build()
-				: null;
-	}
-
 	private String getField(final String[] array, final int index) {
 		return array.length > index ? array[index].trim() : null;
 	}
-	
+
 	private Set<String> stringToSet(final String value) {
 		return Stream.of(value.split(COMMA))
 				.map(String::trim)
 				.collect(Collectors.toSet());
 	}
-	
+
 	private List<Allergy> createAllergies(final Set<String> allergyNames) {
 		return allergyNames.stream()
 				.map(this::buildAllergy)
 				.collect(Collectors.toList());
 	}
-	
+
 	private Allergy buildAllergy(final String name) {
 		return Allergy.builder()
 				.name(name)
 				.build();
 	}
-	
-	private String fetchSituation(final String name) {
-		return Stream.of(MaritalStatus.values())
-				.filter(maritalStatus -> cleanString(maritalStatus.label()).equalsIgnoreCase(cleanString(name)))
-				.map(MaritalStatus::label)
-				.findFirst()
-				.orElseGet(() -> StringUtils.EMPTY);
-	}
-	
-	private String cleanString(final String name) {
-		// trim the string and string and remove all specials chars.
-		return StringUtils.isNotBlank(name)
-				? StringUtils.stripAccents(name.trim().replaceAll("\\W+", StringUtils.EMPTY))
-				: StringUtils.EMPTY;
-	}
-	
+
 	private BulkResult saveOrUpdatePatients(final Set<Patient> patients) {
 		final Set<Patient> savedPatients = new HashSet<>();
 		final Set<Patient> updatedPatients = new HashSet<>();
-		
+
 		// Preparing the patients
 		for (final Patient patient : patients) {
 			// We are trying to search for old patients in the database and update their info.
 			// In the other case, we save him.
-			final Optional<Patient> foundPatient = patientRepository.findByFirstNameAndLastNameOrEmail(
-					patient.getFirstName(), patient.getLastName(), patient.getEmail());
-			
+			final Optional<Patient> foundPatient = patientRepository.findByFirstNameAndLastName(
+					patient.getFirstName(),
+					patient.getLastName());
+
 			if (!foundPatient.isPresent()) { // If patient is not found in database, we added to the list to Save.
 				savedPatients.add(patient);
 				continue;
@@ -307,14 +284,24 @@ public class PatientServiceImpl implements PatientService {
 			patientToUpdate.setId(foundPatient.get().getId());
 			patientToUpdate.setState(true);
 			patientToUpdate.setComment(foundPatient.get().getComment());
+			patientToUpdate.setSituation(foundPatient.get().getSituation());
+			patientToUpdate.setHeight(foundPatient.get().getHeight());
+			patientToUpdate.setBloodGroup(foundPatient.get().getBloodGroup());
+			patientToUpdate.setEmail(foundPatient.get().getEmail());
+			patientToUpdate.setDateOfBirth(foundPatient.get().getDateOfBirth());
+			patientToUpdate.setMobilePhone(foundPatient.get().getMobilePhone());
+			patientToUpdate.setPhoneNumber(foundPatient.get().getPhoneNumber());
+			patientToUpdate.setJob(foundPatient.get().getJob());
+			patientToUpdate.setWeight(foundPatient.get().getWeight());
+			patientToUpdate.setJob(foundPatient.get().getJob());
 			updatedPatients.add(patientToUpdate);
 		}
-		
+
 		return BulkResult.builder()
 				.savedPatients(saveAll(savedPatients))
 				.updatedPatients(saveAll(updatedPatients))
 				.build();
-				
+
 	}
 
 	private List<PatientDTO> saveAll(final Set<Patient> patients) {
@@ -332,7 +319,27 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public boolean isCSV(final MultipartFile fileToImport) {
 		final List<String> mimeTypes = Arrays.asList(MIME_APPLICATION_VND_MSEXCEL, MIME_TEXT_PLAIN, MIME_TEXT_CSV);
-		return MimeTypes.isMatchingMimeTypes(mimeTypes, fileToImport);
+		return CSV.equalsIgnoreCase(FilenameUtils.getExtension(fileToImport.getOriginalFilename()))
+				&& MimeTypes.isMatchingMimeTypes(mimeTypes, fileToImport);
+	}
+
+	/**
+	 * Reactivate patient.
+	 *
+	 * @param id the id of the entity
+	 * @return the entity
+	 */
+	@Override
+	public Optional<Patient> reactivatePatient(final Long id) {
+		LOGGER.debug("Request to reactivate Patient : {}", id);
+		return patientRepository.findById(id)
+				.map(patient -> {
+			// reactivate given patient for the id.
+			patient.setState(true);
+			patientRepository.saveAndFlush(patient);
+			LOGGER.debug("Activated patient : {}", id);
+			return patient;
+		});
 	}
 
 }

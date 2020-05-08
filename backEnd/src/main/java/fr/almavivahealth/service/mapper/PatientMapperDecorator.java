@@ -10,15 +10,17 @@ import fr.almavivahealth.domain.Comment;
 import fr.almavivahealth.domain.Diet;
 import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.domain.Room;
+import fr.almavivahealth.domain.Texture;
 import fr.almavivahealth.service.dto.AddressDTO;
 import fr.almavivahealth.service.dto.AllergyDTO;
 import fr.almavivahealth.service.dto.CommentDTO;
 import fr.almavivahealth.service.dto.DietDTO;
 import fr.almavivahealth.service.dto.PatientDTO;
+import fr.almavivahealth.service.dto.TextureDTO;
 
 /**
  * Mapper for the entity Patient and its DTO called PatientDTO.
- * 
+ *
  * @author christopher
  */
 public abstract class PatientMapperDecorator implements PatientMapper {
@@ -35,7 +37,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.email(patient.getEmail())
 				.situation(patient.getSituation())
 				.dateOfBirth(patient.getDateOfBirth())
-				.address(this.buildAddressDTO(patient))
+				.address(buildAddressDTO(patient))
 				.phoneNumber(patient.getPhoneNumber())
 				.mobilePhone(patient.getMobilePhone())
 				.job(patient.getJob())
@@ -44,18 +46,28 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.weight(patient.getWeight())
 				.sex(patient.getSex())
 				.state(patient.getState())
-				.texture(patient.getTexture())
-				.diets(this.buildDietsDTO(patient))
-				.allergies(this.buildAllergiesDTO(patient))
-				.comment(this.buildCommentDTO(patient))
-				.roomId(this.buildRoomDTO(patient))
+				.texture(buildTextureDTO(patient))
+				.diets(buildDietsDTO(patient))
+				.allergies(buildAllergiesDTO(patient))
+				.comment(buildCommentDTO(patient))
+				.roomId(buildRoomDTO(patient))
 				.build();
 	}
-	
+
+	private TextureDTO buildTextureDTO(final Patient patient) {
+		if (patient.getTexture() == null) {
+			return null;
+		}
+		return TextureDTO.builder()
+				.id(patient.getTexture().getId())
+				.name(patient.getTexture().getName())
+				.build();
+	}
+
 	private AddressDTO buildAddressDTO(final Patient patient) {
 		if (patient.getAddress() == null) {
 			return null;
-		} 
+		}
 		return AddressDTO.builder()
 				.id(patient.getAddress().getId())
 				.streetName(patient.getAddress().getStreetName())
@@ -63,7 +75,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.postalCode(patient.getAddress().getPostalCode())
 				.build();
 	}
-	
+
 	private List<DietDTO> buildDietsDTO(final Patient patient) {
 		if (patient.getDiets() == null || patient.getDiets().isEmpty()) {
 			return Collections.emptyList();
@@ -78,7 +90,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 		}
 		return dietsDTO;
 	}
-	
+
 	private List<AllergyDTO> buildAllergiesDTO(final Patient patient) {
 		if (patient.getAllergies() == null || patient.getAllergies().isEmpty()) {
 			return Collections.emptyList();
@@ -105,7 +117,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.lastModification(patient.getComment().getLastModification())
 				.build();
 	}
-	
+
 	private Long buildRoomDTO(final Patient patient) {
 		final Room room = patient.getRoom();
 		if (room == null) {
@@ -135,18 +147,28 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.weight(patientDTO.getWeight())
 				.sex(patientDTO.getSex())
 				.state(patientDTO.getState())
-				.texture(patientDTO.getTexture())
+				.texture(buildTexture(patientDTO))
 				.diets(this.buildDiets(patientDTO))
 				.allergies(this.buildAllergies(patientDTO))
 				.comment(this.buildComment(patientDTO))
 				.room(this.buildRoom(patientDTO))
 				.build();
 	}
-	
+
+	private Texture buildTexture(final PatientDTO patientDTO) {
+		if (patientDTO.getTexture() == null) {
+			return null;
+		}
+		return Texture.builder()
+				.id(patientDTO.getTexture().getId())
+				.name(patientDTO.getTexture().getName())
+				.build();
+	}
+
 	private Address buildAddress(final PatientDTO patientDTO) {
 		if (patientDTO.getAddress() == null) {
 			return null;
-		} 
+		}
 		return Address.builder()
 				.id(patientDTO.getAddress().getId())
 				.streetName(patientDTO.getAddress().getStreetName())
@@ -154,7 +176,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.postalCode(patientDTO.getAddress().getPostalCode())
 				.build();
 	}
-	
+
 	private List<Diet> buildDiets(final PatientDTO patientDTO) {
 		if (patientDTO.getDiets() == null || patientDTO.getDiets().isEmpty()) {
 			return Collections.emptyList();
@@ -169,7 +191,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 		}
 		return diets;
 	}
-	
+
 	private List<Allergy> buildAllergies(final PatientDTO patientDTO) {
 		if (patientDTO.getAllergies() == null || patientDTO.getAllergies().isEmpty()) {
 			return Collections.emptyList();
@@ -184,7 +206,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 		}
 		return allergies;
 	}
-	
+
 	private Comment buildComment(final PatientDTO patientDTO) {
 		if (patientDTO.getComment() == null) {
 			return null;
@@ -196,11 +218,11 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.lastModification(patientDTO.getComment().getLastModification())
 				.build();
 	}
-	
+
 	private Room buildRoom(final PatientDTO patientDTO) {
 		if (patientDTO.getRoomId() == null) {
 			return null;
-		} 
+		}
 		return Room.builder()
 				.id(patientDTO.getRoomId())
 				.build();
