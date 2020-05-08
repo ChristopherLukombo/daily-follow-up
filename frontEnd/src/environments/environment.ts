@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  appRootUrl: "http://localhost:8081",
+  appRootUrl: "http://localhost:8081/api",
   version: 8,
 };
 
