@@ -43,10 +43,10 @@ public class AccountResource {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AccountResource.class);
 
     private final UserService userService;
-    
+
     private final MessageSource messageSource;
 
-    @Autowired    
+    @Autowired
     public AccountResource(final UserService userService, final MessageSource messageSource) {
 		this.userService = userService;
 		this.messageSource = messageSource;
@@ -86,7 +86,7 @@ public class AccountResource {
 					"Error occurred while trying to create a user", e);
 		}
 	}
-    
+
     /**
      * GET  /authenticate : check if the user is authenticated, and return its login.
      *
@@ -103,7 +103,7 @@ public class AccountResource {
         LOGGER.debug("REST request to check if the current user is authenticated");
         return ResponseEntity.ok().body(request.getRemoteUser());
     }
-    
+
     /**
      * POST  /register/profilePicture/{userId} : upload file from userId.
      *
@@ -121,20 +121,18 @@ public class AccountResource {
         @ApiResponse(code = 500, message = "Internal Server"),
         })
     @PostMapping("/register/profilePicture/{userId}")
-	public ResponseEntity<HttpStatus> uploadFile(
-			@RequestPart final MultipartFile file,
-			@PathVariable final Long userId)
+	public ResponseEntity<HttpStatus> uploadFile(@RequestPart final MultipartFile file, @PathVariable final Long userId)
 			throws DailyFollowUpException {
 		LOGGER.debug("REST request to upload file");
 		try {
 			userService.uploadProfilePicture(file, userId);
+			return ResponseEntity.ok().body(HttpStatus.OK);
 		} catch (final Exception e) {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					"An error occurred while trying to upload the picture profile", e);
 		}
-		return ResponseEntity.ok().body(HttpStatus.OK);
 	}
-    
+
     /**
      * GET  /users/profilePicture/{userId} : retrieve profile picture from userId.
      *
@@ -156,5 +154,5 @@ public class AccountResource {
 		final byte[] profilePicture = userService.findProfilePicture(userId);
 		return ResponseEntity.ok().body(profilePicture);
 	}
-    
+
 }

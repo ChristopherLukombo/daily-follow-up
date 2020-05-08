@@ -42,8 +42,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final CorsFilter corsFilter;
 
 	@Autowired
-	public SecurityConfig(final AuthenticationManagerBuilder authenticationManagerBuilder,
-			final UserDetailsService userDetailsService, final TokenProvider tokenProvider,
+	public SecurityConfig(
+			final AuthenticationManagerBuilder authenticationManagerBuilder,
+			final UserDetailsService userDetailsService,
+			final TokenProvider tokenProvider,
 			final CorsFilter corsFilter) {
 		this.authenticationManagerBuilder = authenticationManagerBuilder;
 		this.userDetailsService = userDetailsService;
@@ -101,7 +103,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(securityExceptionEntryPoint());
 
     }
-  
+
     private JWTConfigurer securityConfigurerAdapter() {
         return new JWTConfigurer(tokenProvider);
     }
@@ -111,7 +113,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    
+
     @Bean
     public RestAuthenticationEntryPoint securityExceptionEntryPoint(){
         return new RestAuthenticationEntryPoint();
