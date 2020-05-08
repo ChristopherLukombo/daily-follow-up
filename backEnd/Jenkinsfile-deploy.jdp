@@ -11,13 +11,11 @@ pipeline{
             options { timeout(time: 1, unit: 'HOURS') }
             steps {
                 script {
-                    dir(projectName) {
-                        //sh("git pull")
-                        sh("mvn clean package -Pprod -e")
+                    //sh("git pull")
+                    sh("mvn clean package -Pprod -e")
 
-                        //sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
-                        //sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ ProdContainer")
-                    }
+                    sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
+                    sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ .")
                 }
             }
             post {
@@ -47,10 +45,8 @@ pipeline{
                     def now = new Date()
                     def dateFormated = now.format("yy-MMdd.HHmm", TimeZone.getTimeZone('UTC'))
                     
-                    dir(projectName){
-                        sh("docker build -t prodimage${dateFormated}:${dateFormated} -f /home/pi/Documents/Project/Dockerz/ProdContainer/Dockerfile --no-cache .")
-                        sh("docker service update --image prodimage${dateFormated}:${dateFormated} prod_prodapplication")
-                    }
+                    sh("docker build -t prodimage${dateFormated}:${dateFormated} -f /home/pi/Documents/Project/Dockerz/ProdContainer/Dockerfile --no-cache .")
+                    sh("docker service update --image prodimage${dateFormated}:${dateFormated} prod_prodapplication")
                     
                 }
             }
