@@ -1,8 +1,12 @@
-package fr.almavivahealth.service.impl;
+package fr.almavivahealth.service.impl.patient;
 
 import static fr.almavivahealth.config.Constants.COMMA;
 import static fr.almavivahealth.config.Constants.CSV;
 import static fr.almavivahealth.config.Constants.SEMICOLON;
+import static fr.almavivahealth.config.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_READ_THE_CONTENTS_OF_THE_FILE;
+import static fr.almavivahealth.config.ErrorMessage.ONE_OR_MORE_OF_THE_LINES_IN_THE_FILE_DO_NOT_HAVE_THE_CORRECT_NUMBER_OF_COLUMNS;
+import static fr.almavivahealth.config.ErrorMessage.ONE_OR_MORE_PATIENTS_ALREADY_EXIST;
+import static fr.almavivahealth.config.ErrorMessage.THE_NUMBER_OF_PATIENTS_TO_BE_INSERTED_MAY_NOT_EXCEED_60;
 import static fr.almavivahealth.utils.MimeTypes.MIME_APPLICATION_VND_MSEXCEL;
 import static fr.almavivahealth.utils.MimeTypes.MIME_TEXT_CSV;
 import static fr.almavivahealth.utils.MimeTypes.MIME_TEXT_PLAIN;
@@ -13,10 +17,13 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.any23.encoding.TikaEncodingDetector;
 import org.apache.commons.io.FilenameUtils;
@@ -25,6 +32,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,6 +47,7 @@ import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.domain.Room;
 import fr.almavivahealth.domain.Texture;
 import fr.almavivahealth.exception.DailyFollowUpException;
+import fr.almavivahealth.service.PatientImportationAttempts;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
 import fr.almavivahealth.service.dto.PatientDTO;
@@ -64,18 +73,26 @@ public class PatientServiceImpl implements PatientService {
 
 	private final RoomRepository roomRepository;
 
+	private final PatientImportationAttempts patientImportationAttempts;
+
+	private final MessageSource messageSource;
+
     @Autowired
 	public PatientServiceImpl(
 			final PatientRepository patientRepository,
 			final PatientMapper patientMapper,
 			final TextureRepository textureRepository,
 			final DietRepository dietRepository,
-			final RoomRepository roomRepository) {
+			final RoomRepository roomRepository,
+			final PatientImportationAttempts patientImportationAttempts,
+			final MessageSource messageSource) {
 		this.patientRepository = patientRepository;
 		this.patientMapper = patientMapper;
 		this.textureRepository = textureRepository;
 		this.dietRepository = dietRepository;
 		this.roomRepository = roomRepository;
+		this.patientImportationAttempts = patientImportationAttempts;
+		this.messageSource = messageSource;
 	}
 
 	/**
@@ -168,35 +185,43 @@ public class PatientServiceImpl implements PatientService {
 	 * Import patient file in database.
 	 *
 	 * @param fileToImport the file to import
-	 * @return BulkResult
+	 * @param request the request
+	 * @return the bulk result
 	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	@Override
-	public BulkResult importPatientFile(final MultipartFile fileToImport)
+	public BulkResult importPatientFile(final MultipartFile fileToImport, final HttpServletRequest request)
 			throws DailyFollowUpException {
 		LOGGER.debug("Request to import File : {}", fileToImport.getName());
-		final List<String> lines = retrieveLines(fileToImport);
+		final Locale locale = request.getLocale();
+		final List<String> lines = retrieveLines(fileToImport, locale);
 		final boolean validLineCount = isValidLineCount(lines);
 		if (!validLineCount) {
-			throw new DailyFollowUpException("The number of patients to be inserted may not exceed 60.");
+			throw new DailyFollowUpException(
+					messageSource.getMessage(THE_NUMBER_OF_PATIENTS_TO_BE_INSERTED_MAY_NOT_EXCEED_60, null, locale));
 		}
 		final boolean validCSV = lines.stream().allMatch(this::isValidLine);
 		if (!validCSV) {
-			throw new DailyFollowUpException(
-					"One or more of the lines in the file do not have the correct number of columns");
+			throw new DailyFollowUpException(messageSource.getMessage(
+					ONE_OR_MORE_OF_THE_LINES_IN_THE_FILE_DO_NOT_HAVE_THE_CORRECT_NUMBER_OF_COLUMNS, null, locale));
 		}
 		final Set<Patient> patients = toPatients(lines);
 
-		return saveOrUpdatePatients(patients);
+		final String ip = request.getRemoteAddr();
+		final String pseudo = request.getRemoteUser();
+		return saveOrUpdatePatients(patients, ip, pseudo, locale);
 	}
 
-	private List<String> retrieveLines(final MultipartFile fileToImport) throws DailyFollowUpException {
+	private List<String> retrieveLines(final MultipartFile fileToImport, final Locale locale)
+			throws DailyFollowUpException {
 		try {
 			final Charset charset = guessCharset(fileToImport.getInputStream());
 			return IOUtils.readLines(fileToImport.getInputStream(), charset);
 		} catch (final IOException e) {
 			throw new DailyFollowUpException(
-					"An error occurred while trying to read the contents of the file : " + fileToImport.getName(), e);
+					messageSource.getMessage(AN_ERROR_OCCURRED_WHILE_TRYING_TO_READ_THE_CONTENTS_OF_THE_FILE, null,
+							locale) + fileToImport.getName(),
+					e);
 		}
 	}
 
@@ -264,37 +289,31 @@ public class PatientServiceImpl implements PatientService {
 				.build();
 	}
 
-	private BulkResult saveOrUpdatePatients(final Set<Patient> patients) {
+	private BulkResult saveOrUpdatePatients(final Set<Patient> patients, final String ip, final String pseudo, final Locale locale) throws DailyFollowUpException {
 		final Set<Patient> savedPatients = new HashSet<>();
 		final Set<Patient> updatedPatients = new HashSet<>();
 
-		// Preparing the patients
+		// Patient preparation
 		for (final Patient patient : patients) {
 			// We are trying to search for old patients in the database and update their info.
 			// In the other case, we save him.
-			final Optional<Patient> foundPatient = patientRepository.findByFirstNameAndLastName(
-					patient.getFirstName(),
-					patient.getLastName());
+			final Patient patientResult = patientRepository
+					.findByFirstNameAndLastName(patient.getFirstName(), patient.getLastName())
+					.map(foundPatient -> buildPatientToUpdate(patient, foundPatient))
+					.orElse(patient);
 
-			if (!foundPatient.isPresent()) { // If patient is not found in database, we added to the list to Save.
-				savedPatients.add(patient);
-				continue;
+			if (patientResult.getId() != null && !patientImportationAttempts.hasMadeAnAttempt(ip, pseudo)) {
+				// If patient is found in database and user made a try,
+				// We warn user that there are patients.
+				throw new DailyFollowUpException(
+						messageSource.getMessage(ONE_OR_MORE_PATIENTS_ALREADY_EXIST, null, locale));
+			} else if (patientResult.getId() != null && patientImportationAttempts.hasMadeAnAttempt(ip, pseudo)) {
+				// If the user tries again we add the patient in the list to update
+				updatedPatients.add(patientResult);
+			} else if (patientResult.getId() == null) {
+				// If patient is not found in database, we added to the list to save.
+				savedPatients.add(patientResult);
 			}
-			final Patient patientToUpdate = patient;
-			patientToUpdate.setId(foundPatient.get().getId());
-			patientToUpdate.setState(true);
-			patientToUpdate.setComment(foundPatient.get().getComment());
-			patientToUpdate.setSituation(foundPatient.get().getSituation());
-			patientToUpdate.setHeight(foundPatient.get().getHeight());
-			patientToUpdate.setBloodGroup(foundPatient.get().getBloodGroup());
-			patientToUpdate.setEmail(foundPatient.get().getEmail());
-			patientToUpdate.setDateOfBirth(foundPatient.get().getDateOfBirth());
-			patientToUpdate.setMobilePhone(foundPatient.get().getMobilePhone());
-			patientToUpdate.setPhoneNumber(foundPatient.get().getPhoneNumber());
-			patientToUpdate.setJob(foundPatient.get().getJob());
-			patientToUpdate.setWeight(foundPatient.get().getWeight());
-			patientToUpdate.setJob(foundPatient.get().getJob());
-			updatedPatients.add(patientToUpdate);
 		}
 
 		return BulkResult.builder()
@@ -302,6 +321,25 @@ public class PatientServiceImpl implements PatientService {
 				.updatedPatients(saveAll(updatedPatients))
 				.build();
 
+	}
+
+	private Patient buildPatientToUpdate(final Patient patient, Patient patientFound) {
+		final Patient patientTmp = patientFound;
+		patientFound = patient;
+		patientFound.setId(patientTmp.getId());
+		patientFound.setState(true);
+		patientFound.setComment(patientTmp.getComment());
+		patientFound.setSituation(patientTmp.getSituation());
+		patientFound.setHeight(patientTmp.getHeight());
+		patientFound.setBloodGroup(patientTmp.getBloodGroup());
+		patientFound.setEmail(patientTmp.getEmail());
+		patientFound.setDateOfBirth(patientTmp.getDateOfBirth());
+		patientFound.setMobilePhone(patientTmp.getMobilePhone());
+		patientFound.setPhoneNumber(patientTmp.getPhoneNumber());
+		patientFound.setJob(patientTmp.getJob());
+		patientFound.setWeight(patientTmp.getWeight());
+		patientFound.setJob(patientTmp.getJob());
+		return patientFound;
 	}
 
 	private List<PatientDTO> saveAll(final Set<Patient> patients) {

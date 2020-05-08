@@ -2,6 +2,7 @@ package fr.almavivahealth.config;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -14,26 +15,36 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
+import fr.almavivahealth.config.interceptor.PatientImportationInterceptor;
+
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+
+	private final PatientImportationInterceptor patientImportationInterceptor;
+
+    @Autowired
+	public WebMvcConfig(final PatientImportationInterceptor patientImportationInterceptor) {
+		this.patientImportationInterceptor = patientImportationInterceptor;
+	}
 
 	@Bean
     public LocaleResolver localeResolver() {
         return new CookieLocaleResolver();
     }
-	
+
     @Bean
     public LocaleChangeInterceptor localeInterceptor() {
         final LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
         localeInterceptor.setParamName("lang");
         return localeInterceptor;
     }
-    
+
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         registry.addInterceptor(localeInterceptor());
+        registry.addInterceptor(patientImportationInterceptor);
     }
-    
+
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
     	registry.addResourceHandler("swagger-ui.html")
@@ -41,7 +52,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.addResourceHandler("/webjars/**")
          .addResourceLocations("classpath:/META-INF/resources/webjars/");
-       
+
 	    registry.addResourceHandler("/**/*")
 	        .setCachePeriod(0)
 	        .addResourceLocations("classpath:/static/")

@@ -1,4 +1,4 @@
-package fr.almavivahealth.ut.service;
+package fr.almavivahealth.ut.service.patient;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -21,6 +21,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.MessageSource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 
 import fr.almavivahealth.dao.AllergyRepository;
@@ -31,8 +34,9 @@ import fr.almavivahealth.dao.TextureRepository;
 import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.domain.Texture;
 import fr.almavivahealth.exception.DailyFollowUpException;
+import fr.almavivahealth.service.PatientImportationAttempts;
 import fr.almavivahealth.service.dto.PatientDTO;
-import fr.almavivahealth.service.impl.PatientServiceImpl;
+import fr.almavivahealth.service.impl.patient.PatientServiceImpl;
 import fr.almavivahealth.service.mapper.PatientMapper;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -63,6 +67,12 @@ public class PatientServiceTest {
 
 	@Mock
 	private RoomRepository roomRepository;
+
+	@Mock
+	private PatientImportationAttempts patientImportationAttempts;
+
+	@Mock
+	private MessageSource messageSource;
 
 	@InjectMocks
 	private PatientServiceImpl patientServiceImpl;
@@ -275,16 +285,20 @@ public class PatientServiceTest {
 		final Texture texture = new Texture();
 		final List<Patient> patients = Arrays.asList(getPatient());
 		final PatientDTO patientDTO = getPatientDTO();
+		final MockHttpServletRequest request = new MockHttpServletRequest();
+		request.addHeader(HttpHeaders.HOST, "myhost.com");
+		request.setLocalPort(8081);
+		request.setRemoteAddr("127.0.0.1");
 
 		// When
-        when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
-        when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
-        when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
-        when(patientRepository.saveAll(anyIterable())).thenReturn(patients);
-        when(patientMapper.patientToPatientDTO((Patient) any())).thenReturn(patientDTO);
+		when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
+		when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
+		when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
+		when(patientRepository.saveAll(anyIterable())).thenReturn(patients);
+		when(patientMapper.patientToPatientDTO((Patient) any())).thenReturn(patientDTO);
 
 		// Then
-		assertThat(patientServiceImpl.importPatientFile(file)).isNotNull();
+		assertThat(patientServiceImpl.importPatientFile(file, request)).isNotNull();
 	}
 
 	@Test
@@ -293,9 +307,13 @@ public class PatientServiceTest {
 		final String data = "first_name;last_name;email;situation;date_of_birth;phone_number;mobile_phone;job;blood_group;height;weight;sex;state;texture;diets;allergyes;room;addresse\r\n" +
 				"Valérie;BORDIN;bordin.v@gmail.com;Marié;13/02/1974;0126642363;0652148965;Retraité;B+;163;51.1;Femme;true;Normale;Normale;Céréales,Gluten;220;67 avenue du pdt,montreuil,93100;bibi";
 		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
+		final MockHttpServletRequest request = new MockHttpServletRequest();
+		request.addHeader(HttpHeaders.HOST, "myhost.com");
+		request.setLocalPort(8081);
+		request.setRemoteAddr("127.0.0.1");
 
 		// Then
-        assertThatThrownBy(() -> patientServiceImpl.importPatientFile(file))
+        assertThatThrownBy(() -> patientServiceImpl.importPatientFile(file, request))
 		.isInstanceOf(DailyFollowUpException.class);
 	}
 
