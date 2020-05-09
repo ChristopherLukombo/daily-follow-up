@@ -4,7 +4,7 @@ def mails = "angelo.deliessche@gmail.com"
 
 pipeline{
     triggers { 
-        pollSCM('* * * * *') 
+        //pollSCM('* * * * *') 
     }
     options { timeout(time: 1, unit: 'HOURS') }
     agent any
