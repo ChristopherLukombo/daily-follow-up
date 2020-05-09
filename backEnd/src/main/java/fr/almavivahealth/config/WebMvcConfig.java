@@ -28,29 +28,4 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(localeInterceptor());
     }
 
-//    @Override
-//    public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-//    	registry.addResourceHandler("swagger-ui.html")
-//         .addResourceLocations("classpath:/META-INF/resources/");
-//
-//        registry.addResourceHandler("/webjars/**")
-//         .addResourceLocations("classpath:/META-INF/resources/webjars/");
-//
-//	    registry.addResourceHandler("/**/*")
-//	        .setCachePeriod(0)
-//	        .addResourceLocations("classpath:/static/")
-//	        .resourceChain(true)
-//	        .addResolver(new PathResourceResolver() {
-//
-//	            @Override
-//	            protected Resource getResource(final String resourcePath,
-//	                final Resource location) throws IOException {
-//	                  final Resource requestedResource = location.createRelative(resourcePath);
-//	                  return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
-//	                : new ClassPathResource("/static/index.html");
-//	            }
-//
-//	        });
-//    }
-
 }
