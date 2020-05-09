@@ -30,13 +30,14 @@ import lombok.ToString;
 public class MomentDay implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<TypeMeal> typeMeals;
+	private List<Content> contents;
+
 }

@@ -12,9 +12,9 @@ import fr.almavivahealth.exception.DailyFollowUpException;
  * The Class DataCellMiddleRight.
  */
 public class DataCellMiddleRight extends DataCell {
-	
+
 	private final String comment;
-	
+
 	public DataCellMiddleRight(final String comment) {
 		this.comment = comment;
 	}
@@ -33,7 +33,7 @@ public class DataCellMiddleRight extends DataCell {
 		cell.add(getCell(StringUtils.LF, TextAlignment.CENTER, false, -1));
 		cell.setBorderLeft(Border.NO_BORDER);
 		cell.setBorderRight(Border.NO_BORDER);
-		cell.add(getCell(comment, TextAlignment.JUSTIFIED, false, 2));
+		cell.add(getCell(comment, TextAlignment.JUSTIFIED, false, -1));
 		cell.setBorderLeft(Border.NO_BORDER);
 		cell.setBorderBottom(Border.NO_BORDER);
 		return cell;

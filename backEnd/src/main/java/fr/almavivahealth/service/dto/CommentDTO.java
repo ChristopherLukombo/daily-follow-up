@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,14 +18,15 @@ import lombok.Builder;
 public class CommentDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
 
+	@Size(min = 2, max = 105, message = "{error.comment.content}")
 	private String content;
-	
+
 	@NotNull
 	private String pseudo;
-	
+
 	@NotNull
 	private LocalDateTime lastModification;
 
@@ -108,5 +110,5 @@ public class CommentDTO implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 }

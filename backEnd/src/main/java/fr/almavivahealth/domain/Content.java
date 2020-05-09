@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import fr.almavivahealth.enums.TypeMeal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,10 +20,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* A content.
-*/
+ *
+ * @author christopher
+ * A content.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,17 +37,22 @@ public class Content implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
-	
+
 	@ManyToOne
 	private Texture texture;
-	
-    @NotNull
-    @Column(nullable = false)
+
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private TypeMeal typeMeal;
+
+	@Column(nullable = false)
+	@NotNull
 	private boolean salt;
-	
-    @NotNull
-    @Column(nullable = false)
+
+	@Column(nullable = false)
+	@NotNull
 	private boolean sugar;
+
 }
