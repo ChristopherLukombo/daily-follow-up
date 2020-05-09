@@ -3,6 +3,7 @@ import {
   faAddressBook,
   faUtensils,
   faChartPie,
+  faUserAlt,
   faClinicMedical,
   faClock,
   faUser,
@@ -18,6 +19,7 @@ export class NavbarComponent implements OnInit {
   patientLogo = faAddressBook;
   foodLogo = faUtensils;
   statsLogo = faChartPie;
+  userLogo = faUserAlt;
   clinicLogo = faClinicMedical;
   historyLogo = faClock;
   logInLogo = faUser;

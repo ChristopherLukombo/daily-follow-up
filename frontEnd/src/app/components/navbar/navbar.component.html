@@ -17,6 +17,11 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul *ngIf="connected()" class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/food/meal/add"
+          ><fa-icon [icon]="foodLogo"></fa-icon> Alimentation</a
+        >
+      </li>
       <li class="nav-item dropdown active">
         <a
           class="nav-link dropdown-toggle"
@@ -37,12 +42,12 @@
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#"
-          ><fa-icon [icon]="foodLogo"></fa-icon> Alimentation</a
+          ><fa-icon [icon]="clinicLogo"></fa-icon> Clinique</a
         >
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#"
-          ><fa-icon [icon]="clinicLogo"></fa-icon> Clinique</a
+          ><fa-icon [icon]="userLogo"></fa-icon> Habilitations</a
         >
       </li>
       <li class="nav-item active">
