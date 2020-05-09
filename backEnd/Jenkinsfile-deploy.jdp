@@ -14,7 +14,7 @@ pipeline{
                     //sh("git pull")
                     dir(projectName){
                         //git 'https://github.com/ChristopherLukombo/daily-follow-up'
-                        sh("mvn clean package -Pprod -e")
+                        sh("mvn clean package -Pprod -e -X")
 
                         //sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
                         //sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ .")
