@@ -4,7 +4,7 @@ def mails = "angelo.deliessche@gmail.com"
 
 pipeline{
     triggers { 
-    //    pollSCM('* * * * *') 
+        pollSCM('* * * * *') 
     }
     options { timeout(time: 1, unit: 'HOURS') }
     agent any
@@ -52,7 +52,7 @@ pipeline{
                         def dateFormated = now.format("yy-MMdd.HHmm", TimeZone.getTimeZone('UTC'))
                         docker.build "prodimage${dateFormated}:${dateFormated}"
                         //sh("docker build -t prodimage${dateFormated}:${dateFormated} --no-cache .")
-                        //sh("docker service update --image prodimage${dateFormated}:${dateFormated} prod_prodapplication")
+                        sh("docker service update --image prodimage${dateFormated}:${dateFormated} prod_prodapplication")
                     }
                     
                 }
