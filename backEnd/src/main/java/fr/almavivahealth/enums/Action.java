@@ -19,8 +19,8 @@ public enum Action {
 	
 	private final String name;
 	
-	private Action(final String value) {
-		this.name = value;
+	private Action(final String name) {
+		this.name = name;
 	}
 	
 	public String value() {

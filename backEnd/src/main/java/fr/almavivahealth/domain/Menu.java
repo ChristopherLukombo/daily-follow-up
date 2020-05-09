@@ -30,28 +30,28 @@ import lombok.ToString;
 @Builder
 @ToString
 public class Menu implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private LocalDate startDate;
-	
+
 	private LocalDate endDate;
-	
+
 	private Integer weekNumber;
-	
+
 	@ManyToOne
 	private Texture texture;
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<TypeMeal> replacements;
-	
+	private List<Content> replacements;
+
 	@ManyToOne
 	private Diet diet;
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Day> days;
 

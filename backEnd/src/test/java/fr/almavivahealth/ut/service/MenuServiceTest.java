@@ -1,4 +1,5 @@
 package fr.almavivahealth.ut.service;
+import static fr.almavivahealth.enums.TypeMeal.ENTRY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -34,7 +35,6 @@ import fr.almavivahealth.domain.Menu;
 import fr.almavivahealth.domain.MomentDay;
 import fr.almavivahealth.domain.Patient;
 import fr.almavivahealth.domain.Texture;
-import fr.almavivahealth.domain.TypeMeal;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.MenuDTO;
 import fr.almavivahealth.service.impl.MenuServiceImpl;
@@ -71,14 +71,7 @@ public class MenuServiceTest {
 		return Content.builder()
 				.id(ID)
 				.name("Saucisse")
-				.build();
-	}
-
-	private static TypeMeal createTypeMeal() {
-		return TypeMeal.builder()
-				.id(ID)
-				.name("ENTREE")
-				.contents(Arrays.asList(createContent()))
+				.typeMeal(ENTRY)
 				.build();
 	}
 
@@ -86,7 +79,7 @@ public class MenuServiceTest {
 		return MomentDay.builder()
 				.id(ID)
 				.name("DEJEUNER")
-				.typeMeals(Arrays.asList(createTypeMeal()))
+				.contents(Arrays.asList(createContent()))
 				.build();
 	}
 

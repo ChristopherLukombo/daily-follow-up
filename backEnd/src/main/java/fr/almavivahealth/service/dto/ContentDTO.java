@@ -24,6 +24,9 @@ public class ContentDTO implements Serializable {
 	private Long textureId;
 
 	@NotNull
+	private String typeMeal;
+
+	@NotNull
 	private boolean salt;
 
 	@NotNull
@@ -73,9 +76,17 @@ public class ContentDTO implements Serializable {
 		this.sugar = sugar;
 	}
 
+	public String getTypeMeal() {
+		return typeMeal;
+	}
+
+	public void setTypeMeal(final String typeMeal) {
+		this.typeMeal = typeMeal;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, salt, sugar, textureId);
+		return Objects.hash(id, name, salt, sugar, textureId, typeMeal);
 	}
 
 	@Override
@@ -88,33 +99,7 @@ public class ContentDTO implements Serializable {
 			return false;
 		final ContentDTO other = (ContentDTO) obj;
 		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && salt == other.salt
-				&& sugar == other.sugar && Objects.equals(textureId, other.textureId);
+				&& sugar == other.sugar && Objects.equals(textureId, other.textureId) && typeMeal == other.typeMeal;
 	}
 
-	@Override
-	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("ContentDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (name != null) {
-			builder.append("name=");
-			builder.append(name);
-			builder.append(", ");
-		}
-		if (textureId != null) {
-			builder.append("textureId=");
-			builder.append(textureId);
-			builder.append(", ");
-		}
-		builder.append("salt=");
-		builder.append(salt);
-		builder.append(", sugar=");
-		builder.append(sugar);
-		builder.append("]");
-		return builder.toString();
-	}
 }
