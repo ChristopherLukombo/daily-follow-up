@@ -1,6 +1,6 @@
 FROM baseimage
 
-ARG jar=daily-follow-up-0.0.1.jar
+ARG jar=/home/pi/Documents/Project/daily-follow-up/backEnd/target/daily-follow-up-0.0.1.jar
 
 RUN mkdir -p /usr/src/app
 ADD $jar /usr/src/app/appli.jar
