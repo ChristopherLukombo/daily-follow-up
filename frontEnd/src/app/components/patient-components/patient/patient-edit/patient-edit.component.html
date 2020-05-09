@@ -13,7 +13,7 @@
           <app-alert-warning [content]="warning"></app-alert-warning>
         </div>
         <div *ngIf="patient && !error && !warning" class="col">
-          <h4>Édition du patient n°{{ patient?.id }}</h4>
+          <h2>Édition du patient n°{{ patient?.id }}</h2>
           <br />
           <app-form-patient-edit
             [patient]="patient"
