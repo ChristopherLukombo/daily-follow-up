@@ -3,6 +3,8 @@ package fr.almavivahealth.service;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.domain.Patient;
@@ -37,7 +39,7 @@ public interface PatientService {
 	 * @return the list of entities
 	 */
 	List<PatientDTO> findAllActivePatients();
-	
+
 	/**
 	 * Get all former patients.
 	 *
@@ -59,16 +61,17 @@ public interface PatientService {
 	 * @param id the id of the entity
 	 */
 	void delete(Long id);
-	
+
 	/**
 	 * Import patient file in database.
 	 *
 	 * @param fileToImport the file to import
-	 * @return BulkResult
+	 * @param request the request
+	 * @return the bulk result
 	 * @throws DailyFollowUpException the daily follow up exception
 	 */
-	BulkResult importPatientFile(MultipartFile fileToImport) throws DailyFollowUpException;
-	
+	BulkResult importPatientFile(MultipartFile fileToImport, final HttpServletRequest request) throws DailyFollowUpException;
+
 	/**
 	 * Checks if is csv.
 	 *
@@ -76,7 +79,7 @@ public interface PatientService {
 	 * @return true, if is csv
 	 */
 	boolean isCSV(MultipartFile fileToImport);
-	
+
 	/**
 	 * Reactivate patient.
 	 *
@@ -84,4 +87,5 @@ public interface PatientService {
 	 * @return the entity
 	 */
 	Optional<Patient> reactivatePatient(Long id);
+
 }
