@@ -24,7 +24,7 @@ public class CommentDTO implements Serializable {
 
 	private Long id;
 
-	@Size(min = 2, max = 105, message = "{error.comment.content}")
+	@Size(min = 2, max = 50, message = "{error.comment.content}")
 	private String content;
 
 	@NotNull

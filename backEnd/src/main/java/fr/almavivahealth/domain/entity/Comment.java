@@ -36,7 +36,7 @@ public class Comment implements Serializable {
 	private Long id;
 
 	@Column(columnDefinition = "TEXT")
-	@Size(min = 2, max = 105, message = "{error.comment.content}")
+	@Size(min = 2, max = 50, message = "{error.comment.content}")
 	private String content;
 
 	@NotNull
@@ -44,5 +44,4 @@ public class Comment implements Serializable {
 
 	@NotNull
 	private LocalDateTime lastModification;
-
 }
