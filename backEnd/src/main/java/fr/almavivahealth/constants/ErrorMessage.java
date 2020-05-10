@@ -8,7 +8,12 @@ package fr.almavivahealth.constants;
  */
 public final class ErrorMessage {
 
-	public static final String ERROR_NEW_USER_CANNOT_ALREADY_HAVE_AN_ID = "error.new.user.cannot.already.have.an.id";
+	// User
+	public static final String ERROR_NEW_USER_CANNOT_ALREADY_HAVE_AN_ID = "error.user.canot_new_user_cannot_already_have_an_id";
+	public static final String ERROR_USER_MUST_HAVE_AN_ID = "error.user.must_have_an_id";
+	public static final String ERROR_OCCURRED_WHILE_TRYING_TO_CREATE_AN_USER = "error.user.occurred_while_trying_to_create_an_user";
+	public static final String ERROR_OCCURRED_WHILE_TRYING_TO_UPDATE_AN_USER = "error.user.occurred_while_trying_to_update_an_user";
+
 
 	// Patient
 	public static final String ONE_OR_MORE_PATIENTS_ALREADY_EXIST = "error.patient.patients_already_exist";

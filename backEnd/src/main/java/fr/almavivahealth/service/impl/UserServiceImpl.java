@@ -9,8 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +101,53 @@ public class UserServiceImpl implements UserService {
 	private Role findRole(final String roleName) throws DailyFollowUpException {
 		return roleRepository.findByName(roleName)
 				.orElseThrow(() -> new DailyFollowUpException("Role not found with roleName : " + roleName));
+	}
+
+	/**
+	 * Update the user.
+	 *
+	 * @param userDTO the user DTO
+	 * @return the user DTO
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	@Override
+	public UserDTO update(final UserDTO userDTO) throws DailyFollowUpException {
+		LOGGER.debug("Request to update User : {}", userDTO);
+		User user = userMapper.userDTOToUser(userDTO);
+		final Role role = findRole(userDTO.getRoleName());
+		final String password = findPassword(userDTO);
+		user.setRole(role);
+		user.setPassword(password);
+		user = userRepository.saveAndFlush(user);
+		return userMapper.userToUserDTO(user);
+	}
+
+	private String findPassword(final UserDTO userDTO) {
+		if (!StringUtils.isBlank(userDTO.getPassword())) {
+			return passwordEncoder.encode(userDTO.getPassword());
+		}
+		return userRepository.findById(userDTO.getId())
+				.map(User::getPassword)
+				.orElse(StringUtils.EMPTY);
+	}
+
+	/**
+	 * Delete the user.
+	 *
+	 * @param id the id
+	 * @return the user
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	@Override
+	public Optional<User> delete(final Long id) throws DailyFollowUpException {
+		LOGGER.debug("Request to delete User : {}", id);
+		return userRepository.findById(id).map(user -> {
+			// disable given user for the id.
+			user.setStatus(false);
+			userRepository.saveAndFlush(user);
+			LOGGER.debug("Disabled user : {}", id);
+			return user;
+		});
 	}
 
 	/**
