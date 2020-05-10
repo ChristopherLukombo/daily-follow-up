@@ -33,9 +33,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import fr.almavivahealth.dao.RoleRepository;
 import fr.almavivahealth.dao.UserRepository;
-import fr.almavivahealth.domain.Role;
-import fr.almavivahealth.domain.User;
-import fr.almavivahealth.enums.RoleName;
+import fr.almavivahealth.domain.entity.Role;
+import fr.almavivahealth.domain.entity.User;
+import fr.almavivahealth.domain.enums.RoleName;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.service.impl.UserServiceImpl;
@@ -48,9 +48,9 @@ public class UserServiceTest {
 	private static final String PSEUDO = "Damien";
 
 	private static final long ID = 1L;
-	
+
 	private static final String IMAGES_FOLDER = "./images";
-	
+
     private static final String IMAGE_DIRECTORY = ".";
 
 	@Mock
@@ -64,7 +64,7 @@ public class UserServiceTest {
 
 	@Mock
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Mock
     private UserProperties userProperties;
 
@@ -112,7 +112,7 @@ public class UserServiceTest {
 	public void shouldSaveWhenUserHasNoRoleIsKo() throws DailyFollowUpException {
 		// Given
 		final UserDTO userDTO = createUserDTO();
-		 
+
 		// Then
 		assertThatThrownBy(() -> userServiceImpl.save(userDTO))
 		.isInstanceOf(DailyFollowUpException.class);
@@ -127,7 +127,73 @@ public class UserServiceTest {
 		assertThatThrownBy(() -> userServiceImpl.save(userDTO))
 		.isInstanceOf(NullPointerException.class);
 	}
-	
+
+	@Test
+	public void shouldUpdateUserWithOldPassword() throws DailyFollowUpException {
+		// Given
+		final User user = createUser();
+		user.setPassword("test");
+		final Role role = createRole();
+		final UserDTO userDTO = createUserDTO();
+
+		userDTO.setRoleName(RoleName.ROLE_ADMIN.name());
+
+		// When
+		when(userMapper.userDTOToUser((UserDTO) any())).thenReturn(user);
+		when(roleRepository.findByName(anyString())).thenReturn(Optional.ofNullable(role));
+		when(userRepository.saveAndFlush((User) any())).thenReturn(user);
+		when(userMapper.userToUserDTO((User) any())).thenReturn(userDTO);
+
+		// Then
+		assertThat(userServiceImpl.update(userDTO)).isNotNull();
+	}
+
+	@Test
+	public void shouldUpdateUserWithNewPassword() throws DailyFollowUpException {
+		// Given
+		final User user = createUser();
+		user.setPassword("test");
+		final Role role = createRole();
+		final UserDTO userDTO = createUserDTO();
+		userDTO.setPassword("test");
+
+		userDTO.setRoleName(RoleName.ROLE_ADMIN.name());
+
+		// When
+		when(userMapper.userDTOToUser((UserDTO) any())).thenReturn(user);
+		when(roleRepository.findByName(anyString())).thenReturn(Optional.ofNullable(role));
+		when(userRepository.saveAndFlush((User) any())).thenReturn(user);
+		when(userMapper.userToUserDTO((User) any())).thenReturn(userDTO);
+
+		// Then
+		assertThat(userServiceImpl.update(userDTO)).isNotNull();
+	}
+
+	@Test
+	public void shouldDeleteUser() throws DailyFollowUpException {
+		// Given
+		final User user = createUser();
+		user.setPassword("test");
+
+		// When
+		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+		when(userRepository.saveAndFlush((User) any())).thenReturn(user);
+
+		// Then
+		assertThat(userServiceImpl.delete(ID)).isPresent();
+	}
+	@Test
+	public void shouldReturnOptionalEmptyUserWhenTryingToDelete() throws DailyFollowUpException {
+		// Given
+		final User user = null;
+
+		// When
+		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+
+		// Then
+		assertThat(userServiceImpl.delete(ID)).isNotPresent();
+	}
+
 	@Test
 	public void shouldFindOneByPseudoWhenIsOk() {
 		// Given
@@ -135,27 +201,27 @@ public class UserServiceTest {
 		final Role role = createRole();
 		user.setRole(role);
 		final UserDTO userDTO = createUserDTO();
-		
+
 		// When
 		when(userRepository.findOneByPseudoIgnoreCase(anyString())).thenReturn(Optional.ofNullable(user));
 		when(userMapper.userToUserDTO((User) any())).thenReturn(userDTO);
-		
+
 		// Then
 		assertThat(userServiceImpl.findOneByPseudo(PSEUDO)).isNotNull();
 	}
-	
+
 	@Test
 	public void shouldFindOneByPseudoWhenIsNull() {
 		// Given
 		final User user = null;
-		
+
 		// When
 		when(userRepository.findOneByPseudoIgnoreCase(anyString())).thenReturn(Optional.ofNullable(user));
-		
+
 		// Then
 		assertThat(userServiceImpl.findOneByPseudo(PSEUDO)).isNull();
 	}
-	
+
 	@Test
 	public void shouldUploadProfilePictureWhenIsOK() throws IOException, DailyFollowUpException {
 		// Given
@@ -170,11 +236,11 @@ public class UserServiceTest {
 
 		// Then
 		userServiceImpl.uploadProfilePicture(file, user.getId());
-		
+
 		verify(userProperties, times(1)).getPathProfiles();
 		verify(userRepository, times(1)).setImageUrl(anyString(), anyLong());
 	}
-	
+
 	@Test
 	public void shouldFindProfilePictureWhenIsOk() throws IOException {
 		// Given
@@ -182,39 +248,39 @@ public class UserServiceTest {
     	final User user = createUser();
     	user.setImageUrl("filename.txt");
     	createFoldersAndFile();
-    	
+
     	// When
     	when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
     	when(userProperties.getPathProfiles()).thenReturn(imageDirectory);
-    	 
+
     	// Then
 		assertThat(userServiceImpl.findProfilePicture(ID)).isNotEmpty();
 	}
-	
+
 	@Test
 	public void shouldFindProfilePictureWhenUserNotExist() throws IOException {
     	// When
     	when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-    	 
+
     	// Then
 		assertThat(userServiceImpl.findProfilePicture(ID)).isEmpty();
 	}
-	
+
 	@Test
 	public void shouldFindProfilePictureWhenIsEmpty() throws IOException {
 		// Given
     	final String imageDirectory = IMAGE_DIRECTORY + "/ded/";
     	final User user = createUser();
     	user.setImageUrl("filename.txt");
-    	
+
     	// When
     	when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
     	when(userProperties.getPathProfiles()).thenReturn(imageDirectory);
-    	 
+
     	// Then
 		assertThat(userServiceImpl.findProfilePicture(ID)).isEmpty();
 	}
-	
+
 	private void createFoldersAndFile() throws IOException {
 		Files.createDirectory(Paths.get("./images"));
 		Files.createDirectory(Paths.get("./images/1"));
@@ -225,7 +291,7 @@ public class UserServiceTest {
 		writer.write(str);
 		writer.close();
 	}
-    
+
     @Before
     @After
     public void deleteFolder() throws IOException {

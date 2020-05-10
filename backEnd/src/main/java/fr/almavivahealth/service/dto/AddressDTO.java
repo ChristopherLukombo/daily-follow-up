@@ -6,6 +6,9 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -19,13 +22,13 @@ public class AddressDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	@NotNull
 	private String streetName;
-	
+
 	@NotNull
 	private String city;
-	
+
 	@NotNull
 	@Pattern(regexp = "^(([0-8][0-9])|(9[0-5]))[0-9]{3}$")
 	private String postalCode;
@@ -86,28 +89,6 @@ public class AddressDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("AddressDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (streetName != null) {
-			builder.append("streetName=");
-			builder.append(streetName);
-			builder.append(", ");
-		}
-		if (city != null) {
-			builder.append("city=");
-			builder.append(city);
-			builder.append(", ");
-		}
-		if (postalCode != null) {
-			builder.append("postalCode=");
-			builder.append(postalCode);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }

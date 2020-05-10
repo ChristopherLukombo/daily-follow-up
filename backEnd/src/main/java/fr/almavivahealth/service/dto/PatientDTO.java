@@ -15,8 +15,8 @@ import javax.validation.constraints.Size;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import fr.almavivahealth.service.validator.patient.ValidBloodGroup;
-import fr.almavivahealth.service.validator.patient.ValidGender;
+import fr.almavivahealth.domain.validator.patient.ValidBloodGroup;
+import fr.almavivahealth.domain.validator.patient.ValidGender;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -291,5 +291,4 @@ public class PatientDTO implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
 }

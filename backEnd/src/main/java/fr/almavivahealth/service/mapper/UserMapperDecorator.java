@@ -1,7 +1,7 @@
 package fr.almavivahealth.service.mapper;
 
-import fr.almavivahealth.domain.Role;
-import fr.almavivahealth.domain.User;
+import fr.almavivahealth.domain.entity.Role;
+import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.service.dto.UserDTO;
 
 /**

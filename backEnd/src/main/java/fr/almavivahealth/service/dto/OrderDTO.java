@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -19,7 +22,7 @@ public class OrderDTO implements Serializable {
 	private Long id;
 
 	private LocalDate date;
-	
+
 	private Long patientId;
 
 	public OrderDTO() {
@@ -70,23 +73,6 @@ public class OrderDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("OrderDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (date != null) {
-			builder.append("date=");
-			builder.append(date);
-			builder.append(", ");
-		}
-		if (patientId != null) {
-			builder.append("PatientId=");
-			builder.append(patientId);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }

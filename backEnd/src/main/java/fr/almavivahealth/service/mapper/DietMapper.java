@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import fr.almavivahealth.domain.Diet;
+import fr.almavivahealth.domain.entity.Diet;
 import fr.almavivahealth.service.dto.DietDTO;
 
 /**

@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.ContentRepository;
-import fr.almavivahealth.domain.Content;
+import fr.almavivahealth.domain.entity.Content;
 import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
+import fr.almavivahealth.service.dto.ContentList;
 import fr.almavivahealth.service.mapper.ContentMapper;
 
 /**
@@ -24,11 +25,11 @@ import fr.almavivahealth.service.mapper.ContentMapper;
 public class ContentServiceImpl implements ContentService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ContentServiceImpl.class);
-	
+
 	private final ContentRepository contentRepository;
-	
+
 	private final ContentMapper contentMapper;
-	
+
 	@Autowired
 	public ContentServiceImpl(final ContentRepository contentRepository, final ContentMapper contentMapper) {
 		this.contentRepository = contentRepository;
@@ -100,5 +101,23 @@ public class ContentServiceImpl implements ContentService {
 	public void delete(final Long id) {
 		LOGGER.debug("Request to delete Content : {}", id);
 		contentRepository.deleteById(id);
+	}
+
+	/**
+	 * Save all contents.
+	 *
+	 * @param contentList the content list
+	 * @return the list of persisted entities
+	 */
+	@Override
+	public List<ContentDTO> saveAll(final ContentList contentList) {
+		LOGGER.debug("Request to save all contents");
+		final List<Content> contents = contentList.getContents().stream()
+				.map(contentMapper::contentDTOToContent)
+				.collect(Collectors.toList());
+
+		return contentRepository.saveAll(contents).stream()
+				.map(contentMapper::contentToContentDTO)
+				.collect(Collectors.toList());
 	}
 }

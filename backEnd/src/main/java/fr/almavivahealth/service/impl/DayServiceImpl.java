@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.DayRepository;
-import fr.almavivahealth.domain.Day;
+import fr.almavivahealth.domain.entity.Day;
 import fr.almavivahealth.service.DayService;
 import fr.almavivahealth.service.dto.DayDTO;
 import fr.almavivahealth.service.mapper.DayMapper;

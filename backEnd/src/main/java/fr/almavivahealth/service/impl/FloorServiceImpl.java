@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.FloorRepository;
-import fr.almavivahealth.domain.Floor;
+import fr.almavivahealth.domain.entity.Floor;
 import fr.almavivahealth.service.FloorService;
 import fr.almavivahealth.service.dto.FloorDTO;
 import fr.almavivahealth.service.mapper.FloorMapper;

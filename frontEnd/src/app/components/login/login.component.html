@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6 offset-md-3">
-      <h3>Authentification</h3>
+      <h2>Authentification</h2>
       <br />
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <div class="form-group">
@@ -11,11 +11,11 @@
             class="form-control"
             formControlName="username"
             [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
-            placeholder="Entrez votre login"
+            placeholder="Entrez votre identifiant"
           />
           <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
             <div *ngIf="f.username.errors.required">
-              le login est requis (Ex. DUPONT Marc = dupont_m)
+              Le login est requis (Ex. DUPONT Marc = dupont_m)
             </div>
           </div>
         </div>

@@ -1,15 +1,20 @@
 package fr.almavivahealth.web.rest;
 
+import static fr.almavivahealth.constants.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_IMPORT_THE_PATIENTS;
+import static fr.almavivahealth.constants.ErrorMessage.THE_FILE_MUST_BE_OF_TYPE_CSV;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.domain.Patient;
+import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
@@ -36,7 +41,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Patient.
- * 
+ *
  * @author christopher
  */
 @Api("Patient")
@@ -48,9 +53,12 @@ public class PatientResource {
 
 	private final PatientService patientService;
 
-	@Autowired
-	public PatientResource(final PatientService patientService) {
+	private final MessageSource messageSource;
+
+    @Autowired
+	public PatientResource(final PatientService patientService, final MessageSource messageSource) {
 		this.patientService = patientService;
+		this.messageSource = messageSource;
 	}
 
 	/**
@@ -61,7 +69,7 @@ public class PatientResource {
 	 *         patientDTO, or with status 400 (Bad Request) if the patient has
 	 *         already an ID
 	 * @throws URISyntaxException  if the Location URI syntax is incorrect
-	 * @throws DailyFollowUpException
+	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	@ApiOperation("Create a new patient.")
 	@ApiResponses({
@@ -91,7 +99,7 @@ public class PatientResource {
 	 * @return the ResponseEntity with status 200 (OK) and with body the
 	 *         patientDTO, or with status 400 (Bad Request) if the patient has not
 	 *         already an ID
-	 * @throws DailyFollowUpException
+	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	@ApiOperation("Update a patient.")
 	@ApiResponses({
@@ -113,13 +121,13 @@ public class PatientResource {
 		final PatientDTO result = patientService.update(patientDTO);
 		return ResponseEntity.ok().body(result);
 	}
-	
+
 	/**
 	 * GET /patients : Get all active patients.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
 	 * or with status 204 (No Content) if there is no patient.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get all active patients.")
 	@ApiResponses({
@@ -139,13 +147,13 @@ public class PatientResource {
 		}
 		return ResponseEntity.ok().body(patients);
 	}
-	
+
 	/**
 	 * GET /patients : Get all former patients.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
 	 * or with status 204 (No Content) if there is no patient.
-	 *         
+	 *
 	 */
 	@ApiOperation(" Get all former patients.")
 	@ApiResponses({
@@ -169,9 +177,9 @@ public class PatientResource {
 	/**
 	 * GET /patients/:id : Get the "id" patient.
 	 *
+	 * @param id the id
 	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the patient does not exist.
-	 *         
 	 */
 	@ApiOperation("Get the \"id\" patient")
 	@ApiResponses({
@@ -213,12 +221,14 @@ public class PatientResource {
 		patientService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	/**
 	 * POST /patients/import : Import patient file.
 	 *
-	 * @param id the id of the patientDTO to delete
+	 * @param inputfile the inputfile
+	 * @param request the request
 	 * @return the ResponseEntity with status 200 (Ok) and bulkResult in body
+	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	@ApiOperation("Import patient file.")
 	@ApiResponses({
@@ -231,27 +241,29 @@ public class PatientResource {
         })
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
 	@PostMapping("/patients/import")
-	public ResponseEntity<BulkResult> importPatientFile(@RequestPart final MultipartFile inputfile)
-			throws DailyFollowUpException {
+	public ResponseEntity<BulkResult> importPatientFile(
+			@RequestPart final MultipartFile inputfile,
+			final HttpServletRequest request) throws DailyFollowUpException {
 		LOGGER.debug("Request to import patient file : {}", inputfile.getName());
 		if (!patientService.isCSV(inputfile)) {
-			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), "the file must be of type CSV");
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					messageSource.getMessage(THE_FILE_MUST_BE_OF_TYPE_CSV, null, request.getLocale()));
 		}
 		try {
-			final BulkResult bulkResult = patientService.importPatientFile(inputfile);
+			final BulkResult bulkResult = patientService.importPatientFile(inputfile, request);
 			return ResponseEntity.ok().body(bulkResult);
-		} catch (final DailyFollowUpException|IndexOutOfBoundsException e) {
-			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-					"An error occurred while trying to import the patients", e);
+		} catch (final DailyFollowUpException | IndexOutOfBoundsException e) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), messageSource
+					.getMessage(AN_ERROR_OCCURRED_WHILE_TRYING_TO_IMPORT_THE_PATIENTS, null, request.getLocale()), e);
 		}
 	}
-	
+
 	/**
 	 * GET /patients/reactivate/:id : Reactivate patient.
 	 *
 	 * @param id the id of the patient to reactivate
 	 * @return the ResponseEntity with status 200 (OK)
-	 * @throws DailyFollowUpException 
+	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	@ApiOperation("Reactivate patient.")
 	@ApiResponses({
@@ -272,5 +284,5 @@ public class PatientResource {
 		}
 		return ResponseEntity.ok().build();
 	}
-	
+
 }

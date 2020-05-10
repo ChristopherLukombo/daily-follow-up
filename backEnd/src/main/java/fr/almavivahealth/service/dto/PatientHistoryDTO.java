@@ -2,8 +2,10 @@ package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
-import fr.almavivahealth.enums.Action;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the PatientHistory entity.
@@ -15,16 +17,16 @@ public class PatientHistoryDTO implements Serializable {
     private Long id;
 
     private PatientDTO patient;
-    
+
     private String modifiedBy;
-    
+
     private LocalDateTime modifiedDate;
-    
-    private Action action;
-    
+
+    private String action;
+
     public PatientHistoryDTO() {
-    	// Empty constructor needed for Jackson.
-    }
+		// Empty constructor needed for Jackson.
+	}
 
 	public Long getId() {
 		return id;
@@ -58,12 +60,35 @@ public class PatientHistoryDTO implements Serializable {
 		this.modifiedDate = modifiedDate;
 	}
 
-	public Action getAction() {
+	public String getAction() {
 		return action;
 	}
 
-	public void setAction(final Action action) {
+	public void setAction(final String action) {
 		this.action = action;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(action, id, modifiedBy, modifiedDate, patient);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final PatientHistoryDTO other = (PatientHistoryDTO) obj;
+		return Objects.equals(action, other.action) && Objects.equals(id, other.id)
+				&& Objects.equals(modifiedBy, other.modifiedBy) && Objects.equals(modifiedDate, other.modifiedDate)
+				&& Objects.equals(patient, other.patient);
+	}
+
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
 }

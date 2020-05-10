@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.DietRepository;
-import fr.almavivahealth.domain.Diet;
+import fr.almavivahealth.domain.entity.Diet;
 import fr.almavivahealth.service.DietService;
 import fr.almavivahealth.service.dto.DietDTO;
 import fr.almavivahealth.service.mapper.DietMapper;

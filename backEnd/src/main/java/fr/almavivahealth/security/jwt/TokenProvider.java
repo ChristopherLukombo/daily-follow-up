@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import fr.almavivahealth.config.TokenPropeties;
-import fr.almavivahealth.enums.RoleName;
+import fr.almavivahealth.domain.enums.RoleName;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;

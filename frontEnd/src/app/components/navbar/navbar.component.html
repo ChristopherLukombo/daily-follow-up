@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#">
     <img src="../../../assets/food.svg" width="40" height="40" />
     <span class="navbar-brand mb-0 h1">&nbsp;Daily follow-up</span>
@@ -17,6 +17,11 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul *ngIf="connected()" class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/food/meal/add"
+          ><fa-icon [icon]="foodLogo"></fa-icon> Alimentation</a
+        >
+      </li>
       <li class="nav-item dropdown active">
         <a
           class="nav-link dropdown-toggle"
@@ -29,22 +34,20 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" routerLink="/patient/all"
-            >Liste des patients</a
+            >Tous les patiens</a
           >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="/patient/add"
-            >Ajouter un patient</a
-          >
+          <a class="dropdown-item" routerLink="/patient/add">Nouveau patient</a>
         </div>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#"
-          ><fa-icon [icon]="foodLogo"></fa-icon> Alimentation</a
+          ><fa-icon [icon]="clinicLogo"></fa-icon> Clinique</a
         >
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#"
-          ><fa-icon [icon]="clinicLogo"></fa-icon> Clinique</a
+          ><fa-icon [icon]="userLogo"></fa-icon> Habilitations</a
         >
       </li>
       <li class="nav-item active">
@@ -69,16 +72,18 @@
         </div>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <button
-        *ngIf="!connected()"
-        class="btn btn-light my-2 my-sm-0"
-        type="submit"
-        routerLink="/login"
-      >
-        <fa-icon [icon]="logInLogo"></fa-icon> Authentification
-      </button>
-      <app-menu></app-menu>
-    </form>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <button
+          *ngIf="!connected()"
+          class="btn btn-light my-2 my-sm-0"
+          type="submit"
+          routerLink="/login"
+        >
+          <fa-icon [icon]="logInLogo"></fa-icon> Authentification
+        </button>
+        <app-menu></app-menu>
+      </li>
+    </ul>
   </div>
 </nav>

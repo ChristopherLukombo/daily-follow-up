@@ -29,37 +29,39 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
+import fr.almavivahealth.service.dto.ContentList;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.ContentResource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ContentResourceTest {
-	
+
 	private static final boolean SALT = true;
 
 	private static final String NAME = "TEST";
 
 	private static final long ID = 1L;
-	
+
 	private MockMvc mockMvc;
-	
+
 	@Mock
 	private ContentService contentService;
 
 	@InjectMocks
 	private ContentResource contentResource;
-	
+
 	@Before
 	public void setUp() {
 		mockMvc = MockMvcBuilders.standaloneSetup(contentResource)
 				.setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
 	}
-	
+
 	private static ContentDTO createContentDTO() {
 		return ContentDTO.builder()
 				.id(ID)
 				.name(NAME)
 				.salt(SALT)
+				.typeMeal("ENTRY")
 				.build();
 	}
 
@@ -68,23 +70,23 @@ public class ContentResourceTest {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
     	contentDTO.setId(null);
-    	
+
     	// When
 		when(contentService.save((ContentDTO) any())).thenReturn(contentDTO);
-    	
+
     	// Then
     	mockMvc.perform(post("/api/contents")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(contentDTO)))
 		        .andExpect(status().isCreated());
-		verify(contentService, times(1)).save(contentDTO);
+		verify(contentService, times(1)).save(any(ContentDTO.class));
     }
-	
+
 	@Test
     public void shouldCreateContentWhenIsKo() throws IOException, Exception {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
-    	
+
     	// Then
     	mockMvc.perform(post("/api/contents")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -92,29 +94,29 @@ public class ContentResourceTest {
 		        .andExpect(status().isBadRequest());
 		verify(contentService, times(0)).save(contentDTO);
     }
-	
+
 	@Test
     public void shouldUpdateContentWhenIsOk() throws IOException, Exception {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
-    	
+
     	// When
 		when(contentService.update((ContentDTO) any())).thenReturn(contentDTO);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/contents")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(contentDTO)))
 		        .andExpect(status().isOk());
-		verify(contentService, times(1)).update(contentDTO);
+		verify(contentService, times(1)).update(any(ContentDTO.class));
     }
-	
+
 	@Test
     public void shouldUpdateContentWhenIsKo() throws IOException, Exception {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
     	contentDTO.setId(null);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/contents")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -152,7 +154,7 @@ public class ContentResourceTest {
 				.andExpect(status().isNoContent());
 		verify(contentService, times(1)).findAll();
 	}
-	
+
 	@Test
 	public void shouldGetContentWhenIsOk() throws IOException, Exception {
 		// Given
@@ -197,5 +199,38 @@ public class ContentResourceTest {
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isNoContent());
 		verify(contentService, times(1)).delete(id);
+	}
+
+	@Test
+	public void shouldSaveAllContents() throws IOException, Exception {
+		// Given
+		final List<ContentDTO> contentsDTO = Arrays.asList(createContentDTO());
+		final ContentList contentList = new ContentList();
+		contentList.setContents(contentsDTO);
+
+		// When
+        when(contentService.saveAll((ContentList) any())).thenReturn(contentsDTO);
+
+		// Then
+		mockMvc.perform(post("/api/contents/contentList")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(contentList)))
+		        .andExpect(status().isOk());
+		verify(contentService, times(1)).saveAll((ContentList) any());
+	}
+
+	@Test
+	public void shouldThrowInternalServerErrorWhenListOfContentsIsEmpty() throws IOException, Exception {
+		// Given
+		final List<ContentDTO> contentsDTO = Collections.emptyList();
+		final ContentList contentList = new ContentList();
+		contentList.setContents(contentsDTO);
+
+		// Then
+		mockMvc.perform(post("/api/contents/contentList")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(contentList)))
+		        .andExpect(status().isUnprocessableEntity());
+		verify(contentService, times(0)).saveAll((ContentList) any());
 	}
 }

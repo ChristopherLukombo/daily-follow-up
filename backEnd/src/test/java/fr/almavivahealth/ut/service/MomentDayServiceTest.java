@@ -20,7 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.MomentDayRepository;
-import fr.almavivahealth.domain.MomentDay;
+import fr.almavivahealth.domain.entity.MomentDay;
 import fr.almavivahealth.service.dto.MomentDayDTO;
 import fr.almavivahealth.service.impl.MomentDayServiceImpl;
 import fr.almavivahealth.service.mapper.MomentDayMapper;

@@ -3,6 +3,9 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -16,9 +19,9 @@ public class CaregiverDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	private Long userId;
-	
+
 	private Long floorId;
 
 	public CaregiverDTO() {
@@ -69,23 +72,6 @@ public class CaregiverDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("CaregiverDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (userId != null) {
-			builder.append("userId=");
-			builder.append(userId);
-			builder.append(", ");
-		}
-		if (floorId != null) {
-			builder.append("floorId=");
-			builder.append(floorId);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }

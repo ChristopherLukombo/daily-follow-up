@@ -1,6 +1,6 @@
 package fr.almavivahealth.service.mapper;
 
-import fr.almavivahealth.domain.Room;
+import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.service.dto.RoomDTO;
 
 public abstract class RoomMapperDecorator implements RoomMapper {

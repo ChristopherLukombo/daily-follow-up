@@ -13,7 +13,7 @@
           <app-alert-warning [content]="warning"></app-alert-warning>
         </div>
         <div *ngIf="patient" class="col">
-          <h4>
+          <h2>
             <span *ngIf="!patient?.state">
               <fa-icon [icon]="lockLogo"></fa-icon>
             </span>
@@ -26,7 +26,7 @@
             >
               <fa-icon [icon]="historyLogo"></fa-icon> Historique
             </button>
-          </h4>
+          </h2>
           <br />
           <app-infos-patient [patient]="patient"></app-infos-patient>
         </div>

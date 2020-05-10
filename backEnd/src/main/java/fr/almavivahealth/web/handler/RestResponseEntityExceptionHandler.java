@@ -2,10 +2,14 @@ package fr.almavivahealth.web.handler;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -28,7 +32,7 @@ import fr.almavivahealth.exception.ErrorApi;
 /**
  * ResponseEntityExceptionHandler for handle exception and launch error with
  * custom status.
- * 
+ *
  * @author christopher
  */
 @RestControllerAdvice
@@ -45,7 +49,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				HttpStatus.valueOf(ex.getErrorCode()), ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
 		return handleExceptionInternal(ex, detailedErrorApi, new HttpHeaders(), HttpStatus.valueOf(ex.getErrorCode()), request);
 	}
-	
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(final MethodArgumentNotValidException ex,
 			final HttpHeaders headers, final HttpStatus status, final WebRequest request) {
@@ -65,7 +69,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
 		return handleExceptionInternal(ex, errorApi, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
-	
+
 	@ExceptionHandler({ DataAccessException.class })
 	protected ResponseEntity<Object> handleDataAccessException(final DataAccessException ex, final WebRequest request) {
 		final Throwable rootCause = ExceptionUtils.getRootCause(ex);
@@ -74,5 +78,20 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
 		return handleExceptionInternal(ex, errorApi, new HttpHeaders(), HttpStatus.CONFLICT, request);
 	}
-	
+
+	@ExceptionHandler({ ConstraintViolationException.class })
+	public ResponseEntity<Object> handleConstraintViolation(final ConstraintViolationException ex,
+			final WebRequest request) {
+		final List<String> errors = new ArrayList<>();
+		for (final ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+			errors.add(violation.getRootBeanClass().getName() + " " + violation.getPropertyPath() + ": "
+					+ violation.getMessage());
+		}
+		final Throwable rootCause = ExceptionUtils.getRootCause(ex);
+		final ErrorApi errorApi = new ErrorApi(
+				rootCause.getMessage(), HttpStatus.CONFLICT,
+				ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
+		return handleExceptionInternal(ex, errorApi, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+
 }

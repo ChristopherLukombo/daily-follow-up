@@ -54,6 +54,7 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
+import { MealsAddComponent } from './components/food-components/meals-add/meals-add.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import {
     FormPatientAddComponent,
     PatientEditComponent,
     FormPatientEditComponent,
+    MealsAddComponent,
   ],
   imports: [
     BrowserModule,

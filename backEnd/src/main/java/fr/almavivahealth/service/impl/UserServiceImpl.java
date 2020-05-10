@@ -1,6 +1,6 @@
 package fr.almavivahealth.service.impl;
 
-import static fr.almavivahealth.config.Constants.SLASH;
+import static fr.almavivahealth.constants.Constants.SLASH;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,8 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.dao.RoleRepository;
 import fr.almavivahealth.dao.UserRepository;
-import fr.almavivahealth.domain.Role;
-import fr.almavivahealth.domain.User;
+import fr.almavivahealth.domain.entity.Role;
+import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
@@ -35,22 +37,26 @@ import fr.almavivahealth.service.propeties.UserProperties;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	private final UserRepository userRepository;
-	
+
 	private final RoleRepository roleRepository;
-	
+
 	private final UserMapper userMapper;
-	
+
     private final PasswordEncoder passwordEncoder;
-    
+
     private final UserProperties userProperties;
 
     @Autowired
-	public UserServiceImpl(final UserRepository userRepository, final RoleRepository roleRepository, final UserMapper userMapper,
-			final PasswordEncoder passwordEncoder, final UserProperties userProperties) {
+	public UserServiceImpl(
+			final UserRepository userRepository,
+			final RoleRepository roleRepository,
+			final UserMapper userMapper,
+			final PasswordEncoder passwordEncoder,
+			final UserProperties userProperties) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.userMapper = userMapper;
@@ -63,7 +69,7 @@ public class UserServiceImpl implements UserService {
 	 *
 	 * @param userDTO the user DTO
 	 * @return the user DTO
-	 * @throws DailyFollowUpException 
+	 * @throws DailyFollowUpException
 	 */
 	@Override
 	public UserDTO save(final UserDTO userDTO) throws DailyFollowUpException {
@@ -95,6 +101,53 @@ public class UserServiceImpl implements UserService {
 	private Role findRole(final String roleName) throws DailyFollowUpException {
 		return roleRepository.findByName(roleName)
 				.orElseThrow(() -> new DailyFollowUpException("Role not found with roleName : " + roleName));
+	}
+
+	/**
+	 * Update the user.
+	 *
+	 * @param userDTO the user DTO
+	 * @return the user DTO
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	@Override
+	public UserDTO update(final UserDTO userDTO) throws DailyFollowUpException {
+		LOGGER.debug("Request to update User : {}", userDTO);
+		User user = userMapper.userDTOToUser(userDTO);
+		final Role role = findRole(userDTO.getRoleName());
+		final String password = findPassword(userDTO);
+		user.setRole(role);
+		user.setPassword(password);
+		user = userRepository.saveAndFlush(user);
+		return userMapper.userToUserDTO(user);
+	}
+
+	private String findPassword(final UserDTO userDTO) {
+		if (!StringUtils.isBlank(userDTO.getPassword())) {
+			return passwordEncoder.encode(userDTO.getPassword());
+		}
+		return userRepository.findById(userDTO.getId())
+				.map(User::getPassword)
+				.orElse(StringUtils.EMPTY);
+	}
+
+	/**
+	 * Delete the user.
+	 *
+	 * @param id the id
+	 * @return the user
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	@Override
+	public Optional<User> delete(final Long id) throws DailyFollowUpException {
+		LOGGER.debug("Request to delete User : {}", id);
+		return userRepository.findById(id).map(user -> {
+			// disable given user for the id.
+			user.setStatus(false);
+			userRepository.saveAndFlush(user);
+			LOGGER.debug("Disabled user : {}", id);
+			return user;
+		});
 	}
 
 	/**
@@ -146,7 +199,7 @@ public class UserServiceImpl implements UserService {
 			throw new DailyFollowUpException("An error occurred while trying to copy the file", e);
 		}
 	}
-	
+
 	/**
 	 * Find profile picture.
 	 *
@@ -162,7 +215,7 @@ public class UserServiceImpl implements UserService {
 				.map(imageUrl -> readFile(userId, imageUrl))
 				.orElseGet(() -> ArrayUtils.EMPTY_BYTE_ARRAY);
 	}
-	
+
 	private byte[] readFile(final Long userId, final String imageUrl) {
 		try {
 			final String pathName = fetchPathName(userId, imageUrl);
@@ -180,5 +233,5 @@ public class UserServiceImpl implements UserService {
 				.append(imageUrl)
 				.toString();
 	}
-	
+
 }

@@ -1,6 +1,6 @@
 package fr.almavivahealth.service.impl;
 
-import static fr.almavivahealth.config.Constants.CLINIQUE_BERGER;
+import static fr.almavivahealth.constants.Constants.CLINIQUE_BERGER;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
@@ -10,6 +10,7 @@ import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -32,16 +33,15 @@ import com.itextpdf.layout.property.UnitValue;
 
 import fr.almavivahealth.dao.MenuRepository;
 import fr.almavivahealth.dao.PatientRepository;
-import fr.almavivahealth.domain.Comment;
-import fr.almavivahealth.domain.Content;
-import fr.almavivahealth.domain.Day;
-import fr.almavivahealth.domain.Diet;
-import fr.almavivahealth.domain.Menu;
-import fr.almavivahealth.domain.MomentDay;
-import fr.almavivahealth.domain.Patient;
-import fr.almavivahealth.domain.Room;
-import fr.almavivahealth.domain.Texture;
-import fr.almavivahealth.domain.TypeMeal;
+import fr.almavivahealth.domain.entity.Comment;
+import fr.almavivahealth.domain.entity.Content;
+import fr.almavivahealth.domain.entity.Day;
+import fr.almavivahealth.domain.entity.Diet;
+import fr.almavivahealth.domain.entity.Menu;
+import fr.almavivahealth.domain.entity.MomentDay;
+import fr.almavivahealth.domain.entity.Patient;
+import fr.almavivahealth.domain.entity.Room;
+import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.MenuService;
 import fr.almavivahealth.service.dto.MenuDTO;
@@ -229,10 +229,7 @@ public class MenuServiceImpl implements MenuService {
 			final List<String> contentNames = findContentNames(menu, momentName, dayToSearch);
 			if (!contentNames.isEmpty()) {
 				table.addCell(dataCellBroker.createDataCell(
-						new DataCellMiddleLeft(getNameByIndex(contentNames, 0),
-								getNameByIndex(contentNames, 1),
-								getNameByIndex(contentNames, 2),
-								getNameByIndex(contentNames, 3))));
+						new DataCellMiddleLeft(contentNames)));
 			} else {
 				addDefaultCellMiddle(table, dataCellBroker);
 			}
@@ -262,11 +259,6 @@ public class MenuServiceImpl implements MenuService {
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
-	private String getNameByIndex(final List<String> contentNames, final int index) {
-		return index >= 0 && index < contentNames.size() ? contentNames.get(index)
-				: StringUtils.EMPTY;
-	}
-
 	private String toDayOfWeek(final LocalDate date) {
 		return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRANCE);
 	}
@@ -274,7 +266,7 @@ public class MenuServiceImpl implements MenuService {
 	private void addDefaultCellMiddle(final Table table, final DataCellBroker dataCellBroker)
 			throws DailyFollowUpException {
 		table.addCell(dataCellBroker.createDataCell(
-				new DataCellMiddleLeft(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY)));
+				new DataCellMiddleLeft(Collections.emptyList())));
 	}
 
 	private String findDietName(final Menu menu) {
@@ -292,7 +284,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	private List<String> findContentNames(final Menu menu, final String momentDay, final String dayToSearch) {
-        // Defined order of  typeMeals
+        // Defined order of typeMeals
 		final List<String> definedOrder = Arrays.asList("ENTREE", "PLAT", "GARNITURE", "PRODUIT LAITIER", "DESSERT");
 
 		return menu.getDays().stream()
@@ -300,12 +292,10 @@ public class MenuServiceImpl implements MenuService {
 				.map(Day::getMomentDays)
 				.flatMap(Collection::stream)
 				.filter(m -> isMomentDay(momentDay, m))
-				.map(MomentDay::getTypeMeals)
+				.map(MomentDay::getContents)
 				.flatMap(Collection::stream)
-				.sorted((o1, o2) -> Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o1.getName())))
-						.compareTo(Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o2.getName())))))
-				.map(TypeMeal::getContents)
-				.flatMap(Collection::stream)
+				.sorted((o1, o2) -> Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o1.getTypeMeal())))
+						.compareTo(Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o2.getTypeMeal())))))
 				.map(Content::getName)
 				.collect(Collectors.toList());
 	}

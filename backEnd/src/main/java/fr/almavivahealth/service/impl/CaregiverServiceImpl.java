@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.CaregiverRepository;
-import fr.almavivahealth.domain.Caregiver;
+import fr.almavivahealth.domain.entity.Caregiver;
 import fr.almavivahealth.service.CaregiverService;
 import fr.almavivahealth.service.dto.CaregiverDTO;
 import fr.almavivahealth.service.mapper.CaregiverMapper;

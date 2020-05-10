@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import fr.almavivahealth.domain.Patient;
-import fr.almavivahealth.domain.PatientsByStatus;
-import fr.almavivahealth.domain.PatientsPerAllergy;
-import fr.almavivahealth.domain.PatientsPerDiet;
+import fr.almavivahealth.domain.entity.Patient;
+import fr.almavivahealth.domain.projection.PatientsByStatus;
+import fr.almavivahealth.domain.projection.PatientsPerAllergy;
+import fr.almavivahealth.domain.projection.PatientsPerDiet;
 
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {

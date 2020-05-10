@@ -7,15 +7,12 @@
       Les seuls encodages de fichiers supportés sont <code>UTF-8</code> et
       <code>ANSI</code>.<br />
       Le fichier doit contenir au <code>maximum 60 patients</code>.<br />
-      Tout les champs ne sont pas obligatoire, hormis le <code>nom</code> et le
-      <code>prénom</code> du patient.<br />
       Lors du traitement, la <code>première ligne</code> du fichier n'est pas
       prise en compte.<br />
-      Le fichier doit comporter exactement <code>17 colonnes</code>.
+      Le fichier doit comporter exactement <code>7 colonnes</code>.
     </div>
     <div class="col">
-      Les <code>colonnes</code> du fichiers doivent représenter dans l'ordre
-      :<br />
+      Les <code>colonnes</code> du fichier doivent représenter dans l'ordre :<br />
       <div class="btn-group btn-group-sm infos-csv-headers">
         <div *ngFor="let cln of csvCols | keyvalue">
           <span class="csv-header"
@@ -26,7 +23,7 @@
       <br /><br />
       <div class="text-right">
         <button (click)="downloadTemplate()" class="btn btn-success btn-sm">
-          Exemple de fichier attendu
+          <fa-icon [icon]="logoDownload"></fa-icon> Télecharger un modèle
         </button>
       </div>
     </div>

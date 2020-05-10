@@ -446,7 +446,7 @@ VALUES('2020-04-11T14:47:34.692Z', '2020-04-11T14:47:34.692Z', 1, 1, 1);
 
 INSERT INTO public."day"
 ("name")
-VALUES('Lundi');
+VALUES('Samedi');
 
 INSERT INTO public.menu_days
 (menu_id, days_id)
@@ -462,37 +462,19 @@ INSERT INTO public.day_moment_days
 (day_id, moment_days_id)
 VALUES(1, 1);
 
-INSERT INTO public.type_meal ("name") values
-('ENTRÉE'),
-('PLAT'),
-('GARNITURE'),
-('PRODUIT LAITIER'),
-('DESSERT');
 
-INSERT INTO public.moment_day_type_meals
-(moment_day_id, type_meals_id)
+INSERT INTO public."content"
+("name", salt, sugar, type_meal, texture_id)
 values
+('Betteraves rouges', true, false, 'ENTRÉE', 1),
+('Poulet basquaise', true, false, 'PLAT', 1),
+('Tortis ', true, false, 'GARNITURE', 1),
+('Edam', false, false, 'PRODUIT LAITIER', 1),
+('Fruit de saison', false, false, 'DESSERT', 1);
+
+INSERT INTO public.moment_day_contents (moment_day_id , contents_id) values 
 (1, 1),
 (1, 2),
 (1, 3),
 (1, 4),
 (1, 5);
-
-
-INSERT INTO public."content"
-("name", salt, sugar, texture_id)
-values
-('Betteraves rouges', true, false, 1),
-('Poulet basquaise', true, false, 1),
-('Tortis ', true, false, 1),
-('Edam', false, false, 1),
-('Fruit de saison', false, false, 1);
-
-INSERT INTO public.type_meal_contents
-(type_meal_id, contents_id)
-values
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);

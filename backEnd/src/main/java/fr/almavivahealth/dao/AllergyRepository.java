@@ -6,7 +6,7 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.almavivahealth.domain.Allergy;
+import fr.almavivahealth.domain.entity.Allergy;
 
 @Repository
 public interface AllergyRepository extends JpaRepository<Allergy, Long> {

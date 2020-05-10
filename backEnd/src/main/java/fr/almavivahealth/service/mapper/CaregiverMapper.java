@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import fr.almavivahealth.domain.Caregiver;
+import fr.almavivahealth.domain.entity.Caregiver;
 import fr.almavivahealth.service.dto.CaregiverDTO;
 
 /**

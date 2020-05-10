@@ -19,12 +19,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.MessageSource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,7 +35,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.domain.Patient;
+import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
@@ -60,6 +63,9 @@ public class PatientResourceTest {
 	private static final String LASTNAME = "Zotito";
 
 	private MockMvc mockMvc;
+
+	@Mock
+	private MessageSource messageSource;
 
 	@Mock
 	private PatientService patientService;
@@ -312,7 +318,7 @@ public class PatientResourceTest {
 
 		// When
         when(patientService.isCSV((MultipartFile) any())).thenReturn(true);
-		when(patientService.importPatientFile((MultipartFile) any())).thenReturn(bulkResult);
+		when(patientService.importPatientFile((MultipartFile) any(), any(HttpServletRequest.class))).thenReturn(bulkResult);
 
 		// Then
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/patients/import")
@@ -348,7 +354,7 @@ public class PatientResourceTest {
 
 		// When
 		when(patientService.isCSV((MultipartFile) any())).thenReturn(true);
-		when(patientService.importPatientFile((MultipartFile) any())).thenThrow(DailyFollowUpException.class);
+		when(patientService.importPatientFile((MultipartFile) any(), any(HttpServletRequest.class))).thenThrow(DailyFollowUpException.class);
 
 		// Then
 		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/patients/import")

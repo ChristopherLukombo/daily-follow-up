@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import fr.almavivahealth.service.dto.ContentDTO;
+import fr.almavivahealth.service.dto.ContentList;
 
 /**
  * The Interface ContentService.
@@ -47,4 +48,12 @@ public interface ContentService {
 	 * @param id the id of the entity
 	 */
 	void delete(Long id);
+
+	/**
+	 * Save all contents.
+	 *
+	 * @param contentList the content list
+	 * @return the list of persisted entities
+	 */
+	List<ContentDTO> saveAll(ContentList contentList);
 }

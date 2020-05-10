@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.AllergyRepository;
-import fr.almavivahealth.domain.Allergy;
+import fr.almavivahealth.domain.entity.Allergy;
 import fr.almavivahealth.service.AllergyService;
 import fr.almavivahealth.service.dto.AllergyDTO;
 import fr.almavivahealth.service.mapper.AllergyMapper;

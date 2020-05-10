@@ -5,7 +5,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import fr.almavivahealth.domain.Texture;
+import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.service.dto.TextureDTO;
 
 /**
