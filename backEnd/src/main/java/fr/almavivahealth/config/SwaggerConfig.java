@@ -1,9 +1,9 @@
 package fr.almavivahealth.config;
 
-import static fr.almavivahealth.config.Constants.AUTHORIZATION;
-import static fr.almavivahealth.config.Constants.BEARER;
-import static fr.almavivahealth.config.Constants.HEADER;
-import static fr.almavivahealth.config.Constants.STRING;
+import static fr.almavivahealth.constants.Constants.AUTHORIZATION;
+import static fr.almavivahealth.constants.Constants.BEARER;
+import static fr.almavivahealth.constants.Constants.HEADER;
+import static fr.almavivahealth.constants.Constants.STRING;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import fr.almavivahealth.domain.Menu;
+import fr.almavivahealth.domain.entity.Menu;
 
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {

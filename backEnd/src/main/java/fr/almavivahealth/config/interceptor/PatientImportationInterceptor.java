@@ -1,7 +1,7 @@
 package fr.almavivahealth.config.interceptor;
 
-import static fr.almavivahealth.config.Constants.API_PATIENTS_IMPORT;
-import static fr.almavivahealth.config.ErrorMessage.ONE_OR_MORE_PATIENTS_ALREADY_EXIST;
+import static fr.almavivahealth.constants.Constants.API_PATIENTS_IMPORT;
+import static fr.almavivahealth.constants.ErrorMessage.ONE_OR_MORE_PATIENTS_ALREADY_EXIST;
 
 import java.util.Locale;
 

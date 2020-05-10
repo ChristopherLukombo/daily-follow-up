@@ -7,6 +7,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -25,13 +28,13 @@ public class RoomDTO implements Serializable {
 
 	@NotNull
 	private boolean state;
-	
+
 	@Min(0)
 	@Max(2)
 	private Integer maxCapacity;
-	
+
 	private Integer numberOfPatients;
-	
+
 	private Boolean isFull;
 
 	public RoomDTO() {
@@ -107,37 +110,6 @@ public class RoomDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("RoomDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (number != null) {
-			builder.append("number=");
-			builder.append(number);
-			builder.append(", ");
-		}
-		builder.append("state=");
-		builder.append(state);
-		builder.append(", ");
-		if (maxCapacity != null) {
-			builder.append("maxCapacity=");
-			builder.append(maxCapacity);
-			builder.append(", ");
-		}
-		if (numberOfPatients != null) {
-			builder.append("numberOfPatients=");
-			builder.append(numberOfPatients);
-			builder.append(", ");
-		}
-		if (isFull != null) {
-			builder.append("isFull=");
-			builder.append(isFull);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
 }

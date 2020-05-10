@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.OrderRepository;
-import fr.almavivahealth.domain.Order;
+import fr.almavivahealth.domain.entity.Order;
 import fr.almavivahealth.service.OrderService;
 import fr.almavivahealth.service.dto.OrderDTO;
 import fr.almavivahealth.service.mapper.OrderMapper;

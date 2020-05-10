@@ -21,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.RoomRepository;
-import fr.almavivahealth.domain.Room;
+import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.service.dto.RoomDTO;
 import fr.almavivahealth.service.impl.RoomServiceImpl;
 import fr.almavivahealth.service.mapper.RoomMapper;

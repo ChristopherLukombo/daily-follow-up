@@ -3,6 +3,9 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -14,11 +17,11 @@ import lombok.Builder;
 public class PatientsByStatusDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long activePatients;
-	
+
 	private Long inactivePatients;
-	
+
 	private Long totalPatients;
 
 	public PatientsByStatusDTO() {
@@ -70,24 +73,6 @@ public class PatientsByStatusDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("PatientsByStatusDTO [");
-		if (activePatients != null) {
-			builder.append("activePatients=");
-			builder.append(activePatients);
-			builder.append(", ");
-		}
-		if (inactivePatients != null) {
-			builder.append("inactivePatients=");
-			builder.append(inactivePatients);
-			builder.append(", ");
-		}
-		if (totalPatients != null) {
-			builder.append("totalPatients=");
-			builder.append(totalPatients);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
 }

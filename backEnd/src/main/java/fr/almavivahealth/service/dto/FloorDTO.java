@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -17,11 +20,11 @@ public class FloorDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	private Integer number;
-	
+
 	private boolean state;
-	
+
 	private List<RoomDTO> rooms;
 
 	public FloorDTO() {
@@ -80,27 +83,6 @@ public class FloorDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("FloorDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (number != null) {
-			builder.append("number=");
-			builder.append(number);
-			builder.append(", ");
-		}
-		builder.append("state=");
-		builder.append(state);
-		builder.append(", ");
-		if (rooms != null) {
-			builder.append("rooms=");
-			builder.append(rooms);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-	
 }

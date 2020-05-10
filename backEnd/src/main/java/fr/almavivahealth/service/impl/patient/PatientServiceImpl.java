@@ -1,15 +1,15 @@
 package fr.almavivahealth.service.impl.patient;
 
-import static fr.almavivahealth.config.Constants.COMMA;
-import static fr.almavivahealth.config.Constants.CSV;
-import static fr.almavivahealth.config.Constants.SEMICOLON;
-import static fr.almavivahealth.config.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_READ_THE_CONTENTS_OF_THE_FILE;
-import static fr.almavivahealth.config.ErrorMessage.ONE_OR_MORE_OF_THE_LINES_IN_THE_FILE_DO_NOT_HAVE_THE_CORRECT_NUMBER_OF_COLUMNS;
-import static fr.almavivahealth.config.ErrorMessage.ONE_OR_MORE_PATIENTS_ALREADY_EXIST;
-import static fr.almavivahealth.config.ErrorMessage.THE_NUMBER_OF_PATIENTS_TO_BE_INSERTED_MAY_NOT_EXCEED_60;
-import static fr.almavivahealth.utils.MimeTypes.MIME_APPLICATION_VND_MSEXCEL;
-import static fr.almavivahealth.utils.MimeTypes.MIME_TEXT_CSV;
-import static fr.almavivahealth.utils.MimeTypes.MIME_TEXT_PLAIN;
+import static fr.almavivahealth.constants.Constants.COMMA;
+import static fr.almavivahealth.constants.Constants.CSV;
+import static fr.almavivahealth.constants.Constants.SEMICOLON;
+import static fr.almavivahealth.constants.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_READ_THE_CONTENTS_OF_THE_FILE;
+import static fr.almavivahealth.constants.ErrorMessage.ONE_OR_MORE_OF_THE_LINES_IN_THE_FILE_DO_NOT_HAVE_THE_CORRECT_NUMBER_OF_COLUMNS;
+import static fr.almavivahealth.constants.ErrorMessage.ONE_OR_MORE_PATIENTS_ALREADY_EXIST;
+import static fr.almavivahealth.constants.ErrorMessage.THE_NUMBER_OF_PATIENTS_TO_BE_INSERTED_MAY_NOT_EXCEED_60;
+import static fr.almavivahealth.util.MimeTypes.MIME_APPLICATION_VND_MSEXCEL;
+import static fr.almavivahealth.util.MimeTypes.MIME_TEXT_CSV;
+import static fr.almavivahealth.util.MimeTypes.MIME_TEXT_PLAIN;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,18 +41,18 @@ import fr.almavivahealth.dao.DietRepository;
 import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.dao.RoomRepository;
 import fr.almavivahealth.dao.TextureRepository;
-import fr.almavivahealth.domain.Allergy;
-import fr.almavivahealth.domain.Diet;
-import fr.almavivahealth.domain.Patient;
-import fr.almavivahealth.domain.Room;
-import fr.almavivahealth.domain.Texture;
+import fr.almavivahealth.domain.entity.Allergy;
+import fr.almavivahealth.domain.entity.Diet;
+import fr.almavivahealth.domain.entity.Patient;
+import fr.almavivahealth.domain.entity.Room;
+import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientImportationAttempts;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.mapper.PatientMapper;
-import fr.almavivahealth.utils.MimeTypes;
+import fr.almavivahealth.util.MimeTypes;
 
 /**
  * Service Implementation for managing Patient.

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.almavivahealth.domain.PatientHistory;
+import fr.almavivahealth.domain.entity.PatientHistory;
 
 @Repository
 public interface PatientHistoryRepository extends JpaRepository<PatientHistory, Long>{
