@@ -1,7 +1,7 @@
 package fr.almavivahealth.web.rest;
 
-import static fr.almavivahealth.config.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_IMPORT_THE_PATIENTS;
-import static fr.almavivahealth.config.ErrorMessage.THE_FILE_MUST_BE_OF_TYPE_CSV;
+import static fr.almavivahealth.constants.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_IMPORT_THE_PATIENTS;
+import static fr.almavivahealth.constants.ErrorMessage.THE_FILE_MUST_BE_OF_TYPE_CSV;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.domain.Patient;
+import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientService;
 import fr.almavivahealth.service.dto.BulkResult;

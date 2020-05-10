@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.MomentDayRepository;
-import fr.almavivahealth.domain.MomentDay;
+import fr.almavivahealth.domain.entity.MomentDay;
 import fr.almavivahealth.service.MomentDayService;
 import fr.almavivahealth.service.dto.MomentDayDTO;
 import fr.almavivahealth.service.mapper.MomentDayMapper;

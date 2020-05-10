@@ -15,9 +15,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import fr.almavivahealth.dao.UserRepository;
-import fr.almavivahealth.domain.Role;
-import fr.almavivahealth.domain.User;
-import fr.almavivahealth.enums.RoleName;
+import fr.almavivahealth.domain.entity.Role;
+import fr.almavivahealth.domain.entity.User;
+import fr.almavivahealth.domain.enums.RoleName;
 import fr.almavivahealth.security.jwt.DomainUserDetailsService;
 
 @RunWith(MockitoJUnitRunner.class)

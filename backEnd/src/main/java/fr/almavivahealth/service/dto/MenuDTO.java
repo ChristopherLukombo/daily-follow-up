@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -17,15 +20,15 @@ public class MenuDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	
+
 	private LocalDate startDate;
-	
+
 	private LocalDate endDate;
-	
+
 	private Integer weekNumber;
-	
+
 	private Long textureId;
-	
+
 	private Long dietId;
 
 	public MenuDTO() {
@@ -101,38 +104,6 @@ public class MenuDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("MenuDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (startDate != null) {
-			builder.append("startDate=");
-			builder.append(startDate);
-			builder.append(", ");
-		}
-		if (endDate != null) {
-			builder.append("endDate=");
-			builder.append(endDate);
-			builder.append(", ");
-		}
-		if (weekNumber != null) {
-			builder.append("weekNumber=");
-			builder.append(weekNumber);
-			builder.append(", ");
-		}
-		if (textureId != null) {
-			builder.append("textureId=");
-			builder.append(textureId);
-			builder.append(", ");
-		}
-		if (dietId != null) {
-			builder.append("dietId=");
-			builder.append(dietId);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }

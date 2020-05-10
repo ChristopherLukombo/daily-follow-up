@@ -6,8 +6,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
-import fr.almavivahealth.domain.Content;
-import fr.almavivahealth.enums.TypeMeal;
+import fr.almavivahealth.domain.entity.Content;
+import fr.almavivahealth.domain.enums.TypeMeal;
 import fr.almavivahealth.service.dto.ContentDTO;
 
 /**

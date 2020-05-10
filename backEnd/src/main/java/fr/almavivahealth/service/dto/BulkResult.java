@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -13,7 +16,7 @@ import lombok.Builder;
 @AllArgsConstructor
 @Builder
 public class BulkResult implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private List<PatientDTO> updatedPatients;
@@ -59,19 +62,6 @@ public class BulkResult implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("BulkResult [");
-		if (updatedPatients != null) {
-			builder.append("updatedPatients=");
-			builder.append(updatedPatients);
-			builder.append(", ");
-		}
-		if (savedPatients != null) {
-			builder.append("savedPatients=");
-			builder.append(savedPatients);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
 }

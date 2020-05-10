@@ -7,6 +7,9 @@ import java.util.Objects;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -86,29 +89,6 @@ public class CommentDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("CommentDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (content != null) {
-			builder.append("content=");
-			builder.append(content);
-			builder.append(", ");
-		}
-		if (pseudo != null) {
-			builder.append("pseudo=");
-			builder.append(pseudo);
-			builder.append(", ");
-		}
-		if (lastModification != null) {
-			builder.append("lastModification=");
-			builder.append(lastModification);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
 }

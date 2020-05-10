@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.TextureRepository;
-import fr.almavivahealth.domain.Texture;
+import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.service.TextureService;
 import fr.almavivahealth.service.dto.TextureDTO;
 import fr.almavivahealth.service.mapper.TextureMapper;

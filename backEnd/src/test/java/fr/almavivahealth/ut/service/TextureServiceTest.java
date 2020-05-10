@@ -21,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.TextureRepository;
-import fr.almavivahealth.domain.Texture;
+import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.service.dto.TextureDTO;
 import fr.almavivahealth.service.impl.TextureServiceImpl;
 import fr.almavivahealth.service.mapper.TextureMapper;

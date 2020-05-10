@@ -17,8 +17,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.almavivahealth.dao.UserRepository;
-import fr.almavivahealth.domain.Role;
-import fr.almavivahealth.domain.User;
+import fr.almavivahealth.domain.entity.Role;
+import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.exception.DailyFollowUpException;
 
 /**

@@ -9,11 +9,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import fr.almavivahealth.domain.Role;
-import fr.almavivahealth.domain.User;
+import fr.almavivahealth.domain.entity.Role;
+import fr.almavivahealth.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -169,61 +172,6 @@ public class UserDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("UserDTO [");
-		if (id != null) {
-			builder.append("id=");
-			builder.append(id);
-			builder.append(", ");
-		}
-		if (pseudo != null) {
-			builder.append("pseudo=");
-			builder.append(pseudo);
-			builder.append(", ");
-		}
-		if (firstName != null) {
-			builder.append("firstName=");
-			builder.append(firstName);
-			builder.append(", ");
-		}
-		if (lastName != null) {
-			builder.append("lastName=");
-			builder.append(lastName);
-			builder.append(", ");
-		}
-		if (password != null) {
-			builder.append("password=");
-			builder.append(password);
-			builder.append(", ");
-		}
-		if (email != null) {
-			builder.append("email=");
-			builder.append(email);
-			builder.append(", ");
-		}
-		if (imageUrl != null) {
-			builder.append("imageUrl=");
-			builder.append(imageUrl);
-			builder.append(", ");
-		}
-		if (createDate != null) {
-			builder.append("createDate=");
-			builder.append(createDate);
-			builder.append(", ");
-		}
-		builder.append("status=");
-		builder.append(status);
-		builder.append(", ");
-		if (birthDay != null) {
-			builder.append("birthDay=");
-			builder.append(birthDay);
-			builder.append(", ");
-		}
-		if (roleName != null) {
-			builder.append("roleName=");
-			builder.append(roleName);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }

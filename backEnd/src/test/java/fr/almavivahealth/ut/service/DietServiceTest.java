@@ -21,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.DietRepository;
-import fr.almavivahealth.domain.Diet;
+import fr.almavivahealth.domain.entity.Diet;
 import fr.almavivahealth.service.dto.DietDTO;
 import fr.almavivahealth.service.impl.DietServiceImpl;
 import fr.almavivahealth.service.mapper.DietMapper;

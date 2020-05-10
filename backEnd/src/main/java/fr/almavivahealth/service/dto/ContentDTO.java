@@ -5,6 +5,9 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -99,7 +102,12 @@ public class ContentDTO implements Serializable {
 			return false;
 		final ContentDTO other = (ContentDTO) obj;
 		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && salt == other.salt
-				&& sugar == other.sugar && Objects.equals(textureId, other.textureId) && typeMeal == other.typeMeal;
+				&& sugar == other.sugar && Objects.equals(textureId, other.textureId)
+				&& Objects.equals(typeMeal, other.typeMeal);
 	}
 
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+	}
 }

@@ -1,6 +1,6 @@
 package fr.almavivahealth.service.impl;
 
-import static fr.almavivahealth.config.Constants.SLASH;
+import static fr.almavivahealth.constants.Constants.SLASH;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,8 +21,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.dao.RoleRepository;
 import fr.almavivahealth.dao.UserRepository;
-import fr.almavivahealth.domain.Role;
-import fr.almavivahealth.domain.User;
+import fr.almavivahealth.domain.entity.Role;
+import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
@@ -35,22 +35,26 @@ import fr.almavivahealth.service.propeties.UserProperties;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	private final UserRepository userRepository;
-	
+
 	private final RoleRepository roleRepository;
-	
+
 	private final UserMapper userMapper;
-	
+
     private final PasswordEncoder passwordEncoder;
-    
+
     private final UserProperties userProperties;
 
     @Autowired
-	public UserServiceImpl(final UserRepository userRepository, final RoleRepository roleRepository, final UserMapper userMapper,
-			final PasswordEncoder passwordEncoder, final UserProperties userProperties) {
+	public UserServiceImpl(
+			final UserRepository userRepository,
+			final RoleRepository roleRepository,
+			final UserMapper userMapper,
+			final PasswordEncoder passwordEncoder,
+			final UserProperties userProperties) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.userMapper = userMapper;
@@ -63,7 +67,7 @@ public class UserServiceImpl implements UserService {
 	 *
 	 * @param userDTO the user DTO
 	 * @return the user DTO
-	 * @throws DailyFollowUpException 
+	 * @throws DailyFollowUpException
 	 */
 	@Override
 	public UserDTO save(final UserDTO userDTO) throws DailyFollowUpException {
@@ -146,7 +150,7 @@ public class UserServiceImpl implements UserService {
 			throw new DailyFollowUpException("An error occurred while trying to copy the file", e);
 		}
 	}
-	
+
 	/**
 	 * Find profile picture.
 	 *
@@ -162,7 +166,7 @@ public class UserServiceImpl implements UserService {
 				.map(imageUrl -> readFile(userId, imageUrl))
 				.orElseGet(() -> ArrayUtils.EMPTY_BYTE_ARRAY);
 	}
-	
+
 	private byte[] readFile(final Long userId, final String imageUrl) {
 		try {
 			final String pathName = fetchPathName(userId, imageUrl);
@@ -180,5 +184,5 @@ public class UserServiceImpl implements UserService {
 				.append(imageUrl)
 				.toString();
 	}
-	
+
 }

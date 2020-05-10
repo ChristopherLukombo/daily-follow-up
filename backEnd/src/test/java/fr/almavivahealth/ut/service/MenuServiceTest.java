@@ -1,5 +1,5 @@
 package fr.almavivahealth.ut.service;
-import static fr.almavivahealth.enums.TypeMeal.ENTRY;
+import static fr.almavivahealth.domain.enums.TypeMeal.ENTRY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,13 +28,13 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.MenuRepository;
 import fr.almavivahealth.dao.PatientRepository;
-import fr.almavivahealth.domain.Content;
-import fr.almavivahealth.domain.Day;
-import fr.almavivahealth.domain.Diet;
-import fr.almavivahealth.domain.Menu;
-import fr.almavivahealth.domain.MomentDay;
-import fr.almavivahealth.domain.Patient;
-import fr.almavivahealth.domain.Texture;
+import fr.almavivahealth.domain.entity.Content;
+import fr.almavivahealth.domain.entity.Day;
+import fr.almavivahealth.domain.entity.Diet;
+import fr.almavivahealth.domain.entity.Menu;
+import fr.almavivahealth.domain.entity.MomentDay;
+import fr.almavivahealth.domain.entity.Patient;
+import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.MenuDTO;
 import fr.almavivahealth.service.impl.MenuServiceImpl;

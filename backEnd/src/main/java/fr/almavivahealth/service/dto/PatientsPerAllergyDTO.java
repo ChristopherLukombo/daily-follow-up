@@ -1,7 +1,11 @@
 package fr.almavivahealth.service.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,12 +15,14 @@ import lombok.Builder;
  */
 @AllArgsConstructor
 @Builder
-public class PatientsPerAllergyDTO {
+public class PatientsPerAllergyDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	private String allergyName;
-	
+
 	private Long numberPatients;
-	
+
 	private BigDecimal percentage;
 
 	public PatientsPerAllergyDTO() {
@@ -30,7 +36,7 @@ public class PatientsPerAllergyDTO {
 	public void setAllergyName(final String allergyName) {
 		this.allergyName = allergyName;
 	}
-	
+
 	public Long getNumberPatients() {
 		return numberPatients;
 	}
@@ -67,24 +73,6 @@ public class PatientsPerAllergyDTO {
 
 	@Override
 	public String toString() {
-		final StringBuilder builder = new StringBuilder();
-		builder.append("PatientsPerAllergyDTO [");
-		if (allergyName != null) {
-			builder.append("allergyName=");
-			builder.append(allergyName);
-			builder.append(", ");
-		}
-		if (numberPatients != null) {
-			builder.append("numberPatients=");
-			builder.append(numberPatients);
-			builder.append(", ");
-		}
-		if (percentage != null) {
-			builder.append("percentage=");
-			builder.append(percentage);
-		}
-		builder.append("]");
-		return builder.toString();
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-	
 }

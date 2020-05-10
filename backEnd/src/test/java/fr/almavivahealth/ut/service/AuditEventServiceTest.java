@@ -19,7 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
 import fr.almavivahealth.dao.PatientHistoryRepository;
-import fr.almavivahealth.domain.PatientHistory;
+import fr.almavivahealth.domain.entity.PatientHistory;
 import fr.almavivahealth.service.dto.PatientHistoryDTO;
 import fr.almavivahealth.service.impl.AuditEventServiceImpl;
 import fr.almavivahealth.service.mapper.PatientHistoryMapper;

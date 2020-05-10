@@ -20,7 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.AllergyRepository;
-import fr.almavivahealth.domain.Allergy;
+import fr.almavivahealth.domain.entity.Allergy;
 import fr.almavivahealth.service.dto.AllergyDTO;
 import fr.almavivahealth.service.impl.AllergyServiceImpl;
 import fr.almavivahealth.service.mapper.AllergyMapper;

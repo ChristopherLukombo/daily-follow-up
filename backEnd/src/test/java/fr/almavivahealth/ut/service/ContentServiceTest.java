@@ -20,7 +20,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.ContentRepository;
-import fr.almavivahealth.domain.Content;
+import fr.almavivahealth.domain.entity.Content;
 import fr.almavivahealth.service.dto.ContentDTO;
 import fr.almavivahealth.service.impl.ContentServiceImpl;
 import fr.almavivahealth.service.mapper.ContentMapper;

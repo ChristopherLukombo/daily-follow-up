@@ -1,6 +1,6 @@
 package fr.almavivahealth.it;
 
-import static fr.almavivahealth.config.Constants.BEARER;
+import static fr.almavivahealth.constants.Constants.BEARER;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;

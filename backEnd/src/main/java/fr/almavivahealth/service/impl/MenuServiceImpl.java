@@ -1,6 +1,6 @@
 package fr.almavivahealth.service.impl;
 
-import static fr.almavivahealth.config.Constants.CLINIQUE_BERGER;
+import static fr.almavivahealth.constants.Constants.CLINIQUE_BERGER;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
@@ -33,15 +33,15 @@ import com.itextpdf.layout.property.UnitValue;
 
 import fr.almavivahealth.dao.MenuRepository;
 import fr.almavivahealth.dao.PatientRepository;
-import fr.almavivahealth.domain.Comment;
-import fr.almavivahealth.domain.Content;
-import fr.almavivahealth.domain.Day;
-import fr.almavivahealth.domain.Diet;
-import fr.almavivahealth.domain.Menu;
-import fr.almavivahealth.domain.MomentDay;
-import fr.almavivahealth.domain.Patient;
-import fr.almavivahealth.domain.Room;
-import fr.almavivahealth.domain.Texture;
+import fr.almavivahealth.domain.entity.Comment;
+import fr.almavivahealth.domain.entity.Content;
+import fr.almavivahealth.domain.entity.Day;
+import fr.almavivahealth.domain.entity.Diet;
+import fr.almavivahealth.domain.entity.Menu;
+import fr.almavivahealth.domain.entity.MomentDay;
+import fr.almavivahealth.domain.entity.Patient;
+import fr.almavivahealth.domain.entity.Room;
+import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.MenuService;
 import fr.almavivahealth.service.dto.MenuDTO;

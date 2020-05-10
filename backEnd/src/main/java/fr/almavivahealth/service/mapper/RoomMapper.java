@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
-import fr.almavivahealth.domain.Room;
+import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.service.dto.RoomDTO;
 
 /**
