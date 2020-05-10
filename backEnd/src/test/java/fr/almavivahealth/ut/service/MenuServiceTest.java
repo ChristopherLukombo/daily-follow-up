@@ -1,5 +1,4 @@
 package fr.almavivahealth.ut.service;
-import static fr.almavivahealth.domain.enums.TypeMeal.ENTRY;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -71,7 +70,7 @@ public class MenuServiceTest {
 		return Content.builder()
 				.id(ID)
 				.name("Saucisse")
-				.typeMeal(ENTRY)
+				.typeMeal("ENTREE")
 				.build();
 	}
 

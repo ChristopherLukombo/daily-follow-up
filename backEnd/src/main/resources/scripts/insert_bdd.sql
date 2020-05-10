@@ -466,10 +466,10 @@ VALUES(1, 1);
 INSERT INTO public."content"
 ("name", salt, sugar, type_meal, texture_id)
 values
-('Betteraves rouges', true, false, 'ENTRY', 1),
-('Poulet basquaise', true, false, 'DISH', 1),
-('Tortis ', true, false, 'TOPPING', 1),
-('Edam', false, false, 'DAIRY_PRODUCT', 1),
+('Betteraves rouges', true, false, 'ENTRÉE', 1),
+('Poulet basquaise', true, false, 'PLAT', 1),
+('Tortis ', true, false, 'GARNITURE', 1),
+('Edam', false, false, 'PRODUIT LAITIER', 1),
 ('Fruit de saison', false, false, 'DESSERT', 1);
 
 INSERT INTO public.moment_day_contents (moment_day_id , contents_id) values 

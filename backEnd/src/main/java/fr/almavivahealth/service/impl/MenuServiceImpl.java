@@ -285,7 +285,7 @@ public class MenuServiceImpl implements MenuService {
 
 	private List<String> findContentNames(final Menu menu, final String momentDay, final String dayToSearch) {
         // Defined order of typeMeals
-		final List<String> definedOrder = Arrays.asList("ENTRY", "DISH", "TOPPING", "DAIRY_PRODUCT", "DESSERT");
+		final List<String> definedOrder = Arrays.asList("ENTREE", "PLAT", "GARNITURE", "PRODUIT LAITIER", "DESSERT");
 
 		return menu.getDays().stream()
 				.filter(d -> isDaySelected(d, dayToSearch))
@@ -294,8 +294,8 @@ public class MenuServiceImpl implements MenuService {
 				.filter(m -> isMomentDay(momentDay, m))
 				.map(MomentDay::getContents)
 				.flatMap(Collection::stream)
-				.sorted((o1, o2) -> Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o1.getTypeMeal().toString())))
-						.compareTo(Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o2.getTypeMeal().toString())))))
+				.sorted((o1, o2) -> Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o1.getTypeMeal())))
+						.compareTo(Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o2.getTypeMeal())))))
 				.map(Content::getName)
 				.collect(Collectors.toList());
 	}

@@ -12,7 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
-import fr.almavivahealth.domain.enums.TypeMeal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,9 +42,8 @@ public class Content implements Serializable {
 	@ManyToOne
 	private Texture texture;
 
-	@Enumerated(EnumType.STRING)
 	@NotNull
-	private TypeMeal typeMeal;
+	private String typeMeal;
 
 	@Column(nullable = false)
 	@NotNull
