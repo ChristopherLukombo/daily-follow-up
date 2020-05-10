@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
+import fr.almavivahealth.service.dto.ContentList;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.ContentResource;
 
@@ -198,5 +199,38 @@ public class ContentResourceTest {
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 				.andExpect(status().isNoContent());
 		verify(contentService, times(1)).delete(id);
+	}
+
+	@Test
+	public void shouldSaveAllContents() throws IOException, Exception {
+		// Given
+		final List<ContentDTO> contentsDTO = Arrays.asList(createContentDTO());
+		final ContentList contentList = new ContentList();
+		contentList.setContents(contentsDTO);
+
+		// When
+        when(contentService.saveAll((ContentList) any())).thenReturn(contentsDTO);
+
+		// Then
+		mockMvc.perform(post("/api/contents/contentList")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(contentList)))
+		        .andExpect(status().isOk());
+		verify(contentService, times(1)).saveAll((ContentList) any());
+	}
+
+	@Test
+	public void shouldThrowInternalServerErrorWhenListOfContentsIsEmpty() throws IOException, Exception {
+		// Given
+		final List<ContentDTO> contentsDTO = Collections.emptyList();
+		final ContentList contentList = new ContentList();
+		contentList.setContents(contentsDTO);
+
+		// Then
+		mockMvc.perform(post("/api/contents/contentList")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(contentList)))
+		        .andExpect(status().isUnprocessableEntity());
+		verify(contentService, times(0)).saveAll((ContentList) any());
 	}
 }

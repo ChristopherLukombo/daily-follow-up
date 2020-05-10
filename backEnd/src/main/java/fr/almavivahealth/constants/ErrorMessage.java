@@ -23,6 +23,9 @@ public final class ErrorMessage {
 	public static final String AN_ERROR_OCCURRED_WHILE_TRYING_TO_IMPORT_THE_PATIENTS = "error.patient.tryingToImportThePatients";
 	public static final String THE_FILE_MUST_BE_OF_TYPE_CSV = "error.patient.the_file_must_be_of_type_csv";
 
+	// Content
+	public static final String ERROR_CONTENT_DEFINED = "error.content.defined";
+
 	// Private constructor to prevent instantiation
 	private ErrorMessage() {
 		throw new UnsupportedOperationException();
