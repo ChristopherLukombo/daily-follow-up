@@ -3,7 +3,7 @@ def mails = "christopher.lukombo@outlook.fr;neal.k@hotmail.fr;Angelo.deliessche@
 
 pipeline{
     triggers { 
-        //pollSCM('H/30 * * * *') 
+        pollSCM('H * * * *') 
         }
     options { timeout(time: 1, unit: 'HOURS') }
     agent any

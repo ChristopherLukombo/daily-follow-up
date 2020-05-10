@@ -3,7 +3,9 @@ def mails = "angelo.deliessche@gmail.com"
 //christopher.lukombo@outlook.fr;neal.k@hotmail.fr;
 
 pipeline{
-    
+    triggers { 
+        pollSCM('H/30 * * * *') 
+        }
     options { timeout(time: 1, unit: 'HOURS') }
     agent any
     stages {
@@ -11,13 +13,8 @@ pipeline{
             options { timeout(time: 1, unit: 'HOURS') }
             steps {
                 script {
-                    //sh("git pull")
                     dir(projectName){
-                        //git 'https://github.com/ChristopherLukombo/daily-follow-up'
                         sh("mvn clean package -Pprod -e -X")
-
-                        //sh("cp target/daily-follow-up-0.0.1.jar /home/pi/Documents/Project/Dockerz/ProdContainer/backEnd/target/daily-follow-up-0.0.1.jar")
-                        //sh("cp -r /home/pi/Documents/Project/Dockerz/ProdContainer/ .")
                     }
                 }
             }
@@ -48,15 +45,22 @@ pipeline{
                     dir(projectName){
                         def now = new Date()
                         def dateFormated = now.format("yy-MMdd.HHmm", TimeZone.getTimeZone('UTC'))
+                        
                         docker.build "prodimage${dateFormated}:${dateFormated}"
-                        //sh("docker build -t prodimage${dateFormated}:${dateFormated} --no-cache .")
+                        
                         sh("docker service update --image prodimage${dateFormated}:${dateFormated} prod_prodapplication")
                     }
                     
                 }
             }
             post{
-                
+                success {
+                    emailext(
+                        body: "MEP Correctly done\nPlus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                        replyTo: '', subject: "[${env.JOB_NAME}] Success - Rapport de build",
+                        to: "${mails}", recipientProviders: []
+                    )
+                }
                 
                 failure {
                     emailext(
