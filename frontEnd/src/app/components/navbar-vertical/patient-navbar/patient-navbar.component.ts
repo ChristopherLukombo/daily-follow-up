@@ -3,7 +3,6 @@ import {
   faUserPlus,
   faUserFriends,
   faUpload,
-  faSearch,
   faUserLock,
 } from "@fortawesome/free-solid-svg-icons";
 

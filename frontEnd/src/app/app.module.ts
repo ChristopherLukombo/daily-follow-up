@@ -38,6 +38,9 @@ import { FormPatientAddComponent } from "./components/patient-components/patient
 import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 import { FormPatientEditComponent } from "./components/patient-components/patient/patient-edit/form-patient-edit/form-patient-edit.component";
 
+import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
+import { FoodNavbarComponent } from "./components/navbar-vertical/food-navbar/food-navbar.component";
+
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
 import { ModalDangerComponent } from "./components/utils-components/modal-danger/modal-danger.component";
@@ -54,7 +57,8 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { MealsAddComponent } from './components/food-components/meals-add/meals-add.component';
+import { FormMealAddComponent } from './components/food-components/meals-add/form-meal-add/form-meal-add.component';
+import { InfosMealComponent } from './components/food-components/meals-add/infos-meal/infos-meal.component';
 
 @NgModule({
   declarations: [
@@ -94,6 +98,9 @@ import { MealsAddComponent } from './components/food-components/meals-add/meals-
     PatientEditComponent,
     FormPatientEditComponent,
     MealsAddComponent,
+    FoodNavbarComponent,
+    FormMealAddComponent,
+    InfosMealComponent,
   ],
   imports: [
     BrowserModule,

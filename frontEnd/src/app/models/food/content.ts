@@ -8,6 +8,8 @@ export class Content {
   /***/
   texture: Texture;
   /***/
+  typeMeal: string;
+  /***/
   salt: boolean;
   /***/
   sugar: boolean;
