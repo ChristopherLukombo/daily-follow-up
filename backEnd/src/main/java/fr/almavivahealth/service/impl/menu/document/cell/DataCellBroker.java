@@ -19,5 +19,4 @@ public class DataCellBroker {
 	public Cell createDataCell(final DataCell dataCell) throws DailyFollowUpException {
 		return dataCell.createDataCell();
 	}
-	
 }

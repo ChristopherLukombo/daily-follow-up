@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl;
+package fr.almavivahealth.service.impl.floor;
 
 import java.util.List;
 import java.util.Optional;

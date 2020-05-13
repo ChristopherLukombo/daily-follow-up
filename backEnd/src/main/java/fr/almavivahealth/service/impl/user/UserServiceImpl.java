@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl;
+package fr.almavivahealth.service.impl.user;
 
 import static fr.almavivahealth.constants.Constants.SLASH;
 

@@ -24,7 +24,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import fr.almavivahealth.dao.OrderRepository;
 import fr.almavivahealth.domain.entity.Order;
 import fr.almavivahealth.service.dto.OrderDTO;
-import fr.almavivahealth.service.impl.OrderServiceImpl;
+import fr.almavivahealth.service.impl.order.OrderServiceImpl;
 import fr.almavivahealth.service.mapper.OrderMapper;
 
 @RunWith(MockitoJUnitRunner.class)

@@ -21,7 +21,7 @@ import org.springframework.data.domain.PageImpl;
 import fr.almavivahealth.dao.PatientHistoryRepository;
 import fr.almavivahealth.domain.entity.PatientHistory;
 import fr.almavivahealth.service.dto.PatientHistoryDTO;
-import fr.almavivahealth.service.impl.AuditEventServiceImpl;
+import fr.almavivahealth.service.impl.audit.AuditEventServiceImpl;
 import fr.almavivahealth.service.mapper.PatientHistoryMapper;
 
 @RunWith(MockitoJUnitRunner.class)

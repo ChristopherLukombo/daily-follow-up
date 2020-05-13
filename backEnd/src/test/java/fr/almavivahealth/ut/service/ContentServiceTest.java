@@ -24,7 +24,7 @@ import fr.almavivahealth.dao.ContentRepository;
 import fr.almavivahealth.domain.entity.Content;
 import fr.almavivahealth.service.dto.ContentDTO;
 import fr.almavivahealth.service.dto.ContentList;
-import fr.almavivahealth.service.impl.ContentServiceImpl;
+import fr.almavivahealth.service.impl.content.ContentServiceImpl;
 import fr.almavivahealth.service.mapper.ContentMapper;
 
 @RunWith(MockitoJUnitRunner.class)

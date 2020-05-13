@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl;
+package fr.almavivahealth.service.impl.audit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

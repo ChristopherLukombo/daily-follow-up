@@ -38,7 +38,7 @@ import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.domain.enums.RoleName;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.UserDTO;
-import fr.almavivahealth.service.impl.UserServiceImpl;
+import fr.almavivahealth.service.impl.user.UserServiceImpl;
 import fr.almavivahealth.service.mapper.UserMapper;
 import fr.almavivahealth.service.propeties.UserProperties;
 

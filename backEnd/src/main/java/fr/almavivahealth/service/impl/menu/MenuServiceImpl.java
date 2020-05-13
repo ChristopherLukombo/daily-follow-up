@@ -1,6 +1,7 @@
-package fr.almavivahealth.service.impl;
+package fr.almavivahealth.service.impl.menu;
 
 import static fr.almavivahealth.constants.Constants.CLINIQUE_BERGER;
+import static fr.almavivahealth.util.functional.Loop.forEach;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
@@ -180,8 +181,7 @@ public class MenuServiceImpl implements MenuService {
 		return new Document(pdf, PageSize.A4);
 	}
 
-	private void addContent(final Document document, final String momentName, final LocalDate selectedDate)
-			throws DailyFollowUpException {
+	private void addContent(final Document document, final String momentName, final LocalDate selectedDate) {
 		final float[] colWidths = { 2.5f, 2.5f, 2f, 1f };
 		final Table table = new Table(UnitValue.createPercentArray(colWidths), true);
 		document.add(table);
@@ -190,11 +190,9 @@ public class MenuServiceImpl implements MenuService {
 		final List<Patient> patients = patientRepository.findAllByStateTrueOrderByIdDesc();
 
 		final DataCellBroker dataCellBroker = new DataCellBroker();
-		final TemporalField temporalField = WeekFields.of(Locale.FRANCE).dayOfWeek();
 
-		for (int i = 0; i < patients.size(); i++) {
-			addMenus(momentName, selectedDate, table, patients, dataCellBroker, temporalField, i);
-		}
+		forEach(patients, (patient, index, size) ->
+		this.buildCoupon(table, new Coupon(momentName, selectedDate, dataCellBroker, patient, index, size)));
 
 		document.add(table);
 
@@ -203,53 +201,60 @@ public class MenuServiceImpl implements MenuService {
 		table.complete();
 	}
 
-	private void addMenus(final String momentName, final LocalDate selectedDate, final Table table,
-			final List<Patient> patients, final DataCellBroker dataCellBroker, final TemporalField temporalField,
-			final int i) throws DailyFollowUpException {
+	private void buildCoupon(final Table table, final Coupon coupon) throws DailyFollowUpException {
+		final String roomNumber = findRoomNumber(coupon.getPatient());
+		table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellLeft(CLINIQUE_BERGER,
+				coupon.getPatient().getLastName(), roomNumber, menuProperties.getImagesPath())));
 
-		final String textureName = findTextureName(patients.get(i));
-		final Set<String> dietsName = findDietsName(patients.get(i));
-		final String roomNumber = findRoomNumber(patients.get(i));
-		final LocalDate startDateWeek = selectedDate.with(temporalField, 1);
-		final LocalDate endDateWeek = selectedDate.with(temporalField, 7);
-		final List<Menu> menus = menuRepository.findAllByWeek(textureName, dietsName, startDateWeek, endDateWeek);
+		final Set<String> dietsName = findDietsName(coupon.getPatient());
+		final String textureName = findTextureName(coupon.getPatient());
+		final List<Menu> menus = findAllByWeek(coupon.getSelectedDate(), dietsName, textureName);
 		final Menu menu = !menus.isEmpty() ? menus.get(0) : null;
-
-		table.addCell(dataCellBroker.createDataCell(
-				new DataCellLeft(
-						CLINIQUE_BERGER,
-						patients.get(i).getLastName(),
-				        roomNumber,
-				        menuProperties.getImagesPath())));
-
 		if (menu == null) {
-			addDefaultCellMiddle(table, dataCellBroker);
+			addDefaultCellMiddle(table, coupon.getDataCellBroker());
 		} else {
-			final String dayToSearch = toDayOfWeek(selectedDate);
-			final List<String> contentNames = findContentNames(menu, momentName, dayToSearch);
-			if (!contentNames.isEmpty()) {
-				table.addCell(dataCellBroker.createDataCell(
-						new DataCellMiddleLeft(contentNames)));
-			} else {
-				addDefaultCellMiddle(table, dataCellBroker);
-			}
+			final String dayToSearch = toDayOfWeek(coupon.getSelectedDate());
+			final List<String> contentNames = findContentNames(menu, coupon.getMomentName(), dayToSearch);
+			table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellMiddleLeft(contentNames)));
 		}
 
-		final String comment = findComment(patients.get(i));
+		final String comment = findComment(coupon.getPatient());
+		table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellMiddleRight(comment)));
+
 		final String dietName = findDietName(menu);
+		table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellRight(dietName, textureName,
+				coupon.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM")))));
 
-		table.addCell(dataCellBroker.createDataCell(new DataCellMiddleRight(comment)));
+		addFooter(table, coupon.getDataCellBroker(), coupon.getIndex(), coupon.getSize());
+	}
 
-		table.addCell(dataCellBroker.createDataCell(new DataCellRight(dietName, textureName,
-				selectedDate.format(DateTimeFormatter.ofPattern("dd/MM")))));
-
-		// Add footer
-		if (((i + 1) % 4 == 0) || (patients.size() - 1 == i)) {
+	private void addFooter(final Table table, final DataCellBroker dataCellBroker, final int index, final int size)
+			throws DailyFollowUpException {
+		if (((index + 1) % 4 == 0) || (size - 1 == index)) {
 			table.addCell(dataCellBroker.createDataCell(new DataCellFooter()));
 			table.addCell(dataCellBroker.createDataCell(new DataCellFooter()));
 			table.addCell(dataCellBroker.createDataCell(new DataCellFooter()));
 			table.addCell(dataCellBroker.createDataCell(new DataCellFooter()));
 		}
+	}
+
+	private List<Menu> findAllByWeek(
+			final LocalDate selectedDate,
+			final Set<String> dietsName,
+			final String textureName) {
+		final LocalDate startDateWeek = findDateFromDay(selectedDate, 1);
+		final LocalDate endDateWeek = findDateFromDay(selectedDate, 7);
+		return menuRepository.findAllByWeek(textureName, dietsName, startDateWeek, endDateWeek);
+	}
+
+	private void addDefaultCellMiddle(final Table table, final DataCellBroker dataCellBroker)
+			throws DailyFollowUpException {
+		table.addCell(dataCellBroker.createDataCell(new DataCellMiddleLeft(Collections.emptyList())));
+	}
+
+	private LocalDate findDateFromDay(final LocalDate date, final int day) {
+		final TemporalField temporalField = WeekFields.of(Locale.FRANCE).dayOfWeek();
+		return date.with(temporalField, day);
 	}
 
 	private String findComment(final Patient patient) {
@@ -261,12 +266,6 @@ public class MenuServiceImpl implements MenuService {
 
 	private String toDayOfWeek(final LocalDate date) {
 		return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRANCE);
-	}
-
-	private void addDefaultCellMiddle(final Table table, final DataCellBroker dataCellBroker)
-			throws DailyFollowUpException {
-		table.addCell(dataCellBroker.createDataCell(
-				new DataCellMiddleLeft(Collections.emptyList())));
 	}
 
 	private String findDietName(final Menu menu) {
@@ -323,5 +322,4 @@ public class MenuServiceImpl implements MenuService {
 				.map(Texture::getName)
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
-
 }

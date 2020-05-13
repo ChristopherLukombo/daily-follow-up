@@ -36,7 +36,7 @@ import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.MenuDTO;
-import fr.almavivahealth.service.impl.MenuServiceImpl;
+import fr.almavivahealth.service.impl.menu.MenuServiceImpl;
 import fr.almavivahealth.service.mapper.MenuMapper;
 import fr.almavivahealth.service.propeties.MenuProperties;
 
@@ -317,13 +317,10 @@ public class MenuServiceTest {
 	public void shouldThrowWhenCouponsAreNotGenerated() throws DailyFollowUpException {
 		// Given
 		final List<Patient> patients = Arrays.asList(createPatient());
-		final List<Menu> menus = Arrays.asList(createMenu());
 		final String filename = null;
 
 		// When
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
-		when(menuRepository.findAllByWeek(anyString(), anySet(), (LocalDate) any(), (LocalDate) any()))
-				.thenReturn(menus);
 		when(menuProperties.getImagesPath()).thenReturn(filename);
 
 		// Then

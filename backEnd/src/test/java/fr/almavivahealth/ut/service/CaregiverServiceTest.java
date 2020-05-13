@@ -22,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import fr.almavivahealth.dao.CaregiverRepository;
 import fr.almavivahealth.domain.entity.Caregiver;
 import fr.almavivahealth.service.dto.CaregiverDTO;
-import fr.almavivahealth.service.impl.CaregiverServiceImpl;
+import fr.almavivahealth.service.impl.caregiver.CaregiverServiceImpl;
 import fr.almavivahealth.service.mapper.CaregiverMapper;
 
 @RunWith(MockitoJUnitRunner.class)

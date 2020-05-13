@@ -22,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import fr.almavivahealth.dao.DayRepository;
 import fr.almavivahealth.domain.entity.Day;
 import fr.almavivahealth.service.dto.DayDTO;
-import fr.almavivahealth.service.impl.DayServiceImpl;
+import fr.almavivahealth.service.impl.day.DayServiceImpl;
 import fr.almavivahealth.service.mapper.DayMapper;
 
 @RunWith(MockitoJUnitRunner.class)

@@ -23,7 +23,7 @@ import fr.almavivahealth.domain.projection.PatientsPerDiet;
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
-import fr.almavivahealth.service.impl.StatsServiceImpl;
+import fr.almavivahealth.service.impl.stats.StatsServiceImpl;
 import fr.almavivahealth.service.mapper.StatsMapper;
 
 @RunWith(MockitoJUnitRunner.class)

@@ -199,10 +199,7 @@ public class MenuResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server")
         })
-	@GetMapping(
-			value = "/menus/coupons",
-			params = { "momentName", "selectedDate" },
-			produces = MediaType.APPLICATION_PDF_VALUE)
+	@GetMapping(value = "/menus/coupons", params = { "momentName", "selectedDate" })
 	public ResponseEntity<byte[]> generateCoupons(
 		    @RequestParam final String momentName,
 			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate selectedDate)
@@ -221,5 +218,4 @@ public class MenuResource {
 					"An error occurred during the generation of the coupons", e);
 		}
 	}
-
 }
