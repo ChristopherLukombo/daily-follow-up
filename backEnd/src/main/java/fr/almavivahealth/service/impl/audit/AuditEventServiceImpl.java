@@ -23,11 +23,12 @@ public class AuditEventServiceImpl implements AuditEventService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuditEventServiceImpl.class);
 
 	private final PatientHistoryRepository patientHistoryRepository;
-	
+
 	private final PatientHistoryMapper  patientHistoryMapper;
 
-    @Autowired
-	public AuditEventServiceImpl(final PatientHistoryRepository patientHistoryRepository,
+	@Autowired
+	public AuditEventServiceImpl(
+			final PatientHistoryRepository patientHistoryRepository,
 			final PatientHistoryMapper patientHistoryMapper) {
 		this.patientHistoryRepository = patientHistoryRepository;
 		this.patientHistoryMapper = patientHistoryMapper;
@@ -42,11 +43,11 @@ public class AuditEventServiceImpl implements AuditEventService {
 	 * @return the page
 	 */
 	@Override
-	@Transactional(readOnly = true)	
+	@Transactional(readOnly = true)
 	public Page<PatientHistoryDTO> findAllPatientHistorysByPatientId(final Long patientId, final Integer page, final Integer size) {
 		LOGGER.debug("Request to get all PatientHistorys");
 		return patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(patientId, PageRequest.of(page, size))
 				.map(patientHistoryMapper::patientHistoryToPatientHistoryDTO);
 	}
-	
+
 }
