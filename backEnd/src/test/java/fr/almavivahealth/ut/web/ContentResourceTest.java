@@ -2,6 +2,7 @@ package fr.almavivahealth.ut.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -12,7 +13,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -36,8 +36,6 @@ import fr.almavivahealth.web.rest.ContentResource;
 @RunWith(MockitoJUnitRunner.class)
 public class ContentResourceTest {
 
-	private static final boolean SALT = true;
-
 	private static final String NAME = "TEST";
 
 	private static final long ID = 1L;
@@ -60,13 +58,11 @@ public class ContentResourceTest {
 		return ContentDTO.builder()
 				.id(ID)
 				.name(NAME)
-				.salt(SALT)
-				.typeMeal("ENTRY")
 				.build();
 	}
 
 	@Test
-    public void shouldCreateContentWhenIsOk() throws IOException, Exception {
+    public void shouldCreateContentWhenIsOk() throws Exception {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
     	contentDTO.setId(null);
@@ -83,7 +79,7 @@ public class ContentResourceTest {
     }
 
 	@Test
-    public void shouldCreateContentWhenIsKo() throws IOException, Exception {
+    public void shouldCreateContentWhenIsKo() throws Exception {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
 
@@ -96,7 +92,7 @@ public class ContentResourceTest {
     }
 
 	@Test
-    public void shouldUpdateContentWhenIsOk() throws IOException, Exception {
+    public void shouldUpdateContentWhenIsOk() throws Exception {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
 
@@ -112,7 +108,7 @@ public class ContentResourceTest {
     }
 
 	@Test
-    public void shouldUpdateContentWhenIsKo() throws IOException, Exception {
+    public void shouldUpdateContentWhenIsKo() throws Exception {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
     	contentDTO.setId(null);
@@ -126,7 +122,7 @@ public class ContentResourceTest {
     }
 
 	@Test
-	public void shouldGetAllContentsWhenIsOk() throws IOException, Exception {
+	public void shouldGetAllContentsWhenIsOk() throws Exception {
 		// Given
 		final List<ContentDTO> contentsDTO = Arrays.asList(createContentDTO());
 
@@ -141,7 +137,7 @@ public class ContentResourceTest {
 	}
 
 	@Test
-	public void shouldGetAllContentsWhenIsEmpty() throws IOException, Exception {
+	public void shouldGetAllContentsWhenIsEmpty() throws Exception {
 		// Given
 		final List<ContentDTO> contentsDTO = Collections.emptyList();
 
@@ -156,7 +152,7 @@ public class ContentResourceTest {
 	}
 
 	@Test
-	public void shouldGetContentWhenIsOk() throws IOException, Exception {
+	public void shouldGetContentWhenIsOk() throws Exception {
 		// Given
 		final ContentDTO contentDTO = createContentDTO();
 
@@ -171,7 +167,7 @@ public class ContentResourceTest {
 	}
 
 	@Test
-	public void shouldGetContentWhenIsNotFOund() throws IOException, Exception {
+	public void shouldGetContentWhenIsNotFOund() throws Exception {
 		// Given
 		final ContentDTO contentDTO = null;
 
@@ -202,7 +198,7 @@ public class ContentResourceTest {
 	}
 
 	@Test
-	public void shouldSaveAllContents() throws IOException, Exception {
+	public void shouldSaveAllContents() throws Exception {
 		// Given
 		final List<ContentDTO> contentsDTO = Arrays.asList(createContentDTO());
 		final ContentList contentList = new ContentList();
@@ -220,7 +216,7 @@ public class ContentResourceTest {
 	}
 
 	@Test
-	public void shouldThrowInternalServerErrorWhenListOfContentsIsEmpty() throws IOException, Exception {
+	public void shouldThrowInternalServerErrorWhenListOfContentsIsEmpty() throws Exception {
 		// Given
 		final List<ContentDTO> contentsDTO = Collections.emptyList();
 		final ContentList contentList = new ContentList();
@@ -232,5 +228,35 @@ public class ContentResourceTest {
 				.content(TestUtil.convertObjectToJsonBytes(contentList)))
 		        .andExpect(status().isUnprocessableEntity());
 		verify(contentService, times(0)).saveAll((ContentList) any());
+	}
+
+	@Test
+	public void shouldGetFirst5ByNameContentsByName() throws Exception {
+		// Given
+		final List<ContentDTO> contentsDTO = Arrays.asList(createContentDTO());
+
+		// When
+		when(contentService.findFirst5ByName(anyString())).thenReturn(contentsDTO);
+
+		// Then
+		mockMvc.perform(get("/api/contents/search?name=Salade")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isOk());
+		verify(contentService, times(1)).findFirst5ByName(anyString());
+	}
+
+	@Test
+	public void shouldReturn204WhenNoContentExistForName() throws Exception {
+		// Given
+		final List<ContentDTO> contentsDTO = Collections.emptyList();
+
+		// When
+		when(contentService.findFirst5ByName(anyString())).thenReturn(contentsDTO);
+
+		// Then
+		mockMvc.perform(get("/api/contents/search?name=Salade")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isNoContent());
+		verify(contentService, times(1)).findFirst5ByName(anyString());
 	}
 }

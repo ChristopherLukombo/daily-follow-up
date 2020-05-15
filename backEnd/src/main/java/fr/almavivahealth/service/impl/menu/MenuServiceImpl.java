@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -282,9 +281,10 @@ public class MenuServiceImpl implements MenuService {
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
+	// TODO: Set up the AI to manage the contents in coupons
 	private List<String> findContentNames(final Menu menu, final String momentDay, final String dayToSearch) {
         // Defined order of typeMeals
-		final List<String> definedOrder = Arrays.asList("ENTREE", "PLAT", "GARNITURE", "PRODUIT LAITIER", "DESSERT");
+//		final List<String> definedOrder = Arrays.asList("ENTREE", "PLAT", "GARNITURE", "PRODUIT LAITIER", "DESSERT");
 
 		return menu.getDays().stream()
 				.filter(d -> isDaySelected(d, dayToSearch))
@@ -293,8 +293,9 @@ public class MenuServiceImpl implements MenuService {
 				.filter(m -> isMomentDay(momentDay, m))
 				.map(MomentDay::getContents)
 				.flatMap(Collection::stream)
-				.sorted((o1, o2) -> Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o1.getTypeMeal())))
-						.compareTo(Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o2.getTypeMeal())))))
+				// TODO: sort menus by typeMeal
+//				.sorted((o1, o2) -> Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o1.getTypeMeal())))
+//						.compareTo(Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o2.getTypeMeal())))))
 				.map(Content::getName)
 				.collect(Collectors.toList());
 	}

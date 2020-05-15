@@ -17,11 +17,20 @@ import fr.almavivahealth.service.dto.ContentDTO;
 public interface ContentMapper {
 
 	@Mapping(source = "id", target = "id")
+	@Mapping(source = "code", target = "code")
 	@Mapping(source = "name", target = "name")
-	@Mapping(source = "texture.id", target = "textureId")
-	@Mapping(source = "typeMeal", target = "typeMeal")
+	@Mapping(source = "groupName", target = "groupName")
+	@Mapping(source = "subGroupName", target = "subGroupName")
+	@Mapping(source = "subSubGroupName", target = "subSubGroupName")
+	@Mapping(source = "calories", target = "calories")
+	@Mapping(source = "protein", target = "protein")
+	@Mapping(source = "carbohydrate", target = "carbohydrate")
+	@Mapping(source = "lipids", target = "lipids")
+	@Mapping(source = "sugars", target = "sugars")
+	@Mapping(source = "foodFibres", target = "foodFibres")
+	@Mapping(source = "agSaturates", target = "agSaturates")
 	@Mapping(source = "salt", target = "salt")
-	@Mapping(source = "sugar", target = "sugar")
+	@Mapping(source = "imageUrl", target = "imageUrl")
 	ContentDTO contentToContentDTO(Content content);
 
 	@InheritInverseConfiguration

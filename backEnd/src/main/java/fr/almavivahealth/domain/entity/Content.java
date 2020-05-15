@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,19 +33,58 @@ public class Content implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	// Example: 25479
+	@Column(name = "code")
+	private Integer code;
+
+	// Example: Jus d'ananas pour ananas appertisé au jus
+	@Column(name = "name")
 	private String name;
 
-	@ManyToOne
-	private Texture texture;
+	// Example: produits céréaliers
+	@Column(name = "group_name")
+    private String groupName;
 
-	@NotNull
-	private String typeMeal;
+	// Example: pâtes, riz et céréales
+	@Column(name = "sub_group_name")
+    private String subGroupName;
 
-	@Column(nullable = false)
-	@NotNull
-	private boolean salt;
+	// Example: pâtes, riz et céréales cuits
+	@Column(name = "sub_sub_group_name")
+    private String subSubGroupName;
 
-	@Column(nullable = false)
-	@NotNull
-	private boolean sugar;
+	// Example: 42,8
+	@Column(name = "calories")
+    private String calories;
+
+	// Example: < 0,57
+	@Column(name = "protein")
+    private String protein;
+
+	// Example: 13
+	@Column(name = "carbohydrate")
+    private String carbohydrate;
+
+	// Example: < 0,5
+	@Column(name = "lipides")
+    private String lipids;
+
+	// Example: < 0,2
+	@Column(name = "sucres")
+    private String sugars;
+
+	// Example: < 0,5
+	@Column(name = "food_fibres")
+    private String foodFibres;
+
+	// Example: 0,58
+	@Column(name = "ag_saturates")
+    private String agSaturates;
+
+	// Example: < 0,73
+	@Column(name = "salt")
+    private String salt;
+
+	@Column(name = "image_url")
+	private String imageUrl;
 }

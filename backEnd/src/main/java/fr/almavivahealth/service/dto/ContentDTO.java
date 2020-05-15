@@ -3,8 +3,6 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.validation.constraints.NotNull;
-
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -22,18 +20,33 @@ public class ContentDTO implements Serializable {
 
 	private Long id;
 
+	private Integer code;
+
 	private String name;
 
-	private Long textureId;
+    private String groupName;
 
-	@NotNull
-	private String typeMeal;
+    private String subGroupName;
 
-	@NotNull
-	private boolean salt;
+    private String subSubGroupName;
 
-	@NotNull
-	private boolean sugar;
+    private String calories;
+
+    private String protein;
+
+    private String carbohydrate;
+
+    private String lipids;
+
+    private String sugars;
+
+    private String foodFibres;
+
+    private String agSaturates;
+
+    private String salt;
+
+	private String imageUrl;
 
 	public ContentDTO() {
 		// Empty constructor needed for Jackson.
@@ -47,6 +60,14 @@ public class ContentDTO implements Serializable {
 		this.id = id;
 	}
 
+	public Integer getCode() {
+		return code;
+	}
+
+	public void setCode(final Integer code) {
+		this.code = code;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -55,41 +76,106 @@ public class ContentDTO implements Serializable {
 		this.name = name;
 	}
 
-	public Long getTextureId() {
-		return textureId;
+	public String getGroupName() {
+		return groupName;
 	}
 
-	public void setTextureId(final Long textureId) {
-		this.textureId = textureId;
+	public void setGroupName(final String groupName) {
+		this.groupName = groupName;
 	}
 
-	public boolean isSalt() {
+	public String getSubGroupName() {
+		return subGroupName;
+	}
+
+	public void setSubGroupName(final String subGroupName) {
+		this.subGroupName = subGroupName;
+	}
+
+	public String getSubSubGroupName() {
+		return subSubGroupName;
+	}
+
+	public void setSubSubGroupName(final String subSubGroupName) {
+		this.subSubGroupName = subSubGroupName;
+	}
+
+	public String getCalories() {
+		return calories;
+	}
+
+	public void setCalories(final String calories) {
+		this.calories = calories;
+	}
+
+	public String getProtein() {
+		return protein;
+	}
+
+	public void setProtein(final String protein) {
+		this.protein = protein;
+	}
+
+	public String getCarbohydrate() {
+		return carbohydrate;
+	}
+
+	public void setCarbohydrate(final String carbohydrate) {
+		this.carbohydrate = carbohydrate;
+	}
+
+	public String getLipids() {
+		return lipids;
+	}
+
+	public void setLipids(final String lipids) {
+		this.lipids = lipids;
+	}
+
+	public String getSugars() {
+		return sugars;
+	}
+
+	public void setSugars(final String sugars) {
+		this.sugars = sugars;
+	}
+
+	public String getFoodFibres() {
+		return foodFibres;
+	}
+
+	public void setFoodFibres(final String foodFibres) {
+		this.foodFibres = foodFibres;
+	}
+
+	public String getAgSaturates() {
+		return agSaturates;
+	}
+
+	public void setAgSaturates(final String agSaturates) {
+		this.agSaturates = agSaturates;
+	}
+
+	public String getSalt() {
 		return salt;
 	}
 
-	public void setSalt(final boolean salt) {
+	public void setSalt(final String salt) {
 		this.salt = salt;
 	}
 
-	public boolean isSugar() {
-		return sugar;
+	public String getImageUrl() {
+		return imageUrl;
 	}
 
-	public void setSugar(final boolean sugar) {
-		this.sugar = sugar;
-	}
-
-	public String getTypeMeal() {
-		return typeMeal;
-	}
-
-	public void setTypeMeal(final String typeMeal) {
-		this.typeMeal = typeMeal;
+	public void setImageUrl(final String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name, salt, sugar, textureId, typeMeal);
+		return Objects.hash(agSaturates, calories, carbohydrate, code, foodFibres, groupName, id, imageUrl, lipids,
+				name, protein, salt, subGroupName, subSubGroupName, sugars);
 	}
 
 	@Override
@@ -101,9 +187,14 @@ public class ContentDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final ContentDTO other = (ContentDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name) && salt == other.salt
-				&& sugar == other.sugar && Objects.equals(textureId, other.textureId)
-				&& Objects.equals(typeMeal, other.typeMeal);
+		return Objects.equals(agSaturates, other.agSaturates) && Objects.equals(calories, other.calories)
+				&& Objects.equals(carbohydrate, other.carbohydrate) && Objects.equals(code, other.code)
+				&& Objects.equals(foodFibres, other.foodFibres) && Objects.equals(groupName, other.groupName)
+				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
+				&& Objects.equals(lipids, other.lipids) && Objects.equals(name, other.name)
+				&& Objects.equals(protein, other.protein) && Objects.equals(salt, other.salt)
+				&& Objects.equals(subGroupName, other.subGroupName)
+				&& Objects.equals(subSubGroupName, other.subSubGroupName) && Objects.equals(sugars, other.sugars);
 	}
 
 	@Override

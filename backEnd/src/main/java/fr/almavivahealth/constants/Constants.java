@@ -23,6 +23,10 @@ public final class Constants {
 	// Menus
 	public static final String CLINIQUE_BERGER = "Clinique Berger";
 
+	// Contents
+	public static final String MENUS_TABLE_CIQUAL2017_EXCEL_FR_2017_11_17_XLS = "menus/TableCiqual2017_ExcelFR_2017_11_17.xls";
+	public static final String DASH = "-";
+
 	private Constants() {
 		// private constructor needed for Constants class.
 	}
