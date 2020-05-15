@@ -81,14 +81,14 @@ public class ContentImportationServiceImpl implements ContentImportationService 
 				.groupName(getFieldAsString(cells, 3))
 				.subGroupName(getFieldAsString(cells, 4))
 				.subSubGroupName(getFieldAsString(cells, 5))
-				.calories(getFieldAsString(cells, 11))
-				.protein(getFieldAsString(cells, 13))
-				.carbohydrate(getFieldAsString(cells, 15))
-				.lipids(getFieldAsString(cells, 16))
-				.sugars(getFieldAsString(cells, 17))
-				.foodFibres(getFieldAsString(cells, 19))
-				.agSaturates(getFieldAsString(cells, 24))
-				.salt(getFieldAsString(cells, 42))
+				.calories(toDouble(getFieldAsString(cells, 11)))
+				.protein(toDouble(getFieldAsString(cells, 13)))
+				.carbohydrate(toDouble(getFieldAsString(cells, 15)))
+				.lipids(toDouble(getFieldAsString(cells, 16)))
+				.sugars(toDouble(getFieldAsString(cells, 17)))
+				.foodFibres(toDouble(getFieldAsString(cells, 19)))
+				.agSaturates(toDouble(getFieldAsString(cells, 24)))
+				.salt(toDouble(getFieldAsString(cells, 42)))
 				.build();
 	}
 
@@ -103,6 +103,18 @@ public class ContentImportationServiceImpl implements ContentImportationService 
 		case STRING:
 			return DASH.equals(cell.getStringCellValue()) ? null : cell.getStringCellValue();
 		default:
+			return null;
+		}
+	}
+
+	private Double toDouble(final String value) {
+		if (null == value) {
+			return null;
+		}
+		try {
+			final String newvalue = value.replace(",", ".");
+			return Double.parseDouble(newvalue);
+		} catch (final NumberFormatException nfe) {
 			return null;
 		}
 	}

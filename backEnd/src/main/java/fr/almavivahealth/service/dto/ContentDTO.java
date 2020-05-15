@@ -1,6 +1,7 @@
 package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -30,23 +31,25 @@ public class ContentDTO implements Serializable {
 
     private String subSubGroupName;
 
-    private String calories;
+    private Double calories;
 
-    private String protein;
+    private Double protein;
 
-    private String carbohydrate;
+    private Double carbohydrate;
 
-    private String lipids;
+    private Double lipids;
 
-    private String sugars;
+    private Double sugars;
 
-    private String foodFibres;
+    private Double foodFibres;
 
-    private String agSaturates;
+    private Double agSaturates;
 
-    private String salt;
+    private Double salt;
 
 	private String imageUrl;
+
+	private List<String> typeMeals;
 
 	public ContentDTO() {
 		// Empty constructor needed for Jackson.
@@ -100,67 +103,67 @@ public class ContentDTO implements Serializable {
 		this.subSubGroupName = subSubGroupName;
 	}
 
-	public String getCalories() {
+	public Double getCalories() {
 		return calories;
 	}
 
-	public void setCalories(final String calories) {
+	public void setCalories(final Double calories) {
 		this.calories = calories;
 	}
 
-	public String getProtein() {
+	public Double getProtein() {
 		return protein;
 	}
 
-	public void setProtein(final String protein) {
+	public void setProtein(final Double protein) {
 		this.protein = protein;
 	}
 
-	public String getCarbohydrate() {
+	public Double getCarbohydrate() {
 		return carbohydrate;
 	}
 
-	public void setCarbohydrate(final String carbohydrate) {
+	public void setCarbohydrate(final Double carbohydrate) {
 		this.carbohydrate = carbohydrate;
 	}
 
-	public String getLipids() {
+	public Double getLipids() {
 		return lipids;
 	}
 
-	public void setLipids(final String lipids) {
+	public void setLipids(final Double lipids) {
 		this.lipids = lipids;
 	}
 
-	public String getSugars() {
+	public Double getSugars() {
 		return sugars;
 	}
 
-	public void setSugars(final String sugars) {
+	public void setSugars(final Double sugars) {
 		this.sugars = sugars;
 	}
 
-	public String getFoodFibres() {
+	public Double getFoodFibres() {
 		return foodFibres;
 	}
 
-	public void setFoodFibres(final String foodFibres) {
+	public void setFoodFibres(final Double foodFibres) {
 		this.foodFibres = foodFibres;
 	}
 
-	public String getAgSaturates() {
+	public Double getAgSaturates() {
 		return agSaturates;
 	}
 
-	public void setAgSaturates(final String agSaturates) {
+	public void setAgSaturates(final Double agSaturates) {
 		this.agSaturates = agSaturates;
 	}
 
-	public String getSalt() {
+	public Double getSalt() {
 		return salt;
 	}
 
-	public void setSalt(final String salt) {
+	public void setSalt(final Double salt) {
 		this.salt = salt;
 	}
 
@@ -172,10 +175,18 @@ public class ContentDTO implements Serializable {
 		this.imageUrl = imageUrl;
 	}
 
+	public List<String> getTypeMeals() {
+		return typeMeals;
+	}
+
+	public void setTypeMeals(final List<String> typeMeals) {
+		this.typeMeals = typeMeals;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(agSaturates, calories, carbohydrate, code, foodFibres, groupName, id, imageUrl, lipids,
-				name, protein, salt, subGroupName, subSubGroupName, sugars);
+				name, protein, salt, subGroupName, subSubGroupName, sugars, typeMeals);
 	}
 
 	@Override
@@ -194,7 +205,8 @@ public class ContentDTO implements Serializable {
 				&& Objects.equals(lipids, other.lipids) && Objects.equals(name, other.name)
 				&& Objects.equals(protein, other.protein) && Objects.equals(salt, other.salt)
 				&& Objects.equals(subGroupName, other.subGroupName)
-				&& Objects.equals(subSubGroupName, other.subSubGroupName) && Objects.equals(sugars, other.sugars);
+				&& Objects.equals(subSubGroupName, other.subSubGroupName) && Objects.equals(sugars, other.sugars)
+				&& Objects.equals(typeMeals, other.typeMeals);
 	}
 
 	@Override

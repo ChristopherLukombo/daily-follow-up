@@ -1,8 +1,11 @@
 package fr.almavivahealth.domain.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -43,48 +46,52 @@ public class Content implements Serializable {
 
 	// Example: produits céréaliers
 	@Column(name = "group_name")
-    private String groupName;
+	private String groupName;
 
 	// Example: pâtes, riz et céréales
 	@Column(name = "sub_group_name")
-    private String subGroupName;
+	private String subGroupName;
 
 	// Example: pâtes, riz et céréales cuits
 	@Column(name = "sub_sub_group_name")
-    private String subSubGroupName;
+	private String subSubGroupName;
 
 	// Example: 42,8
 	@Column(name = "calories")
-    private String calories;
+	private Double calories;
 
-	// Example: < 0,57
+	// Example: 0,57
 	@Column(name = "protein")
-    private String protein;
+	private Double protein;
 
 	// Example: 13
 	@Column(name = "carbohydrate")
-    private String carbohydrate;
+	private Double carbohydrate;
 
-	// Example: < 0,5
+	// Example: 0,5
 	@Column(name = "lipides")
-    private String lipids;
+	private Double lipids;
 
-	// Example: < 0,2
+	// Example: 0,2
 	@Column(name = "sucres")
-    private String sugars;
+	private Double sugars;
 
-	// Example: < 0,5
+	// Example: 0,5
 	@Column(name = "food_fibres")
-    private String foodFibres;
+	private Double foodFibres;
 
 	// Example: 0,58
 	@Column(name = "ag_saturates")
-    private String agSaturates;
+	private Double agSaturates;
 
-	// Example: < 0,73
+	// Example: 0,73
 	@Column(name = "salt")
-    private String salt;
+	private Double salt;
 
 	@Column(name = "image_url")
 	private String imageUrl;
+
+	@ElementCollection
+	@CollectionTable(name ="typeMeals")
+	private List<String> typeMeals;
 }
