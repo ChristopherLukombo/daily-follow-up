@@ -43,6 +43,16 @@
         <small class="form-text text-muted"
           >Le résultat le plus proche sera choisit
         </small>
+        <div *ngIf="searchList.length > 0" class="typeahead-custom">
+          <ul *ngFor="let res of searchList" class="list-group">
+            <li
+              class="list-group-item list-group-item-action"
+              (click)="selectMeal(res)"
+            >
+              {{ res.name }}
+            </li>
+          </ul>
+        </div>
       </div>
     </form>
   </div>

@@ -11,6 +11,7 @@ import { FormCheckbox } from "src/app/models/utils/form-checkbox";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { ExternalApiService } from "src/app/services/external-api/external-api.service";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
+import { Content } from "src/app/models/food/content";
 
 @Component({
   selector: "app-form-meal-add",
@@ -28,13 +29,13 @@ export class FormMealAddComponent implements OnInit {
     "Produit laitier",
     "Dessert",
   ];
+  searchList: Content[] = [];
   submitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private externalApiService: ExternalApiService
   ) {}
-  // <input(keyup)="search$.next($event.target.value)">
 
   ngOnInit(): void {
     this.createForm();
@@ -52,16 +53,17 @@ export class FormMealAddComponent implements OnInit {
   spySearchInput(): void {
     this.f.name.valueChanges
       .pipe(
-        debounceTime(2000),
+        debounceTime(500),
         distinctUntilChanged(),
         switchMap((search) => {
-          console.log("switch" + search);
+          console.log("search : " + search);
           return this.externalApiService.searchMeals(search);
-        }) //, catchError(err => of(null))
+        })
       )
       .subscribe(
         (data) => {
-          console.log(data);
+          this.searchList = data ? data : [];
+          console.log(this.searchList);
         },
         (error) => {
           console.log(error);
@@ -96,6 +98,11 @@ export class FormMealAddComponent implements OnInit {
       return totalSelected >= min ? null : { required: true };
     };
     return validator;
+  }
+
+  selectMeal(content: Content) {
+    this.searchList = [];
+    this.f.name.setValue(content.name, { emitEvent: false });
   }
 
   getTypeMeals(): string[] {
