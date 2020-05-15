@@ -1,16 +1,34 @@
-import { Texture } from "./texture";
-
 export class Content {
   /***/
   id: number;
   /***/
+  code: number;
+  /***/
   name: string;
   /***/
-  texture: Texture;
+  groupName: string;
   /***/
-  typeMeal: string;
+  subGroupName: string;
   /***/
-  salt: boolean;
+  subSubGroupName: string;
   /***/
-  sugar: boolean;
+  calories: string;
+  /***/
+  protein: string;
+  /***/
+  carbohydrate: string;
+  /***/
+  lipids: string;
+  /***/
+  sugars: string;
+  /***/
+  foodFibres: string;
+  /***/
+  agSaturates: string;
+  /***/
+  salt: string;
+  /***/
+  typeMeal: Array<string>;
+  /***/
+  imageUrl: string;
 }

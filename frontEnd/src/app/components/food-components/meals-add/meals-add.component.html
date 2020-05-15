@@ -8,7 +8,7 @@
       <div *ngFor="let m of nbForms" class="divider">
         <br />
         <div class="row">
-          <div class="col-8">
+          <div class="col">
             <app-form-meal-add></app-form-meal-add>
             <button
               *ngIf="nbForms.length > 1"
@@ -19,18 +19,18 @@
               <fa-icon [icon]="revertLogo"></fa-icon> Retirer
             </button>
           </div>
-          <div class="col-4">
-            <app-infos-meal></app-infos-meal>
-          </div>
         </div>
       </div>
       <button type="button" class="btn btn-sm btn-light" (click)="createForm()">
         <fa-icon [icon]="moreLogo"></fa-icon> Plat supplémentaire...
       </button>
-      <br /><br />
-      <button type="button" class="btn btn-primary" (click)="onCreate()">
-        Confirmer
-      </button>
+      <div class="row">
+        <div class="col text-right">
+          <button type="button" class="btn btn-primary" (click)="onCreate()">
+            Confirmer
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

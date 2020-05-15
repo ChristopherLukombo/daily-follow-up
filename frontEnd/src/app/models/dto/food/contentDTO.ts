@@ -6,27 +6,63 @@ export class ContentDTO {
   /***/
   name: string;
   /***/
-  texture: TextureDTO;
+  groupName: string;
   /***/
-  typeMeal: string;
+  subGroupName: string;
   /***/
-  salt: boolean;
+  subSubGroupName: string;
   /***/
-  sugar: boolean;
+  calories: string;
+  /***/
+  protein: string;
+  /***/
+  carbohydrate: string;
+  /***/
+  lipids: string;
+  /***/
+  sugars: string;
+  /***/
+  foodFibres: string;
+  /***/
+  agSaturates: string;
+  /***/
+  salt: string;
+  /***/
+  typeMeal: Array<string>;
+  /***/
+  imageUrl: string;
 
   constructor(
     id: number,
     name: string,
-    texture: TextureDTO,
-    typeMeal: string,
-    salt: boolean,
-    sugar: boolean
+    groupName: string,
+    subGroupName: string,
+    subSubGroupName: string,
+    calories: string,
+    protein: string,
+    carbohydrate: string,
+    lipids: string,
+    sugars: string,
+    foodFibres: string,
+    agSaturates: string,
+    salt: string,
+    typeMeal: Array<string>,
+    imageUrl: string
   ) {
     this.id = id;
     this.name = name;
-    this.texture = texture;
-    this.typeMeal = typeMeal;
+    this.groupName = groupName;
+    this.subGroupName = subGroupName;
+    this.subSubGroupName = subSubGroupName;
+    this.calories = calories;
+    this.protein = protein;
+    this.carbohydrate = carbohydrate;
+    this.lipids = lipids;
+    this.sugars = sugars;
+    this.foodFibres = foodFibres;
+    this.agSaturates = agSaturates;
     this.salt = salt;
-    this.sugar = sugar;
+    this.typeMeal = typeMeal;
+    this.imageUrl = imageUrl;
   }
 }

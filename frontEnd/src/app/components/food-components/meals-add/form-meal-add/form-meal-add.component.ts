@@ -8,7 +8,9 @@ import {
   ValidatorFn,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { ExternalApiService } from "src/app/services/external-api/external-api.service";
+import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 
 @Component({
   selector: "app-form-meal-add",
@@ -16,7 +18,7 @@ import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ["./form-meal-add.component.scss"],
 })
 export class FormMealAddComponent implements OnInit {
-  infosLogo = faArrowRight;
+  infosLogo = faSearch;
 
   form: FormGroup;
   typeMeals: string[] = [
@@ -28,10 +30,15 @@ export class FormMealAddComponent implements OnInit {
   ];
   submitted: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private externalApiService: ExternalApiService
+  ) {}
+  // <input(keyup)="search$.next($event.target.value)">
 
   ngOnInit(): void {
     this.createForm();
+    this.spySearchInput();
   }
 
   createForm() {
@@ -40,6 +47,26 @@ export class FormMealAddComponent implements OnInit {
       name: [null, Validators.required],
     };
     this.form = this.formBuilder.group(target);
+  }
+
+  spySearchInput(): void {
+    this.f.name.valueChanges
+      .pipe(
+        debounceTime(2000),
+        distinctUntilChanged(),
+        switchMap((search) => {
+          console.log("switch" + search);
+          return this.externalApiService.searchMeals(search);
+        }) //, catchError(err => of(null))
+      )
+      .subscribe(
+        (data) => {
+          console.log(data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   get f() {
@@ -87,8 +114,16 @@ export class FormMealAddComponent implements OnInit {
       return;
     }
     console.log("ok");
+    this.externalApiService.searchMeals(this.f.name.value).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     // chaque plat à tous les texture possible
-    console.log(this.getTypeMeals());
-    console.log(this.f.name.value);
+    //console.log(this.getTypeMeals());
+    //console.log(this.f.name.value);
   }
 }
