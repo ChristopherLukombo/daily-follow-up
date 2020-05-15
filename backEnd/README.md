@@ -37,6 +37,10 @@ Pour lancer la partie Angular, se placer dans le dossier frontEnd et lancer la c
 
 Swagger : http://localhost:8080/swagger-ui.html#
 
+HEALTH CHECK : 
+dev : http://localhost:9000/actuator/health
+prod : http://delissch.freeboxos.fr/actuator/health
+
 Pour activer le profile prod utiliser la variable de conf suivante : 
 
 -Dspring.profiles.active=prod
