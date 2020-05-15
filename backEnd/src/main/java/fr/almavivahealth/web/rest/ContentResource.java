@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.almavivahealth.exception.DailyFollowUpException;
@@ -202,6 +203,31 @@ public class ContentResource {
 			@ApiIgnore final Locale locale) {
 		LOGGER.debug("REST request to save all contents");
 		final List<ContentDTO> contents = contentService.saveAll(contentList);
+		return ResponseEntity.ok().body(contents);
+	}
+
+	/**
+	 * GET /contents/search : Get the first 5 contents by name.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of contents in body
+	 * or with status 204 (No Content) if there is no content.
+	 *
+	 */
+	@ApiOperation("Get the first 5 contents by name.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
+	@GetMapping(value = "/contents/search", params = { "name" })
+	public ResponseEntity<List<ContentDTO>> getFirst5ByName(@RequestParam final String name) {
+		LOGGER.debug("REST request to get All Contents");
+		final List<ContentDTO> contents = contentService.findFirst5ByName(name);
+		if (contents.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
 		return ResponseEntity.ok().body(contents);
 	}
 }

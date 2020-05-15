@@ -70,7 +70,6 @@ public class MenuServiceTest {
 		return Content.builder()
 				.id(ID)
 				.name("Saucisse")
-				.typeMeal("ENTREE")
 				.build();
 	}
 
