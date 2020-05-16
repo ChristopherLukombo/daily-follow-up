@@ -11,6 +11,7 @@ import { AuthGuard } from "./utils/helpers/auth.guard";
 import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
 import { NgxPaginationModule } from "ngx-pagination";
 import { ToastrModule } from "ngx-toastr";
+import { ChartsModule } from "ng2-charts";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -37,6 +38,8 @@ import { ListRoomsAvailableComponent } from "./components/patient-components/pat
 import { FormPatientAddComponent } from "./components/patient-components/patient-add/form-patient-add/form-patient-add.component";
 import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 import { FormPatientEditComponent } from "./components/patient-components/patient/patient-edit/form-patient-edit/form-patient-edit.component";
+import { FormMealAddComponent } from "./components/food-components/meals-add/form-meal-add/form-meal-add.component";
+import { InfosMealComponent } from "./components/food-components/meals-add/infos-meal/infos-meal.component";
 
 import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
 import { FoodNavbarComponent } from "./components/navbar-vertical/food-navbar/food-navbar.component";
@@ -57,8 +60,7 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { FormMealAddComponent } from './components/food-components/meals-add/form-meal-add/form-meal-add.component';
-import { InfosMealComponent } from './components/food-components/meals-add/infos-meal/infos-meal.component';
+import { FormEditInfosMealComponent } from './components/food-components/meals-add/infos-meal/form-edit-infos-meal/form-edit-infos-meal.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +103,7 @@ import { InfosMealComponent } from './components/food-components/meals-add/infos
     FoodNavbarComponent,
     FormMealAddComponent,
     InfosMealComponent,
+    FormEditInfosMealComponent,
   ],
   imports: [
     BrowserModule,
@@ -118,6 +121,7 @@ import { InfosMealComponent } from './components/food-components/meals-add/infos
       preventDuplicates: true,
       countDuplicates: true,
     }),
+    ChartsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
