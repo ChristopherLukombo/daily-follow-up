@@ -250,6 +250,7 @@ public class PatientServiceImpl implements PatientService {
 	    final Set<String> dietNames = stringToSet(columns[4]);
 	    final Set<String> allergyNames = stringToSet(columns[5]);
 
+	    // TODO: provoquer une exception si les éléments ne sont pas présents
 		final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 3)).orElseGet(() -> null);
 	    final List<Diet> diets = dietRepository.findAllByNameIgnoreCaseIn(dietNames);
 	    final List<Allergy> allergies = createAllergies(allergyNames);

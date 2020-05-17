@@ -34,10 +34,10 @@ public class MomentDayServiceTest {
 
 	@Mock
 	private MomentDayRepository momentDayRepository;
-	
+
 	@Mock
 	private MomentDayMapper momentDayMapper;
-	
+
 	@InjectMocks
 	private MomentDayServiceImpl momentDayServiceImpl;
 
@@ -47,70 +47,70 @@ public class MomentDayServiceTest {
 				.name(NAME)
 				.build();
 	}
-	
+
 	private static MomentDayDTO createMomentDayDTO() {
 		return MomentDayDTO.builder()
 				.id(ID)
 				.name(NAME)
 				.build();
 	}
-	
+
 	@Test
 	public void shouldSaveMomentDayWhenIsOk() {
 		// Given
 		final MomentDay momentDay = createMomentDay();
 		final MomentDayDTO momentDayDTO = createMomentDayDTO();
-		
+
 		// When
 		when(momentDayRepository.save((MomentDay) any())).thenReturn(momentDay);
 		when(momentDayMapper.momentDayToMomentDayDTO((MomentDay) any())).thenReturn(momentDayDTO);
-		
+
 		// Then
 		assertThat(momentDayServiceImpl.save(momentDayDTO)).isEqualTo(momentDayDTO);
 	}
-	
+
 	@Test
 	public void shouldSaveMomentDayWhenIsKo() {
 		// Given
 		final MomentDay momentDay = null;
 		final MomentDayDTO momentDayDTO = null;
-		
+
 		// When
 		when(momentDayRepository.save((MomentDay) any())).thenReturn(momentDay);
 		when(momentDayMapper.momentDayToMomentDayDTO((MomentDay) any())).thenReturn(momentDayDTO);
-		
+
 		// Then
 		assertThat(momentDayServiceImpl.save(momentDayDTO)).isEqualTo(momentDayDTO);
 	}
-	
+
 	@Test
 	public void shouldUpdateMomentDayWhenIsOk() {
 		// Given
 		final MomentDay momentDay = createMomentDay();
 		final MomentDayDTO momentDayDTO = createMomentDayDTO();
-		
+
 		// When
 		when(momentDayRepository.saveAndFlush((MomentDay) any())).thenReturn(momentDay);
 		when(momentDayMapper.momentDayToMomentDayDTO((MomentDay) any())).thenReturn(momentDayDTO);
-		
+
 		// Then
 		assertThat(momentDayServiceImpl.update(momentDayDTO)).isEqualTo(momentDayDTO);
 	}
-	
+
 	@Test
 	public void shouldUpdateMomentDayWhenIsKo() {
 		// Given
 		final MomentDay momentDay = null;
 		final MomentDayDTO momentDayDTO = null;
-		
+
 		// When
 		when(momentDayRepository.saveAndFlush((MomentDay) any())).thenReturn(momentDay);
 		when(momentDayMapper.momentDayToMomentDayDTO((MomentDay) any())).thenReturn(momentDayDTO);
-		
+
 		// Then
 		assertThat(momentDayServiceImpl.update(momentDayDTO)).isEqualTo(momentDayDTO);
 	}
-	
+
 	@Test
 	public void shouldGetAllMomentDayWhenIsOk() {
 		// Given
@@ -155,7 +155,7 @@ public class MomentDayServiceTest {
 		final MomentDayDTO momentDayDTO = createMomentDayDTO();
 
 		// When
-		when(momentDayRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(momentDay));
+		when(momentDayRepository.findById(anyLong())).thenReturn(Optional.ofNullable(momentDay));
 		when(momentDayMapper.momentDayToMomentDayDTO((MomentDay) any())).thenReturn(momentDayDTO);
 
 		// Then

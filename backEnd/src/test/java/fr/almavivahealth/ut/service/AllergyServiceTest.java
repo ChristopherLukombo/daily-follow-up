@@ -29,12 +29,12 @@ import fr.almavivahealth.service.mapper.AllergyMapper;
 public class AllergyServiceTest {
 
 	private static final long ID = 1L;
-	
+
     private static final String NAME = "TEST";
 
 	@Mock
     private AllergyRepository allergyRepository;
-    
+
     @Mock
     private AllergyMapper allergyMapper;
 
@@ -47,107 +47,107 @@ public class AllergyServiceTest {
     			.name(NAME)
     			.build();
     }
-    
+
     private AllergyDTO createAllergyDTO() {
     	return AllergyDTO.builder()
     			.id(ID)
     			.name(NAME)
     			.build();
     }
-    
+
     @Test
     public void shouldSaveAllergyWhenIsOk() {
     	// Given
     	final Allergy allergy = createAllergy();
     	final AllergyDTO allergyDTO = createAllergyDTO();
-    	
+
     	// When
 		when(allergyRepository.save((Allergy) any())).thenReturn(allergy);
 		when(allergyMapper.allergyToAllergyDTO((Allergy) any())).thenReturn(allergyDTO);
-    	
+
     	// Then
     	assertThat(allergyServiceImpl.save(allergyDTO)).isEqualTo(allergyDTO);
     }
-    
+
     @Test
     public void shouldSaveAllergyWhenIsKo() {
     	// Given
     	final Allergy allergy = null;
     	final AllergyDTO allergyDTO = null;
-    	
+
     	// When
 		when(allergyRepository.save((Allergy) any())).thenReturn(allergy);
 		when(allergyMapper.allergyToAllergyDTO((Allergy) any())).thenReturn(allergyDTO);
-    	
+
     	// Then
     	assertThat(allergyServiceImpl.save(allergyDTO)).isEqualTo(allergyDTO);
     }
-    
+
     @Test
     public void shouldUpdateAllergyWhenIsOk() {
     	// Given
     	final Allergy allergy = createAllergy();
     	final AllergyDTO allergyDTO = createAllergyDTO();
-    	
+
     	// When
 		when(allergyRepository.saveAndFlush((Allergy) any())).thenReturn(allergy);
 		when(allergyMapper.allergyToAllergyDTO((Allergy) any())).thenReturn(allergyDTO);
-    	
+
     	// Then
     	assertThat(allergyServiceImpl.update(allergyDTO)).isEqualTo(allergyDTO);
     }
-    
+
     @Test
     public void shouldUpdateAllergyWhenIsKo() {
     	// Given
     	final Allergy allergy = null;
     	final AllergyDTO allergyDTO = null;
-    	
+
     	// When
 		when(allergyRepository.saveAndFlush((Allergy) any())).thenReturn(allergy);
 		when(allergyMapper.allergyToAllergyDTO((Allergy) any())).thenReturn(allergyDTO);
-    	
+
     	// Then
     	assertThat(allergyServiceImpl.update(allergyDTO)).isEqualTo(allergyDTO);
     }
-    
+
     @Test
    	public void shouldGetAllAllergyWhenIsOk() {
    		// Given
    		final List<Allergy> allergys = Arrays.asList(createAllergy());
-   		
+
    		// Then
    		when(allergyRepository.findAllByOrderByIdDesc()).thenReturn(allergys);
-   		
+
    		// Then
    		assertThat(allergyServiceImpl.findAll()).isNotEmpty();
    	}
-   	
+
    	@Test
    	public void shouldGetAllAllergysWhenIsEmpty() {
    		// Given
    		final List<Allergy> allergys = Collections.emptyList();
-   		
+
    		// Then
    		when(allergyRepository.findAllByOrderByIdDesc()).thenReturn(allergys);
-   		
+
    		// Then
    		assertThat(allergyServiceImpl.findAll()).isEmpty();
    	}
-   	
+
    	@Test
    	public void shouldGetAllAllergysWhenIsNull() {
    		// Given
    		final List<Allergy> allergys = null;
-   		
+
    		// Then
    		when(allergyRepository.findAllByOrderByIdDesc()).thenReturn(allergys);
-   		
+
    		// Then
    		assertThatThrownBy(() -> allergyServiceImpl.findAll())
    		.isInstanceOf(NullPointerException.class);
    	}
-   	
+
    	@Test
 	public void shouldGetAllergyWhenIsOk() {
 		// Given
@@ -155,13 +155,13 @@ public class AllergyServiceTest {
 		final AllergyDTO allergyDTO = createAllergyDTO();
 
 		// When
-		when(allergyRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(allergy));
+		when(allergyRepository.findById(anyLong())).thenReturn(Optional.ofNullable(allergy));
 		when(allergyMapper.allergyToAllergyDTO((Allergy) any())).thenReturn(allergyDTO);
-		
+
 		// Then
 		assertThat(allergyServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(allergyDTO));
 	}
-	
+
 	@Test
 	public void shouldGetAllergyWhenIsNull() {
 		// Given
@@ -169,12 +169,12 @@ public class AllergyServiceTest {
 		final AllergyDTO allergyDTO = null;
 
 		// When
-		when(allergyRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(allergy));
-		
+		when(allergyRepository.findById(anyLong())).thenReturn(Optional.ofNullable(allergy));
+
 		// Then
 		assertThat(allergyServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(allergyDTO));
 	}
-	
+
 	@Test
 	public void shouldDeleteAllergyWhenIsOk() {
 		// When
@@ -182,7 +182,7 @@ public class AllergyServiceTest {
 
 		// Then
 		allergyServiceImpl.delete(ID);
-		
+
 		verify(allergyRepository, times(1)).deleteById(anyLong());
 	}
 }

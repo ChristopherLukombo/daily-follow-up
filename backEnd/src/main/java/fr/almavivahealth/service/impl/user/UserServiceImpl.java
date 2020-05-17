@@ -191,13 +191,10 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	private void sendFileToFolder(final MultipartFile file, final Path path) throws DailyFollowUpException {
+	private void sendFileToFolder(final MultipartFile file, final Path path) throws IOException {
 		final Path resolve = path.resolve(file.getOriginalFilename());
-		try (final InputStream inputStream = file.getInputStream()) {
-			Files.copy(inputStream, resolve, StandardCopyOption.REPLACE_EXISTING);
-		} catch (final IOException e) {
-			throw new DailyFollowUpException("An error occurred while trying to copy the file", e);
-		}
+		final InputStream inputStream = file.getInputStream();
+		Files.copy(inputStream, resolve, StandardCopyOption.REPLACE_EXISTING);
 	}
 
 	/**

@@ -79,7 +79,8 @@ public class AccountResource {
             @ApiResponse(code = 422, message = "Unprocessable entity")
             })
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid final UserDTO userDTO, @ApiIgnore final Locale locale)
+    public ResponseEntity<UserDTO> createUser(
+    		@RequestBody @Valid final UserDTO userDTO, @ApiIgnore final Locale locale)
     		throws URISyntaxException, DailyFollowUpException {
     	LOGGER.debug("REST request to create User: {}", userDTO);
     	if (null != userDTO.getId()) {
@@ -90,7 +91,7 @@ public class AccountResource {
     		final UserDTO userCreated = userService.save(userDTO);
     		return ResponseEntity.created(new URI("/api/users/" + userCreated.getId()))
     				.body(userCreated);
-    	} catch (final Exception e) {
+    	} catch (final DailyFollowUpException e) {
     		throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
     				messageSource.getMessage(ERROR_OCCURRED_WHILE_TRYING_TO_CREATE_AN_USER, null, locale), e);
     	}
@@ -114,7 +115,8 @@ public class AccountResource {
             @ApiResponse(code = 422, message = "Unprocessable entity")
             })
     @PutMapping("/users/update")
-    public ResponseEntity<UserDTO> updateUser(@RequestBody @Valid final UserDTO userDTO, @ApiIgnore final Locale locale)
+    public ResponseEntity<UserDTO> updateUser(
+    		@RequestBody @Valid final UserDTO userDTO, @ApiIgnore final Locale locale)
     		throws URISyntaxException, DailyFollowUpException {
     	LOGGER.debug("REST request to update User: {}", userDTO);
     	if (null == userDTO.getId()) {
@@ -124,7 +126,7 @@ public class AccountResource {
     	try {
     		final UserDTO userUpdated = userService.update(userDTO);
     		return ResponseEntity.ok().body(userUpdated);
-    	} catch (final Exception e) {
+    	} catch (final DailyFollowUpException e) {
     		throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
     				messageSource.getMessage(ERROR_OCCURRED_WHILE_TRYING_TO_UPDATE_AN_USER, null, locale), e);
     	}
@@ -190,13 +192,14 @@ public class AccountResource {
         @ApiResponse(code = 500, message = "Internal Server"),
         })
     @PostMapping("/register/profilePicture/{userId}")
-	public ResponseEntity<HttpStatus> uploadFile(@RequestPart final MultipartFile file, @PathVariable final Long userId)
+	public ResponseEntity<HttpStatus> uploadFile(
+			@RequestPart final MultipartFile file, @PathVariable final Long userId)
 			throws DailyFollowUpException {
 		LOGGER.debug("REST request to upload file");
 		try {
 			userService.uploadProfilePicture(file, userId);
 			return ResponseEntity.ok().body(HttpStatus.OK);
-		} catch (final Exception e) {
+		} catch (final DailyFollowUpException e) {
 			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
 					"An error occurred while trying to upload the picture profile", e);
 		}
@@ -223,5 +226,4 @@ public class AccountResource {
 		final byte[] profilePicture = userService.findProfilePicture(userId);
 		return ResponseEntity.ok().body(profilePicture);
 	}
-
 }

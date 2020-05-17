@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class GenderValidator implements ConstraintValidator<ValidGender, String> {
 
-	private static final List<String> genders = Arrays.asList("Homme", "Femme");
+	private static final List<String> GENDERS = Arrays.asList("Homme", "Femme");
 	
 	/**
 	 * Check the patient's gender is valid.
@@ -24,7 +24,7 @@ public class GenderValidator implements ConstraintValidator<ValidGender, String>
 	 */
 	@Override
 	public boolean isValid(final String gender, final ConstraintValidatorContext context) {
-		return StringUtils.isNotBlank(gender) && genders.contains(StringUtils.capitalize(gender));
+		return StringUtils.isNotBlank(gender) && GENDERS.contains(StringUtils.capitalize(gender));
 	}
 
 }

@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class BloodGroupValidator implements ConstraintValidator<ValidBloodGroup, String> {
 
-	private static final List<String> bloodGroups = Arrays.asList("A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-");
+	private static final List<String> BLOOD_GROUPS = Arrays.asList("A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-");
 	
 	/**
 	 * Checks the patient's blood group is valid.
@@ -27,7 +27,7 @@ public class BloodGroupValidator implements ConstraintValidator<ValidBloodGroup,
 		if (StringUtils.isBlank(bloodGroup)) {
 			return true;
 		}
-		return bloodGroups.contains(bloodGroup.toUpperCase());
+		return BLOOD_GROUPS.contains(bloodGroup.toUpperCase());
 	}
 
 }

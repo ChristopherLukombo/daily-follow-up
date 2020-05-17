@@ -1,7 +1,7 @@
 package fr.almavivahealth.service.impl.menu;
 
 import static fr.almavivahealth.constants.Constants.CLINIQUE_BERGER;
-import static fr.almavivahealth.util.functional.Loop.forEach;
+import static fr.almavivahealth.util.functional.LoopWithIndexAndSizeConsumer.forEach;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
@@ -163,7 +163,7 @@ public class MenuServiceImpl implements MenuService {
 	public byte[] generateCoupons(final String momentName, final LocalDate selectedDate) throws DailyFollowUpException {
 		LOGGER.debug("Request to generate coupon");
 		final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try (final PdfWriter writer = new PdfWriter(baos)) {
+		try (PdfWriter writer = new PdfWriter(baos)) {
 			final Document document = createDocument(writer);
 			addContent(document, momentName, selectedDate);
 			document.close();
@@ -271,7 +271,7 @@ public class MenuServiceImpl implements MenuService {
 		return Optional.ofNullable(menu)
 				.map(Menu::getDiet)
 				.map(Diet::getName)
-				.orElseGet((() -> StringUtils.EMPTY));
+				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
 	private String findRoomNumber(final Patient patient) {

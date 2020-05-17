@@ -30,7 +30,7 @@ import fr.almavivahealth.service.mapper.TextureMapper;
 public class TextureServiceTest {
 
 	private static final long ID = 1L;
-	
+
 	private static final String NAME = "TEST";
 
 	@Mock
@@ -38,24 +38,24 @@ public class TextureServiceTest {
 
 	@Mock
 	private TextureMapper textureMapper;
-	
+
 	@InjectMocks
 	private TextureServiceImpl textureServiceImpl;
-	
+
 	private static Texture getTexture() {
 		return Texture.builder()
 				.id(ID)
 				.name(NAME)
 				.build();
 	}
-	
+
 	private static TextureDTO getTextureDTO() {
 		return TextureDTO.builder()
 				.id(ID)
 				.name(NAME)
 				.build();
 	}
-	
+
 	@Test
 	public void shouldSaveTextureWhenIsOK() {
 		// Given
@@ -65,11 +65,11 @@ public class TextureServiceTest {
 		// When
 		when(textureRepository.save((Texture) any())).thenReturn(texture);
 		when(textureMapper.textureToTextureDTO((Texture) any())).thenReturn(textureDTO);
-		
+
 		// Then
 		assertThat(textureServiceImpl.save(textureDTO)).isNotNull();
 	}
-	
+
 	@Test
 	public void shouldSaveTextureWhenIsKO() {
 		// Given
@@ -79,11 +79,11 @@ public class TextureServiceTest {
 		// When
 		when(textureRepository.save((Texture) any())).thenReturn(texture);
 		when(textureMapper.textureToTextureDTO((Texture) any())).thenReturn(textureDTO);
-		
+
 		// Then
 		assertThat(textureServiceImpl.save(textureDTO)).isNull();
 	}
-	
+
 	@Test
 	public void shouldUpdateTextureWhenIsOK() {
 		// Given
@@ -93,11 +93,11 @@ public class TextureServiceTest {
 		// When
 		when(textureRepository.saveAndFlush((Texture) any())).thenReturn(texture);
 		when(textureMapper.textureToTextureDTO((Texture) any())).thenReturn(textureDTO);
-		
+
 		// Then
 		assertThat(textureServiceImpl.update(textureDTO)).isNotNull();
 	}
-	
+
 	@Test
 	public void shouldUpdateTextureWhenIsKO() {
 		// Given
@@ -107,43 +107,43 @@ public class TextureServiceTest {
 		// When
 		when(textureRepository.saveAndFlush((Texture) any())).thenReturn(texture);
 		when(textureMapper.textureToTextureDTO((Texture) any())).thenReturn(textureDTO);
-		
+
 		// Then
 		assertThat(textureServiceImpl.update(textureDTO)).isNull();
 	}
-	
+
 	@Test
 	public void shouldGetAllTexturesWhenIsOK() {
 		// Given
 		final List<Texture> textures = Arrays.asList(getTexture());
-		
+
 		// When
 		when(textureRepository.findAllByOrderByIdDesc()).thenReturn(textures);
-		
+
 		// Then
 		assertThat(textureServiceImpl.findAll()).isNotEmpty();
 	}
-	
+
 	@Test
 	public void shouldGetAllTexturesWhenIsEmpty() {
 		// Given
 		final List<Texture> textures = Collections.emptyList();
-		
+
 		// When
 		when(textureRepository.findAllByOrderByIdDesc()).thenReturn(textures);
-		
+
 		// Then
 		assertThat(textureServiceImpl.findAll()).isEmpty();
 	}
-	
+
 	@Test
 	public void shouldGetAllTexturesWhenIsNull() {
 		// Given
 		final List<Texture> textures = null;
-		
+
 		// When
 		when(textureRepository.findAllByOrderByIdDesc()).thenReturn(textures);
-		
+
 		// Then
 		assertThatThrownBy(() -> textureServiceImpl.findAll())
 		.isInstanceOf(NullPointerException.class);
@@ -156,13 +156,13 @@ public class TextureServiceTest {
 		final TextureDTO textureDTO = getTextureDTO();
 
 		// When
-		when(textureRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(texture));
+		when(textureRepository.findById(anyLong())).thenReturn(Optional.ofNullable(texture));
 		when(textureMapper.textureToTextureDTO((Texture) any())).thenReturn(textureDTO);
-		
+
 		// Then
 		assertThat(textureServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(textureDTO));
 	}
-	
+
 	@Test
 	public void shouldGetTextureWhenIsNull() {
 		// Given
@@ -170,21 +170,21 @@ public class TextureServiceTest {
 		final TextureDTO textureDTO = null;
 
 		// When
-		when(textureRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(texture));
-		
+		when(textureRepository.findById(anyLong())).thenReturn(Optional.ofNullable(texture));
+
 		// Then
 		assertThat(textureServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(textureDTO));
 	}
-	
+
 	@Test
 	public void shouldDeleteWhenIsOk() {
 		// When
 		doNothing().when(textureRepository).deleteById(ID);
-       
+
 		// Then
 		textureServiceImpl.delete(ID);
-		
+
 		verify(textureRepository, times(1)).deleteById(anyLong());
 	}
-	
+
 }

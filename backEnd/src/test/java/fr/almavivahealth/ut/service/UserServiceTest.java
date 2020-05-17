@@ -287,9 +287,9 @@ public class UserServiceTest {
 		final File file = new File("./images/1/filename.txt");
 		file.createNewFile();
 		final String str = "Hello";
-		final BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-		writer.write(str);
-		writer.close();
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+			writer.write(str);
+		}
 	}
 
     @Before

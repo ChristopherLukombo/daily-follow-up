@@ -230,7 +230,7 @@ public class MenuServiceTest {
 		final MenuDTO floorDTO = createMenuDTO();
 
 		// When
-		when(menuRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(floor));
+		when(menuRepository.findById(anyLong())).thenReturn(Optional.ofNullable(floor));
 		when(menuMapper.menuToMenuDTO((Menu) any())).thenReturn(floorDTO);
 
 		// Then
@@ -244,7 +244,7 @@ public class MenuServiceTest {
 		final MenuDTO floorDTO = null;
 
 		// When
-		when(menuRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(floor));
+		when(menuRepository.findById(anyLong())).thenReturn(Optional.ofNullable(floor));
 
 		// Then
 		assertThat(menuServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(floorDTO));

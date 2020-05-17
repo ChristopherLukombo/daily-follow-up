@@ -160,7 +160,7 @@ public class RoomServiceTest {
 		final RoomDTO roomDTO = createRoomDTO();
 
 		// When
-		when(roomRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(room));
+		when(roomRepository.findById(anyLong())).thenReturn(Optional.ofNullable(room));
 		when(roomMapper.roomToRoomDTO((Room) any())).thenReturn(roomDTO);
 
 		// Then
@@ -174,7 +174,7 @@ public class RoomServiceTest {
 		final RoomDTO roomDTO = null;
 
 		// When
-		when(roomRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(room));
+		when(roomRepository.findById(anyLong())).thenReturn(Optional.ofNullable(room));
 
 		// Then
 		assertThat(roomServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(roomDTO));

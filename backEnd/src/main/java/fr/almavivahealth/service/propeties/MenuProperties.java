@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * ConfigurationService for managing menu properties.
+ * MenuProperties for managing menu properties.
  * @author christopher
  */
 @Configuration
@@ -20,5 +20,5 @@ public class MenuProperties {
 	public void setImagesPath(final String imagesPath) {
 		this.imagesPath = imagesPath;
 	}
-	
+
 }

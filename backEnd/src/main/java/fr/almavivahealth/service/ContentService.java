@@ -3,6 +3,9 @@ package fr.almavivahealth.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.ContentDTO;
 import fr.almavivahealth.service.dto.ContentList;
 
@@ -64,4 +67,14 @@ public interface ContentService {
 	 * @return the list
 	 */
 	List<ContentDTO> findFirst5ByName(String name);
+
+	/**
+	 * Upload picture.
+	 *
+	 * @param file      the file
+	 * @param contentId the content id
+	 * @return the string
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	String uploadPicture(MultipartFile file, Long contentId) throws DailyFollowUpException;
 }

@@ -156,7 +156,7 @@ public class DietServiceTest {
 		final DietDTO dietDTO = createDietDTO();
 
 		// When
-		when(dietRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(diet));
+		when(dietRepository.findById(anyLong())).thenReturn(Optional.ofNullable(diet));
 		when(dietMapper.dietToDietDTO((Diet) any())).thenReturn(dietDTO);
 
 		// Then
@@ -170,7 +170,7 @@ public class DietServiceTest {
 		final DietDTO dietDTO = null;
 
 		// When
-		when(dietRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(diet));
+		when(dietRepository.findById(anyLong())).thenReturn(Optional.ofNullable(diet));
 
 		// Then
 		assertThat(dietServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(dietDTO));

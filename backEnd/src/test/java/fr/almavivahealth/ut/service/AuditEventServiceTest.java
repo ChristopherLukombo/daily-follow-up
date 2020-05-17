@@ -29,23 +29,23 @@ public class AuditEventServiceTest {
 
 	@Mock
     private PatientHistoryRepository patientHistoryRepository;
- 	
+
 	@Mock
 	private PatientHistoryMapper  patientHistoryMapper;
-	
+
 	@InjectMocks
 	private AuditEventServiceImpl auditEventServiceImpl;
-	
+
 	private static PatientHistory createPatientHistory() {
 		final PatientHistory patientHistory = new PatientHistory();
 		return patientHistory;
 	}
-	
+
 	private static PatientHistoryDTO createPatientHistoryDTO() {
 		final PatientHistoryDTO patientHistoryDTO = new PatientHistoryDTO();
 		return patientHistoryDTO;
 	}
-	
+
 	@Test
 	public void shouldFindAllPatientHistorysWhenIsOk() {
 		// Given
@@ -54,7 +54,7 @@ public class AuditEventServiceTest {
 		final PatientHistoryDTO patientHistoryDTO = createPatientHistoryDTO();
 
 		// When
-		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), ((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), (org.springframework.data.domain.Pageable) any()))
 				.thenReturn(patientHistorys);
 		when(patientHistoryMapper.patientHistoryToPatientHistoryDTO((PatientHistory) any()))
 				.thenReturn(patientHistoryDTO);
@@ -62,7 +62,7 @@ public class AuditEventServiceTest {
 		// Then
 		assertThat(auditEventServiceImpl.findAllPatientHistorysByPatientId(1L, 0, 10)).isNotEmpty();
 	}
-	
+
 	@Test
 	public void shouldFindAllPatientHistorysWhenIsEmpty() {
 		// Given
@@ -70,25 +70,25 @@ public class AuditEventServiceTest {
 		final Page<PatientHistory> patientHistorys = new PageImpl<>(content);
 
 		// When
-		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), ((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), (org.springframework.data.domain.Pageable) any()))
 				.thenReturn(patientHistorys);
 
 		// Then
 		assertThat(auditEventServiceImpl.findAllPatientHistorysByPatientId(1L, 0, 10)).isEmpty();
 	}
-	
+
 	@Test
 	public void shouldFindAllPatientHistorysWhenIsNull() {
 		// Given
 		final Page<PatientHistory> patientHistorys = null;
 
 		// When
-		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), ((org.springframework.data.domain.Pageable) any())))
+		when(patientHistoryRepository.findAllByPatientIdOrderByModifiedDateDesc(anyLong(), (org.springframework.data.domain.Pageable) any()))
 				.thenReturn(patientHistorys);
 
 		// Then
 		assertThatThrownBy(() -> auditEventServiceImpl.findAllPatientHistorysByPatientId(1L, 0, 10))
 		.isInstanceOf(NullPointerException.class);
 	}
-	
+
 }

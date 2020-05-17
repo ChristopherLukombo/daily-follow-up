@@ -27,7 +27,7 @@ import fr.almavivahealth.service.mapper.DayMapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DayServiceTest {
-	
+
 	private static final String NAME = "TEST";
 
 	private static final long ID = 1L;
@@ -36,25 +36,25 @@ public class DayServiceTest {
 	private DayRepository dayRepository;
 
 	@Mock
-	private DayMapper dayMapper; 
-	
+	private DayMapper dayMapper;
+
 	@InjectMocks
 	private DayServiceImpl dayServiceImpl;
-	
+
 	private static Day createDay() {
 		return Day.builder()
 				.id(ID)
 				.name(NAME)
 				.build();
 	}
-	
+
 	private static DayDTO createDayDTO() {
 		return DayDTO.builder()
 				.id(ID)
 				.name(NAME)
 				.build();
 	}
-	
+
 	@Test
 	public void shouldSaveDayWhenIsOk() {
 		// Given
@@ -82,7 +82,7 @@ public class DayServiceTest {
 		// Then
 		assertThat(dayServiceImpl.save(dayDTO)).isEqualTo(dayDTO);
 	}
-	
+
 	@Test
 	public void shouldUpdateDayWhenIsOk() {
 		// Given
@@ -110,7 +110,7 @@ public class DayServiceTest {
 		// Then
 		assertThat(dayServiceImpl.update(dayDTO)).isEqualTo(dayDTO);
 	}
-	
+
 	@Test
 	public void shouldGetAllDaysWhenIsOk() {
 		// Given
@@ -147,7 +147,7 @@ public class DayServiceTest {
 		assertThatThrownBy(() -> dayServiceImpl.findAll())
 		.isInstanceOf(NullPointerException.class);
 	}
-	
+
 	@Test
 	public void shouldGetDayWhenIsOk() {
 		// Given
@@ -155,13 +155,13 @@ public class DayServiceTest {
 		final DayDTO dayDTO = createDayDTO();
 
 		// When
-		when(dayRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(day));
+		when(dayRepository.findById(anyLong())).thenReturn(Optional.ofNullable(day));
 		when(dayMapper.dayToDayDTO((Day) any())).thenReturn(dayDTO);
-		
+
 		// Then
 		assertThat(dayServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(dayDTO));
 	}
-	
+
 	@Test
 	public void shouldGetDayWhenIsNull() {
 		// Given
@@ -169,12 +169,12 @@ public class DayServiceTest {
 		final DayDTO dayDTO = null;
 
 		// When
-		when(dayRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(day));
-		
+		when(dayRepository.findById(anyLong())).thenReturn(Optional.ofNullable(day));
+
 		// Then
 		assertThat(dayServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(dayDTO));
 	}
-	
+
 	@Test
 	public void shouldDeleteDayWhenIsOk() {
 		// When
@@ -182,7 +182,7 @@ public class DayServiceTest {
 
 		// Then
 		dayServiceImpl.delete(ID);
-		
+
 		verify(dayRepository, times(1)).deleteById(anyLong());
 	}
 }

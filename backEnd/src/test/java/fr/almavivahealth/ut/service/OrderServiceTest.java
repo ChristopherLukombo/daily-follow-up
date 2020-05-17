@@ -29,18 +29,18 @@ import fr.almavivahealth.service.mapper.OrderMapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
-	
+
 	private static final long ID = 1L;
 
 	@Mock
 	private OrderRepository orderRepository;
-	
+
 	@Mock
 	private OrderMapper orderMapper;
 
 	@InjectMocks
 	private OrderServiceImpl orderServiceImpl;
-	
+
 	private static Order createOrder() {
 		return Order.builder()
 				.id(ID)
@@ -49,7 +49,7 @@ public class OrderServiceTest {
 				.patient(null)
 				.build();
 	}
-	
+
 	private static OrderDTO createOrderDTO() {
 		return OrderDTO.builder()
 				.id(ID)
@@ -63,94 +63,94 @@ public class OrderServiceTest {
 		// Given
 		final Order order = createOrder();
 		final OrderDTO orderDTO = createOrderDTO();
-		
+
 		// When
 		when(orderRepository.save((Order) any())).thenReturn(order);
 		when(orderMapper.orderToOrderDTO((Order) any())).thenReturn(orderDTO);
-		
+
 		// Then
 		assertThat(orderServiceImpl.save(orderDTO)).isEqualTo(orderDTO);
 	}
-	
+
 	@Test
 	public void shouldSaveOrderWhenIsKo() {
 		// Given
 		final Order order = null;
 		final OrderDTO orderDTO = null;
-		
+
 		// When
 		when(orderRepository.save((Order) any())).thenReturn(order);
 		when(orderMapper.orderToOrderDTO((Order) any())).thenReturn(orderDTO);
-		
+
 		// Then
 		assertThat(orderServiceImpl.save(orderDTO)).isNull();
 	}
-	
+
 	@Test
 	public void shouldUpdateOrderWhenIsOk() {
 		// Given
 		final Order order = createOrder();
 		final OrderDTO orderDTO = createOrderDTO();
-		
+
 		// When
 		when(orderRepository.saveAndFlush((Order) any())).thenReturn(order);
 		when(orderMapper.orderToOrderDTO((Order) any())).thenReturn(orderDTO);
-		
+
 		// Then
 		assertThat(orderServiceImpl.update(orderDTO)).isEqualTo(orderDTO);
 	}
-	
+
 	@Test
 	public void shouldUpdateOrderWhenIsKo() {
 		// Given
 		final Order order = null;
 		final OrderDTO orderDTO = null;
-		
+
 		// When
 		when(orderRepository.saveAndFlush((Order) any())).thenReturn(order);
 		when(orderMapper.orderToOrderDTO((Order) any())).thenReturn(orderDTO);
-		
+
 		// Then
 		assertThat(orderServiceImpl.update(orderDTO)).isNull();
 	}
-	
+
 	@Test
 	public void shouldGetAllOrdersWhenIsOk() {
 		// Given
 		final List<Order> orders = Arrays.asList(createOrder());
-		
+
 		// Then
 		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
-		
+
 		// Then
 		assertThat(orderServiceImpl.findAll()).isNotEmpty();
 	}
-	
+
 	@Test
 	public void shouldGetAllOrdersWhenIsEmpty() {
 		// Given
 		final List<Order> orders = Collections.emptyList();
-		
+
 		// Then
 		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
-		
+
 		// Then
 		assertThat(orderServiceImpl.findAll()).isEmpty();
 	}
-	
+
 	@Test
 	public void shouldGetAllOrdersWhenIsNull() {
 		// Given
 		final List<Order> orders = null;
-		
+
 		// Then
 		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
-		
+
 		// Then
 		assertThatThrownBy(() -> orderServiceImpl.findAll())
 		.isInstanceOf(NullPointerException.class);
 	}
-	
+
 	@Test
 	public void shouldGetOrderWhenIsOk() {
 		// Given
@@ -158,13 +158,13 @@ public class OrderServiceTest {
 		final OrderDTO orderDTO = createOrderDTO();
 
 		// When
-		when(orderRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(order));
+		when(orderRepository.findById(anyLong())).thenReturn(Optional.ofNullable(order));
 		when(orderMapper.orderToOrderDTO((Order) any())).thenReturn(orderDTO);
-		
+
 		// Then
 		assertThat(orderServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(orderDTO));
 	}
-	
+
 	@Test
 	public void shouldGetOrderWhenIsNull() {
 		// Given
@@ -172,12 +172,12 @@ public class OrderServiceTest {
 		final OrderDTO orderDTO = null;
 
 		// When
-		when(orderRepository.findById((anyLong()))).thenReturn(Optional.ofNullable(order));
-		
+		when(orderRepository.findById(anyLong())).thenReturn(Optional.ofNullable(order));
+
 		// Then
 		assertThat(orderServiceImpl.findOne(ID)).isEqualTo(Optional.ofNullable(orderDTO));
 	}
-	
+
 	@Test
 	public void shouldDeleteOrderWhenIsOk() {
 		// When
@@ -185,9 +185,9 @@ public class OrderServiceTest {
 
 		// Then
 		orderServiceImpl.delete(ID);
-		
+
 		verify(orderRepository, times(1)).deleteById(anyLong());
 	}
-	
-	
+
+
 }
