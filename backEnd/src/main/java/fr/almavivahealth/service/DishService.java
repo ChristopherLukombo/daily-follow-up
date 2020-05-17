@@ -19,10 +19,10 @@ public interface DishService {
 	List<DishDTO> findFirst5ByName(String name);
 
 	/**
-	 * Find by name.
+	 * Find by code.
 	 *
-	 * @param name the name
+	 * @param code the code
 	 * @return the optional
 	 */
-	Optional<DishDTO> findByName(String name);
+	Optional<DishDTO> findByCode(Integer code);
 }

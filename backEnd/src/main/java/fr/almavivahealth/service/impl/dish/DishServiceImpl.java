@@ -1,8 +1,10 @@
 package fr.almavivahealth.service.impl.dish;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,6 @@ public class DishServiceImpl implements DishService {
 
 	private final DishMapper dishMapper;
 
-    /**
-	 * Instantiates a new dish service impl.
-	 *
-	 * @param dishRepository the dish repository
-	 * @param dishMapper     the dish mapper
-	 */
     @Autowired
 	public DishServiceImpl(final DishRepository dishRepository, final DishMapper dishMapper) {
 		this.dishRepository = dishRepository;
@@ -50,22 +46,25 @@ public class DishServiceImpl implements DishService {
 	@Transactional(readOnly = true)
 	public List<DishDTO> findFirst5ByName(final String name) {
 		LOGGER.debug("Request to find first 5 Dishes by name: {}", name);
+		if (StringUtils.isBlank(name)) {
+			return Collections.emptyList();
+		}
 		return dishRepository.findByNameIgnoreCaseContaining(name, PageRequest.of(0, 5))
 				.map(dishMapper::dishToDishDTO)
 				.getContent();
 	}
 
 	/**
-	 * Find by name.
+	 * Find by code.
 	 *
-	 * @param name the name
+	 * @param code the code
 	 * @return the dish
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<DishDTO> findByName(final String name) {
-		LOGGER.debug("Request to fin Dish by name: {}", name);
-		return dishRepository.findByNameIgnoreCase(name)
+	public Optional<DishDTO> findByCode(final Integer code) {
+		LOGGER.debug("Request to fin Dish by name: {}", code);
+		return dishRepository.findByCode(code)
 				.map(dishMapper::dishToDishDTO);
 	}
 }

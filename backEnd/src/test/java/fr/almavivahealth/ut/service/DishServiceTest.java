@@ -2,6 +2,7 @@ package fr.almavivahealth.ut.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -90,11 +91,11 @@ public class DishServiceTest {
 		final DishDTO dishDTO = createDishDTO();
 
 		// When
-		when(dishRepository.findByNameIgnoreCase(anyString())).thenReturn(dish);
+		when(dishRepository.findByCode(anyInt())).thenReturn(dish);
 		when(dishMapper.dishToDishDTO((Dish) any())).thenReturn(dishDTO);
 
 		// Then
-		assertThat(dishServiceImpl.findByName("TEST")).isPresent();
+		assertThat(dishServiceImpl.findByCode(112)).isPresent();
 	}
 
 	@Test
@@ -103,9 +104,9 @@ public class DishServiceTest {
 		final Optional<Dish> dish = Optional.empty();
 
 		// When
-		when(dishRepository.findByNameIgnoreCase(anyString())).thenReturn(dish);
+		when(dishRepository.findByCode(anyInt())).thenReturn(dish);
 
 		// Then
-		assertThat(dishServiceImpl.findByName("TEST")).isNotPresent();
+		assertThat(dishServiceImpl.findByCode(112)).isNotPresent();
 	}
 }
