@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { LoginDTO } from "src/app/models/dto/loginDTO";
 import { LoginService } from "src/app/services/login/login.service";
 import { Router } from "@angular/router";
+import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-login",
@@ -10,8 +11,9 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-  username: string;
-  password: string;
+  userLogo = faUser;
+  passwordLogo = faKey;
+
   loginForm: FormGroup;
   submitted: Boolean = false;
   error: string;
@@ -53,8 +55,8 @@ export class LoginComponent implements OnInit {
     }
     this.loading = true;
     let loginDTO: LoginDTO = new LoginDTO(
-      this.loginForm.controls.username.value,
-      this.loginForm.controls.password.value
+      this.f.username.value,
+      this.f.password.value
     );
     this.loginService.login(loginDTO).subscribe(
       (data) => {

@@ -1,0 +1,63 @@
+<div class="row">
+  <div class="col-7">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <h5>
+          <label>Type(s) <span class="required">*</span></label>
+        </h5>
+        <div class="types-form-checkboxes">
+          <label
+            *ngFor="let type of types; let i = index"
+            class="checkbox-inline"
+          >
+            <input type="checkbox" [formControl]="type" />
+            {{ typeMeals[i] }}
+          </label>
+        </div>
+        <small *ngIf="submitted && f.types.errors" class="text-danger">
+          Veuillez préciser le type du plat
+        </small>
+      </div>
+      <div class="form-group">
+        <h5>
+          <label>Nom <span class="required">*</span></label>
+        </h5>
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+            placeholder="Renseigner le plat à ajouter..."
+          />
+          <div class="input-group-prepend">
+            <button type="submit" class="input-group-text">
+              <fa-icon [icon]="infosLogo" (click)="onSubmit()"></fa-icon>
+              &nbsp;Composition nutritionnelle
+            </button>
+          </div>
+        </div>
+        <small *ngIf="submitted && f.name.errors" class="text-danger">
+          Veuillez renseigner le nom du plat
+        </small>
+        <small class="form-text text-muted"
+          >Le résultat le plus proche sera choisit
+        </small>
+        <div *ngIf="searchList.length > 0" class="typeahead-custom">
+          <ul *ngFor="let res of searchList" class="list-group">
+            <li
+              class="list-group-item list-group-item-action"
+              (click)="selectMeal(res)"
+            >
+              {{ res.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-5">
+    <app-infos-meal></app-infos-meal>
+  </div>
+</div>
+<br />

@@ -1,4 +1,4 @@
-import { TypeMealDTO } from "./type-mealDTO";
+import { ContentDTO } from "./contentDTO";
 
 export class MomentDayDTO {
   /***/
@@ -6,5 +6,5 @@ export class MomentDayDTO {
   /***/
   name: string;
   /***/
-  typeMeals: Array<TypeMealDTO>;
+  contents: Array<ContentDTO>;
 }

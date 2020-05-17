@@ -1,4 +1,4 @@
-import { TypeMeal } from "./type-meal";
+import { Content } from "./content";
 
 export class MomentDay {
   /***/
@@ -6,5 +6,5 @@ export class MomentDay {
   /***/
   name: string;
   /***/
-  typeMeals: Array<TypeMeal>;
+  contents: Array<Content>;
 }

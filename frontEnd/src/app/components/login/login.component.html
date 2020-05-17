@@ -5,31 +5,45 @@
       <br />
       <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <div class="form-group">
-          <label>Utilisateur</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="username"
-            [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
-            placeholder="Entrez votre identifiant"
-          />
-          <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-            <div *ngIf="f.username.errors.required">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <fa-icon [icon]="userLogo"></fa-icon>
+              </div>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+              [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+              placeholder="Entrez votre identifiant utilisateur"
+            />
+            <div
+              *ngIf="submitted && f.username.errors"
+              class="invalid-feedback"
+            >
               Le login est requis (Ex. DUPONT Marc = dupont_m)
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label>Mot de passe</label>
-          <input
-            type="password"
-            class="form-control"
-            formControlName="password"
-            [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
-            placeholder="Entrez votre mot de passe"
-          />
-          <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <fa-icon [icon]="passwordLogo"></fa-icon>
+              </div>
+            </div>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              [ngClass]="{ 'is-invalid': submitted && f.password.errors }"
+              placeholder="Entrez votre mot de passe"
+            />
+            <div
+              *ngIf="submitted && f.password.errors"
+              class="invalid-feedback"
+            >
               Le mot de passe est requis
             </div>
           </div>

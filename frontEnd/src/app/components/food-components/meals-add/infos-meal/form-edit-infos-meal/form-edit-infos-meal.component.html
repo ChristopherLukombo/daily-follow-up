@@ -1,0 +1,42 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th class="table-light" scope="col" colspan="3">
+          <label>Calories du plat (kcal)<span class="required">*</span></label>
+          <input type="number" class="form-control" />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="table-danger">
+          <label>Protéines (g) <span class="required">*</span></label>
+          <input type="number" class="form-control" />
+        </td>
+        <td class="table-primary">
+          <label>Glucides (g) <span class="required">*</span></label>
+          <input type="number" class="form-control" />
+        </td>
+        <td class="table-warning">
+          <label>Lipides (g) <span class="required">*</span></label>
+          <input type="number" class="form-control" />
+        </td>
+      </tr>
+      <tr>
+        <td class="table-active">
+          <label>Sucres (g) <span class="required">*</span></label>
+          <input type="number" class="form-control" />
+        </td>
+        <td class="table-info">
+          <label>AG saturés (g) <span class="required">*</span></label>
+          <input type="number" class="form-control" />
+        </td>
+        <td class="table-secondary">
+          <label>Sel (g) <span class="required">*</span></label>
+          <input type="number" class="form-control" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>
