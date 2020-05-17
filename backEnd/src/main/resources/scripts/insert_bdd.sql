@@ -461,10 +461,3 @@ values
 INSERT INTO public.day_moment_days
 (day_id, moment_days_id)
 VALUES(1, 1);
-
-INSERT INTO public.moment_day_contents (moment_day_id , contents_id) values 
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4),
-(1, 5);
