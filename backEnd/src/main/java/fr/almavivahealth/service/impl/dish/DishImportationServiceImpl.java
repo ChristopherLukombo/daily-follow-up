@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl.content;
+package fr.almavivahealth.service.impl.dish;
 
 import static fr.almavivahealth.constants.Constants.DASH;
 import static fr.almavivahealth.constants.Constants.MENUS_TABLE_CIQUAL2017_EXCEL_FR_2017_11_17_XLS;
@@ -22,60 +22,60 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.ImmutableList;
 
-import fr.almavivahealth.dao.ContentRepository;
-import fr.almavivahealth.domain.entity.Content;
-import fr.almavivahealth.service.ContentImportationService;
+import fr.almavivahealth.dao.DishRepository;
+import fr.almavivahealth.domain.entity.Dish;
+import fr.almavivahealth.service.DishImportationService;
 
 /**
- * Service Implementation for managing importation Content.
+ * Service Implementation for managing importation Dish.
  */
 @Service
 @Transactional
-public class ContentImportationServiceImpl implements ContentImportationService {
+public class DishImportationServiceImpl implements DishImportationService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ContentImportationServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DishImportationServiceImpl.class);
 
-	private final ContentRepository contentRepository;
+	private final DishRepository dishRepository;
 
-	@Autowired
-	public ContentImportationServiceImpl(final ContentRepository contentRepository) {
-		this.contentRepository = contentRepository;
+    @Autowired
+	public DishImportationServiceImpl(final DishRepository dishRepository) {
+		this.dishRepository = dishRepository;
 	}
 
 	/**
-	 * Import contents.
+	 * Import dishes.
 	 */
 	@Override
-	public void importContents() {
-		LOGGER.debug("Importing contents");
-		try (final InputStream inputStream = ContentImportationServiceImpl.class.getClassLoader()
+	public void importDishes() {
+		LOGGER.debug("Importing dishes");
+		try (final InputStream inputStream = DishImportationServiceImpl.class.getClassLoader()
 				.getResourceAsStream(MENUS_TABLE_CIQUAL2017_EXCEL_FR_2017_11_17_XLS);
 				HSSFWorkbook wb = new HSSFWorkbook(inputStream)) {
 			final HSSFSheet sheet = wb.getSheetAt(0);
 
 			final List<Row> rows = IterableUtils.toList(sheet);
-			LOGGER.info("Contents numbers to import: {}", rows.size() - 1);
+			LOGGER.info("Dishes numbers to import: {}", rows.size() - 1);
 
-			final List<Content> contents = saveAll(rows);
-			LOGGER.info("Imported contents numbers: {}", contents.size());
+			final List<Dish> dishes = saveAll(rows);
+			LOGGER.info("Imported dishes numbers: {}", dishes.size());
 		} catch (final IOException e) {
-			LOGGER.error("An error occurred while importing contents", e);
+			LOGGER.error("An error occurred while importing dishes", e);
 		}
 	}
 
-	private List<Content> saveAll(final List<Row> rows) {
-		final Set<Content> contents = rows.stream()
+	private List<Dish> saveAll(final List<Row> rows) {
+		final Set<Dish> dishes = rows.stream()
 				.skip(1)
-				.map(this::buildContent)
+				.map(this::buildDish)
 				.collect(Collectors.toSet());
 
-		return contentRepository.saveAll(contents);
+		return dishRepository.saveAll(dishes);
 	}
 
-	private Content buildContent(final Row row) {
+	private Dish buildDish(final Row row) {
 		final List<Cell> cells = ImmutableList.copyOf(row.cellIterator());
 
-		return Content.builder()
+		return Dish.builder()
 				.code((int) Double.parseDouble(getFieldAsString(cells, 6)))
 				.name(getFieldAsString(cells, 7))
 				.groupName(getFieldAsString(cells, 3))
@@ -127,6 +127,6 @@ public class ContentImportationServiceImpl implements ContentImportationService 
 	@Override
 	@Transactional(readOnly = true)
 	public boolean hasElements() {
-		return contentRepository.count() > 0;
+		return dishRepository.count() > 0;
 	}
 }

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,20 +119,5 @@ public class ContentServiceImpl implements ContentService {
 		return contentRepository.saveAll(contents).stream()
 				.map(contentMapper::contentToContentDTO)
 				.collect(Collectors.toList());
-	}
-
-	/**
-	 * Find the first 5 contents by name.
-	 *
-	 * @param name the name
-	 * @return the list
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<ContentDTO> findFirst5ByName(final String name) {
-		LOGGER.debug("Request to get first 5 Contents by name : {}", name);
-		return contentRepository.findByNameIgnoreCaseContaining(name, PageRequest.of(0, 5))
-				.map(contentMapper::contentToContentDTO)
-				.getContent();
 	}
 }

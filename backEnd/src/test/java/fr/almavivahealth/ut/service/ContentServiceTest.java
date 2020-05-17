@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -20,9 +19,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 
 import fr.almavivahealth.dao.ContentRepository;
 import fr.almavivahealth.domain.entity.Content;
@@ -232,33 +228,5 @@ public class ContentServiceTest {
 		contentServiceImpl.delete(ID);
 
 		verify(contentRepository, times(1)).deleteById(anyLong());
-	}
-
-	@Test
-	public void shouldFindFirst5ByNameByName() {
-		// Given
-		final List<Content> contents = Arrays.asList(createContent());
-		final Page<Content> page = new PageImpl<>(contents);
-		final ContentDTO contentDTO = createContentDTO();
-
-		// When
-		when(contentRepository.findByNameIgnoreCaseContaining(anyString(), any(Pageable.class))).thenReturn(page);
-		when(contentMapper.contentToContentDTO((Content) any())).thenReturn(contentDTO);
-
-		// Then
-		assertThat(contentServiceImpl.findFirst5ByName("Salade")).isNotEmpty();
-	}
-
-	@Test
-	public void shouldReturnEmptyWhenNameIsNotPresent() {
-		// Given
-		final List<Content> contents = Collections.emptyList();
-		final Page<Content> page = new PageImpl<>(contents);
-
-		// When
-		when(contentRepository.findByNameIgnoreCaseContaining(anyString(), any(Pageable.class))).thenReturn(page);
-
-		// Then
-		assertThat(contentServiceImpl.findFirst5ByName("Salade")).isEmpty();
 	}
 }

@@ -1,9 +1,9 @@
 package fr.almavivahealth.service;
 
 /**
- * The Interface ContentImportationService.
+ * The Interface DishImportationService.
  */
-public interface ContentImportationService {
+public interface DishImportationService {
 
 	/**
 	 * Checks for elements.
@@ -13,7 +13,7 @@ public interface ContentImportationService {
 	boolean hasElements();
 
 	/**
-	 * Import contents.
+	 * Import dishes.
 	 */
-	void importContents();
+	void importDishes();
 }
