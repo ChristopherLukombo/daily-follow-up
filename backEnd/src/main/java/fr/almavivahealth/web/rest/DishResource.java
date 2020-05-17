@@ -65,13 +65,13 @@ public class DishResource {
 	}
 
 	/**
-	 * GET /dishes/find/{code} : Get dish by code.
+	 * GET /dishes/find/{name} : Get dish by name.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the dish in body
 	 * or with status 204 (No Content) if there is no dish.
 	 *
 	 */
-	@ApiOperation("Get dish by code.")
+	@ApiOperation("Get dish by name.")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "Ok"),
 		@ApiResponse(code = 204, message = "No Content"),
@@ -79,10 +79,10 @@ public class DishResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@GetMapping("/dishes/find/{code}")
-	public ResponseEntity<DishDTO> getDishByCode(@PathVariable final Integer code) {
-		LOGGER.debug("REST request to get Dish by name: {}", code);
-		final Optional<DishDTO> dish = dishService.findByCode(code);
+	@GetMapping("/dishes/find/{name}")
+	public ResponseEntity<DishDTO> getDishByName(@PathVariable final String name) {
+		LOGGER.debug("REST request to get Dish by name: {}", name);
+		final Optional<DishDTO> dish = dishService.findByName(name);
         if (!dish.isPresent()) {
 			return ResponseEntity.noContent().build();
 		}

@@ -14,5 +14,5 @@ public interface DishRepository extends JpaRepository<Dish, Long>{
 
 	Page<Dish> findByNameIgnoreCaseContaining(String name, Pageable pageable);
 
-	Optional<Dish> findByCode(Integer code);
+	Optional<Dish> findByName(String name);
 }

@@ -1,6 +1,5 @@
 package fr.almavivahealth.ut.web;
 
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -91,13 +90,13 @@ public class DishResourceTest {
 		final Optional<DishDTO> dishDTO = Optional.ofNullable(createDishDTO());
 
 		// When
-		when(dishService.findByCode(anyInt())).thenReturn(dishDTO);
+		when(dishService.findByName(anyString())).thenReturn(dishDTO);
 
 		// Then
-		mockMvc.perform(get("/api/dishes/find/122")
+		mockMvc.perform(get("/api/dishes/find/test")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isOk());
-		verify(dishService, times(1)).findByCode(anyInt());
+		verify(dishService, times(1)).findByName(anyString());
 	}
 
 	@Test
@@ -106,12 +105,12 @@ public class DishResourceTest {
 		final Optional<DishDTO> dishDTO = Optional.empty();
 
 		// When
-		when(dishService.findByCode(anyInt())).thenReturn(dishDTO);
+		when(dishService.findByName(anyString())).thenReturn(dishDTO);
 
 		// Then
-		mockMvc.perform(get("/api/dishes/find/122")
+		mockMvc.perform(get("/api/dishes/find/test")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isNoContent());
-		verify(dishService, times(1)).findByCode(anyInt());
+		verify(dishService, times(1)).findByName(anyString());
 	}
 }

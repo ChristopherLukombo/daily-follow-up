@@ -55,16 +55,16 @@ public class DishServiceImpl implements DishService {
 	}
 
 	/**
-	 * Find by code.
+	 * Find by name.
 	 *
-	 * @param code the code
+	 * @param name the name
 	 * @return the dish
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<DishDTO> findByCode(final Integer code) {
-		LOGGER.debug("Request to fin Dish by name: {}", code);
-		return dishRepository.findByCode(code)
+	public Optional<DishDTO> findByName(final String name) {
+		LOGGER.debug("Request to fin Dish by name: {}", name);
+		return dishRepository.findByName(name)
 				.map(dishMapper::dishToDishDTO);
 	}
 }
