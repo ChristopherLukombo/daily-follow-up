@@ -1,8 +1,13 @@
 package fr.almavivahealth.service.mapper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import fr.almavivahealth.domain.entity.Content;
@@ -31,9 +36,21 @@ public interface ContentMapper {
 	@Mapping(source = "agSaturates", target = "agSaturates")
 	@Mapping(source = "salt", target = "salt")
 	@Mapping(source = "imageUrl", target = "imageUrl")
+	@Mapping(source = "typeMeals", target = "typeMeals", qualifiedByName = "toTypeMeals")
 	ContentDTO contentToContentDTO(Content content);
 
 	@InheritInverseConfiguration
 	Content contentDTOToContent(ContentDTO contentDTO);
 
+	@Named("toTypeMeals")
+	default List<String> toTypeMeals(final List<String> typeMeals) {
+		if (null == typeMeals || typeMeals.isEmpty()) {
+			return Collections.emptyList();
+		}
+		final List<String> typeMealDTOs = new ArrayList<>(typeMeals.size());
+		for (final String typeMeal : typeMeals) {
+			typeMealDTOs.add(typeMeal);
+		}
+		return typeMealDTOs;
+	}
 }
