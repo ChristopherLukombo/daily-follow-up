@@ -56,13 +56,4 @@ public interface ContentService {
 	 * @return the list of persisted entities
 	 */
 	List<ContentDTO> saveAll(ContentList contentList);
-
-	/**
-	 * Find the first 5 contents by name.
-	 *
-	 * @param name the name
-	 * @return the list
-	 */
-	List<ContentDTO> findFirst5ByName(String name);
-
 }

@@ -17,44 +17,44 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import fr.almavivahealth.dao.ContentRepository;
-import fr.almavivahealth.domain.entity.Content;
-import fr.almavivahealth.service.impl.content.ContentImportationServiceImpl;
+import fr.almavivahealth.dao.DishRepository;
+import fr.almavivahealth.domain.entity.Dish;
+import fr.almavivahealth.service.impl.dish.DishImportationServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ContentImportationServiceTest {
+public class DishImportationServiceTest {
 
 	private static final String NAME = "TEST";
 
 	private static final long ID = 1L;
 
 	@Mock
-	private ContentRepository contentRepository;
+	private DishRepository dishRepository;
 
 	@Captor
-	private ArgumentCaptor<List<Content>> captor;
+	private ArgumentCaptor<List<Dish>> captor;
 
 	@InjectMocks
-	private ContentImportationServiceImpl contentImportationServiceImpl;
+	private DishImportationServiceImpl dishImportationServiceImpl;
 
-	private static Content createContent() {
-		return Content.builder()
+	private static Dish createDish() {
+		return Dish.builder()
 				.id(ID)
 				.name(NAME)
 				.build();
 	}
 
 	@Test
-	public void shouldImportContents() {
+	public void shouldImportDishs() {
 		// Given
-		final List<Content> contents = Arrays.asList(createContent());
+		final List<Dish> dishes = Arrays.asList(createDish());
 
 		// When
-		when(contentRepository.saveAll(anySet())).thenReturn(contents);
-		contentImportationServiceImpl.importContents();
+		when(dishRepository.saveAll(anySet())).thenReturn(dishes);
+		dishImportationServiceImpl.importDishes();
 
 		// Then
-		verify(contentRepository, times(1)).saveAll(captor.capture());
+		verify(dishRepository, times(1)).saveAll(captor.capture());
 
 		assertThat(captor.getAllValues()).isNotEmpty();
 	}
@@ -64,10 +64,10 @@ public class ContentImportationServiceTest {
 		final Long numberOfItems = 1L;
 
 		// When
-		when(contentRepository.count()).thenReturn(numberOfItems);
+		when(dishRepository.count()).thenReturn(numberOfItems);
 
 		// Then
-		assertThat(contentImportationServiceImpl.hasElements()).isTrue();
+		assertThat(dishImportationServiceImpl.hasElements()).isTrue();
 	}
 
 	@Test
@@ -75,9 +75,9 @@ public class ContentImportationServiceTest {
 		final Long numberOfItems = 0L;
 
 		// When
-		when(contentRepository.count()).thenReturn(numberOfItems);
+		when(dishRepository.count()).thenReturn(numberOfItems);
 
 		// Then
-		assertThat(contentImportationServiceImpl.hasElements()).isFalse();
+		assertThat(dishImportationServiceImpl.hasElements()).isFalse();
 	}
 }

@@ -2,7 +2,6 @@ package fr.almavivahealth.ut.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -228,35 +227,5 @@ public class ContentResourceTest {
 				.content(TestUtil.convertObjectToJsonBytes(contentList)))
 		        .andExpect(status().isUnprocessableEntity());
 		verify(contentService, times(0)).saveAll((ContentList) any());
-	}
-
-	@Test
-	public void shouldGetFirst5ByNameContentsByName() throws Exception {
-		// Given
-		final List<ContentDTO> contentsDTO = Arrays.asList(createContentDTO());
-
-		// When
-		when(contentService.findFirst5ByName(anyString())).thenReturn(contentsDTO);
-
-		// Then
-		mockMvc.perform(get("/api/contents/search?name=Salade")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isOk());
-		verify(contentService, times(1)).findFirst5ByName(anyString());
-	}
-
-	@Test
-	public void shouldReturn204WhenNoContentExistForName() throws Exception {
-		// Given
-		final List<ContentDTO> contentsDTO = Collections.emptyList();
-
-		// When
-		when(contentService.findFirst5ByName(anyString())).thenReturn(contentsDTO);
-
-		// Then
-		mockMvc.perform(get("/api/contents/search?name=Salade")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isNoContent());
-		verify(contentService, times(1)).findFirst5ByName(anyString());
 	}
 }
