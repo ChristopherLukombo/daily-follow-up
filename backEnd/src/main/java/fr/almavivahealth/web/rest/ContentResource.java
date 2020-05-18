@@ -1,5 +1,7 @@
 package fr.almavivahealth.web.rest;
 
+import static fr.almavivahealth.constants.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_PICTURE_CONTENT;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -11,6 +13,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +23,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.ContentService;
@@ -46,9 +51,12 @@ public class ContentResource {
 
 	private final ContentService contentService;
 
+	private final MessageSource messageSource;
+
     @Autowired
-	public ContentResource(final ContentService contentService) {
+	public ContentResource(final ContentService contentService, final MessageSource messageSource) {
 		this.contentService = contentService;
+		this.messageSource = messageSource;
 	}
 
 	/**
@@ -203,5 +211,58 @@ public class ContentResource {
 		LOGGER.debug("REST request to save all contents");
 		final List<ContentDTO> contents = contentService.saveAll(contentList);
 		return ResponseEntity.ok().body(contents);
+	}
+
+	/**
+     * POST  /contents/picture/contentId} : Upload picture from contentId."
+     *
+     * @param file the file
+     * @param contentId the contentId
+     * @return String the status
+     * @throws DailyFollowUpException the daily follow up exception
+     */
+    @ApiOperation("Upload content picture from contentId.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 500, message = "Internal Server"),
+        })
+    @PostMapping("/contents/picture/{contentId}")
+	public ResponseEntity<String> uploadPicture(
+			@RequestPart final MultipartFile file,
+			@PathVariable final Long contentId,
+			@ApiIgnore final Locale locale) throws DailyFollowUpException {
+		LOGGER.debug("REST request to upload picture");
+		try {
+			final String fileName = contentService.uploadPicture(file, contentId, locale);
+			return ResponseEntity.ok().body(fileName);
+		} catch (final DailyFollowUpException e) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), messageSource
+					.getMessage(AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_PICTURE_CONTENT, null, locale), e);
+		}
+	}
+
+    /**
+     * GET  /contents/picture/{contentId} : retrieve picture from contentId.
+     *
+     * @param contentId the content id
+     * @return the picture
+     */
+    @ApiOperation("Retrieve picture from contentId.")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        })
+	@GetMapping(
+			value = "/contents/picture/{contentId}",
+			produces = { "image/jpg", "image/jpeg", "image/gif", "image/png", "image/tif" })
+	public ResponseEntity<byte[]> getProfilePicture(@PathVariable final Long contentId) {
+		LOGGER.debug("REST request to get picture");
+		final byte[] picture = contentService.findPicture(contentId);
+		return ResponseEntity.ok().body(picture);
 	}
 }

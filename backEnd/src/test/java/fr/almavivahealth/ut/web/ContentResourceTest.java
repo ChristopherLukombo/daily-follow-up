@@ -3,6 +3,7 @@ package fr.almavivahealth.ut.web;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -10,11 +11,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -23,9 +26,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.MessageSource;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.mock.web.MockPart;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
 import fr.almavivahealth.service.dto.ContentList;
@@ -40,6 +49,9 @@ public class ContentResourceTest {
 	private static final long ID = 1L;
 
 	private MockMvc mockMvc;
+
+	@Mock
+	private MessageSource messageSource;
 
 	@Mock
 	private ContentService contentService;
@@ -227,5 +239,65 @@ public class ContentResourceTest {
 				.content(TestUtil.convertObjectToJsonBytes(contentList)))
 		        .andExpect(status().isUnprocessableEntity());
 		verify(contentService, times(0)).saveAll((ContentList) any());
+	}
+
+	@Test
+	public void shouldUploadPicture() throws Exception {
+		// Given
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.png", "text/plain",
+				"some xml".getBytes());
+		final MockPart part = new MockPart("file", "filename.png", file.getBytes());
+
+		// When
+		when(contentService.uploadPicture((MultipartFile) any(), anyLong(), (Locale) any())).thenReturn("test");
+
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/contents/picture/1")
+				.part(part))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").isNotEmpty());
+		verify(contentService, times(1)).uploadPicture((MultipartFile) any(), anyLong(), (Locale) any());
+	}
+
+	@Test
+	public void shouldReturn500WhenTryingToUploadPicture() throws Exception {
+		// Given
+		final MockMultipartFile file = new MockMultipartFile("file", "filename.png", "text/plain",
+				"some xml".getBytes());
+		final MockPart part = new MockPart("file", "filename.png", file.getBytes());
+
+		// When
+        doThrow(DailyFollowUpException.class).when(contentService).uploadPicture((MultipartFile) any(), anyLong(), (Locale) any());
+
+		// Then
+		mockMvc.perform(MockMvcRequestBuilders.multipart("/api/contents/picture/1")
+				.part(part))
+		        .andExpect(status().isInternalServerError())
+				.andExpect(jsonPath("$").isNotEmpty());
+		verify(contentService, times(1)).uploadPicture((MultipartFile) any(), anyLong(), (Locale) any());
+	}
+
+	@Test
+	public void shouldGetPictureWhen() throws Exception {
+		// Given
+		final byte[] profilePicture = new byte[] {0};
+
+		// When
+		when(contentService.findPicture(anyLong())).thenReturn(profilePicture);
+
+		// Then
+		mockMvc.perform(get("/api/contents/picture/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(contentService, times(1)).findPicture(anyLong());
+	}
+
+	@Test
+	public void shoulGetdBadRequestWhenPictureRequestIsNotValid() throws Exception {
+		// Then
+		mockMvc.perform(get("/api/contents/picture/test")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isBadRequest());
+		verify(contentService, times(0)).findPicture(anyLong());
 	}
 }
