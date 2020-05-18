@@ -70,7 +70,7 @@ public class Dish implements Serializable {
 	private Double lipids;
 
 	// Example: 0,2
-	@Column(name = "sucres")
+	@Column(name = "sugars")
 	private Double sugars;
 
 	// Example: 0,5
