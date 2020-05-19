@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Order.
- * 
+ *
  * @author christopher
  */
 @Api("Order")
@@ -40,14 +41,14 @@ import io.swagger.annotations.ApiResponses;
 public class OrderResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderResource.class);
-	
+
 	private final OrderService orderService;
 
 	@Autowired
 	public OrderResource(final OrderService orderService) {
 		this.orderService = orderService;
 	}
-	
+
 	/**
 	 * POST /orders : Create a new order.
 	 *
@@ -65,6 +66,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/orders")
 	public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody final OrderDTO orderDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,7 +78,7 @@ public class OrderResource {
 		final OrderDTO result = orderService.save(orderDTO);
 		return ResponseEntity.created(new URI("/api/orders/" + result.getId())).body(result);
 	}
-	
+
 	/**
 	 * PUT /orders : Update a order.
 	 *
@@ -93,6 +95,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/orders")
 	public ResponseEntity<OrderDTO> updateOrder(@Valid @RequestBody final OrderDTO orderDTO)
 			throws DailyFollowUpException {
@@ -104,13 +107,13 @@ public class OrderResource {
 		final OrderDTO result = orderService.update(orderDTO);
 		return ResponseEntity.ok().body(result);
 	}
-	
+
 	/**
 	 * GET /orders : Get all the orders.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of orders in body
 	 * or with status 204 (No Content) if there is no order.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get all the orders.")
 	@ApiResponses({
@@ -120,6 +123,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/orders")
 	public ResponseEntity<List<OrderDTO>> getAllOrders() {
 		LOGGER.debug("REST request to get All Orders");
@@ -129,13 +133,13 @@ public class OrderResource {
 		}
 		return ResponseEntity.ok().body(orders);
 	}
-	
+
 	/**
 	 * GET /orders/:id : Get the "id" order.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the order does not exist.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get the \"id\" order.")
 	@ApiResponses({
@@ -145,6 +149,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/orders/{id}")
 	public ResponseEntity<OrderDTO> getOrder(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Order : {}", id);
@@ -155,7 +160,7 @@ public class OrderResource {
 			return ResponseEntity.noContent().build();
 		}
 	}
-	
+
 	/**
 	 * DELETE /orders/:id : Delete the "id" order.
 	 *
@@ -169,6 +174,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/orders/{id}")
 	public ResponseEntity<Void> deleteOrder(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Order : {}", id);

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -77,6 +78,7 @@ public class ContentResource {
 		@ApiResponse(code = 403, message = "Forbidden"),
 		@ApiResponse(code = 422, message = "Unprocessable entity")
 	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/contents")
 	public ResponseEntity<ContentDTO> createContent(@Valid @RequestBody final ContentDTO contentDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -106,6 +108,7 @@ public class ContentResource {
 		@ApiResponse(code = 403, message = "Forbidden"),
 		@ApiResponse(code = 422, message = "Unprocessable entity")
 	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/contents")
 	public ResponseEntity<ContentDTO> updateContent(@Valid @RequestBody final ContentDTO contentDTO)
 			throws DailyFollowUpException {
@@ -133,6 +136,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/contents")
 	public ResponseEntity<List<ContentDTO>> getAllContents() {
 		LOGGER.debug("REST request to get All Contents");
@@ -158,6 +162,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/contents/{id}")
 	public ResponseEntity<ContentDTO> getContent(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Content : {}", id);
@@ -182,6 +187,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/contents/{id}")
 	public ResponseEntity<Void> deleteContent(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Content : {}", id);
@@ -204,6 +210,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/contents/contentList")
 	public ResponseEntity<List<ContentDTO>> saveAll(
 			@RequestBody @Valid final ContentList contentList,
@@ -229,6 +236,7 @@ public class ContentResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server"),
         })
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
     @PostMapping("/contents/picture/{contentId}")
 	public ResponseEntity<String> uploadPicture(
 			@RequestPart final MultipartFile file,
@@ -257,10 +265,11 @@ public class ContentResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         })
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping(
 			value = "/contents/picture/{contentId}",
 			produces = { "image/jpg", "image/jpeg", "image/gif", "image/png", "image/tif" })
-	public ResponseEntity<byte[]> getProfilePicture(@PathVariable final Long contentId) {
+	public ResponseEntity<byte[]> getPicture(@PathVariable final Long contentId) {
 		LOGGER.debug("REST request to get picture");
 		final byte[] picture = contentService.findPicture(contentId);
 		return ResponseEntity.ok().body(picture);

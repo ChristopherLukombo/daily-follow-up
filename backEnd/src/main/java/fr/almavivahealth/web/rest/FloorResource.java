@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Floor.
- * 
+ *
  * @author christopher
  */
 @Api("Floor")
@@ -40,14 +41,14 @@ import io.swagger.annotations.ApiResponses;
 public class FloorResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FloorResource.class);
-	
+
 	private final FloorService floorService;
 
 	@Autowired
 	public FloorResource(final FloorService floorService) {
 		this.floorService = floorService;
 	}
-	
+
 	/**
 	 * POST /floors : Create a new floor.
 	 *
@@ -65,6 +66,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/floors")
 	public ResponseEntity<FloorDTO> createFloor(@Valid @RequestBody final FloorDTO floorDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,7 +78,7 @@ public class FloorResource {
 		final FloorDTO result = floorService.save(floorDTO);
 		return ResponseEntity.created(new URI("/api/floors/" + result.getId())).body(result);
 	}
-	
+
 	/**
 	 * PUT /floors : Update a floor.
 	 *
@@ -93,6 +95,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/floors")
 	public ResponseEntity<FloorDTO> updateFloor(@Valid @RequestBody final FloorDTO floorDTO)
 			throws DailyFollowUpException {
@@ -104,13 +107,13 @@ public class FloorResource {
 		final FloorDTO result = floorService.update(floorDTO);
 		return ResponseEntity.ok().body(result);
 	}
-	
+
 	/**
 	 * GET /floors : Get all the floors.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of floors in body
 	 * or with status 204 (No Content) if there is no floor.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get all the floors.")
 	@ApiResponses({
@@ -120,6 +123,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/floors")
 	public ResponseEntity<List<FloorDTO>> getAllFloors() {
 		LOGGER.debug("REST request to get All Floors");
@@ -129,13 +133,13 @@ public class FloorResource {
 		}
 		return ResponseEntity.ok().body(floors);
 	}
-	
+
 	/**
 	 * GET /floors/:id : Get the "id" floor.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the floor does not exist.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get the \"id\" floor.")
 	@ApiResponses({
@@ -145,6 +149,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/floors/{id}")
 	public ResponseEntity<FloorDTO> getFloor(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Floor : {}", id);
@@ -155,7 +160,7 @@ public class FloorResource {
 			return ResponseEntity.noContent().build();
 		}
 	}
-	
+
 	/**
 	 * DELETE /floors/:id : Delete the "id" floor.
 	 *
@@ -169,6 +174,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/floors/{id}")
 	public ResponseEntity<Void> deleteFloor(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Floor : {}", id);

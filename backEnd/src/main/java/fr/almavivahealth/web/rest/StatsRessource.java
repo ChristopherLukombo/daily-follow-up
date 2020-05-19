@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Stats.
- * 
+ *
  * @author christopher
  */
 @Api("Stats")
@@ -30,20 +31,20 @@ import io.swagger.annotations.ApiResponses;
 public class StatsRessource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatsRessource.class);
-	
+
 	private final StatsService statsService;
 
 	@Autowired
 	public StatsRessource(final StatsService statsService) {
 		this.statsService = statsService;
 	}
-	
+
 	/**
 	 * GET /stats/patientsPerAllergy : Get number of patients per Allergy.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of patientsPerAllergy in body
 	 * or with status 204 (No Content) if there is no patientsPerAllergy.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get number of patients per Allergy.")
 	@ApiResponses({
@@ -53,6 +54,7 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/patientsPerAllergy")
 	public ResponseEntity<List<PatientsPerAllergyDTO>> getNumberOfPatientsPerAllergy() {
 		LOGGER.debug("REST request to get number of patients per Allergy");
@@ -62,13 +64,13 @@ public class StatsRessource {
 		}
 		return ResponseEntity.ok().body(patientsPerAllergies);
 	}
-	
+
 	/**
 	 * GET /stats/patientsPerDiet : Get number of patients per Diet.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of patientsPerDiet in body
 	 * or with status 204 (No Content) if there is no patientsPerDiet.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get number of patients per Diet.")
 	@ApiResponses({
@@ -78,6 +80,7 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/patientsPerDiet")
 	public ResponseEntity<List<PatientsPerDietDTO>> getNumberOfPatientsPerDiet() {
 		LOGGER.debug("REST request to get number of patients per Diet");
@@ -87,13 +90,13 @@ public class StatsRessource {
 		}
 		return ResponseEntity.ok().body(patientsPerDiets);
 	}
-	
+
 	/**
 	 * GET /stats/patientsByStatus : Get number of patients by status.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of patientsByStatus in body
 	 * or with status 204 (No Content) if there is no PatientsByStatus.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get number of patients by status.")
 	@ApiResponses({
@@ -103,6 +106,7 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/patientsByStatus")
 	public ResponseEntity<List<PatientsByStatusDTO>> getNumberOfPatientsByStatus() {
 		LOGGER.debug("REST request to get number of patients by status");
@@ -112,5 +116,5 @@ public class StatsRessource {
 		}
 		return ResponseEntity.ok().body(patientsByStatus);
 	}
-	
+
 }

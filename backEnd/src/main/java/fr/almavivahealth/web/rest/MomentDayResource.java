@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing MomentDay.
- * 
+ *
  * @author christopher
  */
 @Api("MomentDay")
@@ -40,14 +41,14 @@ import io.swagger.annotations.ApiResponses;
 public class MomentDayResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MomentDayResource.class);
-	
+
 	private final MomentDayService momentDayService;
 
 	@Autowired
 	public MomentDayResource(final MomentDayService momentDayService) {
 		this.momentDayService = momentDayService;
 	}
-	
+
 	/**
 	 * POST /momentDays : Create a new momentDay.
 	 *
@@ -65,6 +66,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/momentDays")
 	public ResponseEntity<MomentDayDTO> createMomentDay(@Valid @RequestBody final MomentDayDTO momentDayDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,7 +78,7 @@ public class MomentDayResource {
 		final MomentDayDTO result = momentDayService.save(momentDayDTO);
 		return ResponseEntity.created(new URI("/api/momentDays/" + result.getId())).body(result);
 	}
-	
+
 	/**
 	 * PUT /momentDays : Update a momentDay.
 	 *
@@ -93,6 +95,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/momentDays")
 	public ResponseEntity<MomentDayDTO> updateMomentDay(@Valid @RequestBody final MomentDayDTO momentDayDTO)
 			throws DailyFollowUpException {
@@ -104,13 +107,13 @@ public class MomentDayResource {
 		final MomentDayDTO result = momentDayService.update(momentDayDTO);
 		return ResponseEntity.ok().body(result);
 	}
-	
+
 	/**
 	 * GET /momentDays : Get all the momentDays.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of momentDays in body
 	 * or with status 204 (No Content) if there is no momentDay.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get all the momentDays.")
 	@ApiResponses({
@@ -120,6 +123,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/momentDays")
 	public ResponseEntity<List<MomentDayDTO>> getAllMomentDays() {
 		LOGGER.debug("REST request to get All MomentDays");
@@ -129,13 +133,13 @@ public class MomentDayResource {
 		}
 		return ResponseEntity.ok().body(momentDays);
 	}
-	
+
 	/**
 	 * GET /momentDays/:id : Get the "id" momentDay.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the momentDay does not exist.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get the \"id\" momentDay.")
 	@ApiResponses({
@@ -145,6 +149,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/momentDays/{id}")
 	public ResponseEntity<MomentDayDTO> getMomentDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get MomentDay : {}", id);
@@ -155,7 +160,7 @@ public class MomentDayResource {
 			return ResponseEntity.noContent().build();
 		}
 	}
-	
+
 	/**
 	 * DELETE /momentDays/:id : Delete the "id" momentDay.
 	 *
@@ -169,6 +174,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/momentDays/{id}")
 	public ResponseEntity<Void> deleteMomentDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete MomentDay : {}", id);

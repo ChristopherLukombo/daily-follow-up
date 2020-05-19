@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @RequestMapping("/management/audits")
 public class AuditResource {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuditResource.class);
 
 	private final AuditEventService auditEventService;
@@ -32,7 +33,7 @@ public class AuditResource {
 	public AuditResource(final AuditEventService auditEventService) {
 		this.auditEventService = auditEventService;
 	}
-	
+
 	 /**
      * GET /audits : get all patient_historys.
      *
@@ -47,6 +48,7 @@ public class AuditResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
     @GetMapping(value = "/patient/history/{patientId}", params = {"page", "size"})
 	public ResponseEntity<Page<PatientHistoryDTO>> getAllPatientHistorysByPatientId(
 			@PathVariable(required = true) final Long patientId,
@@ -59,5 +61,5 @@ public class AuditResource {
 		}
 		return ResponseEntity.ok().body(patientHistorys);
 	}
-	
+
 }

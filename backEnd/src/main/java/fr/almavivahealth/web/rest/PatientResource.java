@@ -79,7 +79,7 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/patients")
 	public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -109,7 +109,7 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/patients")
 	public ResponseEntity<PatientDTO> updatePatient(@Valid @RequestBody final PatientDTO patientDTO)
 			throws DailyFollowUpException {
@@ -137,7 +137,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients")
 	public ResponseEntity<List<PatientDTO>> getAllActivePatients() {
 		LOGGER.debug("REST request to get all active patients");
@@ -163,7 +163,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients/former")
 	public ResponseEntity<List<PatientDTO>> getAllFormerPatients() {
 		LOGGER.debug("REST request to get all former patients");
@@ -189,7 +189,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Patient : {}", id);
@@ -214,7 +214,7 @@ public class PatientResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<Void> deletePatient(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Patient : {}", id);
@@ -239,7 +239,7 @@ public class PatientResource {
         @ApiResponse(code = 422, message = "Unprocessable entity"),
         @ApiResponse(code = 500, message = "Internal Server"),
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/patients/import")
 	public ResponseEntity<BulkResult> importPatientFile(
 			@RequestPart final MultipartFile inputfile,
@@ -273,7 +273,7 @@ public class PatientResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients/reactivate/{id}")
 	public ResponseEntity<Void> reactivatePatient(@PathVariable final Long id) throws DailyFollowUpException {
 		LOGGER.debug("REST request to reactivate Patient : {}", id);

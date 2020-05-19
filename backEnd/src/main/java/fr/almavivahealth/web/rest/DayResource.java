@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Day.
- * 
+ *
  * @author christopher
  */
 @Api("Day")
@@ -40,14 +41,14 @@ import io.swagger.annotations.ApiResponses;
 public class DayResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DayResource.class);
-	
+
 	private final DayService dayService;
 
 	@Autowired
 	public DayResource(final DayService dayService) {
 		this.dayService = dayService;
 	}
-	
+
 	/**
 	 * POST /days : Create a new day.
 	 *
@@ -65,6 +66,7 @@ public class DayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/days")
 	public ResponseEntity<DayDTO> createDay(@Valid @RequestBody final DayDTO day)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,7 +78,7 @@ public class DayResource {
 		final DayDTO result = dayService.save(day);
 		return ResponseEntity.created(new URI("/api/days/" + result.getId())).body(result);
 	}
-	
+
 	/**
 	 * PUT /days : Update a day.
 	 *
@@ -93,6 +95,7 @@ public class DayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/days")
 	public ResponseEntity<DayDTO> updateDay(@Valid @RequestBody final DayDTO dayDTO)
 			throws DailyFollowUpException {
@@ -104,13 +107,13 @@ public class DayResource {
 		final DayDTO result = dayService.update(dayDTO);
 		return ResponseEntity.ok().body(result);
 	}
-	
+
 	/**
 	 * GET /days : Get all the days.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of days in body
 	 * or with status 204 (No Content) if there is no day.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get all the days.")
 	@ApiResponses({
@@ -120,6 +123,7 @@ public class DayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/days")
 	public ResponseEntity<List<DayDTO>> getAllDays() {
 		LOGGER.debug("REST request to get All Days");
@@ -129,13 +133,13 @@ public class DayResource {
 		}
 		return ResponseEntity.ok().body(days);
 	}
-	
+
 	/**
 	 * GET /days/:id : Get the "id" day.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the day does not exist.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get the \"id\" day.")
 	@ApiResponses({
@@ -145,6 +149,7 @@ public class DayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/days/{id}")
 	public ResponseEntity<DayDTO> getDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Day : {}", id);
@@ -169,6 +174,7 @@ public class DayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/days/{id}")
 	public ResponseEntity<Void> deleteDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Day : {}", id);

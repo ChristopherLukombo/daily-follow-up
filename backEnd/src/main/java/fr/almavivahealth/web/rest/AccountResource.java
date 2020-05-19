@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -114,6 +115,7 @@ public class AccountResource {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 422, message = "Unprocessable entity")
             })
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
     @PutMapping("/users/update")
     public ResponseEntity<UserDTO> updateUser(
     		@RequestBody @Valid final UserDTO userDTO, @ApiIgnore final Locale locale)
@@ -147,6 +149,7 @@ public class AccountResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable final Long id) throws DailyFollowUpException {
 		LOGGER.debug("REST request to delete User : {}", id);
@@ -191,6 +194,7 @@ public class AccountResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server"),
         })
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
     @PostMapping("/register/profilePicture/{userId}")
 	public ResponseEntity<HttpStatus> uploadFile(
 			@RequestPart final MultipartFile file, @PathVariable final Long userId)
@@ -218,6 +222,7 @@ public class AccountResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         })
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping(
 			value = "/users/profilePicture/{userId}",
 			produces = { "image/jpg", "image/jpeg", "image/gif", "image/png", "image/tif" })

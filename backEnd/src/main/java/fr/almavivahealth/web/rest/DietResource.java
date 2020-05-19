@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for managing Diet.
- * 
+ *
  * @author christopher
  */
 @Api("Diet")
@@ -40,9 +41,9 @@ import io.swagger.annotations.ApiResponses;
 public class DietResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DietResource.class);
-	
+
 	private final DietService dietService;
-	
+
 	@Autowired
 	public DietResource(final DietService dietService) {
 		this.dietService = dietService;
@@ -65,6 +66,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/diets")
 	public ResponseEntity<DietDTO> createDiet(@Valid @RequestBody final DietDTO dietDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -76,7 +78,7 @@ public class DietResource {
 		final DietDTO result = dietService.save(dietDTO);
 		return ResponseEntity.created(new URI("/api/diets/" + result.getId())).body(result);
 	}
-	
+
 	/**
 	 * PUT /diets : Update a diet.
 	 *
@@ -93,6 +95,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/diets")
 	public ResponseEntity<DietDTO> updateDiet(@Valid @RequestBody final DietDTO dietDTO)
 			throws DailyFollowUpException {
@@ -104,13 +107,13 @@ public class DietResource {
 		final DietDTO result = dietService.update(dietDTO);
 		return ResponseEntity.ok().body(result);
 	}
-	
+
 	/**
 	 * GET /diets : Get all the diets.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of diets in body
 	 * or with status 204 (No Content) if there is no diet.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get all the diets.")
 	@ApiResponses({
@@ -120,6 +123,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/diets")
 	public ResponseEntity<List<DietDTO>> getAllDiets() {
 		LOGGER.debug("REST request to get All Diets");
@@ -129,13 +133,13 @@ public class DietResource {
 		}
 		return ResponseEntity.ok().body(diets);
 	}
-	
+
 	/**
 	 * GET /diets/:id : Get the "id" diet.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok)
 	 * or with status 204 (No Content) if the diet does not exist.
-	 *         
+	 *
 	 */
 	@ApiOperation("Get the \"id\" diet.")
 	@ApiResponses({
@@ -145,6 +149,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/diets/{id}")
 	public ResponseEntity<DietDTO> getDiet(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Diet : {}", id);
@@ -169,6 +174,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/diets/{id}")
 	public ResponseEntity<Void> deleteDiet(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Diet : {}", id);
