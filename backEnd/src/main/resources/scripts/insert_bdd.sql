@@ -6,7 +6,8 @@
 INSERT INTO role (name) VALUES
 ('ROLE_ADMIN'),
 ('ROLE_DIET'),
-('ROLE_CAREGIVER');
+('ROLE_CAREGIVER'),
+('ROLE_NUTRITIONIST');
 
 /******************** LES UTILISATEURS DE L'APPLICATION ********************/
 INSERT INTO "user" (first_name, last_name, email, birth_day, pseudo, password_hash, role_id, image_url, create_date, status) VALUES
