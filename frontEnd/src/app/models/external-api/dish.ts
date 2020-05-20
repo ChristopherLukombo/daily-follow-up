@@ -1,4 +1,4 @@
-export class Content {
+export class Dish {
   /***/
   id: number;
   /***/
@@ -27,8 +27,4 @@ export class Content {
   agSaturates: number;
   /***/
   salt: number;
-  /***/
-  typeMeal: Array<string>;
-  /***/
-  imageUrl: string;
 }
