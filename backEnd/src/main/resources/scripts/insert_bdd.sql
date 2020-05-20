@@ -2,6 +2,8 @@
 /** IL FAUT SUIVRE L'ORDRE POUR L'INSERTION DES DONNEES **/
 /*********************************************************/
 
+CREATE EXTENSION unaccent;
+
 /******************** ROLES ********************/
 INSERT INTO role (name) VALUES
 ('ROLE_ADMIN'),

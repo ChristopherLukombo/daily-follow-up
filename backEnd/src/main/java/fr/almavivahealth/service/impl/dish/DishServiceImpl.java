@@ -49,7 +49,7 @@ public class DishServiceImpl implements DishService {
 		if (StringUtils.isBlank(name)) {
 			return Collections.emptyList();
 		}
-		return dishRepository.findByNameIgnoreCaseContaining(name, PageRequest.of(0, 5))
+		return dishRepository.findByNameIgnoreCaseContaining(name.trim(), PageRequest.of(0, 5))
 				.map(dishMapper::dishToDishDTO)
 				.getContent();
 	}
