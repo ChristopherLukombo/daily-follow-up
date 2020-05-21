@@ -31,14 +31,19 @@
             placeholder="Renseigner le plat à ajouter..."
           />
           <div class="input-group-prepend">
-            <button type="button" class="btn btn-info" (click)="onGetDetails()">
+            <button
+              type="button"
+              class="btn btn-info"
+              [disabled]="form.disabled"
+              (click)="onGetDetails()"
+            >
               Ingrédients &nbsp;
               <fa-icon [icon]="infosLogo"></fa-icon>
             </button>
           </div>
         </div>
         <small *ngIf="submitted && f.name.errors" class="text-danger">
-          Veuillez renseigner le nom du plat
+          Veuillez renseigner le nom du plat et les ingrédients
         </small>
         <small class="form-text text-muted"
           >Les ingrédients sont récupérées depuis la table de composition
@@ -56,13 +61,25 @@
           </ul>
         </div>
         <br />
-        <button type="submit" class="btn btn-info">
+        <button type="submit" [disabled]="form.disabled" class="btn btn-info">
           Valider la saisie
         </button>
+        &nbsp;
+        <button
+          *ngIf="submitted && form.disabled"
+          type="button"
+          class="btn btn-secondary"
+          (click)="onEdit()"
+        >
+          Modifier
+        </button>
       </div>
-      <small *ngIf="submitted && !form.valid" class="text-danger">
-        Tous les ingrédients doivent être correctement renseignés pour valider
+      <small *ngIf="submitted && form.invalid" class="text-danger">
+        Tous les champs doivent être correctement renseignés pour valider
       </small>
+      <span *ngIf="submitted && form.disabled" class="text-success">
+        <fa-icon [icon]="successLogo"></fa-icon> Ok
+      </span>
     </form>
   </div>
   <div *ngIf="loading"><app-loader></app-loader></div>

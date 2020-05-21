@@ -52,7 +52,7 @@
                     class="form-control form-control-sm"
                     [ngClass]="{ 'is-invalid': submitted && f.protein.errors }"
                     min="00"
-                    max="50"
+                    max="100"
                     formControlName="protein"
                     (keyup)="updateValues($event, 'protein', 0)"
                   />
@@ -66,7 +66,7 @@
                       'is-invalid': submitted && f.carbohydrate.errors
                     }"
                     min="00"
-                    max="50"
+                    max="100"
                     formControlName="carbohydrate"
                     (keyup)="updateValues($event, 'carbohydrate', 1)"
                   />
@@ -78,7 +78,7 @@
                     class="form-control form-control-sm"
                     [ngClass]="{ 'is-invalid': submitted && f.lipids.errors }"
                     min="00"
-                    max="50"
+                    max="100"
                     formControlName="lipids"
                     (keyup)="updateValues($event, 'lipids', 2)"
                   />
@@ -92,7 +92,7 @@
                     class="form-control form-control-sm"
                     [ngClass]="{ 'is-invalid': submitted && f.sugars.errors }"
                     min="00"
-                    max="50"
+                    max="100"
                     formControlName="sugars"
                     (keyup)="updateValues($event, 'sugars', 3)"
                   />
@@ -106,7 +106,7 @@
                       'is-invalid': submitted && f.agSaturates.errors
                     }"
                     min="00"
-                    max="50"
+                    max="100"
                     formControlName="agSaturates"
                     (keyup)="updateValues($event, 'agSaturates', 4)"
                   />
@@ -118,7 +118,7 @@
                     class="form-control form-control-sm"
                     [ngClass]="{ 'is-invalid': submitted && f.salt.errors }"
                     min="00"
-                    max="50"
+                    max="100"
                     formControlName="salt"
                     (keyup)="updateValues($event, 'salt', 5)"
                   />

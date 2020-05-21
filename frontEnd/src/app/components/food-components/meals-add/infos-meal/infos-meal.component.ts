@@ -41,13 +41,9 @@ export class InfosMealComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.content && this.form) {
-      this.f.calories.setValue(this.content.calories);
-      this.f.protein.setValue(this.content.protein);
-      this.f.carbohydrate.setValue(this.content.carbohydrate);
-      this.f.lipids.setValue(this.content.lipids);
-      this.f.sugars.setValue(this.content.sugars);
-      this.f.agSaturates.setValue(this.content.agSaturates);
-      this.f.salt.setValue(this.content.salt);
+      setTimeout(() => {
+        this.generateForm(this.content);
+      });
     }
   }
 
@@ -55,10 +51,23 @@ export class InfosMealComponent implements OnInit {
     this.doughnutChartData = this.content
       ? this.generateChartData(this.content)
       : [0, 0, 0, 0, 0, 0];
+    setTimeout(() => {
+      this.generateForm(this.content);
+    });
   }
 
   get f() {
     return this.form.controls;
+  }
+
+  generateForm(data: Content) {
+    this.f.calories.setValue(data ? data.calories : null);
+    this.f.protein.setValue(data ? data.protein : null);
+    this.f.carbohydrate.setValue(data ? data.carbohydrate : null);
+    this.f.lipids.setValue(data ? data.lipids : null);
+    this.f.sugars.setValue(data ? data.sugars : null);
+    this.f.agSaturates.setValue(data ? data.agSaturates : null);
+    this.f.salt.setValue(data ? data.salt : null);
   }
 
   generateChartData(data: Content): number[] {

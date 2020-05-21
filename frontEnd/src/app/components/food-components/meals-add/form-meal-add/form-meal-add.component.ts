@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 import {
   Validators,
   FormGroup,
@@ -8,10 +8,7 @@ import {
   ValidatorFn,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
-import {
-  faArrowRight,
-  faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { ExternalApiService } from "src/app/services/external-api/external-api.service";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { Dish } from "src/app/models/external-api/dish";
@@ -24,8 +21,9 @@ import { Content } from "src/app/models/food/content";
 })
 export class FormMealAddComponent implements OnInit {
   infosLogo = faArrowRight;
-  warningLogo = faExclamationTriangle;
+  successLogo = faCheckCircle;
 
+  @Input() idForm = 0;
   form: FormGroup;
   typeMeals: string[] = [
     "Entrée",
@@ -38,6 +36,7 @@ export class FormMealAddComponent implements OnInit {
   selectedContent: Content;
   submittedSearch: boolean = false;
   submitted: boolean = false;
+  @Output() formToSubmit = new EventEmitter<FormGroup>();
 
   loading: boolean = false;
 
@@ -51,8 +50,15 @@ export class FormMealAddComponent implements OnInit {
     this.spySearchInput();
   }
 
+  ngOnChanges(): void {
+    if (this.form) {
+      this.f.idForm.setValue(this.idForm);
+    }
+  }
+
   createForm() {
     const target = {
+      idForm: [this.idForm, Validators.required],
       types: this.buildCheckboxes(),
       name: [null, Validators.required],
       calories: [
@@ -61,27 +67,27 @@ export class FormMealAddComponent implements OnInit {
       ],
       protein: [
         null,
-        [Validators.required, Validators.min(0), Validators.max(50)],
+        [Validators.required, Validators.min(0), Validators.max(100)],
       ],
       carbohydrate: [
         null,
-        [Validators.required, Validators.min(0), Validators.max(50)],
+        [Validators.required, Validators.min(0), Validators.max(100)],
       ],
       lipids: [
         null,
-        [Validators.required, Validators.min(0), Validators.max(50)],
+        [Validators.required, Validators.min(0), Validators.max(100)],
       ],
       sugars: [
         null,
-        [Validators.required, Validators.min(0), Validators.max(50)],
+        [Validators.required, Validators.min(0), Validators.max(100)],
       ],
       agSaturates: [
         null,
-        [Validators.required, Validators.min(0), Validators.max(50)],
+        [Validators.required, Validators.min(0), Validators.max(100)],
       ],
       salt: [
         null,
-        [Validators.required, Validators.min(0), Validators.max(50)],
+        [Validators.required, Validators.min(0), Validators.max(100)],
       ],
     };
     this.form = this.formBuilder.group(target);
@@ -168,12 +174,14 @@ export class FormMealAddComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     if (this.form.invalid) return;
-    console.log("created !");
-    console.log(this.f);
-    //this.dishNameToCreate = this.f.name.value; a supprimer
+    this.form.disable({ emitEvent: false });
+    this.formToSubmit.emit(this.form);
 
     // chaque plat à tous les texture possible
     //console.log(this.getTypeMeals());
-    //console.log(this.f.name.value);
+  }
+
+  onEdit(): void {
+    this.form.enable({ emitEvent: false });
   }
 }
