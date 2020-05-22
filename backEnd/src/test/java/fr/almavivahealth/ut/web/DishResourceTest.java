@@ -93,7 +93,7 @@ public class DishResourceTest {
 		when(dishService.findByName(anyString())).thenReturn(dishDTO);
 
 		// Then
-		mockMvc.perform(get("/api/dishes/find/test")
+		mockMvc.perform(get("/api/dishes/find?name=test")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isOk());
 		verify(dishService, times(1)).findByName(anyString());
@@ -108,7 +108,7 @@ public class DishResourceTest {
 		when(dishService.findByName(anyString())).thenReturn(dishDTO);
 
 		// Then
-		mockMvc.perform(get("/api/dishes/find/test")
+		mockMvc.perform(get("/api/dishes/find?name=test")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isNoContent());
 		verify(dishService, times(1)).findByName(anyString());

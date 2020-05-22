@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -82,8 +81,8 @@ public class DishResource {
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
-	@GetMapping("/dishes/find/{name}")
-	public ResponseEntity<DishDTO> getDishByName(@PathVariable final String name) {
+	@GetMapping(value = "/dishes/find", params = { "name" })
+	public ResponseEntity<DishDTO> getDishByName(@RequestParam final String name) {
 		LOGGER.debug("REST request to get Dish by name: {}", name);
 		final Optional<DishDTO> dish = dishService.findByName(name);
         if (!dish.isPresent()) {
