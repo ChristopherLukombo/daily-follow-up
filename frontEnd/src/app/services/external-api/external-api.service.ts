@@ -42,7 +42,7 @@ export class ExternalApiService {
    */
   matchMeal(name: string): Observable<Dish> {
     return this.http
-      .get<Dish>(EXTERNAL_API_URL + `/find/${name}`, httpOptions)
+      .get<Dish>(EXTERNAL_API_URL + `/find?name=${name}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -52,8 +52,7 @@ export class ExternalApiService {
    * @returns le plat de la clinique
    */
   toContent(dish: Dish): Content {
-    const content = dish as Content;
-    return content;
+    return dish as Content;
   }
 
   /**
