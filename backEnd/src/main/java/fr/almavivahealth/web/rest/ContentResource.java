@@ -1,6 +1,7 @@
 package fr.almavivahealth.web.rest;
 
 import static fr.almavivahealth.constants.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_PICTURE_CONTENT;
+import static fr.almavivahealth.constants.ErrorMessage.ERROR_CONTENT_UNIQUE_NAME;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import fr.almavivahealth.domain.entity.Content;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
@@ -80,12 +82,19 @@ public class ContentResource {
 	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/contents")
-	public ResponseEntity<ContentDTO> createContent(@Valid @RequestBody final ContentDTO contentDTO)
+	public ResponseEntity<ContentDTO> createContent(
+			@Valid @RequestBody final ContentDTO contentDTO,
+			@ApiIgnore final Locale locale)
 			throws URISyntaxException, DailyFollowUpException {
 		LOGGER.debug("REST request to save Content : {}", contentDTO);
 		if (contentDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A new content cannot already have an ID idexists " + contentDTO.getId());
+		}
+		final Optional<Content> content = contentService.findContentByName(contentDTO.getName());
+		if (content.isPresent()) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), messageSource
+					.getMessage(ERROR_CONTENT_UNIQUE_NAME, null, locale));
 		}
 		final ContentDTO result = contentService.save(contentDTO);
 		return ResponseEntity.created(new URI("/api/contents/" + result.getId())).body(result);
@@ -110,12 +119,19 @@ public class ContentResource {
 	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/contents")
-	public ResponseEntity<ContentDTO> updateContent(@Valid @RequestBody final ContentDTO contentDTO)
+	public ResponseEntity<ContentDTO> updateContent(
+			@Valid @RequestBody final ContentDTO contentDTO,
+			@ApiIgnore final Locale locale)
 			throws DailyFollowUpException {
 		LOGGER.debug("REST request to update Content : {}", contentDTO);
 		if (contentDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A content must have an ID idexists " + contentDTO.getId());
+		}
+		final Optional<Content> content = contentService.findContentByName(contentDTO.getName());
+		if (content.isPresent()) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), messageSource
+					.getMessage(ERROR_CONTENT_UNIQUE_NAME, null, locale));
 		}
 		final ContentDTO result = contentService.update(contentDTO);
 		return ResponseEntity.ok().body(result);

@@ -28,6 +28,7 @@ public final class ErrorMessage {
 	public static final String AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_FILE = "error.content.while_trying_upload_the_file";
 	public static final String ID_CONTENT_DOES_NOT_EXIST = "error.content.id_not_exist";
 	public static final String AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_PICTURE_CONTENT = "error.content.while_trying_picture_content";
+	public static final String ERROR_CONTENT_UNIQUE_NAME = "error.content.uniqueName";
 
 	// Private constructor to prevent instantiation
 	private ErrorMessage() {

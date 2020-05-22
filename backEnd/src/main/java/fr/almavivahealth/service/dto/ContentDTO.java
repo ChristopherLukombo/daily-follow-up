@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotEmpty;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -23,6 +25,7 @@ public class ContentDTO implements Serializable {
 
 	private Integer code;
 
+	@NotEmpty(message = "{error.content.RequiredName}")
 	private String name;
 
     private String groupName;
