@@ -146,16 +146,6 @@ export class FormMealAddComponent implements OnInit {
     this.f.name.setValue(dish.name, { emitEvent: false });
   }
 
-  getTypeMeals(): string[] {
-    let types: string[] = [];
-    this.types.forEach((type: FormControl, i: number) => {
-      if (type.value === true && this.typeMeals[i]) {
-        types.push(this.typeMeals[i]);
-      }
-    });
-    return types;
-  }
-
   onGetDetails(): void {
     this.submittedSearch = true;
     this.loading = true;
@@ -176,9 +166,6 @@ export class FormMealAddComponent implements OnInit {
     if (this.form.invalid) return;
     this.form.disable({ emitEvent: false });
     this.formToSubmit.emit(this.form);
-
-    // chaque plat à tous les texture possible
-    //console.log(this.getTypeMeals());
   }
 
   onEdit(): void {

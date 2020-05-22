@@ -24,18 +24,33 @@ const EXTERNAL_API_URL = environment.appRootUrl + "/api/dishes";
 export class ExternalApiService {
   constructor(private http: HttpClient) {}
 
+  /**
+   * Recherche de plats depuis la table CIQUAL
+   * @param search
+   * @returns la liste des plats correspondant
+   */
   searchMeals(search: string): Observable<Dish[]> {
     return this.http
       .get<Dish[]>(EXTERNAL_API_URL + `/search?name=${search}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Trouve un plat dans la table CIQUAL
+   * @param name
+   * @returns le plat correspondant
+   */
   matchMeal(name: string): Observable<Dish> {
     return this.http
       .get<Dish>(EXTERNAL_API_URL + `/find/${name}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
+  /**
+   * Convertit un plat CIQUAL vers un plat de la clinique
+   * @param dish
+   * @returns le plat de la clinique
+   */
   toContent(dish: Dish): Content {
     const content = dish as Content;
     return content;
