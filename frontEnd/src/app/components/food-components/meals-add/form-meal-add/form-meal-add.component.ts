@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 import {
   Validators,
   FormGroup,
@@ -8,9 +8,10 @@ import {
   ValidatorFn,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { ExternalApiService } from "src/app/services/external-api/external-api.service";
 import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
+import { Dish } from "src/app/models/external-api/dish";
 import { Content } from "src/app/models/food/content";
 
 @Component({
@@ -19,8 +20,10 @@ import { Content } from "src/app/models/food/content";
   styleUrls: ["./form-meal-add.component.scss"],
 })
 export class FormMealAddComponent implements OnInit {
-  infosLogo = faSearch;
+  infosLogo = faArrowRight;
+  successLogo = faCheckCircle;
 
+  @Input() idForm = 0;
   form: FormGroup;
   typeMeals: string[] = [
     "Entrée",
@@ -29,8 +32,13 @@ export class FormMealAddComponent implements OnInit {
     "Produit laitier",
     "Dessert",
   ];
-  searchList: Content[] = [];
+  searchList: Dish[] = [];
+  selectedContent: Content;
+  submittedSearch: boolean = false;
   submitted: boolean = false;
+  @Output() formToSubmit = new EventEmitter<FormGroup>();
+
+  loading: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,10 +50,45 @@ export class FormMealAddComponent implements OnInit {
     this.spySearchInput();
   }
 
+  ngOnChanges(): void {
+    if (this.form) {
+      this.f.idForm.setValue(this.idForm);
+    }
+  }
+
   createForm() {
     const target = {
+      idForm: [this.idForm, Validators.required],
       types: this.buildCheckboxes(),
       name: [null, Validators.required],
+      calories: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(900)],
+      ],
+      protein: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      carbohydrate: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      lipids: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      sugars: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      agSaturates: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
+      salt: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
     };
     this.form = this.formBuilder.group(target);
   }
@@ -56,14 +99,12 @@ export class FormMealAddComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         switchMap((search) => {
-          console.log("search : " + search);
           return this.externalApiService.searchMeals(search);
         })
       )
       .subscribe(
         (data) => {
           this.searchList = data ? data : [];
-          console.log(this.searchList);
         },
         (error) => {
           console.log(error);
@@ -100,37 +141,34 @@ export class FormMealAddComponent implements OnInit {
     return validator;
   }
 
-  selectMeal(content: Content) {
+  selectMeal(dish: Dish) {
     this.searchList = [];
-    this.f.name.setValue(content.name, { emitEvent: false });
+    this.f.name.setValue(dish.name, { emitEvent: false });
   }
 
-  getTypeMeals(): string[] {
-    let types: string[] = [];
-    this.types.forEach((type: FormControl, i: number) => {
-      if (type.value === true && this.typeMeals[i]) {
-        types.push(this.typeMeals[i]);
+  onGetDetails(): void {
+    this.submittedSearch = true;
+    this.loading = true;
+    this.externalApiService.matchMeal(this.f.name.value).subscribe(
+      (data) => {
+        this.selectedContent = this.externalApiService.toContent(data);
+        this.loading = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
       }
-    });
-    return types;
+    );
   }
 
   onSubmit(): void {
     this.submitted = true;
-    if (this.form.invalid) {
-      return;
-    }
-    console.log("ok");
-    this.externalApiService.searchMeals(this.f.name.value).subscribe(
-      (data) => {
-        console.log(data);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-    // chaque plat à tous les texture possible
-    //console.log(this.getTypeMeals());
-    //console.log(this.f.name.value);
+    if (this.form.invalid) return;
+    this.form.disable({ emitEvent: false });
+    this.formToSubmit.emit(this.form);
+  }
+
+  onEdit(): void {
+    this.form.enable({ emitEvent: false });
   }
 }

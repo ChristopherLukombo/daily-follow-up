@@ -5,30 +5,53 @@
     </div>
     <div class="col">
       <h2>Nouveaux plats</h2>
-      <div *ngFor="let m of nbForms" class="divider">
+      <div *ngFor="let id of idsForms; let last = last" class="divider">
         <br />
-        <div class="row">
-          <div class="col">
-            <app-form-meal-add></app-form-meal-add>
-            <button
-              *ngIf="nbForms.length > 1"
-              type="button"
-              class="btn btn-sm btn-light"
-              (click)="deleteForm(m)"
-            >
-              <fa-icon [icon]="revertLogo"></fa-icon> Retirer
-            </button>
-          </div>
-        </div>
+        <app-form-meal-add
+          [idForm]="id"
+          (formToSubmit)="submitForm($event)"
+        ></app-form-meal-add>
+        <button
+          *ngIf="idsForms.length > 1"
+          type="button"
+          class="btn btn-sm btn-light"
+          (click)="deleteForm(id)"
+        >
+          <fa-icon [icon]="revertLogo"></fa-icon> Retirer
+        </button>
+        <button
+          *ngIf="last"
+          type="button"
+          class="btn btn-sm btn-light"
+          (click)="createForm(id)"
+        >
+          <fa-icon [icon]="moreLogo"></fa-icon> Plat supplémentaire...
+        </button>
       </div>
-      <button type="button" class="btn btn-sm btn-light" (click)="createForm()">
-        <fa-icon [icon]="moreLogo"></fa-icon> Plat supplémentaire...
-      </button>
+      <br />
       <div class="row">
         <div class="col text-right">
-          <button type="button" class="btn btn-primary" (click)="onCreate()">
-            Confirmer
+          <button
+            *ngIf="!creating"
+            type="button"
+            class="btn btn-primary"
+            [disabled]="forms?.length == 0"
+            (click)="onCreate()"
+          >
+            Confirmer la création
           </button>
+          <button
+            *ngIf="creating"
+            type="button"
+            class="btn btn-primary"
+            disabled
+          >
+            <span class="spinner-border spinner-border-sm"></span>Création...
+          </button>
+          <br />
+          <small class="text-primary"
+            >Nombre de plat à créer : <strong>{{ forms.length }}</strong></small
+          >
         </div>
       </div>
     </div>

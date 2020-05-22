@@ -31,17 +31,24 @@
             placeholder="Renseigner le plat à ajouter..."
           />
           <div class="input-group-prepend">
-            <button type="submit" class="input-group-text">
-              <fa-icon [icon]="infosLogo" (click)="onSubmit()"></fa-icon>
-              &nbsp;Composition nutritionnelle
+            <button
+              type="button"
+              class="btn btn-info"
+              [disabled]="form.disabled"
+              (click)="onGetDetails()"
+            >
+              Ingrédients &nbsp;
+              <fa-icon [icon]="infosLogo"></fa-icon>
             </button>
           </div>
         </div>
         <small *ngIf="submitted && f.name.errors" class="text-danger">
-          Veuillez renseigner le nom du plat
+          Veuillez renseigner le nom du plat et les ingrédients
         </small>
         <small class="form-text text-muted"
-          >Le résultat le plus proche sera choisit
+          >Les ingrédients sont récupérées depuis la table de composition
+          nutrionnelle des aliments
+          <a href="https://ciqual.anses.fr" target="_blank">Ciqual.fr</a>
         </small>
         <div *ngIf="searchList.length > 0" class="typeahead-custom">
           <ul *ngFor="let res of searchList" class="list-group">
@@ -53,11 +60,35 @@
             </li>
           </ul>
         </div>
+        <br />
+        <button type="submit" [disabled]="form.disabled" class="btn btn-info">
+          Valider la saisie
+        </button>
+        &nbsp;
+        <button
+          *ngIf="submitted && form.disabled"
+          type="button"
+          class="btn btn-secondary"
+          (click)="onEdit()"
+        >
+          Modifier
+        </button>
       </div>
+      <small *ngIf="submitted && form.invalid" class="text-danger">
+        Tous les champs doivent être correctement renseignés pour valider
+      </small>
+      <span *ngIf="submitted && form.disabled" class="text-success">
+        <fa-icon [icon]="successLogo"></fa-icon> Ok
+      </span>
     </form>
   </div>
-  <div class="col-5">
-    <app-infos-meal></app-infos-meal>
+  <div *ngIf="loading"><app-loader></app-loader></div>
+  <div *ngIf="submittedSearch && !loading" class="col-5">
+    <app-infos-meal
+      [content]="selectedContent"
+      [form]="form"
+      [submitted]="submitted"
+    ></app-infos-meal>
   </div>
 </div>
 <br />

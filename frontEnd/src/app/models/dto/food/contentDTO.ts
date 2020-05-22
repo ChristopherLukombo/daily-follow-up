@@ -1,8 +1,8 @@
-import { TextureDTO } from "./textureDTO";
-
 export class ContentDTO {
   /***/
   id: number;
+  /***/
+  code: number;
   /***/
   name: string;
   /***/
@@ -12,21 +12,21 @@ export class ContentDTO {
   /***/
   subSubGroupName: string;
   /***/
-  calories: string;
+  calories: number;
   /***/
-  protein: string;
+  protein: number;
   /***/
-  carbohydrate: string;
+  carbohydrate: number;
   /***/
-  lipids: string;
+  lipids: number;
   /***/
-  sugars: string;
+  sugars: number;
   /***/
-  foodFibres: string;
+  foodFibres: number;
   /***/
-  agSaturates: string;
+  agSaturates: number;
   /***/
-  salt: string;
+  salt: number;
   /***/
   typeMeal: Array<string>;
   /***/
@@ -38,14 +38,14 @@ export class ContentDTO {
     groupName: string,
     subGroupName: string,
     subSubGroupName: string,
-    calories: string,
-    protein: string,
-    carbohydrate: string,
-    lipids: string,
-    sugars: string,
-    foodFibres: string,
-    agSaturates: string,
-    salt: string,
+    calories: number,
+    protein: number,
+    carbohydrate: number,
+    lipids: number,
+    sugars: number,
+    foodFibres: number,
+    agSaturates: number,
+    salt: number,
     typeMeal: Array<string>,
     imageUrl: string
   ) {

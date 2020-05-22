@@ -47,6 +47,7 @@ import { FoodNavbarComponent } from "./components/navbar-vertical/food-navbar/fo
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
 import { ModalDangerComponent } from "./components/utils-components/modal-danger/modal-danger.component";
+import { Tabs, Tab } from "./components/utils-components/tabs/tabs.component";
 
 import { LoginService } from "./services/login/login.service";
 
@@ -60,7 +61,6 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { FormEditInfosMealComponent } from './components/food-components/meals-add/infos-meal/form-edit-infos-meal/form-edit-infos-meal.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +103,8 @@ import { FormEditInfosMealComponent } from './components/food-components/meals-a
     FoodNavbarComponent,
     FormMealAddComponent,
     InfosMealComponent,
-    FormEditInfosMealComponent,
+    Tabs,
+    Tab,
   ],
   imports: [
     BrowserModule,
