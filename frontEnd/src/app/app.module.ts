@@ -62,6 +62,9 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
+import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
+import { MenuWeeksComponent } from "./components/food-components/menu-weeks/menu-weeks.component";
+import { ContentsDayMenuComponent } from "./components/food-components/menu-weeks/contents-day-menu/contents-day-menu.component";
 
 @NgModule({
   declarations: [
@@ -107,6 +110,9 @@ import {
     Tabs,
     Tab,
     Typeahead,
+    MenuAddComponent,
+    MenuWeeksComponent,
+    ContentsDayMenuComponent,
   ],
   imports: [
     BrowserModule,

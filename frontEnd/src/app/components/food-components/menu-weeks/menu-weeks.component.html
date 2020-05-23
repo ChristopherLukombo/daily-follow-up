@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col">
+    <div class="btn-group">
+      <button
+        *ngFor="let week of weeks; let w = index"
+        type="button"
+        class="btn btn-primary"
+        (click)="selectWeek(week, w)"
+        [class.active]="w == selectedButton"
+      >
+        {{ week }}
+      </button>
+    </div>
+  </div>
+  <div class="col text-right">
+    <button type="button" class="btn btn-info">
+      Carte de remplacement du menu
+    </button>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="text-center">
+            <th></th>
+            <th *ngFor="let day of days" scope="col">
+              {{ day }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" class="moment-day">Déjeuner</th>
+            <td *ngFor="let day of days">
+              <app-contents-day-menu></app-contents-day-menu>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" class="moment-day">Dîner</th>
+            <td *ngFor="let day of days">
+              <app-contents-day-menu></app-contents-day-menu>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

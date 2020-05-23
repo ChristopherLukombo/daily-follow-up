@@ -3,6 +3,7 @@ import {
   faStream,
   faCarrot,
   faHamburger,
+  faClock,
 } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -14,6 +15,7 @@ export class FoodNavbarComponent implements OnInit {
   menuPeriodLogo = faStream;
   mealAddLogo = faCarrot;
   menuAddLogo = faHamburger;
+  menuOldLogo = faClock;
 
   constructor() {}
 

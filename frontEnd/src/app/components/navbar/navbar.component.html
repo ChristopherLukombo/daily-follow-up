@@ -22,23 +22,10 @@
           ><fa-icon [icon]="foodLogo"></fa-icon> Alimentation</a
         >
       </li>
-      <li class="nav-item dropdown active">
-        <a
-          class="nav-link dropdown-toggle"
-          href="#"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/patient/all"
+          ><fa-icon [icon]="patientLogo"></fa-icon> Patient</a
         >
-          <fa-icon [icon]="patientLogo"></fa-icon> Patient
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" routerLink="/patient/all"
-            >Tous les patiens</a
-          >
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="/patient/add">Nouveau patient</a>
-        </div>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="#"

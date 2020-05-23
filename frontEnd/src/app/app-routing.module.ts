@@ -10,6 +10,7 @@ import { PatientsImportComponent } from "./components/patient-components/patient
 import { PatientsOldComponent } from "./components/patient-components/patients-old/patients-old.component";
 import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
+import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -51,6 +52,11 @@ const routes: Routes = [
   {
     path: "food/meal/add",
     component: MealsAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/menu/add",
+    component: MenuAddComponent,
     canActivate: [AuthGuard],
   },
   {

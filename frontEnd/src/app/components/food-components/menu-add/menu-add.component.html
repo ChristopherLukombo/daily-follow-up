@@ -1,0 +1,72 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-food-navbar></app-food-navbar>
+    </div>
+    <div *ngIf="loading" class="col"><app-loader></app-loader></div>
+    <div *ngIf="error" class="col">
+      <app-alert-error [content]="error"></app-alert-error>
+    </div>
+    <div *ngIf="!error && !loading" class="col">
+      <h2>Composer un menu</h2>
+      <br />
+      <div class="row">
+        <div *ngIf="textures" class="col">
+          <div class="btn-group">
+            <button
+              *ngFor="let texture of textures; let t = index"
+              type="button"
+              class="btn btn-primary"
+              (click)="selectTexture(texture, t)"
+              [class.active]="t == selectedButton"
+            >
+              {{ texture.name }}
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-row">
+            <div class="col-8">
+              <div class="form-group row">
+                <label class="col-sm-5 col-form-label text-right"
+                  >Date de début</label
+                >
+                <div class="col-sm-7">
+                  <input
+                    type="week"
+                    [(ngModel)]="beginWeek"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group row">
+                <label class="col-sm-7 col-form-label text-right"
+                  >Répétition</label
+                >
+                <div class="col-sm-5">
+                  <input
+                    type="number"
+                    [(ngModel)]="repeat"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <app-menu-weeks></app-menu-weeks>
+      <br />
+      <div class="row">
+        <div class="col text-right">
+          <button type="button" class="btn btn-primary">
+            Confirmer la création
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

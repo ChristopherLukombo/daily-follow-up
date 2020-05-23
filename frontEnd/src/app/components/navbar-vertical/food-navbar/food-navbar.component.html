@@ -16,6 +16,20 @@
   <li class="nav-item">
     <a
       class="nav-link"
+      id="meal-all-tab"
+      data-toggle="tab"
+      routerLink="/food/meal/all"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="meal-all-tab"
+      aria-selected="false"
+      ><fa-icon [icon]="menuPeriodLogo"></fa-icon> Plats en stock</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
       id="meal-add-tab"
       data-toggle="tab"
       routerLink="/food/meal/add"
@@ -39,6 +53,20 @@
       aria-controls="menu-add-tab"
       aria-selected="false"
       ><fa-icon [icon]="menuAddLogo"></fa-icon> Composer un menu</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="menu-old-tab"
+      data-toggle="tab"
+      routerLink="/food/menu/old"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="menu-old-tab"
+      aria-selected="false"
+      ><fa-icon [icon]="menuOldLogo"></fa-icon> Historique des menus</a
     >
   </li>
   <!-- nouveau menu | gérer diet/texture-->
