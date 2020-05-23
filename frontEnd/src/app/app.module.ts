@@ -48,6 +48,7 @@ import { AlertErrorComponent } from "./components/utils-components/alert-error/a
 import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
 import { ModalDangerComponent } from "./components/utils-components/modal-danger/modal-danger.component";
 import { Tabs, Tab } from "./components/utils-components/tabs/tabs.component";
+import { Typeahead } from "./components/utils-components/typeahead/typeahead.component";
 
 import { LoginService } from "./services/login/login.service";
 
@@ -105,6 +106,7 @@ import {
     InfosMealComponent,
     Tabs,
     Tab,
+    Typeahead,
   ],
   imports: [
     BrowserModule,

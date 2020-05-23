@@ -42,6 +42,12 @@
             </button>
           </div>
         </div>
+        <typeahead
+          [list]="searchList"
+          [field]="'name'"
+          (select)="selectMeal($event)"
+        >
+        </typeahead>
         <small *ngIf="submitted && f.name.errors" class="text-danger">
           Veuillez renseigner le nom du plat et les ingrédients
         </small>
@@ -50,16 +56,6 @@
           nutrionnelle des aliments
           <a href="https://ciqual.anses.fr" target="_blank">Ciqual.fr</a>
         </small>
-        <div *ngIf="searchList.length > 0" class="typeahead-custom">
-          <ul *ngFor="let res of searchList" class="list-group">
-            <li
-              class="list-group-item list-group-item-action"
-              (click)="selectMeal(res)"
-            >
-              {{ res.name }}
-            </li>
-          </ul>
-        </div>
         <br />
         <button type="submit" [disabled]="form.disabled" class="btn btn-info">
           Valider la saisie

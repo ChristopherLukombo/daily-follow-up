@@ -1,9 +1,18 @@
-.ng-chart {
+.tab-content {
   display: block;
   border: 1px solid #cccccc;
-  padding-bottom: 7px;
+  border-top: transparent;
 }
 
-.editable-chart {
-  padding: 0.3rem;
+.ng-chart {
+  padding-bottom: 10px;
+}
+
+.edit-chart {
+  thead {
+    th {
+      border-top: transparent;
+    }
+  }
+  margin-bottom: 0px;
 }
