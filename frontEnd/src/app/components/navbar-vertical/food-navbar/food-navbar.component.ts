@@ -1,5 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStream,
+  faCarrot,
+  faHamburger,
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-food-navbar",
@@ -7,7 +11,9 @@ import { faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ["./food-navbar.component.scss"],
 })
 export class FoodNavbarComponent implements OnInit {
-  mealAddLogo = faDrumstickBite;
+  menuPeriodLogo = faStream;
+  mealAddLogo = faCarrot;
+  menuAddLogo = faHamburger;
 
   constructor() {}
 

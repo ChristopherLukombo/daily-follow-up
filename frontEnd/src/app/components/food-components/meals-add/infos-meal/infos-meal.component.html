@@ -1,7 +1,7 @@
 <div class="col">
   <tabs>
     <tab tabTitle="Ingrédients">
-      <div *ngIf="!chartEmpty()" class="ng-chart">
+      <div *ngIf="!chartEmpty()" class="tab-content ng-chart">
         <canvas
           baseChart
           [data]="doughnutChartData"
@@ -20,113 +20,121 @@
       </div>
     </tab>
     <tab tabTitle="Modifier">
-      <form [formGroup]="form">
-        <div class="col editable-chart">
-          <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th class="table-light" scope="col" colspan="3">
-                  <label
-                    >Calories du plat (kcal)<span class="required"
-                      >*</span
-                    ></label
-                  >
-                  <input
-                    type="number"
-                    class="form-control form-control-sm"
-                    [ngClass]="{ 'is-invalid': submitted && f.calories.errors }"
-                    min="000"
-                    max="900"
-                    formControlName="calories"
-                    (keyup)="updateValues($event, 'calories')"
-                  />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="table-danger">
-                  <label>Protéines (g) <span class="required">*</span></label>
-                  <input
-                    type="number"
-                    class="form-control form-control-sm"
-                    [ngClass]="{ 'is-invalid': submitted && f.protein.errors }"
-                    min="00"
-                    max="100"
-                    formControlName="protein"
-                    (keyup)="updateValues($event, 'protein', 0)"
-                  />
-                </td>
-                <td class="table-primary">
-                  <label>Glucides (g) <span class="required">*</span></label>
-                  <input
-                    type="number"
-                    class="form-control form-control-sm"
-                    [ngClass]="{
-                      'is-invalid': submitted && f.carbohydrate.errors
-                    }"
-                    min="00"
-                    max="100"
-                    formControlName="carbohydrate"
-                    (keyup)="updateValues($event, 'carbohydrate', 1)"
-                  />
-                </td>
-                <td class="table-warning">
-                  <label>Lipides (g) <span class="required">*</span></label>
-                  <input
-                    type="number"
-                    class="form-control form-control-sm"
-                    [ngClass]="{ 'is-invalid': submitted && f.lipids.errors }"
-                    min="00"
-                    max="100"
-                    formControlName="lipids"
-                    (keyup)="updateValues($event, 'lipids', 2)"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td class="table-active">
-                  <label>Sucres (g) <span class="required">*</span></label>
-                  <input
-                    type="number"
-                    class="form-control form-control-sm"
-                    [ngClass]="{ 'is-invalid': submitted && f.sugars.errors }"
-                    min="00"
-                    max="100"
-                    formControlName="sugars"
-                    (keyup)="updateValues($event, 'sugars', 3)"
-                  />
-                </td>
-                <td class="table-info">
-                  <label>AG saturés (g) <span class="required">*</span></label>
-                  <input
-                    type="number"
-                    class="form-control form-control-sm"
-                    [ngClass]="{
-                      'is-invalid': submitted && f.agSaturates.errors
-                    }"
-                    min="00"
-                    max="100"
-                    formControlName="agSaturates"
-                    (keyup)="updateValues($event, 'agSaturates', 4)"
-                  />
-                </td>
-                <td class="table-secondary">
-                  <label>Sel (g) <span class="required">*</span></label>
-                  <input
-                    type="number"
-                    class="form-control form-control-sm"
-                    [ngClass]="{ 'is-invalid': submitted && f.salt.errors }"
-                    min="00"
-                    max="100"
-                    formControlName="salt"
-                    (keyup)="updateValues($event, 'salt', 5)"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <form [formGroup]="form" class="tab-content">
+        <table class="table edit-chart">
+          <thead>
+            <tr>
+              <th class="table-light" scope="col" colspan="3">
+                <label
+                  >Calories du plat (kcal)<span class="required">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'is-invalid': submitted && f.calories.errors }"
+                  min="000"
+                  max="900"
+                  formControlName="calories"
+                  (keyup)="updateValues($event, 'calories')"
+                />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="table-danger">
+                <label class="col-form-label-sm"
+                  >Protéines (g) <span class="required">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'is-invalid': submitted && f.protein.errors }"
+                  min="00"
+                  max="100"
+                  formControlName="protein"
+                  (keyup)="updateValues($event, 'protein', 0)"
+                />
+              </td>
+              <td class="table-primary">
+                <label class="col-form-label-sm"
+                  >Glucides (g) <span class="required">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.carbohydrate.errors
+                  }"
+                  min="00"
+                  max="100"
+                  formControlName="carbohydrate"
+                  (keyup)="updateValues($event, 'carbohydrate', 1)"
+                />
+              </td>
+              <td class="table-warning">
+                <label class="col-form-label-sm"
+                  >Lipides (g) <span class="required">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'is-invalid': submitted && f.lipids.errors }"
+                  min="00"
+                  max="100"
+                  formControlName="lipids"
+                  (keyup)="updateValues($event, 'lipids', 2)"
+                />
+              </td>
+            </tr>
+            <tr>
+              <td class="table-active">
+                <label class="col-form-label-sm"
+                  >Sucres (g) <span class="required">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'is-invalid': submitted && f.sugars.errors }"
+                  min="00"
+                  max="100"
+                  formControlName="sugars"
+                  (keyup)="updateValues($event, 'sugars', 3)"
+                />
+              </td>
+              <td class="table-info">
+                <label class="col-form-label-sm"
+                  >AG saturés (g) <span class="required">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{
+                    'is-invalid': submitted && f.agSaturates.errors
+                  }"
+                  min="00"
+                  max="100"
+                  formControlName="agSaturates"
+                  (keyup)="updateValues($event, 'agSaturates', 4)"
+                />
+              </td>
+              <td class="table-secondary">
+                <label class="col-form-label-sm"
+                  >Sel (g) <span class="required">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'is-invalid': submitted && f.salt.errors }"
+                  min="00"
+                  max="100"
+                  formControlName="salt"
+                  (keyup)="updateValues($event, 'salt', 5)"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </form>
     </tab>
   </tabs>
