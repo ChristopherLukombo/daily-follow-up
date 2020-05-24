@@ -13,6 +13,6 @@ public interface DietRepository extends JpaRepository<Diet, Long>{
 	
 	List<Diet> findAllByNameIgnoreCaseIn(Set<String> names);
 	
-	List<Diet> findAllByOrderByIdDesc();
+	List<Diet> findAllByOrderByIdAsc();
 	
 }

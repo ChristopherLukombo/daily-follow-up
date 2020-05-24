@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -42,6 +43,7 @@ import fr.almavivahealth.domain.entity.MomentDay;
 import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.domain.entity.Texture;
+import fr.almavivahealth.domain.entity.Week;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.MenuService;
 import fr.almavivahealth.service.dto.MenuDTO;
@@ -120,7 +122,7 @@ public class MenuServiceImpl implements MenuService {
 	@Transactional(readOnly = true)
 	public List<MenuDTO> findAll() {
 		LOGGER.debug("Request to get all Menus");
-		return menuRepository.findAllByOrderByIdDesc().stream()
+		return menuRepository.findAllByOrderByIdAsc().stream()
 				.map(menuMapper::menuToMenuDTO)
 				.collect(Collectors.toList());
 	}
@@ -284,9 +286,11 @@ public class MenuServiceImpl implements MenuService {
 	// TODO: Set up the AI to manage the contents in coupons
 	private List<String> findContentNames(final Menu menu, final String momentDay, final String dayToSearch) {
         // Defined order of typeMeals
-//		final List<String> definedOrder = Arrays.asList("ENTREE", "PLAT", "GARNITURE", "PRODUIT LAITIER", "DESSERT");
+		final List<String> definedOrder = Arrays.asList("ENTREE", "PLAT", "GARNITURE", "PRODUIT LAITIER", "DESSERT");
 
-		return menu.getDays().stream()
+		return menu.getWeeks().stream()
+				.map(Week::getDays)
+				.flatMap(Collection::stream)
 				.filter(d -> isDaySelected(d, dayToSearch))
 				.map(Day::getMomentDays)
 				.flatMap(Collection::stream)

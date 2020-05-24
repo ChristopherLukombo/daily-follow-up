@@ -37,6 +37,7 @@ public interface ContentMapper {
 	@Mapping(source = "salt", target = "salt")
 	@Mapping(source = "imageUrl", target = "imageUrl")
 	@Mapping(source = "typeMeals", target = "typeMeals", qualifiedByName = "toTypeMeals")
+	@Mapping(source = "choppeDorMixed", target = "choppeDorMixed")
 	ContentDTO contentToContentDTO(Content content);
 
 	@InheritInverseConfiguration
