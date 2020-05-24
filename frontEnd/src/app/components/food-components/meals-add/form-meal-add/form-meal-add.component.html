@@ -57,6 +57,20 @@
           <a href="https://ciqual.anses.fr" target="_blank">Ciqual.fr</a>
         </small>
         <br />
+        <div class="form-check">
+          <label class="form-check-label">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              formControlName="mixed"
+            />
+            Possibilité d'être mixé
+          </label>
+          <small class="form-text text-muted">
+            Servant à l'élaboration des menus mixés pour la cuisine
+          </small>
+        </div>
+        <br />
         <button type="submit" [disabled]="form.disabled" class="btn btn-info">
           Valider la saisie
         </button>

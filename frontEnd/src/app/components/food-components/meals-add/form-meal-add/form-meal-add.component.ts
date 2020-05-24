@@ -61,6 +61,7 @@ export class FormMealAddComponent implements OnInit {
       idForm: [this.idForm, Validators.required],
       types: this.buildCheckboxes(),
       name: [null, Validators.required],
+      mixed: [false],
       calories: [
         null,
         [Validators.required, Validators.min(0), Validators.max(900)],

@@ -99,7 +99,8 @@ export class MealsAddComponent implements OnInit {
       form.controls.agSaturates.value,
       form.controls.salt.value,
       this.getTypeMeals(form),
-      null
+      null,
+      form.controls.mixed.value
     );
   }
 
