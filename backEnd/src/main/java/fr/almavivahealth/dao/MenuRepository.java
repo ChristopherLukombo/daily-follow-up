@@ -14,7 +14,7 @@ import fr.almavivahealth.domain.entity.Menu;
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
-	List<Menu> findAllByOrderByIdDesc();
+	List<Menu> findAllByOrderByIdAsc();
 	
 	@Query("SELECT menu FROM Menu menu "
 			+ "WHERE menu.texture.name = :textureName "

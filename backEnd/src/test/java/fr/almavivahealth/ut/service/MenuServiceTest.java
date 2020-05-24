@@ -34,6 +34,7 @@ import fr.almavivahealth.domain.entity.Menu;
 import fr.almavivahealth.domain.entity.MomentDay;
 import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Texture;
+import fr.almavivahealth.domain.entity.Week;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.MenuDTO;
 import fr.almavivahealth.service.impl.menu.MenuServiceImpl;
@@ -81,6 +82,14 @@ public class MenuServiceTest {
 				.build();
 	}
 
+	private static Week createWeek() {
+		return Week.builder()
+				.id(ID)
+				.number(1)
+				.days(Arrays.asList(createDay()))
+				.build();
+	}
+
 	private static Day createDay() {
 		return Day.builder()
 				.id(ID)
@@ -94,7 +103,7 @@ public class MenuServiceTest {
 				.id(ID)
 				.startDate(LocalDate.of(2020, Month.APRIL, 6))
 				.endDate(LocalDate.of(2020, Month.APRIL, 12))
-				.days(Arrays.asList(createDay()))
+				.weeks(Arrays.asList(createWeek()))
 				.build();
 	}
 
@@ -193,7 +202,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = Arrays.asList(createMenu());
 
 		// Then
-		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdAsc()).thenReturn(menus);
 
 		// Then
 		assertThat(menuServiceImpl.findAll()).isNotEmpty();
@@ -205,7 +214,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = Collections.emptyList();
 
 		// Then
-		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdAsc()).thenReturn(menus);
 
 		// Then
 		assertThat(menuServiceImpl.findAll()).isEmpty();
@@ -217,7 +226,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = null;
 
 		// Then
-		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdAsc()).thenReturn(menus);
 
 		// Then
 		assertThatThrownBy(() -> menuServiceImpl.findAll()).isInstanceOf(NullPointerException.class);

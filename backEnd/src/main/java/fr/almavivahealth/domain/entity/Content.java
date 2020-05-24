@@ -96,4 +96,6 @@ public class Content implements Serializable {
 	@ElementCollection
 	@CollectionTable(name ="typeMeals")
 	private List<String> typeMeals;
+
+	private Boolean choppeDorMixed;
 }

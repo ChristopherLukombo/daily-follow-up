@@ -70,6 +70,7 @@
 			src/main/java/fr/almavivahealth/dao/**/*.*,
 			src/main/java/fr/almavivahealth/exception/**/*.*
 		</sonar.exclusions>
+		<dependency-check-maven.version>5.3.0</dependency-check-maven.version>
 	</properties>
 
 	<dependencies>
@@ -354,6 +355,31 @@
 	</build>
 	
 	<profiles>
+		<profile>
+	    <id>owasp</id>
+	    <dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-undertow</artifactId>
+				</dependency>
+			</dependencies>
+	    <build>
+	      <plugins>
+	        <plugin>
+	          <groupId>org.owasp</groupId>
+	          <artifactId>dependency-check-maven</artifactId>
+	          <version>${dependency-check-maven.version}</version>
+	          <executions>
+	            <execution>
+	              <goals>
+	                <goal>check</goal>
+	              </goals>
+	            </execution>
+	          </executions>
+	        </plugin>
+	      </plugins>
+	    </build>
+	  </profile>
 	<!-- DEV -->
 	 <profile>
 			<id>dev</id>

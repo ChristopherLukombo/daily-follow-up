@@ -1,31 +1,33 @@
 package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import fr.almavivahealth.domain.entity.Day;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /**
- * A DTO for the Caregiver entity.
+ * A DTO for the Week entity.
  */
 @AllArgsConstructor
 @Builder
-public class CaregiverDTO implements Serializable {
+public class WeekDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
 
-	private UserDTO user;
+	private Integer number;
 
-	private Long floorId;
+    private List<Day> days;
 
-	public CaregiverDTO() {
-		// Empty constructor needed for Jackson.
+    public WeekDTO() {
+    	// Empty constructor needed for Jackson.
 	}
 
 	public Long getId() {
@@ -36,25 +38,25 @@ public class CaregiverDTO implements Serializable {
 		this.id = id;
 	}
 
-	public UserDTO getUser() {
-		return user;
+	public Integer getNumber() {
+		return number;
 	}
 
-	public void setUser(final UserDTO userDTO) {
-		this.user = userDTO;
+	public void setNumber(final Integer number) {
+		this.number = number;
 	}
 
-	public Long getFloorId() {
-		return floorId;
+	public List<Day> getDays() {
+		return days;
 	}
 
-	public void setFloorId(final Long floorId) {
-		this.floorId = floorId;
+	public void setDays(final List<Day> days) {
+		this.days = days;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(floorId, id, user);
+		return Objects.hash(days, id, number);
 	}
 
 	@Override
@@ -65,9 +67,8 @@ public class CaregiverDTO implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final CaregiverDTO other = (CaregiverDTO) obj;
-		return Objects.equals(floorId, other.floorId) && Objects.equals(id, other.id)
-				&& Objects.equals(user, other.user);
+		final WeekDTO other = (WeekDTO) obj;
+		return Objects.equals(days, other.days) && Objects.equals(id, other.id) && Objects.equals(number, other.number);
 	}
 
 	@Override
