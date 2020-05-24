@@ -1,3 +1,26 @@
+/** style de contenu de tableaux custom */
+.tbody-dfu {
+  tr:hover {
+    background-color: #e1f0ff;
+    th,
+    td {
+      border-top: 1px solid #b8daff;
+      border-bottom: 1px solid #b8daff;
+    }
+    cursor: pointer;
+  }
+  tr.active {
+    background-color: #b8daff;
+    border: 1px solid #c7cbcf;
+    th,
+    td {
+      border-top: 1px solid #c7cbcf;
+      border-bottom: 1px solid #c7cbcf;
+    }
+    cursor: default;
+  }
+}
+
 /** pour les tableaux de patients de n'importe quelles pages */
 .infos-patient {
   th {
