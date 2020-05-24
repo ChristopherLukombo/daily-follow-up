@@ -38,11 +38,18 @@ import { ListRoomsAvailableComponent } from "./components/patient-components/pat
 import { FormPatientAddComponent } from "./components/patient-components/patient-add/form-patient-add/form-patient-add.component";
 import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 import { FormPatientEditComponent } from "./components/patient-components/patient/patient-edit/form-patient-edit/form-patient-edit.component";
+
 import { FormMealAddComponent } from "./components/food-components/meals-add/form-meal-add/form-meal-add.component";
 import { InfosMealComponent } from "./components/food-components/meals-add/infos-meal/infos-meal.component";
-
 import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
 import { FoodNavbarComponent } from "./components/navbar-vertical/food-navbar/food-navbar.component";
+import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
+import { MenuWeeksComponent } from "./components/food-components/menu-weeks/menu-weeks.component";
+import { ContentsDayMenuComponent } from "./components/food-components/menu-weeks/contents-day-menu/contents-day-menu.component";
+
+import { UsersComponent } from "./components/user-components/users/users.component";
+import { RoleNavbarComponent } from "./components/navbar-vertical/role-navbar/role-navbar.component";
+import { ListCaregiversComponent } from "./components/user-components/users/list-caregivers/list-caregivers.component";
 
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
@@ -57,14 +64,14 @@ import {
   SearchPipe,
   HighLightPipe,
   OrderPipe,
+  SearchInsidePipe,
+  OrderInsidePipe,
 } from "./utils/pipes/search.pipe";
 import {
   getInitialsPipe,
   getActionPatientPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
-import { MenuWeeksComponent } from "./components/food-components/menu-weeks/menu-weeks.component";
-import { ContentsDayMenuComponent } from "./components/food-components/menu-weeks/contents-day-menu/contents-day-menu.component";
+import { UserAddComponent } from './components/user-components/user-add/user-add.component';
 
 @NgModule({
   declarations: [
@@ -85,6 +92,8 @@ import { ContentsDayMenuComponent } from "./components/food-components/menu-week
     AlertErrorComponent,
     DetermineAgePipe,
     SearchPipe,
+    SearchInsidePipe,
+    OrderInsidePipe,
     HighLightPipe,
     AlertWarningComponent,
     CommentPatientComponent,
@@ -113,6 +122,10 @@ import { ContentsDayMenuComponent } from "./components/food-components/menu-week
     MenuAddComponent,
     MenuWeeksComponent,
     ContentsDayMenuComponent,
+    UsersComponent,
+    RoleNavbarComponent,
+    ListCaregiversComponent,
+    UserAddComponent,
   ],
   imports: [
     BrowserModule,

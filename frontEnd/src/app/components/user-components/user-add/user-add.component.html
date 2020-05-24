@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-role-navbar></app-role-navbar>
+    </div>
+    <div class="col">
+      <h2>Nouvel Employé</h2>
+      <br />
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <button
+              *ngFor="let role of roles | keyvalue; let r = index"
+              type="button"
+              class="btn btn-primary"
+              (click)="selectRole(role, r)"
+              [class.active]="r == selectedButton"
+            >
+              {{ role.value }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>

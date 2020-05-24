@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import {
   faStream,
+  faClipboard,
   faCarrot,
   faHamburger,
   faClock,
@@ -13,6 +14,7 @@ import {
 })
 export class FoodNavbarComponent implements OnInit {
   menuPeriodLogo = faStream;
+  mealAllLogo = faClipboard;
   mealAddLogo = faCarrot;
   menuAddLogo = faHamburger;
   menuOldLogo = faClock;
