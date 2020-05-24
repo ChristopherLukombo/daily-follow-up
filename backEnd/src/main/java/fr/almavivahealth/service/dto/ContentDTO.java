@@ -54,7 +54,7 @@ public class ContentDTO implements Serializable {
 
 	private List<String> typeMeals;
 
-	private Boolean choppeDorMixed;
+	private Boolean mixed;
 
 	public ContentDTO() {
 		// Empty constructor needed for Jackson.
@@ -188,17 +188,17 @@ public class ContentDTO implements Serializable {
 		this.typeMeals = typeMeals;
 	}
 
-	public Boolean getChoppeDorMixed() {
-		return choppeDorMixed;
+	public Boolean getMixed() {
+		return mixed;
 	}
 
-	public void setChoppeDorMixed(final Boolean choppeDorMixed) {
-		this.choppeDorMixed = choppeDorMixed;
+	public void setMixed(final Boolean mixed) {
+		this.mixed = mixed;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(agSaturates, calories, carbohydrate, choppeDorMixed, code, foodFibres, groupName, id,
+		return Objects.hash(agSaturates, calories, carbohydrate, mixed, code, foodFibres, groupName, id,
 				imageUrl, lipids, name, protein, salt, subGroupName, subSubGroupName, sugars, typeMeals);
 	}
 
@@ -213,7 +213,7 @@ public class ContentDTO implements Serializable {
 		final ContentDTO other = (ContentDTO) obj;
 		return Objects.equals(agSaturates, other.agSaturates) && Objects.equals(calories, other.calories)
 				&& Objects.equals(carbohydrate, other.carbohydrate)
-				&& Objects.equals(choppeDorMixed, other.choppeDorMixed) && Objects.equals(code, other.code)
+				&& Objects.equals(mixed, other.mixed) && Objects.equals(code, other.code)
 				&& Objects.equals(foodFibres, other.foodFibres) && Objects.equals(groupName, other.groupName)
 				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
 				&& Objects.equals(lipids, other.lipids) && Objects.equals(name, other.name)
