@@ -31,4 +31,6 @@ export class Content {
   typeMeal: Array<string>;
   /***/
   imageUrl: string;
+  /***/
+  mixed: boolean;
 }

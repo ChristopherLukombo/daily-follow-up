@@ -31,6 +31,8 @@ export class ContentDTO {
   typeMeal: Array<string>;
   /***/
   imageUrl: string;
+  /***/
+  mixed: boolean;
 
   constructor(
     id: number,
@@ -47,7 +49,8 @@ export class ContentDTO {
     agSaturates: number,
     salt: number,
     typeMeal: Array<string>,
-    imageUrl: string
+    imageUrl: string,
+    mixed: boolean
   ) {
     this.id = id;
     this.name = name;
@@ -64,5 +67,6 @@ export class ContentDTO {
     this.salt = salt;
     this.typeMeal = typeMeal;
     this.imageUrl = imageUrl;
+    this.mixed = mixed;
   }
 }
