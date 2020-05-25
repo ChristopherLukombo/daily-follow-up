@@ -2,9 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import {
   faStream,
   faClipboard,
-  faCarrot,
   faHamburger,
   faClock,
+  faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -15,7 +15,7 @@ import {
 export class FoodNavbarComponent implements OnInit {
   menuPeriodLogo = faStream;
   mealAllLogo = faClipboard;
-  mealAddLogo = faCarrot;
+  mealAddLogo = faPlus;
   menuAddLogo = faHamburger;
   menuOldLogo = faClock;
 

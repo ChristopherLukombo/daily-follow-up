@@ -6,9 +6,9 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./menu-weeks.component.scss"],
 })
 export class MenuWeeksComponent implements OnInit {
-  weeks: string[] = ["Semaine 1", "Semaine 2", "Semaine 3", "Semaine 4"];
-  selectedButton: number = 0;
-  selectedWeek: string;
+  weeks: number[] = [1, 2, 3, 4];
+  selectedWeek: number = this.weeks[0];
+  numWeek: number = 3;
   days: string[] = [
     "Lundi",
     "Mardi",
@@ -23,9 +23,7 @@ export class MenuWeeksComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // TODO : afficher le formulaire en dessous en fonction de la semaine cliqué
-  selectWeek(week: string, index: number): void {
-    this.selectedButton = index;
-    this.selectedWeek = week;
+  selectWeek(numWeek: number): void {
+    this.selectedWeek = numWeek;
   }
 }

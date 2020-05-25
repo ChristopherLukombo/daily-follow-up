@@ -6,7 +6,15 @@
     <div class="col">
       <h2>Nouvel employé</h2>
       <br />
-
+      <div class="alert alert-primary" role="alert">
+        L'<code>identifiant de connexion</code> de l'utilisateur sera son
+        <code>nom de famille</code> suivi d'un <code>_</code> puis de
+        <code>la première lettre</code> de son prénom (Ex. DUPONT Marc :
+        <code>dupont_m</code>).
+        <br />
+        Un <code>mot de passe</code> sera crée automatiquement, mais il sera
+        modifié par l'employé lors de sa <code>première connexion</code>.
+      </div>
       <div class="row">
         <div class="col">
           <div class="btn-group">
@@ -23,16 +31,6 @@
         </div>
       </div>
       <br />
-      <div class="alert alert-primary" role="alert">
-        L'<code>identifiant de connexion</code> de l'utilisateur sera son
-        <code>nom de famille</code> suivi d'un <code>_</code> puis de
-        <code>la première lettre</code> de son prénom (Ex. DUPONT Marc :
-        <code>dupont_m</code>).
-        <br />
-        Un <code>mot de passe</code> sera crée automatiquement, mais il sera
-        modifié par l'employé lors de sa <code>première connexion</code>.
-      </div>
-
       <div class="row">
         <div class="col">
           <h4 *ngIf="role === 'ROLE_CAREGIVER'">

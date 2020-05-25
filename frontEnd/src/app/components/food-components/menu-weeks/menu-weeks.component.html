@@ -2,13 +2,13 @@
   <div class="col">
     <div class="btn-group">
       <button
-        *ngFor="let week of weeks; let w = index"
+        *ngFor="let n of weeks"
         type="button"
         class="btn btn-primary"
-        (click)="selectWeek(week, w)"
-        [class.active]="w == selectedButton"
+        (click)="selectWeek(n)"
+        [class.active]="n == selectedWeek"
       >
-        {{ week }}
+        Semaine {{ n }}
       </button>
     </div>
   </div>
@@ -19,13 +19,13 @@
   </div>
 </div>
 <br />
-<div class="row">
+<div *ngFor="let n of weeks" class="row">
   <div class="col">
     <div class="table-responsive">
-      <table class="table table-bordered">
+      <table *ngIf="selectedWeek === n" class="table table-bordered">
         <thead>
           <tr class="text-center">
-            <th></th>
+            <th>{{ n }}</th>
             <th *ngFor="let day of days" scope="col">
               {{ day }}
             </th>
