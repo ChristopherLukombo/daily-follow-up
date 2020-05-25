@@ -4,8 +4,9 @@
       <app-role-navbar></app-role-navbar>
     </div>
     <div class="col">
-      <h2>Nouvel Employé</h2>
+      <h2>Nouvel employé</h2>
       <br />
+
       <div class="row">
         <div class="col">
           <div class="btn-group">
@@ -13,12 +14,86 @@
               *ngFor="let role of roles | keyvalue; let r = index"
               type="button"
               class="btn btn-primary"
-              (click)="selectRole(role, r)"
+              (click)="selectRole(role.key, r)"
               [class.active]="r == selectedButton"
             >
               {{ role.value }}
             </button>
           </div>
+        </div>
+      </div>
+      <br />
+      <div class="alert alert-primary" role="alert">
+        L'<code>identifiant de connexion</code> de l'utilisateur sera son
+        <code>nom de famille</code> suivi d'un <code>_</code> puis de
+        <code>la première lettre</code> de son prénom (Ex. DUPONT Marc :
+        <code>dupont_m</code>).
+        <br />
+        Un <code>mot de passe</code> sera crée automatiquement, mais il sera
+        modifié par l'employé lors de sa <code>première connexion</code>.
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <h4 *ngIf="role === 'ROLE_CAREGIVER'">
+            Nouvel aide-soignant
+          </h4>
+          <h4 *ngIf="role === 'ROLE_NUTRITIONIST'">
+            Nouveau diététicien
+          </h4>
+          <br />
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label>Nom <span class="required">*</span></label>
+              <input
+                type="text"
+                formControlName="lastName"
+                [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }"
+                class="form-control"
+              />
+              <div
+                *ngIf="submitted && f.lastName.errors"
+                class="invalid-feedback"
+              >
+                Un nom entre 2 et 20 caractères est requis
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Prénom <span class="required">*</span></label>
+              <input
+                type="text"
+                formControlName="firstName"
+                [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }"
+                class="form-control"
+              />
+              <div
+                *ngIf="submitted && f.firstName.errors"
+                class="invalid-feedback"
+              >
+                Un prénom entre 2 et 20 caractères est requis
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Date d'arrivée <span class="required">*</span></label>
+              <input
+                type="date"
+                formControlName="createDate"
+                [ngClass]="{ 'is-invalid': submitted && f.createDate.errors }"
+                class="form-control"
+              />
+              <div
+                *ngIf="submitted && f.createDate.errors"
+                class="invalid-feedback"
+              >
+                La date doit être correctement renseigné
+              </div>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">
+              Ajouter l'employé
+            </button>
+          </form>
         </div>
       </div>
       <br />

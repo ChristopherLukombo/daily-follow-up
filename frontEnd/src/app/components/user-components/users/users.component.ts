@@ -29,7 +29,6 @@ export class UsersComponent implements OnInit {
     let allFloors = this.clinicService.getAllFloors();
     forkJoin([allCaregivers, allFloors]).subscribe(
       (datas) => {
-        console.log(datas);
         this.caregivers = datas[0];
         this.floors = datas[1];
         this.loading = false;
