@@ -10,17 +10,22 @@ import fr.almavivahealth.service.dto.MenuDTO;
 
 /**
  * Mapper for the entity Menu and its DTO called MenuDTO.
- * 
+ *
  * @author christopher
  */
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring",
+uses = { TextureMapper.class, ContentMapper.class, DietMapper.class, WeekMapper.class },
+unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MenuMapper {
 
 	@Mapping(source = "id", target = "id")
 	@Mapping(source = "startDate", target = "startDate")
 	@Mapping(source = "endDate", target = "endDate")
-	@Mapping(source = "texture.id", target = "textureId")
-	@Mapping(source = "diet.id", target = "dietId")
+	@Mapping(source = "weekNumber", target = "weekNumber")
+	@Mapping(source = "texture", target = "texture")
+	@Mapping(source = "replacements", target = "replacements")
+	@Mapping(source = "diet", target = "diet")
+	@Mapping(source = "weeks", target = "weeks")
 	MenuDTO menuToMenuDTO(Menu menu);
 
 	@InheritInverseConfiguration

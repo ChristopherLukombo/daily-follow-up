@@ -7,7 +7,6 @@ import java.util.Objects;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import fr.almavivahealth.domain.entity.Day;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -24,7 +23,7 @@ public class WeekDTO implements Serializable {
 
 	private Integer number;
 
-    private List<Day> days;
+    private List<DayDTO> days;
 
     public WeekDTO() {
     	// Empty constructor needed for Jackson.
@@ -46,11 +45,11 @@ public class WeekDTO implements Serializable {
 		this.number = number;
 	}
 
-	public List<Day> getDays() {
+	public List<DayDTO> getDays() {
 		return days;
 	}
 
-	public void setDays(final List<Day> days) {
+	public void setDays(final List<DayDTO> days) {
 		this.days = days;
 	}
 
