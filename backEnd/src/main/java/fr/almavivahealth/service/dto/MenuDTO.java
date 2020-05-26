@@ -2,6 +2,7 @@ package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -27,9 +28,13 @@ public class MenuDTO implements Serializable {
 
 	private Integer weekNumber;
 
-	private Long textureId;
+	private TextureDTO texture;
 
-	private Long dietId;
+	private List<ContentDTO> replacements;
+
+	private DietDTO diet;
+
+	private List<WeekDTO> weeks;
 
 	public MenuDTO() {
 		// Empty constructor needed for Jackson.
@@ -67,25 +72,41 @@ public class MenuDTO implements Serializable {
 		this.weekNumber = weekNumber;
 	}
 
-	public Long getTextureId() {
-		return textureId;
+	public TextureDTO getTexture() {
+		return texture;
 	}
 
-	public void setTextureId(final Long textureId) {
-		this.textureId = textureId;
+	public void setTexture(final TextureDTO texture) {
+		this.texture = texture;
 	}
 
-	public Long getDietId() {
-		return dietId;
+	public List<ContentDTO> getReplacements() {
+		return replacements;
 	}
 
-	public void setDietId(final Long dietId) {
-		this.dietId = dietId;
+	public void setReplacements(final List<ContentDTO> replacements) {
+		this.replacements = replacements;
+	}
+
+	public DietDTO getDiet() {
+		return diet;
+	}
+
+	public void setDiet(final DietDTO diet) {
+		this.diet = diet;
+	}
+
+	public List<WeekDTO> getWeeks() {
+		return weeks;
+	}
+
+	public void setWeeks(final List<WeekDTO> weeks) {
+		this.weeks = weeks;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dietId, endDate, id, startDate, textureId, weekNumber);
+		return Objects.hash(diet, endDate, id, replacements, startDate, texture, weekNumber, weeks);
 	}
 
 	@Override
@@ -97,9 +118,10 @@ public class MenuDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final MenuDTO other = (MenuDTO) obj;
-		return Objects.equals(dietId, other.dietId) && Objects.equals(endDate, other.endDate)
-				&& Objects.equals(id, other.id) && Objects.equals(startDate, other.startDate)
-				&& Objects.equals(textureId, other.textureId) && Objects.equals(weekNumber, other.weekNumber);
+		return Objects.equals(diet, other.diet) && Objects.equals(endDate, other.endDate)
+				&& Objects.equals(id, other.id) && Objects.equals(replacements, other.replacements)
+				&& Objects.equals(startDate, other.startDate) && Objects.equals(texture, other.texture)
+				&& Objects.equals(weekNumber, other.weekNumber) && Objects.equals(weeks, other.weeks);
 	}
 
 	@Override
