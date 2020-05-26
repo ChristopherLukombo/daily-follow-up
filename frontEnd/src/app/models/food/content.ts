@@ -28,7 +28,7 @@ export class Content {
   /***/
   salt: number;
   /***/
-  typeMeal: Array<string>;
+  typeMeals: Array<string>;
   /***/
   imageUrl: string;
   /***/

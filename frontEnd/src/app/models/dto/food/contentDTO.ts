@@ -28,7 +28,7 @@ export class ContentDTO {
   /***/
   salt: number;
   /***/
-  typeMeal: Array<string>;
+  typeMeals: Array<string>;
   /***/
   imageUrl: string;
   /***/
@@ -48,7 +48,7 @@ export class ContentDTO {
     foodFibres: number,
     agSaturates: number,
     salt: number,
-    typeMeal: Array<string>,
+    typeMeals: Array<string>,
     imageUrl: string,
     mixed: boolean
   ) {
@@ -65,7 +65,7 @@ export class ContentDTO {
     this.foodFibres = foodFibres;
     this.agSaturates = agSaturates;
     this.salt = salt;
-    this.typeMeal = typeMeal;
+    this.typeMeals = typeMeals;
     this.imageUrl = imageUrl;
     this.mixed = mixed;
   }
