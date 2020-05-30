@@ -10,7 +10,7 @@ import fr.almavivahealth.service.dto.DayDTO;
 
 /**
  * Mapper for the entity Day and its DTO called DayDTO.
- * 
+ *
  * @author christopher
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
@@ -18,6 +18,7 @@ public interface DayMapper {
 
 	@Mapping(source = "id", target = "id")
 	@Mapping(source = "name", target = "name")
+	@Mapping(source = "momentDays", target = "momentDays")
 	DayDTO dayToDayDTO(Day day);
 
 	@InheritInverseConfiguration
