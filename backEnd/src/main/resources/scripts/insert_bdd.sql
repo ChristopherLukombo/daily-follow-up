@@ -444,8 +444,8 @@ INSERT INTO patient_allergies (patient_id, allergies_id) VALUES
 
 /** les menus **/
 INSERT INTO public.menu
-(end_date, start_date, week_number, diet_id, texture_id)
-VALUES('2020-04-11T14:47:34.692Z', '2020-04-11T14:47:34.692Z', 1, 1, 1);
+(end_date, start_date, diet_id, texture_id)
+VALUES('2020-04-11T14:47:34.692Z', '2020-04-11T14:47:34.692Z', 1, 1);
 
 INSERT INTO public.week 
 (id , number)
