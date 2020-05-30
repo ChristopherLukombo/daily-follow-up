@@ -19,33 +19,35 @@
   </div>
 </div>
 <br />
-<div *ngFor="let n of weeks" class="row">
-  <div class="col">
-    <div class="table-responsive">
-      <table *ngIf="selectedWeek === n" class="table table-bordered">
-        <thead>
-          <tr class="text-center">
-            <th>{{ n }}</th>
-            <th *ngFor="let day of days" scope="col">
-              {{ day }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row" class="moment-day">Déjeuner</th>
-            <td *ngFor="let day of days">
-              <app-contents-day-menu></app-contents-day-menu>
-            </td>
-          </tr>
-          <tr>
-            <th scope="row" class="moment-day">Dîner</th>
-            <td *ngFor="let day of days">
-              <app-contents-day-menu></app-contents-day-menu>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+<div *ngIf="loading"><app-loader></app-loader></div>
+<div *ngIf="allContents.length > 0 && !loading">
+  <div *ngFor="let n of weeks" class="row">
+    <div class="col">
+      <div class="table-responsive">
+        <table [hidden]="selectedWeek !== n" class="table table-bordered">
+          <thead>
+            <tr class="text-center">
+              <th>{{ n }}</th>
+              <th *ngFor="let day of days" scope="col">
+                {{ day }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let moment of moments">
+              <th scope="row" class="moment-day">{{ moment }}</th>
+              <td *ngFor="let day of days">
+                <app-contents-day-menu
+                  [week]="n"
+                  [day]="day"
+                  [moment]="moment"
+                  [allContents]="allContents"
+                ></app-contents-day-menu>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

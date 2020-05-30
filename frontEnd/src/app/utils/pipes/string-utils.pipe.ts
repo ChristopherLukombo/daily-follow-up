@@ -25,3 +25,13 @@ export class getActionPatientPipe implements PipeTransform {
     if (action === "RECREATED") return "Le patient est revenu dans la clinique";
   }
 }
+
+@Pipe({
+  name: "truncate",
+})
+export class truncateStringPipe implements PipeTransform {
+  transform(value: string, limit: number) {
+    if (!value || !limit) return;
+    return value.length > limit ? value.substr(0, limit) + "..." : value;
+  }
+}

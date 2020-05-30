@@ -14,13 +14,7 @@ import { Router } from "@angular/router";
 export class MealsAddComponent implements OnInit {
   moreLogo = faPlus;
   revertLogo = faRedo;
-  typeMeals: string[] = [
-    "Entrée",
-    "Plat",
-    "Garniture",
-    "Produit laitier",
-    "Dessert",
-  ];
+  typeMeals: string[] = ["Entrée", "Plat", "Garniture", "P.L", "Dessert"];
 
   idsForms: number[] = [1];
   mealsToCreate: ContentDTO[] = [];

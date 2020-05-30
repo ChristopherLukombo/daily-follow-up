@@ -3,15 +3,11 @@
     <div class="col-sm-2">
       <app-food-navbar></app-food-navbar>
     </div>
-    <div *ngIf="loading" class="col"><app-loader></app-loader></div>
-    <div *ngIf="error" class="col">
-      <app-alert-error [content]="error"></app-alert-error>
-    </div>
-    <div *ngIf="!error && !loading" class="col">
+    <div class="col">
       <h2>Composer un menu</h2>
       <br />
       <div class="row">
-        <div *ngIf="textures" class="col">
+        <div class="col">
           <div class="btn-group">
             <button
               *ngFor="let texture of textures; let t = index"
@@ -20,7 +16,7 @@
               (click)="selectTexture(texture, t)"
               [class.active]="t == selectedButton"
             >
-              {{ texture.name }}
+              {{ texture }}
             </button>
           </div>
         </div>

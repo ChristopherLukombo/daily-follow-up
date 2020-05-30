@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { FormGroup } from "@angular/forms";
+import { Content } from "src/app/models/food/content";
+import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 
 @Component({
   selector: "app-menu-weeks",
@@ -6,9 +9,9 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./menu-weeks.component.scss"],
 })
 export class MenuWeeksComponent implements OnInit {
+  forms: FormGroup[] = [];
   weeks: number[] = [1, 2, 3, 4];
   selectedWeek: number = this.weeks[0];
-  numWeek: number = 3;
   days: string[] = [
     "Lundi",
     "Mardi",
@@ -18,10 +21,26 @@ export class MenuWeeksComponent implements OnInit {
     "Samedi",
     "Dimanche",
   ];
+  moments: string[] = ["Déjeuner", "Dîner"];
 
-  constructor() {}
+  allContents: Content[] = [];
+  loading: boolean = false;
 
-  ngOnInit(): void {}
+  constructor(private alimentationService: AlimentationService) {}
+
+  ngOnInit(): void {
+    this.loading = true;
+    this.alimentationService.getAllContents().subscribe(
+      (data) => {
+        this.allContents = data;
+        this.loading = false;
+      },
+      (error) => {
+        console.log(error);
+        this.loading = false;
+      }
+    );
+  }
 
   selectWeek(numWeek: number): void {
     this.selectedWeek = numWeek;
