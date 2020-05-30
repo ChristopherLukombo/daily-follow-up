@@ -24,11 +24,11 @@ import fr.almavivahealth.service.mapper.MomentDayMapper;
 public class MomentDayServiceImpl implements MomentDayService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MomentDayServiceImpl.class);
-	
+
 	private final MomentDayRepository momentDayRepository;
-	
+
 	private final MomentDayMapper momentDayMapper;
-	
+
 	@Autowired
 	public MomentDayServiceImpl(final MomentDayRepository momentDayRepository, final MomentDayMapper momentDayMapper) {
 		this.momentDayRepository = momentDayRepository;

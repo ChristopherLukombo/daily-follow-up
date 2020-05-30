@@ -2,6 +2,7 @@ package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,8 +27,6 @@ public class MenuDTO implements Serializable {
 
 	private LocalDate endDate;
 
-	private Integer weekNumber;
-
 	private TextureDTO texture;
 
 	private List<ContentDTO> replacements;
@@ -35,6 +34,10 @@ public class MenuDTO implements Serializable {
 	private DietDTO diet;
 
 	private List<WeekDTO> weeks;
+
+	private String lastModifiedBy;
+
+	private LocalDateTime lastModificationDateBy;
 
 	public MenuDTO() {
 		// Empty constructor needed for Jackson.
@@ -62,14 +65,6 @@ public class MenuDTO implements Serializable {
 
 	public void setEndDate(final LocalDate endDate) {
 		this.endDate = endDate;
-	}
-
-	public Integer getWeekNumber() {
-		return weekNumber;
-	}
-
-	public void setWeekNumber(final Integer weekNumber) {
-		this.weekNumber = weekNumber;
 	}
 
 	public TextureDTO getTexture() {
@@ -104,9 +99,26 @@ public class MenuDTO implements Serializable {
 		this.weeks = weeks;
 	}
 
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+
+	public void setLastModifiedBy(final String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	public LocalDateTime getLastModificationDateBy() {
+		return lastModificationDateBy;
+	}
+
+	public void setLastModificationDateBy(final LocalDateTime lastModificationDateBy) {
+		this.lastModificationDateBy = lastModificationDateBy;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(diet, endDate, id, replacements, startDate, texture, weekNumber, weeks);
+		return Objects.hash(diet, endDate, id, lastModificationDateBy, lastModifiedBy, replacements, startDate, texture,
+				weeks);
 	}
 
 	@Override
@@ -119,9 +131,10 @@ public class MenuDTO implements Serializable {
 			return false;
 		final MenuDTO other = (MenuDTO) obj;
 		return Objects.equals(diet, other.diet) && Objects.equals(endDate, other.endDate)
-				&& Objects.equals(id, other.id) && Objects.equals(replacements, other.replacements)
-				&& Objects.equals(startDate, other.startDate) && Objects.equals(texture, other.texture)
-				&& Objects.equals(weekNumber, other.weekNumber) && Objects.equals(weeks, other.weeks);
+				&& Objects.equals(id, other.id) && Objects.equals(lastModificationDateBy, other.lastModificationDateBy)
+				&& Objects.equals(lastModifiedBy, other.lastModifiedBy)
+				&& Objects.equals(replacements, other.replacements) && Objects.equals(startDate, other.startDate)
+				&& Objects.equals(texture, other.texture) && Objects.equals(weeks, other.weeks);
 	}
 
 	@Override

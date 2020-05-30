@@ -13,7 +13,7 @@ import fr.almavivahealth.service.dto.DayDTO;
  *
  * @author christopher
  */
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = MomentDayMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DayMapper {
 
 	@Mapping(source = "id", target = "id")
