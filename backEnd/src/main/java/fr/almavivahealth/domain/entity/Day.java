@@ -3,6 +3,7 @@ package fr.almavivahealth.domain.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,9 @@ public class Day implements Serializable {
 
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(
+			fetch = FetchType.LAZY,
+			orphanRemoval = true,
+			cascade = CascadeType.ALL)
 	private List<MomentDay> momentDays;
 }

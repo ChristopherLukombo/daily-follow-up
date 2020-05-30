@@ -13,19 +13,21 @@ import fr.almavivahealth.service.dto.MenuDTO;
  *
  * @author christopher
  */
-@Mapper(componentModel = "spring",
-uses = { TextureMapper.class, ContentMapper.class, DietMapper.class, WeekMapper.class },
-unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(
+		componentModel = "spring",
+		uses = { TextureMapper.class, ContentMapper.class, DietMapper.class, WeekMapper.class },
+		unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MenuMapper {
 
 	@Mapping(source = "id", target = "id")
 	@Mapping(source = "startDate", target = "startDate")
 	@Mapping(source = "endDate", target = "endDate")
-	@Mapping(source = "weekNumber", target = "weekNumber")
 	@Mapping(source = "texture", target = "texture")
 	@Mapping(source = "replacements", target = "replacements")
 	@Mapping(source = "diet", target = "diet")
 	@Mapping(source = "weeks", target = "weeks")
+	@Mapping(source = "lastModifiedBy", target = "lastModifiedBy")
+	@Mapping(source = "lastModificationDateBy", target = "lastModificationDateBy")
 	MenuDTO menuToMenuDTO(Menu menu);
 
 	@InheritInverseConfiguration

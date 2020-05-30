@@ -3,6 +3,7 @@ package fr.almavivahealth.domain.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,9 @@ public class Week implements Serializable {
 
 	private Integer number;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(
+			fetch = FetchType.LAZY,
+			orphanRemoval = true,
+			cascade = CascadeType.ALL)
     private List<Day> days;
 }
