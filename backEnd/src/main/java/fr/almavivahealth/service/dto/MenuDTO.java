@@ -27,7 +27,7 @@ public class MenuDTO implements Serializable {
 
 	private LocalDate endDate;
 
-	private TextureDTO texture;
+	private String texture;
 
 	private List<ContentDTO> replacements;
 
@@ -67,13 +67,7 @@ public class MenuDTO implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public TextureDTO getTexture() {
-		return texture;
-	}
 
-	public void setTexture(final TextureDTO texture) {
-		this.texture = texture;
-	}
 
 	public List<ContentDTO> getReplacements() {
 		return replacements;
@@ -115,10 +109,18 @@ public class MenuDTO implements Serializable {
 		this.lastModificationDateBy = lastModificationDateBy;
 	}
 
+	public String getTexture() {
+		return texture;
+	}
+
+	public void setTexture(final String texture) {
+		this.texture = texture;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(diet, endDate, id, lastModificationDateBy, lastModifiedBy, replacements, startDate, texture,
-				weeks);
+		return Objects.hash(diet, endDate, id, lastModificationDateBy, lastModifiedBy, replacements, startDate,
+				texture, weeks);
 	}
 
 	@Override
