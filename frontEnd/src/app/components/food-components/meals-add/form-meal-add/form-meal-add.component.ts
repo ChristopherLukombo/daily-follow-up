@@ -25,13 +25,7 @@ export class FormMealAddComponent implements OnInit {
 
   @Input() idForm = 0;
   form: FormGroup;
-  typeMeals: string[] = [
-    "Entrée",
-    "Plat",
-    "Garniture",
-    "Produit laitier",
-    "Dessert",
-  ];
+  typeMeals: string[] = ["Entrée", "Plat", "Garniture", "P.L", "Dessert"];
   searchList: Dish[] = [];
   selectedContent: Content;
   submittedSearch: boolean = false;

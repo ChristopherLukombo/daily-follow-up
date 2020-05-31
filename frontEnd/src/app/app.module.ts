@@ -12,6 +12,7 @@ import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
 import { NgxPaginationModule } from "ngx-pagination";
 import { ToastrModule } from "ngx-toastr";
 import { ChartsModule } from "ng2-charts";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -48,6 +49,7 @@ import { MenuWeeksComponent } from "./components/food-components/menu-weeks/menu
 import { ContentsDayMenuComponent } from "./components/food-components/menu-weeks/contents-day-menu/contents-day-menu.component";
 
 import { UsersComponent } from "./components/user-components/users/users.component";
+import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
 import { RoleNavbarComponent } from "./components/navbar-vertical/role-navbar/role-navbar.component";
 import { ListCaregiversComponent } from "./components/user-components/users/list-caregivers/list-caregivers.component";
 
@@ -70,8 +72,8 @@ import {
 import {
   getInitialsPipe,
   getActionPatientPipe,
+  truncateStringPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { UserAddComponent } from './components/user-components/user-add/user-add.component';
 
 @NgModule({
   declarations: [
@@ -99,6 +101,7 @@ import { UserAddComponent } from './components/user-components/user-add/user-add
     CommentPatientComponent,
     PatientNavbarComponent,
     getInitialsPipe,
+    truncateStringPipe,
     OrderPipe,
     getActionPatientPipe,
     PatientsImportComponent,
@@ -144,6 +147,7 @@ import { UserAddComponent } from './components/user-components/user-add/user-add
       countDuplicates: true,
     }),
     ChartsModule,
+    NgSelectModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

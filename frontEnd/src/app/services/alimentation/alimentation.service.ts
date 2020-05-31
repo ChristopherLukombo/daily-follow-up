@@ -49,6 +49,16 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne tout plats de la clinique
+   * @returns une liste de plat
+   */
+  getAllContents(): Observable<Content[]> {
+    return this.http
+      .get<Content[]>(CONTENTS_URL, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Créer plusieurs plats
    * @param listContentsDTO la liste de plat
    * @returns les plats ayant étés crées

@@ -1,14 +1,25 @@
+import { Diet } from "../patient/diet";
+import { Texture } from "./texture";
+import { Week } from "./week";
+import { Content } from "./content";
+
 export class Menu {
   /***/
-  id: number;
-  /***/
-  startDate: string;
+  diet: Diet;
   /***/
   endDate: string;
   /***/
-  dietId: number;
+  id: number;
   /***/
-  textureId: number;
+  replacements: Content[];
   /***/
-  weekNumber: number;
+  startDate: string;
+  /***/
+  texture: Texture;
+  /***/
+  weeks: Week[];
+  /***/
+  lastModifiedBy: string;
+  /***/
+  lastModificationDateBy: Date;
 }

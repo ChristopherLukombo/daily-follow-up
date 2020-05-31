@@ -1,6 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
-import { Texture } from "src/app/models/food/texture";
 
 @Component({
   selector: "app-menu-add",
@@ -8,48 +6,20 @@ import { Texture } from "src/app/models/food/texture";
   styleUrls: ["./menu-add.component.scss"],
 })
 export class MenuAddComponent implements OnInit {
-  textures: Texture[] = [];
+  textures: string[] = ["Normal", "Mixé"];
   selectedButton: number = 0;
-  selectedTexture: Texture;
+  selectedTexture: string;
   beginWeek: string;
   repeat: number = 5;
 
-  loading: boolean = false;
   error: string;
 
-  constructor(private alimentationService: AlimentationService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.loading = true;
-    this.alimentationService.getAllTextures().subscribe(
-      (data) => {
-        this.textures = data.filter(
-          (t) => t.name === "Normale" || t.name === "Mixé"
-        );
-        this.loading = false;
-      },
-      (error) => {
-        this.error = this.getError(error);
-        this.loading = false;
-      }
-    );
-  }
+  ngOnInit(): void {}
 
-  selectTexture(texture: Texture, index: number): void {
+  selectTexture(texture: string, index: number): void {
     this.selectedButton = index;
     this.selectedTexture = texture;
-  }
-
-  /**
-   * Récupération du code erreur et ajout du message à afficher
-   * @param error
-   * @returns le msg d'erreur
-   */
-  getError(error: number): string {
-    if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur.";
-    } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
-    }
   }
 }
