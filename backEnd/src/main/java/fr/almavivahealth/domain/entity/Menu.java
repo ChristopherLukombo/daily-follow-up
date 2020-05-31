@@ -48,8 +48,7 @@ public class Menu implements Serializable {
 
 	private LocalDate endDate;
 
-	@ManyToOne
-	private Texture texture;
+	private String texture;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Content> replacements;

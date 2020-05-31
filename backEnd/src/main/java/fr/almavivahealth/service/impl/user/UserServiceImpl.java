@@ -1,6 +1,8 @@
 package fr.almavivahealth.service.impl.user;
 
 import static fr.almavivahealth.constants.Constants.SLASH;
+import static fr.almavivahealth.constants.ErrorMessage.NEW_PASSWORD_MUST_NOT_MATCH_OLD_PASSWORD;
+import static fr.almavivahealth.util.functional.FunctionWithException.wrapper;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.commons.lang3.ArrayUtils;
@@ -16,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +32,7 @@ import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
+import fr.almavivahealth.service.dto.UserPassDTO;
 import fr.almavivahealth.service.mapper.UserMapper;
 import fr.almavivahealth.service.propeties.UserProperties;
 
@@ -50,18 +55,22 @@ public class UserServiceImpl implements UserService {
 
     private final UserProperties userProperties;
 
+    private final MessageSource messageSource;
+
     @Autowired
 	public UserServiceImpl(
 			final UserRepository userRepository,
 			final RoleRepository roleRepository,
 			final UserMapper userMapper,
 			final PasswordEncoder passwordEncoder,
-			final UserProperties userProperties) {
+			final UserProperties userProperties,
+			final MessageSource messageSource) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.userMapper = userMapper;
 		this.passwordEncoder = passwordEncoder;
 		this.userProperties = userProperties;
+		this.messageSource = messageSource;
 	}
 
 	/**
@@ -87,6 +96,7 @@ public class UserServiceImpl implements UserService {
 			newUser.setImageUrl(userDTO.getImageUrl());
 			newUser.setBirthDay(userDTO.getBirthDay());
 			newUser.setCreateDate(userDTO.getCreateDate());
+			newUser.setHasChangedPassword(false);
 			final Role role = findRole(userDTO.getRoleName());
 			newUser.setRole(role);
 			newUser.setStatus(true);
@@ -144,6 +154,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findById(id).map(user -> {
 			// disable given user for the id.
 			user.setStatus(false);
+			user.setHasChangedPassword(false);
 			userRepository.saveAndFlush(user);
 			LOGGER.debug("Disabled user : {}", id);
 			return user;
@@ -231,4 +242,37 @@ public class UserServiceImpl implements UserService {
 				.toString();
 	}
 
+	/**
+	 * Update password of user.
+	 *
+	 * @param userPassDTO the user pass DTO
+	 * @param locale      the locale
+	 * @return the optional
+	 */
+	@Override
+	public Optional<User> updatePassword(final UserPassDTO userPassDTO, final Locale locale) {
+		return userRepository.findById(userPassDTO.getUserId()).map(wrapper(user -> {
+			if (passwordEncoder.matches(userPassDTO.getPassword(), user.getPassword())) {
+				throw new DailyFollowUpException(
+						messageSource.getMessage(NEW_PASSWORD_MUST_NOT_MATCH_OLD_PASSWORD, null, locale));
+			}
+			user.setPassword(passwordEncoder.encode(userPassDTO.getPassword()));
+			user.setHasChangedPassword(true);
+			userRepository.saveAndFlush(user);
+			return user;
+		}));
+	}
+
+	/**
+	 * Checks for changed password.
+	 *
+	 * @param userId the user id
+	 * @return true, if successful
+	 */
+	@Override
+	public boolean hasChangedPassword(final Long userId) {
+		return userRepository.findById(userId)
+				.map(User::getHasChangedPassword)
+				.orElse(false);
+	}
 }

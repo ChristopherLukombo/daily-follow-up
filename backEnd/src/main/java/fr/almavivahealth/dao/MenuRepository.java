@@ -15,9 +15,9 @@ import fr.almavivahealth.domain.entity.Menu;
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
 	List<Menu> findAllByOrderByIdAsc();
-	
+
 	@Query("SELECT menu FROM Menu menu "
-			+ "WHERE menu.texture.name = :textureName "
+			+ "WHERE menu.texture = :textureName "
 			+ "AND menu.diet.name IN :dietNames "
 			+ "AND menu.startDate  >= :startDate AND menu.endDate <= :endDate")
 	List<Menu> findAllByWeek(
@@ -25,5 +25,5 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 			@Param("dietNames") Set<String> dietNames,
 			@Param("startDate") LocalDate startDate,
 			@Param("endDate") LocalDate endDate);
-	
+
 }
