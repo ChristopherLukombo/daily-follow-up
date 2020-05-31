@@ -6,5 +6,5 @@ export class Week {
   /***/
   number: number;
   /***/
-  days: Day[];
+  days: Array<Day>;
 }

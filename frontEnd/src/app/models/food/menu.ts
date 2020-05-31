@@ -1,5 +1,4 @@
 import { Diet } from "../patient/diet";
-import { Texture } from "./texture";
 import { Week } from "./week";
 import { Content } from "./content";
 
@@ -11,15 +10,15 @@ export class Menu {
   /***/
   id: number;
   /***/
-  replacements: Content[];
-  /***/
-  startDate: string;
-  /***/
-  texture: Texture;
-  /***/
-  weeks: Week[];
+  lastModificationDateBy: Date;
   /***/
   lastModifiedBy: string;
   /***/
-  lastModificationDateBy: Date;
+  replacements: Array<Content>;
+  /***/
+  startDate: string;
+  /***/
+  texture: string;
+  /***/
+  weeks: Array<Week>;
 }

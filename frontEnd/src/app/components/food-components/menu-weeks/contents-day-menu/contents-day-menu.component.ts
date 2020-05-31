@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Content } from "src/app/models/food/content";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { CustomModal } from "src/app/models/utils/custom-modal";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { MomentDayDTO } from "src/app/models/dto/food/moment-dayDTO";
+import { MomentDayCustomInfos } from "src/app/models/utils/moment-day-custom-infos";
 
 @Component({
   selector: "app-contents-day-menu",
@@ -36,6 +38,8 @@ export class ContentsDayMenuComponent implements OnInit {
     ["P.L", null],
     ["Dessert", null],
   ]);
+
+  @Output() submitMoment = new EventEmitter<MomentDayCustomInfos>();
 
   submitted: boolean = false;
 
@@ -100,14 +104,22 @@ export class ContentsDayMenuComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    console.log(this.f);
     if (this.form.invalid) return;
     this.contentsOfTheMoment.set("Entrée", this.f.entry.value);
     this.contentsOfTheMoment.set("Plat", this.f.dish.value);
     this.contentsOfTheMoment.set("Garniture", this.f.garnish.value);
     this.contentsOfTheMoment.set("P.L", this.f.dairyProduct.value);
     this.contentsOfTheMoment.set("Dessert", this.f.dessert.value);
-    console.log(this.contentsOfTheMoment);
+    let infos: MomentDayCustomInfos = new MomentDayCustomInfos(
+      this.week,
+      this.day,
+      new MomentDayDTO(
+        null,
+        this.moment,
+        Array.from(this.contentsOfTheMoment.values())
+      )
+    );
+    this.submitMoment.emit(infos);
     console.log("submit !");
   }
 }
