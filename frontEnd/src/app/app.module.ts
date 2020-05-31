@@ -74,6 +74,8 @@ import {
   getActionPatientPipe,
   truncateStringPipe,
 } from "./utils/pipes/string-utils.pipe";
+import { MealsComponent } from './components/food-components/meals/meals.component';
+import { ListMealsComponent } from './components/food-components/meals/list-meals/list-meals.component';
 
 @NgModule({
   declarations: [
@@ -129,6 +131,8 @@ import {
     RoleNavbarComponent,
     ListCaregiversComponent,
     UserAddComponent,
+    MealsComponent,
+    ListMealsComponent,
   ],
   imports: [
     BrowserModule,

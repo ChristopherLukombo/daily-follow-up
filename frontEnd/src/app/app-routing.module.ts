@@ -13,6 +13,7 @@ import { MealsAddComponent } from "./components/food-components/meals-add/meals-
 import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
 import { UsersComponent } from "./components/user-components/users/users.component";
 import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
+import { MealsComponent } from "./components/food-components/meals/meals.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -49,6 +50,11 @@ const routes: Routes = [
   {
     path: "patient/import",
     component: PatientsImportComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/meal/all",
+    component: MealsComponent,
     canActivate: [AuthGuard],
   },
   {

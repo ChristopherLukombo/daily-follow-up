@@ -1,0 +1,65 @@
+<div class="form-group">
+  <h5>
+    <label>Filtres</label>
+  </h5>
+  <div class="types-form-checkboxes">
+    <label *ngFor="let type of typeMeals" class="checkbox-inline">
+      <input type="checkbox" />
+      {{ type }}
+    </label>
+  </div>
+</div>
+<div class="form-group">
+  <input
+    class="form-control"
+    type="text"
+    [(ngModel)]="name"
+    placeholder="Nom du plat..."
+  />
+</div>
+<br />
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Types</th>
+      <th scope="col">Mixé</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody class="tbody-dfu">
+    <tr
+      *ngFor="
+        let content of contents
+          | orderBy: 'name'
+          | search: 'name':name
+          | paginate: pagination;
+        let i = index
+      "
+      (click)="selectContent(content, i)"
+      [class.active]="i == selectedRow"
+    >
+      <td innerHTML="{{ content.name | highlight: name }}"></td>
+      <td>
+        <span class="badge badge-info" *ngFor="let t of content?.typeMeals">
+          {{ t }}
+        </span>
+      </td>
+      <td *ngIf="content.mixed" [ngStyle]="{ color: '#28a745' }">
+        <fa-icon [icon]="trueLogo"></fa-icon>
+      </td>
+      <td *ngIf="!content.mixed" [ngStyle]="{ color: '#dc3545' }">
+        <fa-icon [icon]="falseLogo"></fa-icon>
+      </td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls
+  (pageChange)="pageChanged($event)"
+  (pageBoundsCorrection)="pageChanged($event)"
+  maxSize="6"
+  responsive="true"
+  previousLabel="Précédent"
+  nextLabel="Suivant"
+></pagination-controls>
