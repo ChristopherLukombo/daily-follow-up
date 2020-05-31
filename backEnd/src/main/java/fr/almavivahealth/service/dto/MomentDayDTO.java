@@ -23,7 +23,7 @@ public class MomentDayDTO implements Serializable {
 
 	private String name;
 
-	private List<Long> contentIds;
+	private List<ContentDTO> contents;
 
 	public MomentDayDTO() {
 		// Empty constructor needed for Jackson.
@@ -45,17 +45,17 @@ public class MomentDayDTO implements Serializable {
 		this.name = name;
 	}
 
-	public List<Long> getContentIds() {
-		return contentIds;
+	public List<ContentDTO> getContents() {
+		return contents;
 	}
 
-	public void setContentIds(final List<Long> contentIds) {
-		this.contentIds = contentIds;
+	public void setContents(final List<ContentDTO> contents) {
+		this.contents = contents;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(contentIds, id, name);
+		return Objects.hash(contents, id, name);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class MomentDayDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final MomentDayDTO other = (MomentDayDTO) obj;
-		return Objects.equals(contentIds, other.contentIds) && Objects.equals(id, other.id)
+		return Objects.equals(contents, other.contents) && Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name);
 	}
 
