@@ -76,6 +76,10 @@ export class FormMealAddComponent implements OnInit {
         null,
         [Validators.required, Validators.min(0), Validators.max(100)],
       ],
+      foodFibres: [
+        null,
+        [Validators.required, Validators.min(0), Validators.max(100)],
+      ],
       agSaturates: [
         null,
         [Validators.required, Validators.min(0), Validators.max(100)],

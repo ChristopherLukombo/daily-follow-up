@@ -89,7 +89,7 @@ export class MealsAddComponent implements OnInit {
       form.controls.carbohydrate.value,
       form.controls.lipids.value,
       form.controls.sugars.value,
-      null,
+      form.controls.foodFibres.value,
       form.controls.agSaturates.value,
       form.controls.salt.value,
       this.getTypeMeals(form),

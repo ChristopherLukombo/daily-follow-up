@@ -23,6 +23,7 @@ export class InfosMealComponent implements OnInit {
     "Glucides",
     "Lipides",
     "Sucres",
+    "Fibres",
     "AG saturés",
     "Sel chlorire de sodium",
   ];
@@ -34,7 +35,7 @@ export class InfosMealComponent implements OnInit {
     },
     legend: { position: "right" },
   };
-  doughnutChartData: SingleDataSet = new Array<number>(6);
+  doughnutChartData: SingleDataSet = new Array<number>(7);
   doughnutChartType: ChartType = "doughnut";
 
   constructor() {}
@@ -50,7 +51,7 @@ export class InfosMealComponent implements OnInit {
   ngOnChanges(): void {
     this.doughnutChartData = this.content
       ? this.generateChartData(this.content)
-      : [0, 0, 0, 0, 0, 0];
+      : [0, 0, 0, 0, 0, 0, 0];
     setTimeout(() => {
       this.generateForm(this.content);
     });
@@ -66,6 +67,7 @@ export class InfosMealComponent implements OnInit {
     this.f.carbohydrate.setValue(data ? data.carbohydrate : null);
     this.f.lipids.setValue(data ? data.lipids : null);
     this.f.sugars.setValue(data ? data.sugars : null);
+    this.f.foodFibres.setValue(data ? data.foodFibres : null);
     this.f.agSaturates.setValue(data ? data.agSaturates : null);
     this.f.salt.setValue(data ? data.salt : null);
   }
@@ -76,14 +78,15 @@ export class InfosMealComponent implements OnInit {
     set[1] = data.carbohydrate;
     set[2] = data.lipids;
     set[3] = data.sugars;
-    set[4] = data.agSaturates;
-    set[5] = data.salt;
+    set[4] = data.foodFibres;
+    set[5] = data.agSaturates;
+    set[6] = data.salt;
     return set;
   }
 
   chartEmpty(): boolean {
     const set: number[] = this.doughnutChartData as number[];
-    return set.filter((data: number) => !data).length == 6;
+    return set.filter((data: number) => !data).length == 7;
   }
 
   updateValues(event: KeyboardEvent, key: string, index?: number): void {

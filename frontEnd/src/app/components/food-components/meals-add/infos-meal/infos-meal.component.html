@@ -42,7 +42,7 @@
           </thead>
           <tbody>
             <tr>
-              <td class="table-danger">
+              <td class="table-danger" colspan="3">
                 <label class="col-form-label-sm"
                   >Protéines (g) <span class="required">*</span></label
                 >
@@ -56,6 +56,8 @@
                   (keyup)="updateValues($event, 'protein', 0)"
                 />
               </td>
+            </tr>
+            <tr>
               <td class="table-primary">
                 <label class="col-form-label-sm"
                   >Glucides (g) <span class="required">*</span></label
@@ -86,9 +88,7 @@
                   (keyup)="updateValues($event, 'lipids', 2)"
                 />
               </td>
-            </tr>
-            <tr>
-              <td class="table-active">
+              <td class="table-default">
                 <label class="col-form-label-sm"
                   >Sucres (g) <span class="required">*</span></label
                 >
@@ -102,7 +102,23 @@
                   (keyup)="updateValues($event, 'sugars', 3)"
                 />
               </td>
+            </tr>
+            <tr>
               <td class="table-info">
+                <label class="col-form-label-sm"
+                  >Fibres (g) <span class="required">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control form-control-sm"
+                  [ngClass]="{ 'is-invalid': submitted && f.foodFibres.errors }"
+                  min="00"
+                  max="100"
+                  formControlName="foodFibres"
+                  (keyup)="updateValues($event, 'foodFibres', 0)"
+                />
+              </td>
+              <td class="table-secondary">
                 <label class="col-form-label-sm"
                   >AG saturés (g) <span class="required">*</span></label
                 >
@@ -118,7 +134,7 @@
                   (keyup)="updateValues($event, 'agSaturates', 4)"
                 />
               </td>
-              <td class="table-secondary">
+              <td class="table-active">
                 <label class="col-form-label-sm"
                   >Sel (g) <span class="required">*</span></label
                 >
