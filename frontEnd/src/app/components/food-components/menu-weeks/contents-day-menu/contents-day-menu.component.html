@@ -35,7 +35,7 @@
   aria-hidden="true"
 >
   <div class="modal-dialog" role="document">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" [attr.id]="modal.label">
@@ -159,7 +159,14 @@
           >
             Annuler
           </button>
-          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [attr.data-dismiss]="submitted && form.valid ? 'modal' : null"
+            (click)="onSubmit()"
+          >
+            Enregistrer
+          </button>
         </div>
       </div>
     </form>

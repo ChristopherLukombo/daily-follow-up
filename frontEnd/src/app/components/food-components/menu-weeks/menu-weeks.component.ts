@@ -33,10 +33,11 @@ export class MenuWeeksComponent implements OnInit {
     this.alimentationService.getAllContents().subscribe(
       (data) => {
         this.allContents = data;
-        this.loading = false;
       },
       (error) => {
         console.log(error);
+      },
+      () => {
         this.loading = false;
       }
     );
