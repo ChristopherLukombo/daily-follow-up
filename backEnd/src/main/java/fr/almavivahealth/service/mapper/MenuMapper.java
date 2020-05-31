@@ -15,7 +15,7 @@ import fr.almavivahealth.service.dto.MenuDTO;
  */
 @Mapper(
 		componentModel = "spring",
-		uses = { TextureMapper.class, ContentMapper.class, DietMapper.class, WeekMapper.class },
+		uses = { ContentMapper.class, DietMapper.class, WeekMapper.class },
 		unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MenuMapper {
 

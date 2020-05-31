@@ -9,12 +9,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -36,6 +38,7 @@ import fr.almavivahealth.domain.enums.RoleName;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
+import fr.almavivahealth.service.dto.UserPassDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.AccountResource;
 
@@ -308,4 +311,59 @@ public class AccountResourceTest {
 		verify(userService, times(0)).findProfilePicture(anyLong());
     }
 
+    @Test
+	public void shouldUpdatePassword() throws IOException, Exception {
+		// Given
+    	final User user = createUser();
+    	final UserPassDTO  userPassDTO = new UserPassDTO();
+    	userPassDTO.setUserId(1L);
+    	userPassDTO.setPassword("sddzdz");
+
+		// When
+		when(userService.updatePassword((UserPassDTO) any(), (Locale) any())).thenReturn(Optional.ofNullable(user));
+
+		// Then
+		mockMvc.perform(patch("/api/users/pass")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(userPassDTO)))
+		        .andExpect(status().isOk());
+		verify(userService, times(1)).updatePassword((UserPassDTO) any(), (Locale) any());
+	}
+
+    @Test
+  	public void shouldThrowInternalServerErrorWhenUserNotExist() throws IOException, Exception {
+  		// Given
+      	final User user = null;
+      	final UserPassDTO  userPassDTO = new UserPassDTO();
+      	userPassDTO.setUserId(1L);
+      	userPassDTO.setPassword("sddzdz");
+
+  		// When
+    	when(userService.updatePassword((UserPassDTO) any(), (Locale) any())).thenReturn(Optional.ofNullable(user));
+
+  		// Then
+  		mockMvc.perform(patch("/api/users/pass")
+  				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+  				.content(TestUtil.convertObjectToJsonBytes(userPassDTO)))
+  		        .andExpect(status().isInternalServerError());
+  		verify(userService, times(1)).updatePassword((UserPassDTO) any(), (Locale) any());
+  	}
+
+    @Test
+   	public void shouldReturnTrueWhenhasUpdatePassword() throws IOException, Exception {
+   		// Given
+       	final User user = createUser();
+
+   		// When
+   		when(userService.hasChangedPassword(anyLong())).thenReturn(true);
+
+   		// Then
+   		mockMvc.perform(get("/api/users/pass/1")
+   				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+   				.content(TestUtil.convertObjectToJsonBytes(user)))
+   		        .andExpect(status().isOk())
+   		     .andExpect(jsonPath("$").isBoolean());
+
+   		verify(userService, times(1)).hasChangedPassword(anyLong());
+   	}
 }

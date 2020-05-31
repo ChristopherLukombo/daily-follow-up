@@ -39,11 +39,11 @@ import lombok.ToString;
 public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	// TODO : Changer la regex pour le pseudo.
 	@NotNull
     @Pattern(regexp = "^[_'.@A-Za-z0-9-]*$")
@@ -75,7 +75,7 @@ public class User implements Serializable {
 
     @Builder.Default
     @NotNull
-    @Column(nullable = false)	
+    @Column(nullable = false)
     private boolean status = true;
 
     @Size(max = 256)
@@ -84,9 +84,10 @@ public class User implements Serializable {
 
     @Column
     private LocalDate birthDay;
-    
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
-    
+
+    private Boolean hasChangedPassword;
 }

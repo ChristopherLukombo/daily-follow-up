@@ -28,6 +28,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.exception.DetailedErrorApi;
 import fr.almavivahealth.exception.ErrorApi;
+import fr.almavivahealth.exception.FunctionalException;
 
 /**
  * ResponseEntityExceptionHandler for handle exception and launch error with
@@ -48,6 +49,16 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				rootCause != null ? rootCause.getMessage() : StringUtils.EMPTY,
 				HttpStatus.valueOf(ex.getErrorCode()), ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
 		return handleExceptionInternal(ex, detailedErrorApi, new HttpHeaders(), HttpStatus.valueOf(ex.getErrorCode()), request);
+	}
+
+	@ExceptionHandler(value = { FunctionalException.class })
+	protected ResponseEntity<Object> handleFunctionWithException(final FunctionalException ex,
+			final WebRequest request) {
+		final Throwable rootCause = ExceptionUtils.getRootCause(ex);
+		final ErrorApi errorApi = new ErrorApi(
+				rootCause.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR,
+				ZonedDateTime.now(ZoneId.of(EUROPE_PARIS)));
+		return handleExceptionInternal(ex, errorApi, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 	}
 
 	@Override

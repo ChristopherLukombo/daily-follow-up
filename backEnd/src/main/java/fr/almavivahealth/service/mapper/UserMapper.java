@@ -27,9 +27,9 @@ public interface UserMapper {
 	@Mapping(source = "imageUrl", target = "imageUrl")
 	@Mapping(source = "birthDay", target = "birthDay")
 	@Mapping(source = "role.name", target = "roleName")
+	@Mapping(source = "hasChangedPassword", target = "hasChangedPassword")
 	UserDTO userToUserDTO(User user);
 
     @InheritInverseConfiguration
     User userDTOToUser(UserDTO userDTO);
-
 }

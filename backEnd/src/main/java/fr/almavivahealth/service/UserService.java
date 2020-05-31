@@ -1,5 +1,6 @@
 package fr.almavivahealth.service;
 
+import java.util.Locale;
 import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -7,12 +8,12 @@ import org.springframework.web.multipart.MultipartFile;
 import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.UserDTO;
+import fr.almavivahealth.service.dto.UserPassDTO;
 
 /**
  * Service Interface for managing User.
  */
 public interface UserService {
-
 
 	/**
 	 * Save the user.
@@ -31,7 +32,6 @@ public interface UserService {
 	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	UserDTO update(UserDTO userDTO) throws DailyFollowUpException;
-
 
 	/**
 	 * Delete the user.
@@ -53,7 +53,7 @@ public interface UserService {
 	/**
 	 * Upload profile picture.
 	 *
-	 * @param file the file
+	 * @param file   the file
 	 * @param userId the user id
 	 * @throws DailyFollowUpException the daily follow up exception
 	 */
@@ -67,4 +67,20 @@ public interface UserService {
 	 */
 	byte[] findProfilePicture(Long userId);
 
+	/**
+	 * Update password of user.
+	 *
+	 * @param userPassDTO the user pass DTO
+	 * @param locale      the locale
+	 * @return the optional
+	 */
+	Optional<User> updatePassword(final UserPassDTO userPassDTO, Locale locale);
+
+	/**
+	 * Checks for changed password.
+	 *
+	 * @param userId the user id
+	 * @return true, if successful
+	 */
+	boolean hasChangedPassword(Long userId);
 }
