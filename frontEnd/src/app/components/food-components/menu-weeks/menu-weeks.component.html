@@ -12,10 +12,8 @@
       </button>
     </div>
   </div>
-  <div class="col text-right">
-    <button type="button" class="btn btn-outline-info">
-      <strong>Carte de remplacement</strong>
-    </button>
+  <div *ngIf="allContents.length > 0 && !loading" class="col text-right">
+    <app-replacements-card [allContents]="allContents"></app-replacements-card>
   </div>
 </div>
 <br />

@@ -76,6 +76,7 @@ import {
 } from "./utils/pipes/string-utils.pipe";
 import { MealsComponent } from './components/food-components/meals/meals.component';
 import { ListMealsComponent } from './components/food-components/meals/list-meals/list-meals.component';
+import { ReplacementsCardComponent } from './components/food-components/menu-weeks/replacements-card/replacements-card.component';
 
 @NgModule({
   declarations: [
@@ -133,6 +134,7 @@ import { ListMealsComponent } from './components/food-components/meals/list-meal
     UserAddComponent,
     MealsComponent,
     ListMealsComponent,
+    ReplacementsCardComponent,
   ],
   imports: [
     BrowserModule,
