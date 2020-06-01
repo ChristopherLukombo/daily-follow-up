@@ -50,8 +50,8 @@ public class Menu implements Serializable {
 
 	private String texture;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Content> replacements;
+	@ManyToOne
+	private Replacement replacement;
 
 	@ManyToOne
 	private Diet diet;
