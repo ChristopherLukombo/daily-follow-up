@@ -53,16 +53,14 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/api")
 public class AccountResource {
 
-
-
 	private static final Logger LOGGER = LoggerFactory.getLogger(AccountResource.class);
 
-    private final UserService userService;
+	private final UserService userService;
 
-    private final MessageSource messageSource;
+	private final MessageSource messageSource;
 
-    @Autowired
-    public AccountResource(final UserService userService, final MessageSource messageSource) {
+	@Autowired
+	public AccountResource(final UserService userService, final MessageSource messageSource) {
 		this.userService = userService;
 		this.messageSource = messageSource;
 	}
@@ -237,6 +235,14 @@ public class AccountResource {
 		return ResponseEntity.ok().body(profilePicture);
 	}
 
+	 /**
+	 * GET /users/pass : Update password of user.
+	 *
+	 * @param userPassDTO the user pass DTO
+	 * @param locale      the locale
+	 * @return HttpStatus
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
 	@ApiOperation("Update password of user.")
 	@ApiResponses({
         @ApiResponse(code = 200, message = "Ok"),
@@ -258,7 +264,13 @@ public class AccountResource {
 		return ResponseEntity.ok().body(HttpStatus.OK);
 	}
 
-	@ApiOperation("Update password of user.")
+	 /**
+	 * GET /users/pass/userId : Returns true if user has updated its password.
+	 *
+	 * @param userId the user id
+	 * @return Boolean
+	 */
+	@ApiOperation("Returns true if user has updated its password.")
 	@ApiResponses({
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 400, message = "Bad request"),
