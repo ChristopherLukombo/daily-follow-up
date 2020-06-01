@@ -10,13 +10,13 @@
         <div class="col">
           <div class="btn-group">
             <button
-              *ngFor="let texture of textures; let t = index"
+              *ngFor="let t of textures"
               type="button"
               class="btn btn-primary"
-              (click)="selectTexture(texture, t)"
-              [class.active]="t == selectedButton"
+              (click)="selectTexture(t)"
+              [class.active]="t == selectedTexture"
             >
-              {{ texture }}
+              {{ t }}
             </button>
           </div>
         </div>
@@ -31,8 +31,12 @@
                   <input
                     type="week"
                     [(ngModel)]="beginWeek"
+                    [ngClass]="{ 'is-invalid': submitted && !beginWeek }"
                     class="form-control"
                   />
+                  <small *ngIf="submitted && !beginWeek" class="text-danger">
+                    Veuillez renseigner la date de début
+                  </small>
                 </div>
               </div>
             </div>
@@ -45,6 +49,7 @@
                   <input
                     type="number"
                     [(ngModel)]="repeat"
+                    [ngClass]="{ 'is-invalid': submitted && !repeat }"
                     class="form-control"
                   />
                 </div>
@@ -54,11 +59,14 @@
         </div>
       </div>
       <br />
-      <app-menu-weeks></app-menu-weeks>
+      <app-menu-weeks (submitMoment)="setMoment($event)"></app-menu-weeks>
+      <span *ngIf="submitted && error" class="text-danger">
+        <strong>{{ error }}</strong>
+      </span>
       <br />
       <div class="row">
         <div class="col text-right">
-          <button type="button" class="btn btn-primary">
+          <button type="button" class="btn btn-primary" (click)="onCreate()">
             Confirmer la création
           </button>
         </div>

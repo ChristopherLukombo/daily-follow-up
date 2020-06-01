@@ -56,18 +56,10 @@ export class ContentsDayMenuComponent implements OnInit {
       this.moment + this.day + this.week,
       this.moment + this.day + this.week + "Label"
     );
-    if (this.form && this.week && this.day && this.moment) {
-      this.f.week.setValue(this.week);
-      this.f.day.setValue(this.day);
-      this.f.moment.setValue(this.moment);
-    }
   }
 
   createForm(): void {
     const target = {
-      week: [this.week, Validators.required],
-      day: [this.week, Validators.required],
-      moment: [this.week, Validators.required],
       entry: [null, Validators.required],
       dish: [null, Validators.required],
       garnish: [null, Validators.required],
@@ -75,6 +67,11 @@ export class ContentsDayMenuComponent implements OnInit {
       dessert: [null, Validators.required],
     };
     this.form = this.formBuilder.group(target);
+    if (this.moment === "Dîner") {
+      this.form.removeControl("dairyProduct");
+      this.suggestions.delete("P.L");
+      this.contentsOfTheMoment.delete("P.L");
+    }
   }
 
   loadSuggestions(): void {
@@ -92,7 +89,6 @@ export class ContentsDayMenuComponent implements OnInit {
     return this.form.controls;
   }
 
-  // TODO : Voir pour pas supprimer le week + day + moment dans le form
   emptyContents(): boolean {
     for (let [key, value] of this.contentsOfTheMoment) {
       if (value === null || this.contentsOfTheMoment.get(key) === null) {
@@ -108,7 +104,9 @@ export class ContentsDayMenuComponent implements OnInit {
     this.contentsOfTheMoment.set("Entrée", this.f.entry.value);
     this.contentsOfTheMoment.set("Plat", this.f.dish.value);
     this.contentsOfTheMoment.set("Garniture", this.f.garnish.value);
-    this.contentsOfTheMoment.set("P.L", this.f.dairyProduct.value);
+    if (this.moment !== "Dîner") {
+      this.contentsOfTheMoment.set("P.L", this.f.dairyProduct.value);
+    }
     this.contentsOfTheMoment.set("Dessert", this.f.dessert.value);
     let infos: MomentDayCustomInfos = new MomentDayCustomInfos(
       this.week,
@@ -120,6 +118,5 @@ export class ContentsDayMenuComponent implements OnInit {
       )
     );
     this.submitMoment.emit(infos);
-    console.log("submit !");
   }
 }

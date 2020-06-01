@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Content } from "src/app/models/food/content";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
@@ -27,6 +27,8 @@ export class MenuWeeksComponent implements OnInit {
   allContents: Content[] = [];
   loading: boolean = false;
 
+  @Output() submitMoment = new EventEmitter<MomentDayCustomInfos>();
+
   constructor(private alimentationService: AlimentationService) {}
 
   ngOnInit(): void {
@@ -49,6 +51,6 @@ export class MenuWeeksComponent implements OnInit {
   }
 
   setMoment(infos: MomentDayCustomInfos): void {
-    console.log(infos);
+    this.submitMoment.emit(infos);
   }
 }
