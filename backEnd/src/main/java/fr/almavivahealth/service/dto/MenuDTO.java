@@ -29,7 +29,7 @@ public class MenuDTO implements Serializable {
 
 	private String texture;
 
-	private List<ContentDTO> replacements;
+	private ReplacementDTO replacement;
 
 	private DietDTO diet;
 
@@ -67,14 +67,20 @@ public class MenuDTO implements Serializable {
 		this.endDate = endDate;
 	}
 
-
-
-	public List<ContentDTO> getReplacements() {
-		return replacements;
+	public String getTexture() {
+		return texture;
 	}
 
-	public void setReplacements(final List<ContentDTO> replacements) {
-		this.replacements = replacements;
+	public void setTexture(final String texture) {
+		this.texture = texture;
+	}
+
+	public ReplacementDTO getReplacement() {
+		return replacement;
+	}
+
+	public void setReplacement(final ReplacementDTO replacement) {
+		this.replacement = replacement;
 	}
 
 	public DietDTO getDiet() {
@@ -109,18 +115,10 @@ public class MenuDTO implements Serializable {
 		this.lastModificationDateBy = lastModificationDateBy;
 	}
 
-	public String getTexture() {
-		return texture;
-	}
-
-	public void setTexture(final String texture) {
-		this.texture = texture;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(diet, endDate, id, lastModificationDateBy, lastModifiedBy, replacements, startDate,
-				texture, weeks);
+		return Objects.hash(diet, endDate, id, lastModificationDateBy, lastModifiedBy, replacement, startDate, texture,
+				weeks);
 	}
 
 	@Override
@@ -135,7 +133,7 @@ public class MenuDTO implements Serializable {
 		return Objects.equals(diet, other.diet) && Objects.equals(endDate, other.endDate)
 				&& Objects.equals(id, other.id) && Objects.equals(lastModificationDateBy, other.lastModificationDateBy)
 				&& Objects.equals(lastModifiedBy, other.lastModifiedBy)
-				&& Objects.equals(replacements, other.replacements) && Objects.equals(startDate, other.startDate)
+				&& Objects.equals(replacement, other.replacement) && Objects.equals(startDate, other.startDate)
 				&& Objects.equals(texture, other.texture) && Objects.equals(weeks, other.weeks);
 	}
 
@@ -143,4 +141,5 @@ public class MenuDTO implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
 }

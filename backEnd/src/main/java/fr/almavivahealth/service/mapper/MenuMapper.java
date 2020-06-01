@@ -15,7 +15,7 @@ import fr.almavivahealth.service.dto.MenuDTO;
  */
 @Mapper(
 		componentModel = "spring",
-		uses = { ContentMapper.class, DietMapper.class, WeekMapper.class },
+		uses = { ReplacementMapper.class, DietMapper.class, WeekMapper.class },
 		unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MenuMapper {
 
@@ -23,7 +23,7 @@ public interface MenuMapper {
 	@Mapping(source = "startDate", target = "startDate")
 	@Mapping(source = "endDate", target = "endDate")
 	@Mapping(source = "texture", target = "texture")
-	@Mapping(source = "replacements", target = "replacements")
+	@Mapping(source = "replacement", target = "replacement")
 	@Mapping(source = "diet", target = "diet")
 	@Mapping(source = "weeks", target = "weeks")
 	@Mapping(source = "lastModifiedBy", target = "lastModifiedBy")
