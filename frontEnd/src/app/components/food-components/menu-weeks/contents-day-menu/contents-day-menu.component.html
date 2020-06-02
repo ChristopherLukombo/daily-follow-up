@@ -1,18 +1,33 @@
 <div *ngIf="modal && form" class="meals-of-the-day">
   <ul *ngIf="!emptyContents()" class="list-group list-group-flush">
-    <li class="list-group-item" title="{{ f?.entry?.value?.name }}">
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('Entrée')?.name }}"
+    >
       {{ contentsOfTheMoment.get("Entrée")?.name | truncate: 30 }}
     </li>
-    <li class="list-group-item" title="{{ f?.dish?.value?.name }}">
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('Plat')?.name }}"
+    >
       {{ contentsOfTheMoment.get("Plat")?.name | truncate: 30 }}
     </li>
-    <li class="list-group-item" title="{{ f?.garnish?.value?.name }}">
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('Garniture')?.name }}"
+    >
       {{ contentsOfTheMoment.get("Garniture")?.name | truncate: 30 }}
     </li>
-    <li class="list-group-item" title="{{ f?.dairyProduct?.value?.name }}">
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('P.L')?.name }}"
+    >
       {{ contentsOfTheMoment.get("P.L")?.name | truncate: 30 }}
     </li>
-    <li class="list-group-item" title="{{ f?.dessert?.value?.name }}">
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('Dessert')?.name }}"
+    >
       {{ contentsOfTheMoment.get("Dessert")?.name | truncate: 30 }}
     </li>
   </ul>
@@ -109,7 +124,7 @@
               </small>
             </div>
           </div>
-          <div class="form-group row">
+          <div *ngIf="moment != 'Dîner'" class="form-group row">
             <label class="col-sm-2 col-form-label">P.L</label>
             <div class="col-sm-10">
               <ng-select

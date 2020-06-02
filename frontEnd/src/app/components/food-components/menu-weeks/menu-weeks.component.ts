@@ -1,7 +1,8 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Content } from "src/app/models/food/content";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
+import { MomentDayCustomInfos } from "src/app/models/utils/moment-day-custom-infos";
 
 @Component({
   selector: "app-menu-weeks",
@@ -26,6 +27,8 @@ export class MenuWeeksComponent implements OnInit {
   allContents: Content[] = [];
   loading: boolean = false;
 
+  @Output() submitMoment = new EventEmitter<MomentDayCustomInfos>();
+
   constructor(private alimentationService: AlimentationService) {}
 
   ngOnInit(): void {
@@ -45,5 +48,9 @@ export class MenuWeeksComponent implements OnInit {
 
   selectWeek(numWeek: number): void {
     this.selectedWeek = numWeek;
+  }
+
+  setMoment(infos: MomentDayCustomInfos): void {
+    this.submitMoment.emit(infos);
   }
 }

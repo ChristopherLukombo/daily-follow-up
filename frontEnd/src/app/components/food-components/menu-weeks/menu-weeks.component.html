@@ -12,10 +12,8 @@
       </button>
     </div>
   </div>
-  <div class="col text-right">
-    <button type="button" class="btn btn-info">
-      Carte de remplacement du menu
-    </button>
+  <div *ngIf="allContents.length > 0 && !loading" class="col text-right">
+    <app-replacements-card [allContents]="allContents"></app-replacements-card>
   </div>
 </div>
 <br />
@@ -42,6 +40,7 @@
                   [day]="day"
                   [moment]="moment"
                   [allContents]="allContents"
+                  (submitMoment)="setMoment($event)"
                 ></app-contents-day-menu>
               </td>
             </tr>

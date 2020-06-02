@@ -1,8 +1,10 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Content } from "src/app/models/food/content";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { CustomModal } from "src/app/models/utils/custom-modal";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { MomentDayDTO } from "src/app/models/dto/food/moment-dayDTO";
+import { MomentDayCustomInfos } from "src/app/models/utils/moment-day-custom-infos";
 
 @Component({
   selector: "app-contents-day-menu",
@@ -37,6 +39,8 @@ export class ContentsDayMenuComponent implements OnInit {
     ["Dessert", null],
   ]);
 
+  @Output() submitMoment = new EventEmitter<MomentDayCustomInfos>();
+
   submitted: boolean = false;
 
   constructor(private formBuilder: FormBuilder) {}
@@ -52,18 +56,10 @@ export class ContentsDayMenuComponent implements OnInit {
       this.moment + this.day + this.week,
       this.moment + this.day + this.week + "Label"
     );
-    if (this.form && this.week && this.day && this.moment) {
-      this.f.week.setValue(this.week);
-      this.f.day.setValue(this.day);
-      this.f.moment.setValue(this.moment);
-    }
   }
 
   createForm(): void {
     const target = {
-      week: [this.week, Validators.required],
-      day: [this.week, Validators.required],
-      moment: [this.week, Validators.required],
       entry: [null, Validators.required],
       dish: [null, Validators.required],
       garnish: [null, Validators.required],
@@ -71,6 +67,11 @@ export class ContentsDayMenuComponent implements OnInit {
       dessert: [null, Validators.required],
     };
     this.form = this.formBuilder.group(target);
+    if (this.moment === "Dîner") {
+      this.form.removeControl("dairyProduct");
+      this.suggestions.delete("P.L");
+      this.contentsOfTheMoment.delete("P.L");
+    }
   }
 
   loadSuggestions(): void {
@@ -88,7 +89,6 @@ export class ContentsDayMenuComponent implements OnInit {
     return this.form.controls;
   }
 
-  // TODO : Voir pour pas supprimer le week + day + moment dans le form
   emptyContents(): boolean {
     for (let [key, value] of this.contentsOfTheMoment) {
       if (value === null || this.contentsOfTheMoment.get(key) === null) {
@@ -100,14 +100,23 @@ export class ContentsDayMenuComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    console.log(this.f);
     if (this.form.invalid) return;
     this.contentsOfTheMoment.set("Entrée", this.f.entry.value);
     this.contentsOfTheMoment.set("Plat", this.f.dish.value);
     this.contentsOfTheMoment.set("Garniture", this.f.garnish.value);
-    this.contentsOfTheMoment.set("P.L", this.f.dairyProduct.value);
+    if (this.moment !== "Dîner") {
+      this.contentsOfTheMoment.set("P.L", this.f.dairyProduct.value);
+    }
     this.contentsOfTheMoment.set("Dessert", this.f.dessert.value);
-    console.log(this.contentsOfTheMoment);
-    console.log("submit !");
+    let infos: MomentDayCustomInfos = new MomentDayCustomInfos(
+      this.week,
+      this.day,
+      new MomentDayDTO(
+        null,
+        this.moment,
+        Array.from(this.contentsOfTheMoment.values())
+      )
+    );
+    this.submitMoment.emit(infos);
   }
 }
