@@ -336,4 +336,28 @@ public class MenuServiceTest {
 				.isInstanceOf(DailyFollowUpException.class);
 	}
 
+	@Test
+	public void shouldGetCurrentMenus() {
+		// Given
+		final List<Menu> menus = Arrays.asList(createMenu());
+
+		// Then
+		when(menuRepository.findCurrentMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findCurrentMenus()).isNotEmpty();
+	}
+
+
+	@Test
+	public void shouldReturnEmptyListWhenIsNotFillCurrentMenus() {
+		// Given
+		final List<Menu> menus = Collections.emptyList();
+
+		// Then
+		when(menuRepository.findCurrentMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findCurrentMenus()).isEmpty();
+	}
 }

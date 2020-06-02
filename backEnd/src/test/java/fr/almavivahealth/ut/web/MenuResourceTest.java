@@ -38,14 +38,14 @@ import fr.almavivahealth.web.rest.MenuResource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MenuResourceTest {
-	
+
 	private static final long ID = 1L;
-	
+
 	private MockMvc mockMvc;
-	
+
 	@Mock
 	private MenuService menuService;
-	
+
 	@InjectMocks
 	private MenuResource menuResource;
 
@@ -54,7 +54,7 @@ public class MenuResourceTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(menuResource)
 				.setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
 	}
-	
+
 	private static MenuDTO createMenuDTO() {
 		return MenuDTO.builder()
 				.id(ID)
@@ -91,7 +91,7 @@ public class MenuResourceTest {
 		.andExpect(status().isBadRequest());
 		verify(menuService, times(0)).save(menuDTO);
 	}
-	
+
 	@Test
 	public void shouldUpdateMenuWhenIsOk() throws IOException, Exception {
 		// Given
@@ -121,7 +121,7 @@ public class MenuResourceTest {
 		.andExpect(status().isBadRequest());
 		verify(menuService, times(0)).update(menuDTO);
 	}
-	
+
 	@Test
 	public void shouldGetAllMenusWhenIsOk() throws IOException, Exception {
 		// Given
@@ -151,7 +151,7 @@ public class MenuResourceTest {
 		.andExpect(status().isNoContent());
 		verify(menuService, times(1)).findAll();
 	}
-	
+
 	@Test
 	public void shouldGetMenuWhenIsOk() throws IOException, Exception {
 		// Given
@@ -198,34 +198,34 @@ public class MenuResourceTest {
 		.andExpect(status().isNoContent());
 		verify(menuService, times(1)).delete(id);
 	}
-	
+
 	@Test
     public void shouldGenerateCouponsWhenIsOk() throws Exception {
     	// Given
     	final byte[] profilePicture = new byte[] {0};
-    	
+
     	// When
     	when(menuService.generateCoupons(anyString(), (LocalDate) any())).thenReturn(profilePicture);
-    	
+
     	// Then
     	mockMvc.perform(get("/api/menus/coupons?momentName=momentName&selectedDate=2012-12-12")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isOk());
 		verify(menuService, times(1)).generateCoupons(anyString(), (LocalDate) any());
     }
-    
+
     @Test
     public void shouldGenerateCouponsWhenIsInternalServerError() throws Exception {
     	// When
     	doThrow(DailyFollowUpException.class).when(menuService).generateCoupons(anyString(), (LocalDate) any());
-    	
+
     	// Then
     	mockMvc.perform(get("/api/menus/coupons?momentName=momentName&selectedDate=2012-12-12")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		        .andExpect(status().isInternalServerError());
 		verify(menuService, times(1)).generateCoupons(anyString(), (LocalDate) any());
     }
-    
+
 	@Test
     public void shouldGenerateCouponsWhenIsBadRequest() throws Exception {
     	// Then
@@ -234,5 +234,34 @@ public class MenuResourceTest {
 		        .andExpect(status().isBadRequest());
 		verify(menuService, times(0)).generateCoupons(anyString(), (LocalDate) any());
     }
-	
+
+	@Test
+	public void shouldGetCurrentMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Arrays.asList(createMenuDTO());
+
+		// When
+		when(menuService.findCurrentMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/current")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(menuService, times(1)).findCurrentMenus();
+	}
+
+	@Test
+	public void shouldReturn204WhenGetCurrentMenusIsEmpty() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Collections.emptyList();
+
+		// When
+		when(menuService.findCurrentMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/current")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(menuService, times(1)).findCurrentMenus();
+	}
 }

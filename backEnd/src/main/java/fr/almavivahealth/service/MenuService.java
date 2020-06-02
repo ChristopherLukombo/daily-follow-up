@@ -60,4 +60,11 @@ public interface MenuService {
 	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	byte[] generateCoupons(final String momentName, final LocalDate selectedDate) throws DailyFollowUpException;
+
+	/**
+	 * Find current menus.
+	 *
+	 * @return the list of entities
+	 */
+	List<MenuDTO> findCurrentMenus();
 }
