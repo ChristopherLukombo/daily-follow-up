@@ -1,6 +1,6 @@
 import { WeekDTO } from "./weekDTO";
 import { Diet } from "../../patient/diet";
-import { Content } from "../../food/content";
+import { ReplacementDTO } from "./replacementDTO";
 
 export class MenuDTO {
   /***/
@@ -14,7 +14,7 @@ export class MenuDTO {
   /***/
   lastModifiedBy: string;
   /***/
-  replacements: Array<Content>;
+  replacement: ReplacementDTO;
   /***/
   startDate: string;
   /***/
@@ -28,7 +28,7 @@ export class MenuDTO {
     endDate: string,
     diet: Diet,
     texture: string,
-    replacements: Array<Content>,
+    replacement: ReplacementDTO,
     lastModificationDateBy: Date,
     lastModifiedBy: string,
     weeks: Array<WeekDTO>
@@ -38,7 +38,7 @@ export class MenuDTO {
       (this.endDate = endDate),
       (this.diet = diet),
       (this.texture = texture),
-      (this.replacements = replacements),
+      (this.replacement = replacement),
       (this.lastModificationDateBy = lastModificationDateBy),
       (this.lastModifiedBy = lastModifiedBy),
       (this.weeks = weeks);

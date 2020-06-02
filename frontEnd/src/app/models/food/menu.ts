@@ -1,6 +1,6 @@
 import { Diet } from "../patient/diet";
 import { Week } from "./week";
-import { Content } from "./content";
+import { Replacement } from "./replacement";
 
 export class Menu {
   /***/
@@ -14,7 +14,7 @@ export class Menu {
   /***/
   lastModifiedBy: string;
   /***/
-  replacements: Array<Content>;
+  replacement: Replacement;
   /***/
   startDate: string;
   /***/
