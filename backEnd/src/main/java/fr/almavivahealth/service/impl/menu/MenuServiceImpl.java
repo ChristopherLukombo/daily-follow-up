@@ -327,4 +327,19 @@ public class MenuServiceImpl implements MenuService {
 				.map(Texture::getName)
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
+
+
+	/**
+	 * Find current menus.
+	 *
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<MenuDTO> findCurrentMenus() {
+		final LocalDate begin = findDateFromDay(LocalDate.now(), 1);
+		return menuRepository.findCurrentMenus(begin).stream()
+				.map(menuMapper::menuToMenuDTO)
+				.collect(Collectors.toList());
+	}
 }
