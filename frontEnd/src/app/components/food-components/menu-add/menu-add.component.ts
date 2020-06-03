@@ -5,6 +5,7 @@ import { DayDTO } from "src/app/models/dto/food/dayDTO";
 import { MomentDayDTO } from "src/app/models/dto/food/moment-dayDTO";
 import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
 import * as moment from "moment";
+import { Action } from "src/app/models/utils/actions-enum";
 
 @Component({
   selector: "app-menu-add",
@@ -48,21 +49,24 @@ export class MenuAddComponent implements OnInit {
    */
   initWeeks(): void {
     for (let i = 0; i < this.weeksDTO.length; i++) {
-      let week = new WeekDTO(null, i + 1, []);
-      this.indexOfDays.forEach((indexDay: number, nameDay: string) => {
-        week.days[indexDay] = new DayDTO(null, nameDay, []);
-        this.indexOfMoments.forEach(
-          (indexMoment: number, nameMoment: string) => {
-            week.days[indexDay].momentsDays[indexMoment] = new MomentDayDTO(
-              null,
-              nameMoment,
-              []
-            );
-          }
-        );
-      });
+      let week = this.initializeWeek(i + 1);
       this.weeksDTO[i] = week;
     }
+  }
+
+  initializeWeek(numWeek: number): WeekDTO {
+    let week = new WeekDTO(null, numWeek, []);
+    this.indexOfDays.forEach((indexDay: number, nameDay: string) => {
+      week.days[indexDay] = new DayDTO(null, nameDay, []);
+      this.indexOfMoments.forEach((indexMoment: number, nameMoment: string) => {
+        week.days[indexDay].momentsDays[indexMoment] = new MomentDayDTO(
+          null,
+          nameMoment,
+          []
+        );
+      });
+    });
+    return week;
   }
 
   selectTexture(texture: string): void {
@@ -82,6 +86,16 @@ export class MenuAddComponent implements OnInit {
     );
     console.log(this.weeksDTO);
     console.log(this.weeksAreValid());
+  }
+
+  addOrRemoveWeek(action: Action): void {
+    if (action === Action.ADD) {
+      let week = this.initializeWeek(this.weeksDTO.length + 1);
+      this.weeksDTO[this.weeksDTO.length] = week;
+    }
+    if (action === Action.REMOVE) {
+      this.weeksDTO.splice(-1, 1);
+    }
   }
 
   setMenu(
@@ -131,7 +145,6 @@ export class MenuAddComponent implements OnInit {
     return moment().day(day).week(week).format("YYYY-MM-DD");
   }
 
-  // TODO : gérer la semaine add et remove...
   onCreate(): void {
     this.submitted = true;
     this.error = null;
