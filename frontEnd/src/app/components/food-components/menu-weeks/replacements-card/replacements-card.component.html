@@ -78,10 +78,13 @@
               placeholder="Renseigner un ou plusieurs féculents..."
               notFoundText="Aucun féculent trouvé"
               [virtualScroll]="true"
-              formControlName="starchies"
+              formControlName="starchyFoods"
             >
             </ng-select>
-            <small *ngIf="submitted && f.starchies.errors" class="text-danger">
+            <small
+              *ngIf="submitted && f.starchyFoods.errors"
+              class="text-danger"
+            >
               Veuillez renseigner au moins un féculent
             </small>
           </div>

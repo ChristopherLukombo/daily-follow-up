@@ -3,6 +3,7 @@ import { FormGroup } from "@angular/forms";
 import { Content } from "src/app/models/food/content";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { MomentDayCustomInfos } from "src/app/models/utils/moment-day-custom-infos";
+import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
 
 @Component({
   selector: "app-menu-weeks",
@@ -28,6 +29,7 @@ export class MenuWeeksComponent implements OnInit {
   loading: boolean = false;
 
   @Output() submitMoment = new EventEmitter<MomentDayCustomInfos>();
+  @Output() submitReplacement = new EventEmitter<ReplacementDTO>();
 
   constructor(private alimentationService: AlimentationService) {}
 
@@ -52,5 +54,9 @@ export class MenuWeeksComponent implements OnInit {
 
   setMoment(infos: MomentDayCustomInfos): void {
     this.submitMoment.emit(infos);
+  }
+
+  setReplacement(dto: ReplacementDTO): void {
+    this.submitReplacement.emit(dto);
   }
 }

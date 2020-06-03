@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { faEdit, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { Content } from "src/app/models/food/content";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
+import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
 
 @Component({
   selector: "app-replacements-card",
@@ -27,6 +28,8 @@ export class ReplacementsCardComponent implements OnInit {
 
   submitted: boolean = false;
 
+  @Output() submitReplacement = new EventEmitter<ReplacementDTO>();
+
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -38,7 +41,7 @@ export class ReplacementsCardComponent implements OnInit {
     const target = {
       entries: [null, Validators.required],
       dishes: [null, Validators.required],
-      starchies: [null, Validators.required],
+      starchyFoods: [null, Validators.required],
       vegetables: [null, Validators.required],
       dairyProducts: [null, Validators.required],
       desserts: [null, Validators.required],
@@ -64,7 +67,15 @@ export class ReplacementsCardComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     if (this.form.invalid) return;
-    console.log(this.f);
-    console.log("submit !");
+    const dto = new ReplacementDTO(
+      null,
+      this.f.entries.value,
+      this.f.dishes.value,
+      this.f.starchyFoods.value,
+      this.f.vegetables.value,
+      this.f.dairyProducts.value,
+      this.f.desserts.value
+    );
+    this.submitReplacement.emit(dto);
   }
 }

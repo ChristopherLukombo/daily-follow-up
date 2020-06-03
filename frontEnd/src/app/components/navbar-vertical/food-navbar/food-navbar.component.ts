@@ -5,6 +5,7 @@ import {
   faHamburger,
   faClock,
   faPlus,
+  faCopy,
 } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
@@ -17,6 +18,7 @@ export class FoodNavbarComponent implements OnInit {
   mealAllLogo = faClipboard;
   mealAddLogo = faPlus;
   menuAddLogo = faHamburger;
+  menuDeclineLogo = faCopy;
   menuOldLogo = faClock;
 
   constructor() {}

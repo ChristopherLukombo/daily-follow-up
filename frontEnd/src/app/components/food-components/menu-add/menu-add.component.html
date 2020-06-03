@@ -24,9 +24,7 @@
           <div class="form-row">
             <div class="col-8">
               <div class="form-group row">
-                <label class="col-sm-5 col-form-label text-right"
-                  >Date de début</label
-                >
+                <label class="col-sm-5 col-form-label text-right">Début</label>
                 <div class="col-sm-7">
                   <input
                     type="week"
@@ -59,10 +57,13 @@
         </div>
       </div>
       <br />
-      <app-menu-weeks (submitMoment)="setMoment($event)"></app-menu-weeks>
       <span *ngIf="submitted && error" class="text-danger">
-        <strong>{{ error }}</strong>
+        <app-alert-error [content]="error"></app-alert-error>
       </span>
+      <app-menu-weeks
+        (submitMoment)="setMoment($event)"
+        (submitReplacement)="setReplacement($event)"
+      ></app-menu-weeks>
       <br />
       <div class="row">
         <div class="col text-right">

@@ -3,6 +3,8 @@ import { MomentDayCustomInfos } from "src/app/models/utils/moment-day-custom-inf
 import { WeekDTO } from "src/app/models/dto/food/weekDTO";
 import { DayDTO } from "src/app/models/dto/food/dayDTO";
 import { MomentDayDTO } from "src/app/models/dto/food/moment-dayDTO";
+import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
+import * as moment from "moment";
 
 @Component({
   selector: "app-menu-add",
@@ -18,7 +20,6 @@ export class MenuAddComponent implements OnInit {
   submitted: boolean = false;
   error: string;
 
-  //Voir pour pas passer la liste de semaine dans les child pour pouvoir incrém/décrementer le nb de semaine
   weeksDTO: WeekDTO[] = new Array<WeekDTO>(4);
   indexOfDays: Map<string, number> = new Map([
     ["Lundi", 0],
@@ -33,6 +34,7 @@ export class MenuAddComponent implements OnInit {
     ["Déjeuner", 0],
     ["Dîner", 1],
   ]);
+  replacementDTO: ReplacementDTO;
 
   constructor() {}
 
@@ -67,6 +69,10 @@ export class MenuAddComponent implements OnInit {
     this.selectedTexture = texture;
   }
 
+  setReplacement(dto: ReplacementDTO): void {
+    this.replacementDTO = dto;
+  }
+
   setMoment(infos: MomentDayCustomInfos): void {
     this.setMenu(
       infos,
@@ -98,17 +104,10 @@ export class MenuAddComponent implements OnInit {
       infos.momentDayDTO;
   }
 
-  onCreate(): void {
-    this.submitted = true;
-    this.error = null;
-    if (!this.weeksAreValid() || !this.beginWeek) {
-      this.error =
-        "Le menu est incomplet, veuillez vérifier vos insertions pour chaque jour";
-      return;
-    }
-    console.log("creation du menu...");
-  }
-
+  /**
+   * Permet de savoir si tout les plats de chaque moment/jours de la semaines ont étés renseignés
+   * @returns true si valide false si non
+   */
   weeksAreValid(): boolean {
     for (let i = 0; i < this.weeksDTO.length; i++) {
       let week = this.weeksDTO[i];
@@ -126,5 +125,36 @@ export class MenuAddComponent implements OnInit {
       }
     }
     return true;
+  }
+
+  getMoment(day: string, week: number): string {
+    return moment().day(day).week(week).format("YYYY-MM-DD");
+  }
+
+  // TODO : gérer la semaine add et remove...
+  onCreate(): void {
+    this.submitted = true;
+    this.error = null;
+    const indexWeek: number = parseInt(
+      this.beginWeek.split("-")[1].replace("W", "")
+    );
+    let beginDate = this.getMoment("Monday", indexWeek);
+    let endDate = this.getMoment(
+      "Sunday",
+      indexWeek + this.weeksDTO.length * this.repeat
+    );
+    console.log(beginDate);
+    console.log(endDate);
+    if (
+      !this.weeksAreValid() ||
+      !this.beginWeek ||
+      !this.repeat ||
+      !this.replacementDTO
+    ) {
+      this.error =
+        "Le menu est incomplet. Veuillez vérifier la carte de remplacement ainsi que vos insertions pour chaque jour.";
+      return;
+    }
+    console.log("creation du menu...");
   }
 }
