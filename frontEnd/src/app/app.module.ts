@@ -77,6 +77,7 @@ import {
 import { MealsComponent } from './components/food-components/meals/meals.component';
 import { ListMealsComponent } from './components/food-components/meals/list-meals/list-meals.component';
 import { ReplacementsCardComponent } from './components/food-components/menu-weeks/replacements-card/replacements-card.component';
+import { MenuCurrentsComponent } from './components/food-components/menu-currents/menu-currents.component';
 
 @NgModule({
   declarations: [
@@ -135,6 +136,7 @@ import { ReplacementsCardComponent } from './components/food-components/menu-wee
     MealsComponent,
     ListMealsComponent,
     ReplacementsCardComponent,
+    MenuCurrentsComponent,
   ],
   imports: [
     BrowserModule,

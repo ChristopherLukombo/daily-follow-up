@@ -1,10 +1,9 @@
 import { WeekDTO } from "./weekDTO";
-import { Diet } from "../../patient/diet";
 import { ReplacementDTO } from "./replacementDTO";
 
 export class MenuDTO {
   /***/
-  diet: Diet;
+  diet: string;
   /***/
   endDate: string;
   /***/
@@ -26,7 +25,7 @@ export class MenuDTO {
     id: number,
     startDate: string,
     endDate: string,
-    diet: Diet,
+    diet: string,
     texture: string,
     replacement: ReplacementDTO,
     lastModificationDateBy: Date,

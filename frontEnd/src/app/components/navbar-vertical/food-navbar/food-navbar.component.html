@@ -2,15 +2,14 @@
   <li class="nav-item">
     <a
       class="nav-link"
-      id="menu-actual-all-tab"
+      id="menu-currents-tab"
       data-toggle="tab"
-      routerLink="/food/menu/actual/all"
+      routerLink="/food/menu/currents"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
       role="tab"
-      aria-controls="menu-actual-all-tab"
+      aria-controls="menu-currents-tab"
       aria-selected="false"
-      [class.disabled]="true"
       ><fa-icon [icon]="menuPeriodLogo"></fa-icon> Menus en cours</a
     >
   </li>
@@ -54,6 +53,21 @@
       aria-controls="menu-add-tab"
       aria-selected="false"
       ><fa-icon [icon]="menuAddLogo"></fa-icon> Composer un menu</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="menu-decline-tab"
+      data-toggle="tab"
+      routerLink="/food/menu/decline"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="menu-decline-tab"
+      aria-selected="false"
+      [class.disabled]="true"
+      ><fa-icon [icon]="menuDeclineLogo"></fa-icon> Décliner un menu</a
     >
   </li>
   <li class="nav-item">

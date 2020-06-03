@@ -11,14 +11,33 @@
         Semaine {{ n }}
       </button>
     </div>
+    <button
+      *ngIf="weeks.length < 5"
+      type="button"
+      class="btn btn-sm btn-light"
+      (click)="createWeek()"
+    >
+      <fa-icon [icon]="moreLogo"></fa-icon>
+    </button>
+    <button
+      *ngIf="weeks.length > 1"
+      type="button"
+      class="btn btn-sm btn-light"
+      (click)="deleteWeek()"
+    >
+      <fa-icon [icon]="revertLogo"></fa-icon>
+    </button>
   </div>
-  <div *ngIf="allContents.length > 0 && !loading" class="col text-right">
-    <app-replacements-card [allContents]="allContents"></app-replacements-card>
+  <div *ngIf="allContents?.length > 0 && !loading" class="col text-right">
+    <app-replacements-card
+      [allContents]="allContents"
+      (submitReplacement)="setReplacement($event)"
+    ></app-replacements-card>
   </div>
 </div>
 <br />
 <div *ngIf="loading"><app-loader></app-loader></div>
-<div *ngIf="allContents.length > 0 && !loading">
+<div *ngIf="allContents?.length > 0 && !loading">
   <div *ngFor="let n of weeks" class="row">
     <div class="col">
       <div class="table-responsive">

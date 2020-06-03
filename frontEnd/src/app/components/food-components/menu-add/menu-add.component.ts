@@ -3,6 +3,12 @@ import { MomentDayCustomInfos } from "src/app/models/utils/moment-day-custom-inf
 import { WeekDTO } from "src/app/models/dto/food/weekDTO";
 import { DayDTO } from "src/app/models/dto/food/dayDTO";
 import { MomentDayDTO } from "src/app/models/dto/food/moment-dayDTO";
+import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
+import * as moment from "moment";
+import { Action } from "src/app/models/utils/actions-enum";
+import { MenuDTO } from "src/app/models/dto/food/menuDTO";
+import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-menu-add",
@@ -18,7 +24,6 @@ export class MenuAddComponent implements OnInit {
   submitted: boolean = false;
   error: string;
 
-  //Voir pour pas passer la liste de semaine dans les child pour pouvoir incrém/décrementer le nb de semaine
   weeksDTO: WeekDTO[] = new Array<WeekDTO>(4);
   indexOfDays: Map<string, number> = new Map([
     ["Lundi", 0],
@@ -33,8 +38,14 @@ export class MenuAddComponent implements OnInit {
     ["Déjeuner", 0],
     ["Dîner", 1],
   ]);
+  replacementDTO: ReplacementDTO;
 
-  constructor() {}
+  creating: boolean = false;
+
+  constructor(
+    private alimentationService: AlimentationService,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.initWeeks();
@@ -46,25 +57,32 @@ export class MenuAddComponent implements OnInit {
    */
   initWeeks(): void {
     for (let i = 0; i < this.weeksDTO.length; i++) {
-      let week = new WeekDTO(null, i + 1, []);
-      this.indexOfDays.forEach((indexDay: number, nameDay: string) => {
-        week.days[indexDay] = new DayDTO(null, nameDay, []);
-        this.indexOfMoments.forEach(
-          (indexMoment: number, nameMoment: string) => {
-            week.days[indexDay].momentsDays[indexMoment] = new MomentDayDTO(
-              null,
-              nameMoment,
-              []
-            );
-          }
-        );
-      });
+      let week = this.initializeWeek(i + 1);
       this.weeksDTO[i] = week;
     }
   }
 
+  initializeWeek(numWeek: number): WeekDTO {
+    let week = new WeekDTO(null, numWeek, []);
+    this.indexOfDays.forEach((indexDay: number, nameDay: string) => {
+      week.days[indexDay] = new DayDTO(null, nameDay, []);
+      this.indexOfMoments.forEach((indexMoment: number, nameMoment: string) => {
+        week.days[indexDay].momentsDays[indexMoment] = new MomentDayDTO(
+          null,
+          nameMoment,
+          []
+        );
+      });
+    });
+    return week;
+  }
+
   selectTexture(texture: string): void {
     this.selectedTexture = texture;
+  }
+
+  setReplacement(dto: ReplacementDTO): void {
+    this.replacementDTO = dto;
   }
 
   setMoment(infos: MomentDayCustomInfos): void {
@@ -74,8 +92,16 @@ export class MenuAddComponent implements OnInit {
       this.indexOfDays.get(infos.day),
       this.indexOfMoments.get(infos.momentDayDTO.name)
     );
-    console.log(this.weeksDTO);
-    console.log(this.weeksAreValid());
+  }
+
+  addOrRemoveWeek(action: Action): void {
+    if (action === Action.ADD) {
+      let week = this.initializeWeek(this.weeksDTO.length + 1);
+      this.weeksDTO[this.weeksDTO.length] = week;
+    }
+    if (action === Action.REMOVE) {
+      this.weeksDTO.splice(-1, 1);
+    }
   }
 
   setMenu(
@@ -86,29 +112,20 @@ export class MenuAddComponent implements OnInit {
   ): void {
     // la semaine n'existe pas
     if (!this.weeksDTO[indexWeek]) {
-      console.log("error");
       this.weeksDTO[indexWeek] = new WeekDTO(null, infos.week, []);
     }
     // si le jour n'existe pas
     if (!this.weeksDTO[indexWeek].days[indexDay]) {
-      console.log("error error");
       this.weeksDTO[indexWeek].days[indexDay] = new DayDTO(null, infos.day, []);
     }
     this.weeksDTO[indexWeek].days[indexDay].momentsDays[indexMoment] =
       infos.momentDayDTO;
   }
 
-  onCreate(): void {
-    this.submitted = true;
-    this.error = null;
-    if (!this.weeksAreValid() || !this.beginWeek) {
-      this.error =
-        "Le menu est incomplet, veuillez vérifier vos insertions pour chaque jour";
-      return;
-    }
-    console.log("creation du menu...");
-  }
-
+  /**
+   * Permet de savoir si tout les plats de chaque moment/jours de la semaines ont étés renseignés
+   * @returns true si valide false si non
+   */
   weeksAreValid(): boolean {
     for (let i = 0; i < this.weeksDTO.length; i++) {
       let week = this.weeksDTO[i];
@@ -126,5 +143,77 @@ export class MenuAddComponent implements OnInit {
       }
     }
     return true;
+  }
+
+  getMoment(day: string, week: number): string {
+    return moment().day(day).week(week).format("YYYY-MM-DD");
+  }
+
+  getMenuDTO(begin: string, end: string): MenuDTO {
+    return new MenuDTO(
+      null,
+      begin,
+      end,
+      "Normal",
+      this.selectedTexture,
+      this.replacementDTO,
+      null,
+      null,
+      this.weeksDTO
+    );
+  }
+
+  onCreate(): void {
+    this.submitted = true;
+    this.error = null;
+    if (
+      !this.weeksAreValid() ||
+      !this.beginWeek ||
+      !this.repeat ||
+      !this.replacementDTO
+    ) {
+      this.error =
+        "Le menu est incomplet. Veuillez vérifier la carte de remplacement ainsi que vos insertions pour chaque jour.";
+      return;
+    }
+    this.creating = true;
+    const indexWeek: number = parseInt(
+      this.beginWeek.split("-")[1].replace("W", "")
+    );
+    let beginDate = this.getMoment("Monday", indexWeek);
+    let endDate = this.getMoment(
+      "Sunday",
+      indexWeek + this.weeksDTO.length * this.repeat
+    );
+    // TODO : check la semaine déjà passé ou non
+    let dto = this.getMenuDTO(beginDate, endDate);
+    this.alimentationService.createMenu(dto).subscribe(
+      (data) => {
+        // TODO : redirection vers la page visualisation menu en cours
+        this.toastrService.success(
+          "Le menu a bien été crée",
+          "Création terminée !"
+        );
+      },
+      (error) => {
+        this.toastrService.error(this.getError(error), "Oops !");
+      },
+      () => {
+        this.creating = false;
+      }
+    );
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
+  getError(error: number): string {
+    if (error && error === 401) {
+      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else {
+      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+    }
   }
 }

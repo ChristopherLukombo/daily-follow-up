@@ -1,10 +1,9 @@
-import { Diet } from "../patient/diet";
 import { Week } from "./week";
 import { Replacement } from "./replacement";
 
 export class Menu {
   /***/
-  diet: Diet;
+  diet: string;
   /***/
   endDate: string;
   /***/

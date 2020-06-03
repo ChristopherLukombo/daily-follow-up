@@ -11,6 +11,8 @@ import { catchError } from "rxjs/operators";
 import { Texture } from "src/app/models/food/texture";
 import { ContentDTO } from "src/app/models/dto/food/contentDTO";
 import { Content } from "src/app/models/food/content";
+import { MenuDTO } from "src/app/models/dto/food/menuDTO";
+import { Menu } from "src/app/models/food/menu";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -21,6 +23,7 @@ const httpOptions = {
 const DIETS_URL = environment.appRootUrl + "/api/diets";
 const TEXTURES_URL = environment.appRootUrl + "/api/textures";
 const CONTENTS_URL = environment.appRootUrl + "/api/contents";
+const MENUS_URL = environment.appRootUrl + "/api/menus";
 
 @Injectable({
   providedIn: "root",
@@ -71,6 +74,17 @@ export class AlimentationService {
         JSON.stringify(body),
         httpOptions
       )
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Créer un menu
+   * @param menuDTO le menu
+   * @returns le menu crée
+   */
+  createMenu(menuDTO: MenuDTO): Observable<Menu> {
+    return this.http
+      .post<Menu>(MENUS_URL, JSON.stringify(menuDTO), httpOptions)
       .pipe(catchError(this.handleError));
   }
 
