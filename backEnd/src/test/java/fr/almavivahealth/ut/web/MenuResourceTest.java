@@ -27,6 +27,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.MessageSource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -42,6 +43,9 @@ public class MenuResourceTest {
 	private static final long ID = 1L;
 
 	private MockMvc mockMvc;
+
+	@Mock
+	private MessageSource messageSource;
 
 	@Mock
 	private MenuService menuService;

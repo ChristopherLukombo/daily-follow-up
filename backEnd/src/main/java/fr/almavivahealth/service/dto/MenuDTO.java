@@ -31,7 +31,7 @@ public class MenuDTO implements Serializable {
 
 	private ReplacementDTO replacement;
 
-	private DietDTO diet;
+	private String diet;
 
 	private List<WeekDTO> weeks;
 
@@ -83,11 +83,11 @@ public class MenuDTO implements Serializable {
 		this.replacement = replacement;
 	}
 
-	public DietDTO getDiet() {
+	public String getDiet() {
 		return diet;
 	}
 
-	public void setDiet(final DietDTO diet) {
+	public void setDiet(final String diet) {
 		this.diet = diet;
 	}
 
