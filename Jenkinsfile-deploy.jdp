@@ -9,6 +9,9 @@ pipeline{
     options { timeout(time: 1, unit: 'HOURS') }
     agent any
     stages {
+        stage ("Checkout"){
+            checkout scm
+        }
         stage("Build & Test") {
             options { timeout(time: 1, unit: 'HOURS') }
             steps {
