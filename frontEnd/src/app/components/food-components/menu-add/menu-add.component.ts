@@ -154,7 +154,7 @@ export class MenuAddComponent implements OnInit {
       null,
       begin,
       end,
-      null, // TODO : DIET A CHANGER
+      "Normal",
       this.selectedTexture,
       this.replacementDTO,
       null,
