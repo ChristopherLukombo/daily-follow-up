@@ -360,4 +360,40 @@ public class MenuServiceTest {
 		// Then
 		assertThat(menuServiceImpl.findCurrentMenus()).isEmpty();
 	}
+
+	@Test
+	public void shouldReturnFalseWhenCheckSpecificationsOfMenuIsNotValid() {
+		// Given
+		final List<Menu> menus = Arrays.asList(createMenu());
+		final MenuDTO menu = createMenuDTO();
+
+		// When
+		when(menuRepository.findCurrentMenus(any(LocalDate.class))).thenReturn(menus);
+
+		// Then
+
+		assertThat(menuServiceImpl.checkSpecifications(menu)).isFalse();
+	}
+
+	@Test
+	public void shouldCheckSpecificationsOfMenu() {
+		// Given
+		final Menu firstMenu = new Menu();
+		firstMenu.setDiet("test");
+		firstMenu.setTexture("test");
+		final Menu secondMenu = new Menu();
+		secondMenu.setDiet("test");
+		secondMenu.setTexture("test");
+
+		final List<Menu> menus = Arrays.asList(firstMenu, secondMenu);
+		final MenuDTO menuDTO = createMenuDTO();
+		menuDTO.setDiet("test");
+		menuDTO.setTexture("test");
+
+		// When
+		when(menuRepository.findCurrentMenus(any(LocalDate.class))).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.checkSpecifications(menuDTO)).isTrue();
+	}
 }

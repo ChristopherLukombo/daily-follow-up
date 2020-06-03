@@ -272,7 +272,6 @@ public class MenuServiceImpl implements MenuService {
 	private String findDietName(final Menu menu) {
 		return Optional.ofNullable(menu)
 				.map(Menu::getDiet)
-				.map(Diet::getName)
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
@@ -337,9 +336,22 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<MenuDTO> findCurrentMenus() {
-		final LocalDate begin = findDateFromDay(LocalDate.now(), 1);
-		return menuRepository.findCurrentMenus(begin).stream()
+		return menuRepository.findCurrentMenus(LocalDate.now()).stream()
 				.map(menuMapper::menuToMenuDTO)
 				.collect(Collectors.toList());
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean checkSpecifications(final MenuDTO menuDTO) {
+		return menuRepository.findCurrentMenus(LocalDate.now()).stream()
+				.anyMatch(menu -> findString(menu.getDiet()).equalsIgnoreCase(menuDTO.getDiet())
+						&& findString(menu.getTexture()).equalsIgnoreCase(menuDTO.getTexture()));
+	}
+
+	private String findString(final String value) {
+		return Optional.ofNullable(value)
+				.map(String::trim)
+				.orElse(StringUtils.EMPTY);
 	}
 }

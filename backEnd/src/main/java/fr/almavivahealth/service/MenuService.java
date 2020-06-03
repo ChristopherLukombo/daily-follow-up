@@ -67,4 +67,12 @@ public interface MenuService {
 	 * @return the list of entities
 	 */
 	List<MenuDTO> findCurrentMenus();
+
+	/**
+	 * Check specifications.
+	 *
+	 * @param menuDTO the menu DTO
+	 * @return true, if successful
+	 */
+	boolean checkSpecifications(MenuDTO menuDTO);
 }

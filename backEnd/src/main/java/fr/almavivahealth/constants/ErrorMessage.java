@@ -32,6 +32,10 @@ public final class ErrorMessage {
 	public static final String AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_PICTURE_CONTENT = "error.content.while_trying_picture_content";
 	public static final String ERROR_CONTENT_UNIQUE_NAME = "error.content.uniqueName";
 
+	// Menu
+	public static final String A_MENU_ALREADY_EXISTS_WITH_THE_SAME_CHARACTERISTICS = "error.menu.theSameCharacteristics";
+
+
 	// Private constructor to prevent instantiation
 	private ErrorMessage() {
 		throw new UnsupportedOperationException();

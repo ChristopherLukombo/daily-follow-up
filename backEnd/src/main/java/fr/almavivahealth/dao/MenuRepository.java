@@ -18,17 +18,17 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
 	@Query("SELECT menu FROM Menu menu "
 			+ "WHERE menu.texture = :textureName "
-			+ "AND menu.diet.name IN :dietNames "
-			+ "AND menu.startDate  >= :startDate AND menu.endDate <= :endDate")
+			+ "AND menu.diet IN :dietNames "
+			+ "AND menu.startDate >= :startDate AND menu.endDate <= :endDate")
 	List<Menu> findAllByWeek(
 			@Param("textureName") String textureName,
 			@Param("dietNames") Set<String> dietNames,
 			@Param("startDate") LocalDate startDate,
 			@Param("endDate") LocalDate endDate);
 
-	@Query("SELECT menu FROM Menu menu "
+	@Query("SELECT menu "
+			+ "FROM Menu menu "
 			+ "WHERE menu.startDate >= :currentDate AND menu.endDate >= :currentDate")
 	List<Menu> findCurrentMenus(
 			@Param("currentDate") LocalDate currentDate);
-
 }
