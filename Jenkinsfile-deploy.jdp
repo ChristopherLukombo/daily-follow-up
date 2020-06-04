@@ -49,7 +49,7 @@ pipeline{
             steps {
                 script {
                     if (env.REPEAT == 'true'){
-                        build job: 'DeploiementJob', wait: true,
+                        build job: 'DeploiementJob', wait: false,
                             parameters: [
                                 string(name: 'Repeat', value:'false')
                             ]
