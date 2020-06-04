@@ -45,6 +45,6 @@ public class Week implements Serializable {
 	@OneToMany(
 			fetch = FetchType.LAZY,
 			orphanRemoval = true,
-			cascade = CascadeType.ALL)
+					cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     private List<Day> days;
 }

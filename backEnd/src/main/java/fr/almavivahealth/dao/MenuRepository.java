@@ -28,7 +28,7 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
 	@Query("SELECT menu "
 			+ "FROM Menu menu "
-			+ "WHERE menu.startDate >= :currentDate AND menu.endDate >= :currentDate")
+			+ "WHERE (menu.startDate <= :currentDate)  AND menu.endDate >= :currentDate")
 	List<Menu> findCurrentMenus(
 			@Param("currentDate") LocalDate currentDate);
 }

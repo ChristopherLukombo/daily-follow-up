@@ -38,7 +38,8 @@ public class MomentDay implements Serializable {
 	private String name;
 
 	@ManyToMany(
-			fetch = FetchType.LAZY,
-			cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+			fetch = FetchType.EAGER,
+			cascade = {CascadeType.MERGE }
+			)
 	private List<Content> contents;
 }

@@ -344,7 +344,8 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	@Transactional(readOnly = true)
 	public boolean checkSpecifications(final MenuDTO menuDTO) {
-		return menuRepository.findCurrentMenus(LocalDate.now()).stream()
+		final List<Menu> currentMenus = menuRepository.findCurrentMenus(LocalDate.now());
+		return currentMenus.stream()
 				.anyMatch(menu -> findString(menu.getDiet()).equalsIgnoreCase(menuDTO.getDiet())
 						&& findString(menu.getTexture()).equalsIgnoreCase(menuDTO.getTexture()));
 	}
