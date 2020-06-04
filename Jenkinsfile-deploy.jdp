@@ -9,9 +9,9 @@ pipeline{
     options { timeout(time: 1, unit: 'HOURS') }
     agent any
     stages {
-        stage ("Checkout"){
+        stage ("Clone"){
             steps{
-                checkout scm
+                git credentialsId: '89a5523c-c4be-4096-9827-7ae83d9037c4', url: 'https://github.com/ChristopherLukombo/daily-follow-up' 
             }
         }
         stage("Build & Test") {
