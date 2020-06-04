@@ -6,6 +6,49 @@
     <div class="col">
       <h2>Menus en cours</h2>
       <br />
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <button
+              *ngFor="let t of textures"
+              type="button"
+              class="btn btn-primary"
+              (click)="selectTexture(t)"
+              [class.active]="t == selectedTexture"
+            >
+              {{ t }}
+            </button>
+          </div>
+          <br /><br />
+          <div *ngIf="loading"><app-loader></app-loader></div>
+          <div *ngIf="diets.length > 0 && !loading">
+            <div class="btn-group">
+              <button
+                *ngFor="let diet of diets"
+                type="button"
+                class="btn btn-primary"
+                (click)="selectDiet(diet)"
+                [class.active]="diet.name == selectedDiet"
+              >
+                {{ diet.name }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-2 text-right">
+          <h4>{{ dateOfTheDay }}</h4>
+        </div>
+      </div>
+      <br />
+      <app-current-weeks></app-current-weeks>
+      <br />
+      <div class="row">
+        <div class="col text-right">
+          <button type="button" class="btn btn-primary">
+            Télecharger les coupons
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

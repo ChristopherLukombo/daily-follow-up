@@ -6,5 +6,5 @@ export class Day {
   /***/
   name: string;
   /***/
-  momentsDays: Array<MomentDay>;
+  momentDays: Array<MomentDay>;
 }

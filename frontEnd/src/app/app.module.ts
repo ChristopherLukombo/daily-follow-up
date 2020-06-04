@@ -78,6 +78,7 @@ import { MealsComponent } from './components/food-components/meals/meals.compone
 import { ListMealsComponent } from './components/food-components/meals/list-meals/list-meals.component';
 import { ReplacementsCardComponent } from './components/food-components/menu-weeks/replacements-card/replacements-card.component';
 import { MenuCurrentsComponent } from './components/food-components/menu-currents/menu-currents.component';
+import { CurrentWeeksComponent } from './components/food-components/menu-currents/current-weeks/current-weeks.component';
 
 @NgModule({
   declarations: [
@@ -137,6 +138,7 @@ import { MenuCurrentsComponent } from './components/food-components/menu-current
     ListMealsComponent,
     ReplacementsCardComponent,
     MenuCurrentsComponent,
+    CurrentWeeksComponent,
   ],
   imports: [
     BrowserModule,
