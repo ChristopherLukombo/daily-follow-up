@@ -11,6 +11,7 @@ pipeline{
     stages {
         stage ("Clone"){
             steps{
+                git clean -fdx
                 git credentialsId: '89a5523c-c4be-4096-9827-7ae83d9037c4', url: 'https://github.com/ChristopherLukombo/daily-follow-up' 
             }
         }
