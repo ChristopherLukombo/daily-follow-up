@@ -32,6 +32,7 @@ export class MenuWeeksComponent implements OnInit {
   moments: string[] = ["Déjeuner", "Dîner"];
 
   allContents: Content[] = [];
+  noContents: string;
   loading: boolean = false;
 
   @Output() submitMoment = new EventEmitter<MomentDayCustomInfos>();
@@ -44,10 +45,16 @@ export class MenuWeeksComponent implements OnInit {
     this.loading = true;
     this.alimentationService.getAllContents().subscribe(
       (data) => {
-        this.allContents = data;
+        if (data) {
+          this.allContents = data;
+        } else {
+          this.noContents =
+            "Il n'y a aucun plats disonibles actuellement dans la clinique. Veuillez d'abord en ajouter afin de pouvoir composer un menu.";
+        }
       },
       (error) => {
-        console.log(error);
+        this.noContents =
+          "Une erreur s'est produite. Veuillez réessayer plus tard.";
       },
       () => {
         this.loading = false;

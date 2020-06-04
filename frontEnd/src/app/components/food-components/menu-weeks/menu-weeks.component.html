@@ -37,6 +37,9 @@
 </div>
 <br />
 <div *ngIf="loading"><app-loader></app-loader></div>
+<div *ngIf="allContents?.length === 0 && !loading && noContents" class="col">
+  <app-alert-warning [content]="noContents"></app-alert-warning>
+</div>
 <div *ngIf="allContents?.length > 0 && !loading">
   <div *ngFor="let n of weeks" class="row">
     <div class="col">

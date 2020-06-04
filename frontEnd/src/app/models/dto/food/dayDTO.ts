@@ -6,11 +6,11 @@ export class DayDTO {
   /***/
   name: string;
   /***/
-  momentsDays: Array<MomentDayDTO>;
+  momentDays: Array<MomentDayDTO>;
 
-  constructor(id: number, name: string, momentsDays: Array<MomentDayDTO>) {
+  constructor(id: number, name: string, momentDays: Array<MomentDayDTO>) {
     this.id = id;
     this.name = name;
-    this.momentsDays = momentsDays;
+    this.momentDays = momentDays;
   }
 }

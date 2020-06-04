@@ -67,7 +67,7 @@ export class MenuAddComponent implements OnInit {
     this.indexOfDays.forEach((indexDay: number, nameDay: string) => {
       week.days[indexDay] = new DayDTO(null, nameDay, []);
       this.indexOfMoments.forEach((indexMoment: number, nameMoment: string) => {
-        week.days[indexDay].momentsDays[indexMoment] = new MomentDayDTO(
+        week.days[indexDay].momentDays[indexMoment] = new MomentDayDTO(
           null,
           nameMoment,
           []
@@ -98,8 +98,7 @@ export class MenuAddComponent implements OnInit {
     if (action === Action.ADD) {
       let week = this.initializeWeek(this.weeksDTO.length + 1);
       this.weeksDTO[this.weeksDTO.length] = week;
-    }
-    if (action === Action.REMOVE) {
+    } else if (action === Action.REMOVE) {
       this.weeksDTO.splice(-1, 1);
     }
   }
@@ -118,7 +117,7 @@ export class MenuAddComponent implements OnInit {
     if (!this.weeksDTO[indexWeek].days[indexDay]) {
       this.weeksDTO[indexWeek].days[indexDay] = new DayDTO(null, infos.day, []);
     }
-    this.weeksDTO[indexWeek].days[indexDay].momentsDays[indexMoment] =
+    this.weeksDTO[indexWeek].days[indexDay].momentDays[indexMoment] =
       infos.momentDayDTO;
   }
 
@@ -133,9 +132,9 @@ export class MenuAddComponent implements OnInit {
         if (!week.days[j]) return false;
         for (let k = 0; k < this.indexOfMoments.size; k++) {
           if (
-            !week.days[j].momentsDays[k] ||
-            !week.days[j].momentsDays[k].contents ||
-            week.days[j].momentsDays[k].contents.length === 0
+            !week.days[j].momentDays[k] ||
+            !week.days[j].momentDays[k].contents ||
+            week.days[j].momentDays[k].contents.length === 0
           ) {
             return false;
           }
