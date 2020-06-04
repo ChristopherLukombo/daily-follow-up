@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,14 +50,14 @@ public class Menu implements Serializable {
 
 	private String texture;
 
-	@ManyToOne
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Replacement replacement;
 
 	private String diet;
 
 	@ManyToMany(
-			fetch = FetchType.LAZY,
-			cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+			cascade = { CascadeType.PERSIST}
+			)
 	private List<Week> weeks;
 
 	@LastModifiedBy

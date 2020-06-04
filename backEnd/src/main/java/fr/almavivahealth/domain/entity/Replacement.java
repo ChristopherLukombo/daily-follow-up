@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,21 +34,21 @@ public class Replacement implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToMany
+	@ManyToMany
 	private List<Content> entries;
 
-	@OneToMany
+	@ManyToMany
 	private List<Content> dishes;
 
-	@OneToMany
+	@ManyToMany
 	private List<Content> desserts;
 
-	@OneToMany
+	@ManyToMany
 	private List<Content> starchyFoods;
 
-	@OneToMany
+	@ManyToMany
 	private List<Content> vegetables;
 
-	@OneToMany
+	@ManyToMany
 	private List<Content> dairyProducts;
 }
