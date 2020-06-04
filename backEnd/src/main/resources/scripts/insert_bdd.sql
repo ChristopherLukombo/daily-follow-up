@@ -443,13 +443,15 @@ INSERT INTO patient_allergies (patient_id, allergies_id) VALUES
 ('67', '3'), ('67', '13');
 
 /** les menus **/
+/** sont commentés pour éviter d'avoir des menus avec juste samedi et sans contents dans la bdd **/
+/**
 INSERT INTO public.menu
 (end_date, start_date, diet, texture)
 VALUES('2020-04-11T14:47:34.692Z', '2020-04-11T14:47:34.692Z', 'Normale', 'Normale');
 
 INSERT INTO public.week 
-(id , number)
-VALUES(1, 1);
+(number)
+VALUES(1);
 
 
 INSERT INTO public.menu_weeks 
@@ -470,3 +472,4 @@ INSERT INTO public.moment_day
 values
 ('DÉJEUNER'),
 ('DINER');
+**/

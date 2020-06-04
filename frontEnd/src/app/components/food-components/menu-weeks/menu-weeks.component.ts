@@ -53,7 +53,8 @@ export class MenuWeeksComponent implements OnInit {
         }
       },
       (error) => {
-        console.log(error);
+        this.noContents =
+          "Une erreur s'est produite. Veuillez réessayer plus tard.";
       },
       () => {
         this.loading = false;
