@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,7 +42,8 @@ public class Content implements Serializable {
 	private Integer code;
 
 	// Example: Jus d'ananas pour ananas appertisé au jus
-	@Column(name = "name")
+	@Column(name = "name", unique = true)
+	@NotEmpty(message = "{error.content.RequiredName}")
 	private String name;
 
 	// Example: produits céréaliers
@@ -94,4 +96,6 @@ public class Content implements Serializable {
 	@ElementCollection
 	@CollectionTable(name ="typeMeals")
 	private List<String> typeMeals;
+
+	private Boolean mixed;
 }

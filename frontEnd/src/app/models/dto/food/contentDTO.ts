@@ -1,8 +1,8 @@
-import { TextureDTO } from "./textureDTO";
-
 export class ContentDTO {
   /***/
   id: number;
+  /***/
+  code: number;
   /***/
   name: string;
   /***/
@@ -12,25 +12,27 @@ export class ContentDTO {
   /***/
   subSubGroupName: string;
   /***/
-  calories: string;
+  calories: number;
   /***/
-  protein: string;
+  protein: number;
   /***/
-  carbohydrate: string;
+  carbohydrate: number;
   /***/
-  lipids: string;
+  lipids: number;
   /***/
-  sugars: string;
+  sugars: number;
   /***/
-  foodFibres: string;
+  foodFibres: number;
   /***/
-  agSaturates: string;
+  agSaturates: number;
   /***/
-  salt: string;
+  salt: number;
   /***/
-  typeMeal: Array<string>;
+  typeMeals: Array<string>;
   /***/
   imageUrl: string;
+  /***/
+  mixed: boolean;
 
   constructor(
     id: number,
@@ -38,16 +40,17 @@ export class ContentDTO {
     groupName: string,
     subGroupName: string,
     subSubGroupName: string,
-    calories: string,
-    protein: string,
-    carbohydrate: string,
-    lipids: string,
-    sugars: string,
-    foodFibres: string,
-    agSaturates: string,
-    salt: string,
-    typeMeal: Array<string>,
-    imageUrl: string
+    calories: number,
+    protein: number,
+    carbohydrate: number,
+    lipids: number,
+    sugars: number,
+    foodFibres: number,
+    agSaturates: number,
+    salt: number,
+    typeMeals: Array<string>,
+    imageUrl: string,
+    mixed: boolean
   ) {
     this.id = id;
     this.name = name;
@@ -62,7 +65,8 @@ export class ContentDTO {
     this.foodFibres = foodFibres;
     this.agSaturates = agSaturates;
     this.salt = salt;
-    this.typeMeal = typeMeal;
+    this.typeMeals = typeMeals;
     this.imageUrl = imageUrl;
+    this.mixed = mixed;
   }
 }

@@ -2,6 +2,8 @@ package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -25,11 +27,17 @@ public class MenuDTO implements Serializable {
 
 	private LocalDate endDate;
 
-	private Integer weekNumber;
+	private String texture;
 
-	private Long textureId;
+	private ReplacementDTO replacement;
 
-	private Long dietId;
+	private String diet;
+
+	private List<WeekDTO> weeks;
+
+	private String lastModifiedBy;
+
+	private LocalDateTime lastModificationDateBy;
 
 	public MenuDTO() {
 		// Empty constructor needed for Jackson.
@@ -59,33 +67,58 @@ public class MenuDTO implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public Integer getWeekNumber() {
-		return weekNumber;
+	public String getTexture() {
+		return texture;
 	}
 
-	public void setWeekNumber(final Integer weekNumber) {
-		this.weekNumber = weekNumber;
+	public void setTexture(final String texture) {
+		this.texture = texture;
 	}
 
-	public Long getTextureId() {
-		return textureId;
+	public ReplacementDTO getReplacement() {
+		return replacement;
 	}
 
-	public void setTextureId(final Long textureId) {
-		this.textureId = textureId;
+	public void setReplacement(final ReplacementDTO replacement) {
+		this.replacement = replacement;
 	}
 
-	public Long getDietId() {
-		return dietId;
+	public String getDiet() {
+		return diet;
 	}
 
-	public void setDietId(final Long dietId) {
-		this.dietId = dietId;
+	public void setDiet(final String diet) {
+		this.diet = diet;
+	}
+
+	public List<WeekDTO> getWeeks() {
+		return weeks;
+	}
+
+	public void setWeeks(final List<WeekDTO> weeks) {
+		this.weeks = weeks;
+	}
+
+	public String getLastModifiedBy() {
+		return lastModifiedBy;
+	}
+
+	public void setLastModifiedBy(final String lastModifiedBy) {
+		this.lastModifiedBy = lastModifiedBy;
+	}
+
+	public LocalDateTime getLastModificationDateBy() {
+		return lastModificationDateBy;
+	}
+
+	public void setLastModificationDateBy(final LocalDateTime lastModificationDateBy) {
+		this.lastModificationDateBy = lastModificationDateBy;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dietId, endDate, id, startDate, textureId, weekNumber);
+		return Objects.hash(diet, endDate, id, lastModificationDateBy, lastModifiedBy, replacement, startDate, texture,
+				weeks);
 	}
 
 	@Override
@@ -97,13 +130,16 @@ public class MenuDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final MenuDTO other = (MenuDTO) obj;
-		return Objects.equals(dietId, other.dietId) && Objects.equals(endDate, other.endDate)
-				&& Objects.equals(id, other.id) && Objects.equals(startDate, other.startDate)
-				&& Objects.equals(textureId, other.textureId) && Objects.equals(weekNumber, other.weekNumber);
+		return Objects.equals(diet, other.diet) && Objects.equals(endDate, other.endDate)
+				&& Objects.equals(id, other.id) && Objects.equals(lastModificationDateBy, other.lastModificationDateBy)
+				&& Objects.equals(lastModifiedBy, other.lastModifiedBy)
+				&& Objects.equals(replacement, other.replacement) && Objects.equals(startDate, other.startDate)
+				&& Objects.equals(texture, other.texture) && Objects.equals(weeks, other.weeks);
 	}
 
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
 }

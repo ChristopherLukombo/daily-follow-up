@@ -52,7 +52,7 @@ export class PatientEditComponent implements OnInit {
 
   patientDoesNotExist(): void {
     this.warning =
-      "Ce patient n'éxiste pas, ou ne fait plus partie de la clinique. Veuillez réessayer.";
+      "Ce patient n'existe pas, ou ne fait plus partie de la clinique. Veuillez réessayer.";
   }
 
   /**

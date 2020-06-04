@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import org.apache.commons.io.FileUtils;
@@ -28,6 +29,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.MessageSource;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -38,6 +40,7 @@ import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.domain.enums.RoleName;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.UserDTO;
+import fr.almavivahealth.service.dto.UserPassDTO;
 import fr.almavivahealth.service.impl.user.UserServiceImpl;
 import fr.almavivahealth.service.mapper.UserMapper;
 import fr.almavivahealth.service.propeties.UserProperties;
@@ -67,6 +70,9 @@ public class UserServiceTest {
 
 	@Mock
     private UserProperties userProperties;
+
+	@Mock
+	private MessageSource messageSource;
 
 	@InjectMocks
 	private UserServiceImpl userServiceImpl;
@@ -279,6 +285,66 @@ public class UserServiceTest {
 
     	// Then
 		assertThat(userServiceImpl.findProfilePicture(ID)).isEmpty();
+	}
+
+	@Test
+	public void shouldUpdatePassword() {
+		// Given
+		final User user = createUser();
+		final Role role = createRole();
+		user.setRole(role);
+		final UserPassDTO userPassDTO = new UserPassDTO();
+		userPassDTO.setPassword("test");
+		userPassDTO.setUserId(user.getId());
+
+		// When
+		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+		when(passwordEncoder.encode(anyString())).thenReturn("test");
+		when(userRepository.saveAndFlush((User) any())).thenReturn(user);
+
+		// Then
+		assertThat(userServiceImpl.updatePassword(userPassDTO, (Locale) any())).isPresent();
+	}
+
+	@Test
+	public void shouldReturnOptionalEmptyWhenUserNotExist() {
+		// Given
+		final User user = null;
+		final UserPassDTO userPassDTO = new UserPassDTO();
+		userPassDTO.setUserId(1L);
+		userPassDTO.setPassword("test");
+
+		// When
+		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+
+		// Then
+		assertThat(userServiceImpl.updatePassword(userPassDTO, (Locale) any())).isNotPresent();
+	}
+
+	@Test
+	public void shouldReturnTrueWhenHasChangedPassword() {
+		// Given
+		final User user = createUser();
+		user.setHasChangedPassword(true);
+
+		// When
+		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+
+		// Then
+		assertThat(userServiceImpl.hasChangedPassword(1L)).isTrue();
+	}
+
+	@Test
+	public void shouldReturnFalseWhenHasChangedPassword() {
+		// Given
+		final User user = createUser();
+		user.setHasChangedPassword(false);
+
+		// When
+		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+
+		// Then
+		assertThat(userServiceImpl.hasChangedPassword(1L)).isFalse();
 	}
 
 	private void createFoldersAndFile() throws IOException {

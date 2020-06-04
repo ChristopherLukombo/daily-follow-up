@@ -1,0 +1,169 @@
+<button
+  type="button"
+  class="btn btn-outline-info"
+  data-toggle="modal"
+  data-target=".bd-example-modal-lg"
+>
+  <strong><fa-icon [icon]="editLogo"></fa-icon> Carte de remplacement</strong>
+</button>
+
+<div
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <form [formGroup]="form">
+      <div class="modal-content text-left">
+        <div class="modal-header">
+          <h4 class="modal-title" id="replacementsLabel">
+            Carte de remplacement
+          </h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Entrée(s)</label>
+            <ng-select
+              [items]="suggestions.get('Entrée')"
+              [multiple]="true"
+              #select
+              bindLabel="name"
+              dropdownPosition="auto"
+              placeholder="Renseigner une ou plusieurs entrées..."
+              notFoundText="Aucune entrée trouvée"
+              [virtualScroll]="true"
+              formControlName="entries"
+            >
+            </ng-select>
+            <small *ngIf="submitted && f.entries.errors" class="text-danger">
+              Veuillez renseigner au moins une entrée
+            </small>
+          </div>
+          <div class="form-group">
+            <label>Plat(s)</label>
+            <ng-select
+              [items]="suggestions.get('Plat')"
+              [multiple]="true"
+              #select
+              bindLabel="name"
+              dropdownPosition="auto"
+              placeholder="Renseigner un ou plusieurs plats..."
+              notFoundText="Aucun plat trouvé"
+              [virtualScroll]="true"
+              formControlName="dishes"
+            >
+            </ng-select>
+            <small *ngIf="submitted && f.dishes.errors" class="text-danger">
+              Veuillez renseigner au moins un plat
+            </small>
+          </div>
+          <div class="form-group">
+            <label>Féculent(s)</label>
+            <ng-select
+              [items]="suggestions.get('Garniture')"
+              [multiple]="true"
+              #select
+              bindLabel="name"
+              dropdownPosition="auto"
+              placeholder="Renseigner un ou plusieurs féculents..."
+              notFoundText="Aucun féculent trouvé"
+              [virtualScroll]="true"
+              formControlName="starchyFoods"
+            >
+            </ng-select>
+            <small
+              *ngIf="submitted && f.starchyFoods.errors"
+              class="text-danger"
+            >
+              Veuillez renseigner au moins un féculent
+            </small>
+          </div>
+          <div class="form-group">
+            <label>Légume(s)</label>
+            <ng-select
+              [items]="suggestions.get('Garniture')"
+              [multiple]="true"
+              #select
+              bindLabel="name"
+              dropdownPosition="auto"
+              placeholder="Renseigner un ou plusieurs légumes..."
+              notFoundText="Aucun féculent trouvé"
+              [virtualScroll]="true"
+              formControlName="vegetables"
+            >
+            </ng-select>
+            <small *ngIf="submitted && f.vegetables.errors" class="text-danger">
+              Veuillez renseigner au moins un légume
+            </small>
+          </div>
+          <div class="form-group">
+            <label>Produit(s) laitier(s)</label>
+            <ng-select
+              [items]="suggestions.get('P.L')"
+              [multiple]="true"
+              #select
+              bindLabel="name"
+              dropdownPosition="auto"
+              placeholder="Renseigner un ou plusieurs produits laitiers..."
+              notFoundText="Aucun produit laitier trouvé"
+              [virtualScroll]="true"
+              formControlName="dairyProducts"
+            >
+            </ng-select>
+            <small
+              *ngIf="submitted && f.dairyProducts.errors"
+              class="text-danger"
+            >
+              Veuillez renseigner au moins un produit laitier
+            </small>
+          </div>
+          <div class="form-group">
+            <label>Dessert(s)</label>
+            <ng-select
+              [items]="suggestions.get('Dessert')"
+              [multiple]="true"
+              #select
+              bindLabel="name"
+              dropdownPosition="auto"
+              placeholder="Renseigner un ou plusieurs desserts..."
+              notFoundText="Aucun dessert trouvé"
+              [virtualScroll]="true"
+              formControlName="desserts"
+            >
+            </ng-select>
+            <small *ngIf="submitted && f.desserts.errors" class="text-danger">
+              Veuillez renseigner au moins un dessert
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-dismiss="modal"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [attr.data-dismiss]="submitted && form.valid ? 'modal' : null"
+            (click)="onSubmit()"
+          >
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

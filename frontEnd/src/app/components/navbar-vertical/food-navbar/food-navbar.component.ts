@@ -1,5 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
+import {
+  faStream,
+  faClipboard,
+  faHamburger,
+  faClock,
+  faPlus,
+  faCopy,
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-food-navbar",
@@ -7,7 +14,12 @@ import { faDrumstickBite } from "@fortawesome/free-solid-svg-icons";
   styleUrls: ["./food-navbar.component.scss"],
 })
 export class FoodNavbarComponent implements OnInit {
-  mealAddLogo = faDrumstickBite;
+  menuPeriodLogo = faStream;
+  mealAllLogo = faClipboard;
+  mealAddLogo = faPlus;
+  menuAddLogo = faHamburger;
+  menuDeclineLogo = faCopy;
+  menuOldLogo = faClock;
 
   constructor() {}
 

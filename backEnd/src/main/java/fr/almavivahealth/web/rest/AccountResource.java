@@ -4,6 +4,7 @@ import static fr.almavivahealth.constants.ErrorMessage.ERROR_NEW_USER_CANNOT_ALR
 import static fr.almavivahealth.constants.ErrorMessage.ERROR_OCCURRED_WHILE_TRYING_TO_CREATE_AN_USER;
 import static fr.almavivahealth.constants.ErrorMessage.ERROR_OCCURRED_WHILE_TRYING_TO_UPDATE_AN_USER;
 import static fr.almavivahealth.constants.ErrorMessage.ERROR_USER_MUST_HAVE_AN_ID;
+import static fr.almavivahealth.constants.ErrorMessage.THE_USER_DOES_NOT_EXIST;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -35,6 +37,7 @@ import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.service.dto.UserDTO;
+import fr.almavivahealth.service.dto.UserPassDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -52,12 +55,12 @@ public class AccountResource {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AccountResource.class);
 
-    private final UserService userService;
+	private final UserService userService;
 
-    private final MessageSource messageSource;
+	private final MessageSource messageSource;
 
-    @Autowired
-    public AccountResource(final UserService userService, final MessageSource messageSource) {
+	@Autowired
+	public AccountResource(final UserService userService, final MessageSource messageSource) {
 		this.userService = userService;
 		this.messageSource = messageSource;
 	}
@@ -230,5 +233,55 @@ public class AccountResource {
 		LOGGER.debug("REST request to get profile picture");
 		final byte[] profilePicture = userService.findProfilePicture(userId);
 		return ResponseEntity.ok().body(profilePicture);
+	}
+
+	 /**
+	 * GET /users/pass : Update password of user.
+	 *
+	 * @param userPassDTO the user pass DTO
+	 * @param locale      the locale
+	 * @return HttpStatus
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	@ApiOperation("Update password of user.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 500, message = "Internal Server")
+        })
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PatchMapping("/users/pass")
+	public ResponseEntity<HttpStatus> updatePassword(
+			@RequestBody final UserPassDTO userPassDTO, @ApiIgnore final Locale locale) throws DailyFollowUpException {
+		final Optional<User> user = userService.updatePassword(userPassDTO , locale);
+		if (!user.isPresent()) {
+			throw new DailyFollowUpException(
+					HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					messageSource.getMessage(THE_USER_DOES_NOT_EXIST, null, locale));
+		}
+		return ResponseEntity.ok().body(HttpStatus.OK);
+	}
+
+	 /**
+	 * GET /users/pass/userId : Returns true if user has updated its password.
+	 *
+	 * @param userId the user id
+	 * @return Boolean
+	 */
+	@ApiOperation("Returns true if user has updated its password.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 500, message = "Internal Server")
+        })
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/users/pass/{userId}")
+	public ResponseEntity<Boolean> hasUpdatePassword(@PathVariable final Long userId) {
+		final boolean hasChangedPassword = userService.hasChangedPassword(userId);
+		return ResponseEntity.ok().body(hasChangedPassword);
 	}
 }

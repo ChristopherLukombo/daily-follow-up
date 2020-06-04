@@ -4,14 +4,10 @@ import {
   HttpErrorResponse,
   HttpHeaders,
 } from "@angular/common/http";
-import { Observable, throwError, BehaviorSubject, Subject, timer } from "rxjs";
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  debounce,
-  switchMap,
-} from "rxjs/operators";
+import { Observable, throwError } from "rxjs";
+import { catchError } from "rxjs/operators";
+import { environment } from "src/environments/environment";
+import { Dish } from "src/app/models/external-api/dish";
 import { Content } from "src/app/models/food/content";
 
 const httpOptions = {
@@ -20,46 +16,43 @@ const httpOptions = {
   }),
 };
 
-const EXTERNAL_API_URL = "https://ciqual.anses.fr/esearch";
+const EXTERNAL_API_URL = environment.appRootUrl + "/api/dishes";
 
 @Injectable({
   providedIn: "root",
 })
 export class ExternalApiService {
-  mocks: Content[] = [new Content(), new Content(), new Content()];
-
   constructor(private http: HttpClient) {}
 
-  // searchMeals(terms: Observable<string>) {
-  //   return terms.pipe(debounce(() => timer(4000)))
-  //     .pipe(distinctUntilChanged(),
-  //     switchMap(term => this.searchMeals(term)));
-
-  // }
-
-  searchMeals(search: string): Observable<Content[]> {
-    this.mocks[0].name = "poulet " + search;
-    this.mocks[1].name = "veau " + search;
-    this.mocks[2].name = "frites " + search;
-    let res: BehaviorSubject<Content[]> = new BehaviorSubject(this.mocks);
-    return res.asObservable();
+  /**
+   * Recherche de plats depuis la table CIQUAL
+   * @param search
+   * @returns la liste des plats correspondant
+   */
+  searchMeals(search: string): Observable<Dish[]> {
+    return this.http
+      .get<Dish[]>(EXTERNAL_API_URL + `/search?name=${search}`, httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
-  search(name: string): Observable<Content[]> {
-    this.mocks[0].name = "poulet";
-    this.mocks[1].name = "veau";
-    this.mocks[2].name = "frites";
-    let res: BehaviorSubject<Content[]> = new BehaviorSubject(this.mocks);
-    // return this.http
-    //   .get<Content[]>(EXTERNAL_API_URL + `/${name}`, httpOptions)
-    //   .pipe(catchError(this.handleError));
-    return res.asObservable();
+  /**
+   * Trouve un plat dans la table CIQUAL
+   * @param name
+   * @returns le plat correspondant
+   */
+  matchMeal(name: string): Observable<Dish> {
+    return this.http
+      .get<Dish>(EXTERNAL_API_URL + `/find?name=${name}`, httpOptions)
+      .pipe(catchError(this.handleError));
   }
 
-  getMealComposition(name: string): Observable<Content> {
-    this.mocks[0].name = name;
-    let res: BehaviorSubject<Content> = new BehaviorSubject(this.mocks[0]);
-    return res.asObservable();
+  /**
+   * Convertit un plat CIQUAL vers un plat de la clinique
+   * @param dish
+   * @returns le plat de la clinique
+   */
+  toContent(dish: Dish): Content {
+    return dish as Content;
   }
 
   /**

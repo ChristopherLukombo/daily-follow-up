@@ -34,6 +34,7 @@ import fr.almavivahealth.domain.entity.Menu;
 import fr.almavivahealth.domain.entity.MomentDay;
 import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Texture;
+import fr.almavivahealth.domain.entity.Week;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.MenuDTO;
 import fr.almavivahealth.service.impl.menu.MenuServiceImpl;
@@ -81,6 +82,14 @@ public class MenuServiceTest {
 				.build();
 	}
 
+	private static Week createWeek() {
+		return Week.builder()
+				.id(ID)
+				.number(1)
+				.days(Arrays.asList(createDay()))
+				.build();
+	}
+
 	private static Day createDay() {
 		return Day.builder()
 				.id(ID)
@@ -94,7 +103,7 @@ public class MenuServiceTest {
 				.id(ID)
 				.startDate(LocalDate.of(2020, Month.APRIL, 6))
 				.endDate(LocalDate.of(2020, Month.APRIL, 12))
-				.days(Arrays.asList(createDay()))
+				.weeks(Arrays.asList(createWeek()))
 				.build();
 	}
 
@@ -193,7 +202,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = Arrays.asList(createMenu());
 
 		// Then
-		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdAsc()).thenReturn(menus);
 
 		// Then
 		assertThat(menuServiceImpl.findAll()).isNotEmpty();
@@ -205,7 +214,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = Collections.emptyList();
 
 		// Then
-		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdAsc()).thenReturn(menus);
 
 		// Then
 		assertThat(menuServiceImpl.findAll()).isEmpty();
@@ -217,7 +226,7 @@ public class MenuServiceTest {
 		final List<Menu> menus = null;
 
 		// Then
-		when(menuRepository.findAllByOrderByIdDesc()).thenReturn(menus);
+		when(menuRepository.findAllByOrderByIdAsc()).thenReturn(menus);
 
 		// Then
 		assertThatThrownBy(() -> menuServiceImpl.findAll()).isInstanceOf(NullPointerException.class);
@@ -327,4 +336,64 @@ public class MenuServiceTest {
 				.isInstanceOf(DailyFollowUpException.class);
 	}
 
+	@Test
+	public void shouldGetCurrentMenus() {
+		// Given
+		final List<Menu> menus = Arrays.asList(createMenu());
+
+		// Then
+		when(menuRepository.findCurrentMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findCurrentMenus()).isNotEmpty();
+	}
+
+
+	@Test
+	public void shouldReturnEmptyListWhenIsNotFillCurrentMenus() {
+		// Given
+		final List<Menu> menus = Collections.emptyList();
+
+		// Then
+		when(menuRepository.findCurrentMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findCurrentMenus()).isEmpty();
+	}
+
+	@Test
+	public void shouldReturnFalseWhenCheckSpecificationsOfMenuIsNotValid() {
+		// Given
+		final List<Menu> menus = Arrays.asList(createMenu());
+		final MenuDTO menu = createMenuDTO();
+
+		// When
+		when(menuRepository.findCurrentMenus(any(LocalDate.class))).thenReturn(menus);
+
+		// Then
+
+		assertThat(menuServiceImpl.checkSpecifications(menu)).isFalse();
+	}
+
+	@Test
+	public void shouldCheckSpecificationsOfMenu() {
+		// Given
+		final Menu firstMenu = new Menu();
+		firstMenu.setDiet("test");
+		firstMenu.setTexture("test");
+		final Menu secondMenu = new Menu();
+		secondMenu.setDiet("test");
+		secondMenu.setTexture("test");
+
+		final List<Menu> menus = Arrays.asList(firstMenu, secondMenu);
+		final MenuDTO menuDTO = createMenuDTO();
+		menuDTO.setDiet("test");
+		menuDTO.setTexture("test");
+
+		// When
+		when(menuRepository.findCurrentMenus(any(LocalDate.class))).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.checkSpecifications(menuDTO)).isTrue();
+	}
 }

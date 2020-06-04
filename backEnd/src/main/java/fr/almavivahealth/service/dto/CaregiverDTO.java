@@ -20,7 +20,7 @@ public class CaregiverDTO implements Serializable {
 
 	private Long id;
 
-	private Long userId;
+	private UserDTO user;
 
 	private Long floorId;
 
@@ -36,12 +36,12 @@ public class CaregiverDTO implements Serializable {
 		this.id = id;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public UserDTO getUser() {
+		return user;
 	}
 
-	public void setUserId(final Long userId) {
-		this.userId = userId;
+	public void setUser(final UserDTO userDTO) {
+		this.user = userDTO;
 	}
 
 	public Long getFloorId() {
@@ -54,7 +54,7 @@ public class CaregiverDTO implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(floorId, id, userId);
+		return Objects.hash(floorId, id, user);
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class CaregiverDTO implements Serializable {
 			return false;
 		final CaregiverDTO other = (CaregiverDTO) obj;
 		return Objects.equals(floorId, other.floorId) && Objects.equals(id, other.id)
-				&& Objects.equals(userId, other.userId);
+				&& Objects.equals(user, other.user);
 	}
 
 	@Override

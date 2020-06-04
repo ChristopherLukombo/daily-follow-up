@@ -2,15 +2,21 @@ package fr.almavivahealth.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,16 +25,16 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* A menu.
-*/
+ *
+ * @author christopher A menu.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
 @ToString
+@EntityListeners(AuditingEntityListener.class)
 public class Menu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -37,22 +43,26 @@ public class Menu implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	// TODO: mettre à la fin @Future
 	private LocalDate startDate;
 
 	private LocalDate endDate;
 
-	private Integer weekNumber;
+	private String texture;
 
-	@ManyToOne
-	private Texture texture;
+	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private Replacement replacement;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Content> replacements;
+	private String diet;
 
-	@ManyToOne
-	private Diet diet;
+	@ManyToMany(
+			cascade = { CascadeType.PERSIST}
+			)
+	private List<Week> weeks;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<Day> days;
+	@LastModifiedBy
+	private String lastModifiedBy;
 
+	@LastModifiedDate
+	private LocalDateTime lastModificationDateBy;
 }

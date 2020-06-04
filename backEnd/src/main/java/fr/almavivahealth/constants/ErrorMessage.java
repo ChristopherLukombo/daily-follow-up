@@ -13,7 +13,9 @@ public final class ErrorMessage {
 	public static final String ERROR_USER_MUST_HAVE_AN_ID = "error.user.must_have_an_id";
 	public static final String ERROR_OCCURRED_WHILE_TRYING_TO_CREATE_AN_USER = "error.user.occurred_while_trying_to_create_an_user";
 	public static final String ERROR_OCCURRED_WHILE_TRYING_TO_UPDATE_AN_USER = "error.user.occurred_while_trying_to_update_an_user";
-
+	public static final String NEW_PASSWORD_MUST_NOT_MATCH_OLD_PASSWORD = "error.user.oldPassword";
+	public static final String THE_USER_DOES_NOT_EXIST = "error.user.doesNotExist";
+	public static final String AN_ERROR_OCCURRED_WHILE_TRYING_TO_CHANGE_THE_PASSWORD = "error.user.an_error_occurred_while_trying_to_change_the_password";
 
 	// Patient
 	public static final String ONE_OR_MORE_PATIENTS_ALREADY_EXIST = "error.patient.patients_already_exist";
@@ -28,6 +30,11 @@ public final class ErrorMessage {
 	public static final String AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_FILE = "error.content.while_trying_upload_the_file";
 	public static final String ID_CONTENT_DOES_NOT_EXIST = "error.content.id_not_exist";
 	public static final String AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_PICTURE_CONTENT = "error.content.while_trying_picture_content";
+	public static final String ERROR_CONTENT_UNIQUE_NAME = "error.content.uniqueName";
+
+	// Menu
+	public static final String A_MENU_ALREADY_EXISTS_WITH_THE_SAME_CHARACTERISTICS = "error.menu.theSameCharacteristics";
+
 
 	// Private constructor to prevent instantiation
 	private ErrorMessage() {

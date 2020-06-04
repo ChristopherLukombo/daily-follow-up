@@ -12,6 +12,7 @@ import { JwtInterceptor } from "./utils/helpers/jwt.interceptor";
 import { NgxPaginationModule } from "ngx-pagination";
 import { ToastrModule } from "ngx-toastr";
 import { ChartsModule } from "ng2-charts";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 import { AppComponent } from "./app.component";
 import { LoaderComponent } from "./components/loader/loader.component";
@@ -38,15 +39,25 @@ import { ListRoomsAvailableComponent } from "./components/patient-components/pat
 import { FormPatientAddComponent } from "./components/patient-components/patient-add/form-patient-add/form-patient-add.component";
 import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 import { FormPatientEditComponent } from "./components/patient-components/patient/patient-edit/form-patient-edit/form-patient-edit.component";
+
 import { FormMealAddComponent } from "./components/food-components/meals-add/form-meal-add/form-meal-add.component";
 import { InfosMealComponent } from "./components/food-components/meals-add/infos-meal/infos-meal.component";
-
 import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
 import { FoodNavbarComponent } from "./components/navbar-vertical/food-navbar/food-navbar.component";
+import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
+import { MenuWeeksComponent } from "./components/food-components/menu-weeks/menu-weeks.component";
+import { ContentsDayMenuComponent } from "./components/food-components/menu-weeks/contents-day-menu/contents-day-menu.component";
+
+import { UsersComponent } from "./components/user-components/users/users.component";
+import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
+import { RoleNavbarComponent } from "./components/navbar-vertical/role-navbar/role-navbar.component";
+import { ListCaregiversComponent } from "./components/user-components/users/list-caregivers/list-caregivers.component";
 
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
 import { ModalDangerComponent } from "./components/utils-components/modal-danger/modal-danger.component";
+import { Tabs, Tab } from "./components/utils-components/tabs/tabs.component";
+import { Typeahead } from "./components/utils-components/typeahead/typeahead.component";
 
 import { LoginService } from "./services/login/login.service";
 
@@ -55,12 +66,19 @@ import {
   SearchPipe,
   HighLightPipe,
   OrderPipe,
+  SearchInsidePipe,
+  OrderInsidePipe,
 } from "./utils/pipes/search.pipe";
 import {
   getInitialsPipe,
   getActionPatientPipe,
+  truncateStringPipe,
 } from "./utils/pipes/string-utils.pipe";
-import { FormEditInfosMealComponent } from './components/food-components/meals-add/infos-meal/form-edit-infos-meal/form-edit-infos-meal.component';
+import { MealsComponent } from './components/food-components/meals/meals.component';
+import { ListMealsComponent } from './components/food-components/meals/list-meals/list-meals.component';
+import { ReplacementsCardComponent } from './components/food-components/menu-weeks/replacements-card/replacements-card.component';
+import { MenuCurrentsComponent } from './components/food-components/menu-currents/menu-currents.component';
+import { CurrentWeeksComponent } from './components/food-components/menu-currents/current-weeks/current-weeks.component';
 
 @NgModule({
   declarations: [
@@ -81,11 +99,14 @@ import { FormEditInfosMealComponent } from './components/food-components/meals-a
     AlertErrorComponent,
     DetermineAgePipe,
     SearchPipe,
+    SearchInsidePipe,
+    OrderInsidePipe,
     HighLightPipe,
     AlertWarningComponent,
     CommentPatientComponent,
     PatientNavbarComponent,
     getInitialsPipe,
+    truncateStringPipe,
     OrderPipe,
     getActionPatientPipe,
     PatientsImportComponent,
@@ -103,7 +124,21 @@ import { FormEditInfosMealComponent } from './components/food-components/meals-a
     FoodNavbarComponent,
     FormMealAddComponent,
     InfosMealComponent,
-    FormEditInfosMealComponent,
+    Tabs,
+    Tab,
+    Typeahead,
+    MenuAddComponent,
+    MenuWeeksComponent,
+    ContentsDayMenuComponent,
+    UsersComponent,
+    RoleNavbarComponent,
+    ListCaregiversComponent,
+    UserAddComponent,
+    MealsComponent,
+    ListMealsComponent,
+    ReplacementsCardComponent,
+    MenuCurrentsComponent,
+    CurrentWeeksComponent,
   ],
   imports: [
     BrowserModule,
@@ -122,6 +157,7 @@ import { FormEditInfosMealComponent } from './components/food-components/meals-a
       countDuplicates: true,
     }),
     ChartsModule,
+    NgSelectModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

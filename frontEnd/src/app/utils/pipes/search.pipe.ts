@@ -19,6 +19,24 @@ export class SearchPipe implements PipeTransform {
 }
 
 @Pipe({
+  name: "searchInside",
+})
+@Injectable()
+export class SearchInsidePipe implements PipeTransform {
+  transform(items: any[], obj: any, field: string, search: string): any[] {
+    if (!search || !field || !obj) return items;
+
+    return items.filter((item) => {
+      const filter = item[obj][field]
+        .toString()
+        .toLowerCase()
+        .includes(search.toLowerCase());
+      return filter;
+    });
+  }
+}
+
+@Pipe({
   name: "highlight",
 })
 @Injectable()
@@ -44,5 +62,19 @@ export class OrderPipe implements PipeTransform {
     if (!field || !items) return items;
 
     return items.sort((a: any, b: any) => a[field].localeCompare(b[field]));
+  }
+}
+
+@Pipe({
+  name: "orderByInside",
+})
+@Injectable()
+export class OrderInsidePipe implements PipeTransform {
+  transform(items: any[], obj: any, field: string): any[] {
+    if (!field || !obj || !items) return items;
+
+    return items.sort((a: any, b: any) =>
+      a[obj][field].localeCompare(b[obj][field])
+    );
   }
 }

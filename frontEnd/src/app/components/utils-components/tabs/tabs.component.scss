@@ -1,0 +1,21 @@
+.nav-tabs {
+  li {
+    border-color: #d1d8e0;
+    color: #428bca;
+    background-color: #f1f2f6;
+    &:hover {
+      color: white;
+      background-color: #428bca;
+      cursor: pointer;
+    }
+  }
+  li.active {
+    border-color: #d1d8e0;
+    background-color: #ffffff;
+    border-bottom-color: transparent;
+    &:hover {
+      color: #428bca;
+      background-color: #ffffff;
+    }
+  }
+}

@@ -13,6 +13,6 @@ public interface TextureRepository extends JpaRepository<Texture, Long> {
 
 	Optional<Texture> findByNameIgnoreCase(String name);
 	
-	List<Texture> findAllByOrderByIdDesc();
+	List<Texture> findAllByOrderByIdAsc();
 	
 }

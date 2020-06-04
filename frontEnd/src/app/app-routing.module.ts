@@ -10,6 +10,11 @@ import { PatientsImportComponent } from "./components/patient-components/patient
 import { PatientsOldComponent } from "./components/patient-components/patients-old/patients-old.component";
 import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
+import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
+import { UsersComponent } from "./components/user-components/users/users.component";
+import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
+import { MealsComponent } from "./components/food-components/meals/meals.component";
+import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -49,8 +54,33 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: "food/menu/currents",
+    component: MenuCurrentsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/meal/all",
+    component: MealsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: "food/meal/add",
     component: MealsAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/menu/add",
+    component: MenuAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "user/all",
+    component: UsersComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "user/add",
+    component: UserAddComponent,
     canActivate: [AuthGuard],
   },
   {

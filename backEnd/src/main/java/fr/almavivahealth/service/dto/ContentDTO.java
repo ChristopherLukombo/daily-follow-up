@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotEmpty;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -23,6 +25,7 @@ public class ContentDTO implements Serializable {
 
 	private Integer code;
 
+	@NotEmpty(message = "{error.content.RequiredName}")
 	private String name;
 
     private String groupName;
@@ -50,6 +53,8 @@ public class ContentDTO implements Serializable {
 	private String imageUrl;
 
 	private List<String> typeMeals;
+
+	private Boolean mixed;
 
 	public ContentDTO() {
 		// Empty constructor needed for Jackson.
@@ -183,10 +188,18 @@ public class ContentDTO implements Serializable {
 		this.typeMeals = typeMeals;
 	}
 
+	public Boolean getMixed() {
+		return mixed;
+	}
+
+	public void setMixed(final Boolean mixed) {
+		this.mixed = mixed;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(agSaturates, calories, carbohydrate, code, foodFibres, groupName, id, imageUrl, lipids,
-				name, protein, salt, subGroupName, subSubGroupName, sugars, typeMeals);
+		return Objects.hash(agSaturates, calories, carbohydrate, mixed, code, foodFibres, groupName, id,
+				imageUrl, lipids, name, protein, salt, subGroupName, subSubGroupName, sugars, typeMeals);
 	}
 
 	@Override
@@ -199,7 +212,8 @@ public class ContentDTO implements Serializable {
 			return false;
 		final ContentDTO other = (ContentDTO) obj;
 		return Objects.equals(agSaturates, other.agSaturates) && Objects.equals(calories, other.calories)
-				&& Objects.equals(carbohydrate, other.carbohydrate) && Objects.equals(code, other.code)
+				&& Objects.equals(carbohydrate, other.carbohydrate)
+				&& Objects.equals(mixed, other.mixed) && Objects.equals(code, other.code)
 				&& Objects.equals(foodFibres, other.foodFibres) && Objects.equals(groupName, other.groupName)
 				&& Objects.equals(id, other.id) && Objects.equals(imageUrl, other.imageUrl)
 				&& Objects.equals(lipids, other.lipids) && Objects.equals(name, other.name)

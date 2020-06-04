@@ -1,16 +1,24 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { MealsAddComponent } from './meals-add.component';
+import { MealsAddComponent } from "./meals-add.component";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
+import { ToastrService, ToastrModule } from "ngx-toastr";
+import { RouterTestingModule } from "@angular/router/testing";
 
-describe('MealsAddComponent', () => {
+describe("MealsAddComponent", () => {
   let component: MealsAddComponent;
   let fixture: ComponentFixture<MealsAddComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MealsAddComponent ]
-    })
-    .compileComponents();
+      imports: [
+        HttpClientTestingModule,
+        ToastrModule.forRoot(),
+        RouterTestingModule,
+      ],
+      declarations: [MealsAddComponent],
+      providers: [ToastrService],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +27,7 @@ describe('MealsAddComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

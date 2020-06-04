@@ -31,6 +31,7 @@ public abstract class UserMapperDecorator implements UserMapper {
             user.setBirthDay(userDTO.getBirthDay());
             final Role role = buildRole(userDTO);
 			user.setRole(role);
+			user.setHasChangedPassword(userDTO.getHasChangedPassword());
             return user;
         }
     }

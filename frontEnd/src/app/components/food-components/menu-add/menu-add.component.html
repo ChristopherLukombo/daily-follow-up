@@ -1,0 +1,78 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-food-navbar></app-food-navbar>
+    </div>
+    <div class="col">
+      <h2>Composer un menu</h2>
+      <br />
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <button
+              *ngFor="let t of textures"
+              type="button"
+              class="btn btn-primary"
+              (click)="selectTexture(t)"
+              [class.active]="t == selectedTexture"
+            >
+              {{ t }}
+            </button>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-row">
+            <div class="col-8">
+              <div class="form-group row">
+                <label class="col-sm-5 col-form-label text-right">Début</label>
+                <div class="col-sm-7">
+                  <input
+                    type="week"
+                    [(ngModel)]="beginWeek"
+                    [ngClass]="{ 'is-invalid': submitted && !beginWeek }"
+                    class="form-control"
+                  />
+                  <small *ngIf="submitted && !beginWeek" class="text-danger">
+                    Veuillez renseigner la date de début
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group row">
+                <label class="col-sm-7 col-form-label text-right"
+                  >Répétition</label
+                >
+                <div class="col-sm-5">
+                  <input
+                    type="number"
+                    [(ngModel)]="repeat"
+                    [ngClass]="{ 'is-invalid': submitted && !repeat }"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br />
+      <span *ngIf="submitted && error" class="text-danger">
+        <app-alert-error [content]="error"></app-alert-error>
+      </span>
+      <app-menu-weeks
+        (submitMoment)="setMoment($event)"
+        (submitReplacement)="setReplacement($event)"
+        (addOrRemoveWeek)="addOrRemoveWeek($event)"
+      ></app-menu-weeks>
+      <br />
+      <div class="row">
+        <div class="col text-right">
+          <button type="button" class="btn btn-primary" (click)="onCreate()">
+            Confirmer la création
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

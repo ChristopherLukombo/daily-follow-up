@@ -60,6 +60,8 @@ public class UserDTO implements Serializable {
 
 	private String roleName;
 
+	private Boolean hasChangedPassword;
+
 	public UserDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -78,6 +80,7 @@ public class UserDTO implements Serializable {
 		if (null != role) {
 			this.roleName = role.getName();
 		}
+		this.hasChangedPassword = user.getHasChangedPassword();
 	}
 
 	public Long getId() {
@@ -168,6 +171,14 @@ public class UserDTO implements Serializable {
 
 	public void setRoleName(final String roleName) {
 		this.roleName = roleName;
+	}
+
+	public Boolean getHasChangedPassword() {
+		return hasChangedPassword;
+	}
+
+	public void setHasChangedPassword(final Boolean hasChangedPassword) {
+		this.hasChangedPassword = hasChangedPassword;
 	}
 
 	@Override

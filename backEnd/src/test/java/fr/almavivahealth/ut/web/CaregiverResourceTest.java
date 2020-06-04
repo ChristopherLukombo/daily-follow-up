@@ -54,7 +54,7 @@ public class CaregiverResourceTest {
 	private static CaregiverDTO createCaregiverDTO() {
 		return CaregiverDTO.builder()
 				.id(ID)
-				.userId(null)
+				.user(null)
 				.floorId(null)
 				.build();
 	}

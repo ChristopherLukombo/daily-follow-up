@@ -1,6 +1,7 @@
 package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,6 +23,8 @@ public class MomentDayDTO implements Serializable {
 
 	private String name;
 
+	private List<ContentDTO> contents;
+
 	public MomentDayDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -42,9 +45,17 @@ public class MomentDayDTO implements Serializable {
 		this.name = name;
 	}
 
+	public List<ContentDTO> getContents() {
+		return contents;
+	}
+
+	public void setContents(final List<ContentDTO> contents) {
+		this.contents = contents;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, name);
+		return Objects.hash(contents, id, name);
 	}
 
 	@Override
@@ -56,7 +67,8 @@ public class MomentDayDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final MomentDayDTO other = (MomentDayDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(name, other.name);
+		return Objects.equals(contents, other.contents) && Objects.equals(id, other.id)
+				&& Objects.equals(name, other.name);
 	}
 
 	@Override

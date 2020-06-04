@@ -1,0 +1,18 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-food-navbar></app-food-navbar>
+    </div>
+    <div class="col">
+      <h2>Plats en stock</h2>
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="!loading && !error">
+        <app-list-meals [contents]="contents"></app-list-meals>
+      </div>
+    </div>
+  </div>
+</div>

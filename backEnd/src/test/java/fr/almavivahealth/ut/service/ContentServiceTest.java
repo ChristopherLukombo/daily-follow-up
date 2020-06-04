@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -305,6 +306,31 @@ public class ContentServiceTest {
 
     	// Then
 		assertThat(contentServiceImpl.findPicture(ID)).isEmpty();
+	}
+
+	@Test
+	public void shouldFindContentByName() {
+		// Given
+		final Content content = createContent();
+
+		// When
+		when(contentRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(content));
+
+		// Then
+		assertThat(contentServiceImpl.findContentByName(NAME)).contains(content);
+	}
+
+	@Test
+	public void shouldReturnOptionalEmptyWhenNameIsNotPresent() {
+		// Given
+		final Content content = createContent();
+		content.setName("bibi");
+
+		// When
+		when(contentRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.empty());
+
+		// Then
+		assertThat(contentServiceImpl.findContentByName(NAME)).isEmpty();
 	}
 
 	private void createFoldersAndFile() throws IOException {

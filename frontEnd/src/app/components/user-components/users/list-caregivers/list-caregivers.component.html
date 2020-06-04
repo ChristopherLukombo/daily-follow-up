@@ -1,0 +1,105 @@
+<div class="form-row">
+  <div class="form-group col">
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="lastName"
+      placeholder="Nom..."
+    />
+  </div>
+  <div class="form-group col">
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="firstName"
+      placeholder="Prénom..."
+    />
+  </div>
+</div>
+<br />
+<table *ngIf="caregivers" class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+    </tr>
+  </thead>
+  <tbody class="tbody-dfu">
+    <tr
+      *ngFor="
+        let caregiver of caregivers
+          | orderByInside: 'user':'lastName'
+          | searchInside: 'user':'lastName':lastName
+          | searchInside: 'user':'firstName':firstName
+          | paginate: pagination;
+        let i = index
+      "
+      (click)="selectCaregiver(caregiver, i)"
+      [class.active]="i == selectedRow"
+      data-toggle="modal"
+      data-target="#exampleModalLong"
+    >
+      <th
+        scope="row"
+        innerHTML="{{
+          caregiver.user.lastName | uppercase | highlight: lastName
+        }}"
+      ></th>
+      <td
+        innerHTML="{{
+          caregiver.user.firstName | titlecase | highlight: firstName
+        }}"
+      ></td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls
+  (pageChange)="pageChanged($event)"
+  (pageBoundsCorrection)="pageChanged($event)"
+  maxSize="6"
+  responsive="true"
+  previousLabel="Précédent"
+  nextLabel="Suivant"
+></pagination-controls>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModalLong"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLongTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          {{ selectedCaregiver?.user?.lastName | uppercase }}
+          {{ selectedCaregiver?.user?.firstName | titlecase }}
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        composant modifier aide-soignant
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-dismiss="modal"
+        >
+          Annuler
+        </button>
+        <button type="button" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>

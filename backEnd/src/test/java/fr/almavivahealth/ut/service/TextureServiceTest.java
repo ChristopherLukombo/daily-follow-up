@@ -118,7 +118,7 @@ public class TextureServiceTest {
 		final List<Texture> textures = Arrays.asList(getTexture());
 
 		// When
-		when(textureRepository.findAllByOrderByIdDesc()).thenReturn(textures);
+		when(textureRepository.findAllByOrderByIdAsc()).thenReturn(textures);
 
 		// Then
 		assertThat(textureServiceImpl.findAll()).isNotEmpty();
@@ -130,7 +130,7 @@ public class TextureServiceTest {
 		final List<Texture> textures = Collections.emptyList();
 
 		// When
-		when(textureRepository.findAllByOrderByIdDesc()).thenReturn(textures);
+		when(textureRepository.findAllByOrderByIdAsc()).thenReturn(textures);
 
 		// Then
 		assertThat(textureServiceImpl.findAll()).isEmpty();
@@ -142,7 +142,7 @@ public class TextureServiceTest {
 		final List<Texture> textures = null;
 
 		// When
-		when(textureRepository.findAllByOrderByIdDesc()).thenReturn(textures);
+		when(textureRepository.findAllByOrderByIdAsc()).thenReturn(textures);
 
 		// Then
 		assertThatThrownBy(() -> textureServiceImpl.findAll())

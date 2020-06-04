@@ -177,7 +177,7 @@ export class FormPatientEditComponent implements OnInit {
 
   addAllergy(): void {
     let allergy: string = this.form.controls.allergy.value;
-    if (allergy && allergy !== "") {
+    if (allergy && allergy !== "" && this.allergies.length < 5) {
       this.allergies.push(allergy);
     }
   }

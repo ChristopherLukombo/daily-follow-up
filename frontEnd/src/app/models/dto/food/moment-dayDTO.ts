@@ -1,4 +1,4 @@
-import { ContentDTO } from "./contentDTO";
+import { Content } from "../../food/content";
 
 export class MomentDayDTO {
   /***/
@@ -6,5 +6,11 @@ export class MomentDayDTO {
   /***/
   name: string;
   /***/
-  contents: Array<ContentDTO>;
+  contents: Array<Content>;
+
+  constructor(id: number, name: string, contents: Array<Content>) {
+    this.id = id;
+    this.name = name;
+    this.contents = contents;
+  }
 }
