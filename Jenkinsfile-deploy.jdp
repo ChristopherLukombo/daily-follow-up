@@ -16,21 +16,23 @@ pipeline{
             }
         }
         stage("Build & Test") {
+            when { expression {
+                    env.REPEAT != 'true'
+                }
+            }
             options { timeout(time: 1, unit: 'HOURS') }
             steps {
                 script {
                     dir(projectName){
-                        if (env.REPEAT != 'true'){
-                            sh("mvn clean package -Pprod -e -X")
-                        }
+                        
+                        sh("mvn clean package -Pprod -e -X")
+                        
                     }
                 }
             }
             post {
                 always{
-                    if (env.REPEAT != 'true'){
-                        junit '**/target/surefire-reports/*.xml'
-                    }
+                    junit '**/target/surefire-reports/*.xml'
                 }
                 failure {
                     emailext(
