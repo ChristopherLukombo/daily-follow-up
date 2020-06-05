@@ -16,10 +16,6 @@ pipeline{
             }
         }
         stage("Build & Test") {
-            when { expression {
-                    env.REPEAT != 'true'
-                }
-            }
             options { timeout(time: 1, unit: 'HOURS') }
             steps {
                 script {
