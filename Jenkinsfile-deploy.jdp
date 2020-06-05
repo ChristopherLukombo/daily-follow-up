@@ -17,34 +17,36 @@ pipeline{
         }
         stage("Build & Test") {
             options { timeout(time: 1, unit: 'HOURS') }
-            steps {
-                script {
-                    dir(projectName){
-                        if (env.REPEAT != 'true'){
+            if (env.REPEAT != 'true'){
+                steps {
+                    script {
+                        dir(projectName){
+                            
                             sh("mvn clean package -Pprod -e -X")
+                            
                         }
                     }
                 }
+                post {
+                    always{
+                        junit '**/target/surefire-reports/*.xml'
+                    }
+                    failure {
+                        emailext(
+                            body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                            replyTo: '', subject: "[${env.JOB_NAME}] FAILURE - Rapport de build",
+                            to: "${mails}", recipientProviders: []
+                        )
+                    }
+                    fixed {
+                        emailext(
+                            body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
+                            replyTo: '', subject: "[${env.JOB_NAME}] Fixed - Rapport de build",
+                            to: "${mails}", recipientProviders: []
+                        )
+                    }
+                } 
             }
-            post {
-                always{
-                    junit '**/target/surefire-reports/*.xml'
-                }
-                failure {
-                    emailext(
-                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
-                        replyTo: '', subject: "[${env.JOB_NAME}] FAILURE - Rapport de build",
-                        to: "${mails}", recipientProviders: []
-                    )
-                }
-                fixed {
-                    emailext(
-                        body: "Plus d'information sur : ${env.BUILD_URL}", mimeType: 'text/html',
-                        replyTo: '', subject: "[${env.JOB_NAME}] Fixed - Rapport de build",
-                        to: "${mails}", recipientProviders: []
-                    )
-                }
-            } 
         }
         stage("Deploy"){
             options { timeout(time: 1, unit: 'HOURS') }
