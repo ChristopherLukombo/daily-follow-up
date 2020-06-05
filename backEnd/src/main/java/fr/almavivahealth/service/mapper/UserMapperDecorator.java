@@ -27,6 +27,7 @@ public abstract class UserMapperDecorator implements UserMapper {
             user.setLastName(userDTO.getLastName());
             user.setImageUrl(userDTO.getImageUrl());
             user.setStatus(userDTO.isStatus());
+            user.setPassword(userDTO.getPassword());
             final Role role = buildRole(userDTO);
 			user.setRole(role);
 			user.setHasChangedPassword(userDTO.getHasChangedPassword());

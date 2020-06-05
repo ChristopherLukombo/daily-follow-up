@@ -88,4 +88,12 @@ public interface PatientService {
 	 */
 	Optional<Patient> reactivatePatient(Long id);
 
+
+	/**
+	 * Find all by floor number.
+	 *
+	 * @param number the number
+	 * @return the list of entities
+	 */
+	List<PatientDTO> findAllByFloorNumber(Integer number);
 }

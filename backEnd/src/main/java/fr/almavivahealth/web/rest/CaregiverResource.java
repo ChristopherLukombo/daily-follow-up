@@ -181,4 +181,30 @@ public class CaregiverResource {
 		caregiverService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
+
+	/**
+	 * GET /caregivers/floor/{number} : Get all the caregivers for floor.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of caregivers in body
+	 * or with status 204 (No Content) if there is no caregiver.
+	 *
+	 */
+	@ApiOperation("Get all the caregivers for floor.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/caregivers/floor/{number}")
+	public ResponseEntity<List<CaregiverDTO>> getAllByFloorNumber(@PathVariable final Integer number) {
+		LOGGER.debug("REST request to get all Caregivers for floor: {}", number);
+		final List<CaregiverDTO> caregivers = caregiverService.findAllByFloorNumber(number);
+		if (caregivers.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(caregivers);
+	}
 }

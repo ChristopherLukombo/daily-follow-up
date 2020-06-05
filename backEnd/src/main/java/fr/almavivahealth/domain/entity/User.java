@@ -3,6 +3,7 @@ package fr.almavivahealth.domain.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -52,7 +53,7 @@ public class User implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Size(min = 60, max = 60)
+    @Size(max = 60)
     @Column(name = "password_hash", length = 60)
     private String password;
 
@@ -77,7 +78,7 @@ public class User implements Serializable {
     @Column(name = "image_url", length = 256)
     private String imageUrl;
 
-    @ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "role_id")
     private Role role;
 

@@ -381,4 +381,18 @@ public class PatientServiceImpl implements PatientService {
 		});
 	}
 
+	/**
+	 * Find all by floor number.
+	 *
+	 * @param number the number
+	 * @return the list of entities.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<PatientDTO> findAllByFloorNumber(final Integer number) {
+		LOGGER.debug("Request to get all Patients for floor: {}", number);
+		return patientRepository.findAllByFloorNumber(number).stream()
+				.map(patientMapper::patientToPatientDTO)
+				.collect(Collectors.toList());
+	}
 }

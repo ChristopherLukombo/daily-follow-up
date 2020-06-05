@@ -1,6 +1,7 @@
 package fr.almavivahealth.ut.web;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -393,4 +394,33 @@ public class PatientResourceTest {
 		verify(patientService, times(1)).reactivatePatient(anyLong());
 	}
 
+	@Test
+	public void shouldGetAllByFloorNumber() throws IOException, Exception {
+		// Given
+		final List<PatientDTO> patientsDTO = Arrays.asList(createPatientDTO());
+
+		// When
+		when(patientService.findAllByFloorNumber(anyInt())).thenReturn(patientsDTO);
+
+		// Then
+		mockMvc.perform(get("/api/patients/floor/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(patientService, times(1)).findAllByFloorNumber(anyInt());
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingGetAllByFloorNumber() throws IOException, Exception {
+		// Given
+		final List<PatientDTO> patientsDTO = Collections.emptyList();
+
+		// When
+		when(patientService.findAllByFloorNumber(anyInt())).thenReturn(patientsDTO);
+
+		// Then
+		mockMvc.perform(get("/api/patients/floor/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(patientService, times(1)).findAllByFloorNumber(anyInt());
+	}
 }
