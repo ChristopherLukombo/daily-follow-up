@@ -341,13 +341,41 @@ public class MenuServiceImpl implements MenuService {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Check specifications.
+	 *
+	 * @param menuDTO the menu DTO
+	 * @return true, if successful
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public boolean checkSpecifications(final MenuDTO menuDTO) {
-		final List<Menu> currentMenus = menuRepository.findCurrentMenus(LocalDate.now());
-		return currentMenus.stream()
-				.anyMatch(menu -> findString(menu.getDiet()).equalsIgnoreCase(menuDTO.getDiet())
-						&& findString(menu.getTexture()).equalsIgnoreCase(menuDTO.getTexture()));
+		return menuRepository.findAll().stream()
+				.filter(menu -> isOverlapped(menuDTO, menu))
+				.anyMatch(menu -> isTheSameCharacteristics(menuDTO, menu));
+	}
+
+	private boolean isOverlapped(final MenuDTO menuDTO, final Menu menu) {
+		if (null == menu.getStartDate() || null == menu.getEndDate()) {
+			return false;
+		}
+
+		boolean overlapped = false;
+		if ((menuDTO.getStartDate().compareTo(menu.getStartDate()) < 0)
+				&& (menuDTO.getEndDate().compareTo(menu.getStartDate()) < 0)) {
+			overlapped = false;
+		} else if ((menu.getStartDate().compareTo(menuDTO.getStartDate()) < 0)
+				&& (menu.getEndDate().compareTo(menuDTO.getStartDate()) < 0)) {
+			overlapped = false;
+		} else {
+			overlapped = true;
+		}
+		return overlapped;
+	}
+
+	private boolean isTheSameCharacteristics(final MenuDTO menuDTO, final Menu menu) {
+		return findString(menu.getDiet()).equalsIgnoreCase(menuDTO.getDiet())
+				&& findString(menu.getTexture()).equalsIgnoreCase(menuDTO.getTexture());
 	}
 
 	private String findString(final String value) {

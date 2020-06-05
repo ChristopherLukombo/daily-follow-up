@@ -368,7 +368,7 @@ public class MenuServiceTest {
 		final MenuDTO menu = createMenuDTO();
 
 		// When
-		when(menuRepository.findCurrentMenus(any(LocalDate.class))).thenReturn(menus);
+		when(menuRepository.findAll()).thenReturn(menus);
 
 		// Then
 
@@ -376,22 +376,52 @@ public class MenuServiceTest {
 	}
 
 	@Test
-	public void shouldCheckSpecificationsOfMenu() {
+	public void shouldReturnFalseWhenCheckSpecificationsOfMenuDateIsNotValid() {
 		// Given
 		final Menu firstMenu = new Menu();
 		firstMenu.setDiet("test");
-		firstMenu.setTexture("test");
+		firstMenu.setTexture("jfjd");
 		final Menu secondMenu = new Menu();
-		secondMenu.setDiet("test");
+		secondMenu.setDiet("bibi");
 		secondMenu.setTexture("test");
 
 		final List<Menu> menus = Arrays.asList(firstMenu, secondMenu);
 		final MenuDTO menuDTO = createMenuDTO();
-		menuDTO.setDiet("test");
+		menuDTO.setDiet("bibi");
 		menuDTO.setTexture("test");
 
 		// When
-		when(menuRepository.findCurrentMenus(any(LocalDate.class))).thenReturn(menus);
+		when(menuRepository.findAll()).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.checkSpecifications(menuDTO)).isFalse();
+	}
+
+	@Test
+	public void shouldCheckSpecificationsOfMenu() {
+		// Given
+		final Menu firstMenu = new Menu();
+		firstMenu.setDiet("Normal");
+		firstMenu.setTexture("Normal");
+		firstMenu.setStartDate(LocalDate.of(2019, Month.AUGUST, 1));
+		firstMenu.setEndDate(LocalDate.of(2019, Month.AUGUST, 20));
+		final Menu secondMenu = new Menu();
+		secondMenu.setDiet("Normal");
+		secondMenu.setTexture("Mixe");
+		secondMenu.setStartDate(LocalDate.of(2019, Month.SEPTEMBER, 1));
+		secondMenu.setEndDate(LocalDate.of(2019, Month.OCTOBER, 1));
+
+		final List<Menu> menus = Arrays.asList(firstMenu, secondMenu);
+		final MenuDTO menuDTO = createMenuDTO();
+		menuDTO.setDiet("bibi");
+		menuDTO.setTexture("test");
+		menuDTO.setDiet("Normal");
+		menuDTO.setTexture("Mixe");
+		menuDTO.setStartDate(LocalDate.of(2019, Month.SEPTEMBER, 1));
+		menuDTO.setEndDate(LocalDate.of(2019, Month.NOVEMBER, 12));
+
+		// When
+		when(menuRepository.findAll()).thenReturn(menus);
 
 		// Then
 		assertThat(menuServiceImpl.checkSpecifications(menuDTO)).isTrue();

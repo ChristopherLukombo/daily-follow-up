@@ -79,7 +79,6 @@ public class AccountResourceTest {
 		return UserDTO.builder()
 				.id(ID)
 				.pseudo(PSEUDO)
-				.email(EMAIL)
 				.password(PASSWORD)
 				.status(true)
 				.roleName(RoleName.ROLE_ADMIN.name())

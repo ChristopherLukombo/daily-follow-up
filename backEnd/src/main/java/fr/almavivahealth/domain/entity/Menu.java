@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -43,11 +45,13 @@ public class Menu implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	// TODO: mettre à la fin @Future
+	@NotNull
 	private LocalDate startDate;
 
+	@NotNull
 	private LocalDate endDate;
 
+	@NotBlank
 	private String texture;
 
 	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
@@ -55,9 +59,7 @@ public class Menu implements Serializable {
 
 	private String diet;
 
-	@ManyToMany(
-			cascade = { CascadeType.PERSIST}
-			)
+	@ManyToMany(cascade = { CascadeType.PERSIST })
 	private List<Week> weeks;
 
 	@LastModifiedBy

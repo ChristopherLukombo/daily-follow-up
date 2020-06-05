@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -23,10 +26,13 @@ public class MenuDTO implements Serializable {
 
 	private Long id;
 
+	@NotNull
 	private LocalDate startDate;
 
+	@NotNull
 	private LocalDate endDate;
 
+	@NotBlank
 	private String texture;
 
 	private ReplacementDTO replacement;
