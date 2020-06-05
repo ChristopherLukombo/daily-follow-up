@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   appRootUrl: "http://localhost:8081",
-  version: 14.5,
+  version: 14.7,
   
 };
 

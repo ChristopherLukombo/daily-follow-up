@@ -20,7 +20,9 @@ pipeline{
             steps {
                 script {
                     dir(projectName){
-                        sh("mvn clean package -Pprod -e -X")
+                        if (env.REPEAT != 'true'){
+                            sh("mvn clean package -Pprod -e -X")
+                        }
                     }
                 }
             }
