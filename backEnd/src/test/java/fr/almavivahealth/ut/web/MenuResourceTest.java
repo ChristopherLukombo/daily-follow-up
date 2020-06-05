@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -62,7 +63,10 @@ public class MenuResourceTest {
 	private static MenuDTO createMenuDTO() {
 		return MenuDTO.builder()
 				.id(ID)
-				.startDate(LocalDate.now())
+				.startDate(LocalDate.of(2020, Month.APRIL, 6))
+				.endDate(LocalDate.of(2020, Month.APRIL, 12))
+				.texture("dsd")
+				.diet("Mixe")
 				.build();
 	}
 

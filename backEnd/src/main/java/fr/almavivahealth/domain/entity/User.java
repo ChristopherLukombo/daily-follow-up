@@ -11,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -65,10 +64,6 @@ public class User implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
-    @Email
-    @Size(min = 5, max = 100)
-    @Column(length = 100, unique = true)
-    private String email;
 
     @Column(name = "createDate")
     private LocalDate createDate;
@@ -81,9 +76,6 @@ public class User implements Serializable {
     @Size(max = 256)
     @Column(name = "image_url", length = 256)
     private String imageUrl;
-
-    @Column
-    private LocalDate birthDay;
 
     @ManyToOne
     @JoinColumn(name = "role_id")

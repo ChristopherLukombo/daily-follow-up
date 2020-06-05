@@ -92,9 +92,7 @@ public class UserServiceImpl implements UserService {
 			newUser.setPassword(encryptedPassword);
 			newUser.setFirstName(userDTO.getFirstName());
 			newUser.setLastName(userDTO.getLastName());
-			newUser.setEmail(userDTO.getEmail());
 			newUser.setImageUrl(userDTO.getImageUrl());
-			newUser.setBirthDay(userDTO.getBirthDay());
 			newUser.setCreateDate(userDTO.getCreateDate());
 			newUser.setHasChangedPassword(false);
 			final Role role = findRole(userDTO.getRoleName());
