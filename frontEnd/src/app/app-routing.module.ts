@@ -15,9 +15,12 @@ import { UsersComponent } from "./components/user-components/users/users.compone
 import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
 import { MealsComponent } from "./components/food-components/meals/meals.component";
 import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
+import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
+import { ResetUserPasswordComponent } from "./components/user-components/reset-user-password/reset-user-password.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
+  { path: "reset/password", component: ResetUserPasswordComponent },
   {
     path: "patient/all",
     component: PatientsComponent,
@@ -71,6 +74,11 @@ const routes: Routes = [
   {
     path: "food/menu/add",
     component: MenuAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "clinic/floor/all",
+    component: FloorsComponent,
     canActivate: [AuthGuard],
   },
   {
