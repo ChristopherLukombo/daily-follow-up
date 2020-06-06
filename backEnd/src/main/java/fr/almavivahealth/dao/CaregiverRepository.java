@@ -12,6 +12,11 @@ import fr.almavivahealth.domain.entity.Caregiver;
 @Repository
 public interface CaregiverRepository extends JpaRepository<Caregiver, Long> {
 
+	@Query("SELECT c "
+			+ "FROM Caregiver c "
+			+ "INNER JOIN c.user u "
+			+ "WHERE u.status = true "
+			+ "ORDER BY c.id DESC")
 	List<Caregiver> findAllByOrderByIdDesc();
 
 	@Query("SELECT c "

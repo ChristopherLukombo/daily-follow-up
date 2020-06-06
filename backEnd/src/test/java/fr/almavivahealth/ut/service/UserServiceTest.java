@@ -16,6 +16,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -370,6 +371,19 @@ public class UserServiceTest {
 
 		// Then
 		assertThat(userServiceImpl.findAllActiveUsers()).isEmpty();
+	}
+
+	@Test
+	public void shouldforceUsersToResetPasswordAfterBeingInactive() {
+		// Given
+		final List<User> users = Arrays.asList(createUser());
+
+		// When
+		when(userRepository.findAllByStatusIsTrueAndLastLoginDateBefore(any(LocalDateTime.class))).thenReturn(users);
+
+		// Then
+		userServiceImpl.forceUsersToResetPasswordAfterBeingInactive();
+		verify(userRepository, times(1)).findAllByStatusIsTrueAndLastLoginDateBefore(any(LocalDateTime.class));
 	}
 
 	private void createFoldersAndFile() throws IOException {

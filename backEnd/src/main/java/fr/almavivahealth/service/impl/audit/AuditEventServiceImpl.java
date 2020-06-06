@@ -8,9 +8,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.almavivahealth.dao.MenuHistoryRepository;
 import fr.almavivahealth.dao.PatientHistoryRepository;
 import fr.almavivahealth.service.AuditEventService;
+import fr.almavivahealth.service.dto.MenuHistoryDTO;
 import fr.almavivahealth.service.dto.PatientHistoryDTO;
+import fr.almavivahealth.service.mapper.MenuHistoryMapper;
 import fr.almavivahealth.service.mapper.PatientHistoryMapper;
 
 /**
@@ -26,13 +29,22 @@ public class AuditEventServiceImpl implements AuditEventService {
 
 	private final PatientHistoryMapper  patientHistoryMapper;
 
-	@Autowired
+	private final MenuHistoryRepository menuHistoryRepository;
+
+	private final MenuHistoryMapper menuHistoryMapper;
+
+    @Autowired
 	public AuditEventServiceImpl(
 			final PatientHistoryRepository patientHistoryRepository,
-			final PatientHistoryMapper patientHistoryMapper) {
+			final PatientHistoryMapper patientHistoryMapper,
+			final MenuHistoryRepository menuHistoryRepository,
+			final MenuHistoryMapper menuHistoryMapper) {
 		this.patientHistoryRepository = patientHistoryRepository;
 		this.patientHistoryMapper = patientHistoryMapper;
+		this.menuHistoryRepository = menuHistoryRepository;
+		this.menuHistoryMapper = menuHistoryMapper;
 	}
+
 
 	/**
 	 * Get all patient_historys.
@@ -50,4 +62,20 @@ public class AuditEventServiceImpl implements AuditEventService {
 				.map(patientHistoryMapper::patientHistoryToPatientHistoryDTO);
 	}
 
+
+	/**
+	 * Get all menu historys by menu id.
+	 *
+	 * @param menuId the menu id
+	 * @param page   the page
+	 * @param size   the size
+	 * @return the page
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Page<MenuHistoryDTO> findAllMenuHistorysByMenuId(final Long menuId, final Integer page, final Integer size) {
+		LOGGER.debug("Request to get all MenuHistorys");
+		return menuHistoryRepository.findAllByMenuIdOrderByModifiedDateDesc(menuId, PageRequest.of(page, size))
+				.map(menuHistoryMapper::menuHistoryToMenuHistoryDTO);
+	}
 }

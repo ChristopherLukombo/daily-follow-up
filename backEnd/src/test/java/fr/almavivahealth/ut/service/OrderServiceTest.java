@@ -44,7 +44,6 @@ public class OrderServiceTest {
 	private static Order createOrder() {
 		return Order.builder()
 				.id(ID)
-				.contents(null)
 				.momentDays(null)
 				.patient(null)
 				.build();
@@ -188,6 +187,4 @@ public class OrderServiceTest {
 
 		verify(orderRepository, times(1)).deleteById(anyLong());
 	}
-
-
 }

@@ -91,4 +91,11 @@ public interface UserService {
 	 * @return the list of entities.
 	 */
 	List<UserDTO> findAllActiveUsers();
+
+	/**
+     * Users must reset their password after being inactive after a period of time after 31 days.
+     *
+     * This is scheduled to get fired everyday, at 01:00 (am).
+     */
+	void forceUsersToResetPasswordAfterBeingInactive();
 }
