@@ -1,5 +1,3 @@
-import { Role } from "./role";
-
 export class User {
   /***/
   id: number;
@@ -12,15 +10,13 @@ export class User {
   /***/
   lastName: string;
   /***/
-  email: string;
-  /***/
-  createDate: Date;
+  createDate: string;
   /***/
   status: boolean;
   /***/
   imageUrl: string;
   /***/
-  birthDay: Date;
+  roleName: string;
   /***/
-  role: Role;
+  hasChangedPassword: boolean;
 }
