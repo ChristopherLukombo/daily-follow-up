@@ -328,10 +328,10 @@ public class UserServiceTest {
 		user.setHasChangedPassword(true);
 
 		// When
-		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+		when(userRepository.findOneByPseudoIgnoreCase(anyString())).thenReturn(Optional.ofNullable(user));
 
 		// Then
-		assertThat(userServiceImpl.hasChangedPassword(1L)).isTrue();
+		assertThat(userServiceImpl.hasChangedPassword("hhdzs")).isTrue();
 	}
 
 	@Test
@@ -341,10 +341,10 @@ public class UserServiceTest {
 		user.setHasChangedPassword(false);
 
 		// When
-		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+		when(userRepository.findOneByPseudoIgnoreCase(anyString())).thenReturn(Optional.ofNullable(user));
 
 		// Then
-		assertThat(userServiceImpl.hasChangedPassword(1L)).isFalse();
+		assertThat(userServiceImpl.hasChangedPassword("hhdzs")).isFalse();
 	}
 
 	private void createFoldersAndFile() throws IOException {

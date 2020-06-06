@@ -264,12 +264,12 @@ public class UserServiceImpl implements UserService {
 	/**
 	 * Checks for changed password.
 	 *
-	 * @param userId the user id
+	 * @param pseudo the pseudo
 	 * @return true, if successful
 	 */
 	@Override
-	public boolean hasChangedPassword(final Long userId) {
-		return userRepository.findById(userId)
+	public boolean hasChangedPassword(final String pseudo) {
+		return userRepository.findOneByPseudoIgnoreCase(pseudo)
 				.map(User::getHasChangedPassword)
 				.orElse(false);
 	}
