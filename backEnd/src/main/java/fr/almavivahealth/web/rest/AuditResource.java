@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.almavivahealth.service.AuditEventService;
+import fr.almavivahealth.service.dto.MenuHistoryDTO;
 import fr.almavivahealth.service.dto.PatientHistoryDTO;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -35,7 +36,7 @@ public class AuditResource {
 	}
 
 	 /**
-     * GET /audits : get all patient_historys.
+     * GET /patient/history/{patientId} : get all patient_historys.
      *
      * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the page of Page<PatientHistoryDTO> in body
@@ -60,6 +61,34 @@ public class AuditResource {
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.ok().body(patientHistorys);
+	}
+
+	 /**
+     * GET /menu/history/{menuId} : get all menu_history.
+     *
+     * @param pageable the pagination information
+     * @return the ResponseEntity with status 200 (OK) and the page of Page<MenuHistoryDTO> in body
+     */
+	@ApiOperation("Get all menu_historys.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @GetMapping(value = "/menu/history/{menuId}", params = {"page", "size"})
+	public ResponseEntity<Page<MenuHistoryDTO>> getAllMenuHistorysByMenuId(
+			@PathVariable(required = true) final Long menuId,
+			@RequestParam(required = true) final Integer page,
+			@RequestParam(required = true) final Integer size) {
+		LOGGER.debug("REST request to get All MenuHistorys");
+		final Page<MenuHistoryDTO> menuHistorys = auditEventService.findAllMenuHistorysByMenuId(menuId, page, size);
+		if (menuHistorys.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(menuHistorys);
 	}
 
 }

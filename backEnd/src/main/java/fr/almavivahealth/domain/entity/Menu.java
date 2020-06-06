@@ -20,6 +20,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import fr.almavivahealth.domain.listener.MenuEntityListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,7 +37,7 @@ import lombok.ToString;
 @Data
 @Builder
 @ToString
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({ AuditingEntityListener.class, MenuEntityListener.class })
 public class Menu implements Serializable {
 
 	private static final long serialVersionUID = 1L;
