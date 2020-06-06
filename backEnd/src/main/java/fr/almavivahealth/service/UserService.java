@@ -79,8 +79,8 @@ public interface UserService {
 	/**
 	 * Checks for changed password.
 	 *
-	 * @param userId the user id
+	 * @param pseudo the pseudo
 	 * @return true, if successful
 	 */
-	boolean hasChangedPassword(Long userId);
+	boolean hasChangedPassword(String pseudo);
 }

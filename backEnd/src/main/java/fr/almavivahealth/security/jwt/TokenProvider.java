@@ -2,8 +2,10 @@ package fr.almavivahealth.security.jwt;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import fr.almavivahealth.config.TokenPropeties;
+import fr.almavivahealth.dao.UserRepository;
 import fr.almavivahealth.domain.enums.RoleName;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -31,33 +34,44 @@ import io.jsonwebtoken.UnsupportedJwtException;
 @Component
 public class TokenProvider {
 
+	private static final String USER_ID = "user_id";
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(TokenProvider.class);
-	
+
 	private static final String USER = "USER";
 
     private static final String AUTHORITIES_KEY = "auth";
 
 	private final TokenPropeties tokenPropeties;
 
-	@Autowired
-	public TokenProvider(final TokenPropeties tokenPropeties) {
+	private final UserRepository userRepository;
+
+    @Autowired
+	public TokenProvider(final TokenPropeties tokenPropeties, final UserRepository userRepository) {
 		this.tokenPropeties = tokenPropeties;
+		this.userRepository = userRepository;
 	}
 
-	public String createToken(final Authentication authentication) {
-        final String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+    public String createToken(final Authentication authentication) {
+    	final String authorities = authentication.getAuthorities().stream()
+    			.map(GrantedAuthority::getAuthority)
+    			.collect(Collectors.joining(","));
 
-        final long now = (new Date()).getTime();
-        final Date validity = new Date(now + this.tokenPropeties.getTokenValidityInMilliseconds());
+    	final long now = (new Date()).getTime();
+    	final Date validity = new Date(now + this.tokenPropeties.getTokenValidityInMilliseconds());
 
-        return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(SignatureAlgorithm.HS512, this.tokenPropeties.getSecretKey())
-                .setExpiration(validity)
-                .compact();
+    	final Long userId = userRepository.findOneByPseudoIgnoreCase(authentication.getName()).map(fr.almavivahealth.domain.entity.User::getId).orElse(null);
+
+    	final Map<String, Object> claims = new HashedMap<>();
+    	claims.put(USER_ID, userId);
+
+    	return Jwts.builder()
+    			.setSubject(authentication.getName())
+    			.claim(AUTHORITIES_KEY, authorities)
+    			.addClaims(claims)
+    			.signWith(SignatureAlgorithm.HS512, this.tokenPropeties.getSecretKey())
+    			.setExpiration(validity)
+    			.compact();
     }
 
     public String createToken() {

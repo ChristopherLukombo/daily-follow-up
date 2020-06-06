@@ -348,21 +348,4 @@ public class AccountResourceTest {
   		verify(userService, times(1)).updatePassword((UserPassDTO) any(), (Locale) any());
   	}
 
-    @Test
-   	public void shouldReturnTrueWhenhasUpdatePassword() throws IOException, Exception {
-   		// Given
-       	final User user = createUser();
-
-   		// When
-   		when(userService.hasChangedPassword(anyLong())).thenReturn(true);
-
-   		// Then
-   		mockMvc.perform(get("/api/users/pass/1")
-   				.contentType(TestUtil.APPLICATION_JSON_UTF8)
-   				.content(TestUtil.convertObjectToJsonBytes(user)))
-   		        .andExpect(status().isOk())
-   		     .andExpect(jsonPath("$").isBoolean());
-
-   		verify(userService, times(1)).hasChangedPassword(anyLong());
-   	}
 }

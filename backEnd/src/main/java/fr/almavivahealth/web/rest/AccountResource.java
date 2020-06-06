@@ -263,25 +263,4 @@ public class AccountResource {
 		}
 		return ResponseEntity.ok().body(HttpStatus.OK);
 	}
-
-	 /**
-	 * GET /users/pass/userId : Returns true if user has updated its password.
-	 *
-	 * @param userId the user id
-	 * @return Boolean
-	 */
-	@ApiOperation("Returns true if user has updated its password.")
-	@ApiResponses({
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 500, message = "Internal Server")
-        })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
-	@GetMapping("/users/pass/{userId}")
-	public ResponseEntity<Boolean> hasUpdatePassword(@PathVariable final Long userId) {
-		final boolean hasChangedPassword = userService.hasChangedPassword(userId);
-		return ResponseEntity.ok().body(hasChangedPassword);
-	}
 }
