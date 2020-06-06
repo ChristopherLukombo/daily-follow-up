@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -345,6 +346,30 @@ public class UserServiceTest {
 
 		// Then
 		assertThat(userServiceImpl.hasChangedPassword("hhdzs")).isFalse();
+	}
+
+	@Test
+	public void shouldFindAllActiveUsers() {
+		// Given
+		final List<User> users = Arrays.asList(createUser());
+
+		// When
+		when(userRepository.findAllByStatusTrueOrderByIdDesc()).thenReturn(users);
+
+		// Then
+		assertThat(userServiceImpl.findAllActiveUsers()).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnsEmptyListWhenTryingToFindAllActiveUsers() {
+		// Given
+		final List<User> users = Collections.emptyList();
+
+		// When
+		when(userRepository.findAllByStatusTrueOrderByIdDesc()).thenReturn(users);
+
+		// Then
+		assertThat(userServiceImpl.findAllActiveUsers()).isEmpty();
 	}
 
 	private void createFoldersAndFile() throws IOException {

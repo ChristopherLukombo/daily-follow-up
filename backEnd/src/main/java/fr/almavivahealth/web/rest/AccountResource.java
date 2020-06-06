@@ -8,6 +8,7 @@ import static fr.almavivahealth.constants.ErrorMessage.THE_USER_DOES_NOT_EXIST;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -262,5 +263,31 @@ public class AccountResource {
 					messageSource.getMessage(THE_USER_DOES_NOT_EXIST, null, locale));
 		}
 		return ResponseEntity.ok().body(HttpStatus.OK);
+	}
+
+	/**
+	 * GET /users : Get all active users.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of users in body
+	 * or with status 204 (No Content) if there is no user.
+	 *
+	 */
+	@ApiOperation("Get all active users.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/users")
+	public ResponseEntity<List<UserDTO>> getAllActivePatients() {
+		LOGGER.debug("REST request to get all Users");
+		final List<UserDTO> users = userService.findAllActiveUsers();
+		if (users.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(users);
 	}
 }

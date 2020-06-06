@@ -16,6 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -348,4 +351,33 @@ public class AccountResourceTest {
   		verify(userService, times(1)).updatePassword((UserPassDTO) any(), (Locale) any());
   	}
 
+    @Test
+	public void shouldGetAllActiveUsers() throws IOException, Exception {
+		// Given
+		final List<UserDTO> userDTOs = Arrays.asList(createUserDTO());
+
+		// When
+		when(userService.findAllActiveUsers()).thenReturn(userDTOs);
+
+		// Then
+		mockMvc.perform(get("/api/users")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(userService, times(1)).findAllActiveUsers();
+	}
+
+    @Test
+	public void shouldReturn204WhenTryingToGetAllActiveUsers() throws IOException, Exception {
+		// Given
+		final List<UserDTO> userDTOs = Collections.emptyList();
+
+		// When
+		when(userService.findAllActiveUsers()).thenReturn(userDTOs);
+
+		// Then
+		mockMvc.perform(get("/api/users")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(userService, times(1)).findAllActiveUsers();
+	}
 }
