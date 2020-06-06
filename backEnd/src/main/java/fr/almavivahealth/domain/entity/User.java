@@ -2,6 +2,7 @@ package fr.almavivahealth.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -65,7 +66,6 @@ public class User implements Serializable {
     @Column(name = "last_name", length = 50)
     private String lastName;
 
-
     @Column(name = "createDate")
     private LocalDate createDate;
 
@@ -83,4 +83,7 @@ public class User implements Serializable {
     private Role role;
 
     private Boolean hasChangedPassword;
+
+    @Column(name = "last_login_date")
+    private LocalDateTime lastLoginDate;
 }

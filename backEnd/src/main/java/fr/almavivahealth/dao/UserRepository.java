@@ -1,5 +1,6 @@
 package fr.almavivahealth.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	void setImageUrl(@Param("imageUrl") String imageUrl, @Param("userId") Long userId);
 
 	List<User> findAllByStatusTrueOrderByIdDesc();
+
+    List<User> findAllByStatusIsTrueAndLastLoginDateBefore(LocalDateTime localDateTime);
 }

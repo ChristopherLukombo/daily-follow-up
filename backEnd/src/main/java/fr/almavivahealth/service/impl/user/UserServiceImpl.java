@@ -3,6 +3,7 @@ package fr.almavivahealth.service.impl.user;
 import static fr.almavivahealth.constants.Constants.SLASH;
 import static fr.almavivahealth.constants.ErrorMessage.NEW_PASSWORD_MUST_NOT_MATCH_OLD_PASSWORD;
 import static fr.almavivahealth.util.functional.FunctionWithException.wrapper;
+import static java.time.temporal.ChronoUnit.DAYS;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -22,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -288,5 +291,21 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAllByStatusTrueOrderByIdDesc().stream()
 				.map(userMapper::userToUserDTO)
 				.collect(Collectors.toList());
+	}
+
+	/**
+     * Users must reset their password after being inactive after a period of time after 31 days.
+     *
+     * This is scheduled to get fired everyday, at 01:00 (am).
+     */
+	@Override
+    @Scheduled(cron = "0 0 1 * * ?")
+	public void forceUsersToResetPasswordAfterBeingInactive() {
+		final List<User> users = userRepository.findAllByStatusIsTrueAndLastLoginDateBefore(LocalDateTime.now().minus(31, DAYS));
+		for (final User user : users) {
+			LOGGER.debug("User not actif: {}", user.getPseudo());
+			user.setHasChangedPassword(false);
+			userRepository.saveAndFlush(user);
+		}
 	}
 }
