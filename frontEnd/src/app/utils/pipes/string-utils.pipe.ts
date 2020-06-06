@@ -35,3 +35,18 @@ export class truncateStringPipe implements PipeTransform {
     return value.length > limit ? value.substr(0, limit) + "..." : value;
   }
 }
+
+@Pipe({
+  name: "floorName",
+})
+export class getFloorNamePipe implements PipeTransform {
+  transform(number: number): string {
+    if (number === undefined || number === null || number < 0) return;
+    if (number === 0) return "RDC";
+    if (number === 1) {
+      return "1er étage";
+    } else {
+      return number + "ème étage";
+    }
+  }
+}
