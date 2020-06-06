@@ -73,12 +73,17 @@ import {
   getInitialsPipe,
   getActionPatientPipe,
   truncateStringPipe,
+  getFloorNamePipe,
 } from "./utils/pipes/string-utils.pipe";
-import { MealsComponent } from './components/food-components/meals/meals.component';
-import { ListMealsComponent } from './components/food-components/meals/list-meals/list-meals.component';
-import { ReplacementsCardComponent } from './components/food-components/menu-weeks/replacements-card/replacements-card.component';
-import { MenuCurrentsComponent } from './components/food-components/menu-currents/menu-currents.component';
-import { CurrentWeeksComponent } from './components/food-components/menu-currents/current-weeks/current-weeks.component';
+import { MealsComponent } from "./components/food-components/meals/meals.component";
+import { ListMealsComponent } from "./components/food-components/meals/list-meals/list-meals.component";
+import { ReplacementsCardComponent } from "./components/food-components/menu-weeks/replacements-card/replacements-card.component";
+import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
+import { CurrentWeeksComponent } from "./components/food-components/menu-currents/current-weeks/current-weeks.component";
+import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
+import { ClinicNavbarComponent } from "./components/navbar-vertical/clinic-navbar/clinic-navbar.component";
+import { DetailFloorComponent } from './components/clinic-components/floors/detail-floor/detail-floor.component';
+import { ResetUserPasswordComponent } from './components/user-components/reset-user-password/reset-user-password.component';
 
 @NgModule({
   declarations: [
@@ -107,6 +112,7 @@ import { CurrentWeeksComponent } from './components/food-components/menu-current
     PatientNavbarComponent,
     getInitialsPipe,
     truncateStringPipe,
+    getFloorNamePipe,
     OrderPipe,
     getActionPatientPipe,
     PatientsImportComponent,
@@ -139,6 +145,10 @@ import { CurrentWeeksComponent } from './components/food-components/menu-current
     ReplacementsCardComponent,
     MenuCurrentsComponent,
     CurrentWeeksComponent,
+    FloorsComponent,
+    ClinicNavbarComponent,
+    DetailFloorComponent,
+    ResetUserPasswordComponent,
   ],
   imports: [
     BrowserModule,

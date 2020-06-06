@@ -50,9 +50,7 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     this.submitted = true;
     this.cleanErrorMessages();
-    if (this.loginForm.invalid) {
-      return;
-    }
+    if (this.loginForm.invalid) return;
     this.loading = true;
     let loginDTO: LoginDTO = new LoginDTO(
       this.f.username.value,
@@ -60,7 +58,7 @@ export class LoginComponent implements OnInit {
     );
     this.loginService.login(loginDTO).subscribe(
       (data) => {
-        this.loginService.setToken(data.id_token);
+        this.loginService.setJwtToken(data);
         this.router.navigate(["/patient/all"]);
       },
       (error) => {
