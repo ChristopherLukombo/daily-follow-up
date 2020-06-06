@@ -1,5 +1,6 @@
 package fr.almavivahealth.service;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -83,4 +84,11 @@ public interface UserService {
 	 * @return true, if successful
 	 */
 	boolean hasChangedPassword(String pseudo);
+
+	/**
+	 * Find all active users.
+	 *
+	 * @return the list of entities.
+	 */
+	List<UserDTO> findAllActiveUsers();
 }

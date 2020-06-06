@@ -11,8 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -272,5 +274,19 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findOneByPseudoIgnoreCase(pseudo)
 				.map(User::getHasChangedPassword)
 				.orElse(false);
+	}
+
+	/**
+	 * Find all active users.
+	 *
+	 * @return the list of entities.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> findAllActiveUsers() {
+		LOGGER.debug("Request to get all Users");
+		return userRepository.findAllByStatusTrueOrderByIdDesc().stream()
+				.map(userMapper::userToUserDTO)
+				.collect(Collectors.toList());
 	}
 }
