@@ -352,7 +352,7 @@ public class MenuServiceImpl implements MenuService {
 	public boolean checkSpecifications(final MenuDTO menuDTO) {
 		return menuRepository.findAll().stream()
 				.filter(menu -> isOverlapped(menuDTO, menu))
-				.anyMatch(menu -> isTheSameCharacteristics(menuDTO, menu));
+				.anyMatch(menu ->  isTheSameCharacteristics(menuDTO, menu));
 	}
 
 	private boolean isOverlapped(final MenuDTO menuDTO, final Menu menu) {
@@ -374,6 +374,10 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	private boolean isTheSameCharacteristics(final MenuDTO menuDTO, final Menu menu) {
+		if (menuDTO.getId() != null && menuDTO.getId().equals(menu.getId())) {
+			return false;
+		}
+
 		return findString(menu.getDiet()).equalsIgnoreCase(menuDTO.getDiet())
 				&& findString(menu.getTexture()).equalsIgnoreCase(menuDTO.getTexture());
 	}

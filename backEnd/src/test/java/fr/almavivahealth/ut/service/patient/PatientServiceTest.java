@@ -3,6 +3,7 @@ package fr.almavivahealth.ut.service.patient;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyIterable;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anySet;
@@ -41,6 +42,8 @@ import fr.almavivahealth.service.mapper.PatientMapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PatientServiceTest {
+
+	private static final int NUMBER = 1;
 
 	private static final String EMAIL = "ben.zotito@gmail.com";
 
@@ -398,4 +401,40 @@ public class PatientServiceTest {
 		verify(patientRepository, times(0)).saveAndFlush((Patient) any());
 	}
 
+	@Test
+	public void shouldFindAllByFloorNumber() {
+		// Given
+		final List<Patient> patients = Arrays.asList(getPatient());
+
+		// Then
+		when(patientRepository.findAllByFloorNumber(anyInt())).thenReturn(patients);
+
+		// Then
+		assertThat(patientServiceImpl.findAllByFloorNumber(NUMBER)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnsEmptyListWhenTryingToFindAllByFloorNumber() {
+		// Given
+		final List<Patient> patients = Collections.emptyList();
+
+		// Then
+		when(patientRepository.findAllByFloorNumber(anyInt())).thenReturn(patients);
+
+		// Then
+		assertThat(patientServiceImpl.findAllByFloorNumber(NUMBER)).isEmpty();
+	}
+
+	@Test
+	public void shouldThrowWhenTryingToFindAllByFloorNumber() {
+		// Given
+		final List<Patient> patients = null;
+
+		// Then
+		when(patientRepository.findAllByFloorNumber(anyInt())).thenReturn(patients);
+
+		// Then
+		assertThatThrownBy(() -> patientServiceImpl.findAllByFloorNumber(NUMBER))
+		.isInstanceOf(NullPointerException.class);
+	}
 }

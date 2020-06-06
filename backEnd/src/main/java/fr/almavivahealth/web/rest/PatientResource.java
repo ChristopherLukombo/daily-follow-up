@@ -285,4 +285,29 @@ public class PatientResource {
 		return ResponseEntity.ok().build();
 	}
 
+	/**
+	 * GET /patients/floor/{number} : Get all by floor number.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
+	 * or with status 204 (No Content) if there is no patient.
+	 *
+	 */
+	@ApiOperation("Get all by floor number.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/patients/floor/{number}")
+	public ResponseEntity<List<PatientDTO>> getAllByFloorNumber(@PathVariable final Integer number) {
+		LOGGER.debug("REST request to get all Patients for floor: {}", number);
+		final List<PatientDTO> patients = patientService.findAllByFloorNumber(number);
+		if (patients.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(patients);
+	}
 }

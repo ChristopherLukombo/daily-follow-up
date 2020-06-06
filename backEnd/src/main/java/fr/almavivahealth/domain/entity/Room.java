@@ -38,18 +38,18 @@ public class Room implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String number;
-	
+
     @NotNull
     @Column(nullable = false)
 	private boolean state;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "room")
 	private List<Patient> patients;
-	
+
 	@Min(0)
 	@Max(2)
 	private Integer maxCapacity;
-	
+
 }

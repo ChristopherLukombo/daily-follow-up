@@ -1,6 +1,7 @@
 package fr.almavivahealth.ut.web;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -29,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import fr.almavivahealth.service.CaregiverService;
 import fr.almavivahealth.service.dto.CaregiverDTO;
+import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.CaregiverResource;
 
@@ -54,7 +56,7 @@ public class CaregiverResourceTest {
 	private static CaregiverDTO createCaregiverDTO() {
 		return CaregiverDTO.builder()
 				.id(ID)
-				.user(null)
+				.user(new UserDTO())
 				.floorId(null)
 				.build();
 	}
@@ -73,7 +75,7 @@ public class CaregiverResourceTest {
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(caregiverDTO)))
 		.andExpect(status().isCreated());
-		verify(caregiverService, times(1)).save(caregiverDTO);
+		verify(caregiverService, times(1)).save(any(CaregiverDTO.class));
 	}
 
 	@Test
@@ -102,7 +104,7 @@ public class CaregiverResourceTest {
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
 				.content(TestUtil.convertObjectToJsonBytes(caregiverDTO)))
 		.andExpect(status().isOk());
-		verify(caregiverService, times(1)).update(caregiverDTO);
+		verify(caregiverService, times(1)).update(any(CaregiverDTO.class));
 	}
 
 	@Test
@@ -194,5 +196,35 @@ public class CaregiverResourceTest {
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		.andExpect(status().isNoContent());
 		verify(caregiverService, times(1)).delete(id);
+	}
+
+	@Test
+	public void shouldGetAllByFloorNumber() throws Exception {
+		// Given
+		final List<CaregiverDTO> caregiversDTO = Arrays.asList(createCaregiverDTO());
+
+		// When
+		when(caregiverService.findAllByFloorNumber(anyInt())).thenReturn(caregiversDTO);
+
+		// Then
+		mockMvc.perform(get("/api/caregivers/floor/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(caregiverService, times(1)).findAllByFloorNumber(anyInt());
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetAllByFloorNumber() throws Exception {
+		// Given
+		final List<CaregiverDTO> caregiversDTO = Collections.emptyList();
+
+		// When
+		when(caregiverService.findAllByFloorNumber(anyInt())).thenReturn(caregiversDTO);
+
+		// Then
+		mockMvc.perform(get("/api/caregivers/floor/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(caregiverService, times(1)).findAllByFloorNumber(anyInt());
 	}
 }

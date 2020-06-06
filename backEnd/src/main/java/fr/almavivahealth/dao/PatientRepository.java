@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Patient;
@@ -51,4 +52,10 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 			nativeQuery = true)
 	List<PatientsByStatus> findNumberOfPatientsByStatus();
 
+	@Query("SELECT p "
+			+ "FROM Floor f, Patient p "
+			+ "JOIN TREAT(f.rooms AS Room) r "
+			+ "WHERE f.number = :number "
+			+ "AND r.id = p.room.id")
+	List<Patient> findAllByFloorNumber(@Param("number") Integer number);
 }
