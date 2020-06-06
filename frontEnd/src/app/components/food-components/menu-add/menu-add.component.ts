@@ -9,6 +9,7 @@ import { Action } from "src/app/models/utils/actions-enum";
 import { MenuDTO } from "src/app/models/dto/food/menuDTO";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { ToastrService } from "ngx-toastr";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-menu-add",
@@ -193,11 +194,10 @@ export class MenuAddComponent implements OnInit {
           "Le menu a bien été crée",
           "Création terminée !"
         );
+        this.creating = false;
       },
       (error) => {
-        this.toastrService.error(this.getError(error), "Oops !");
-      },
-      () => {
+        this.toastrService.error(this.getCustomError(error), "Oops !");
         this.creating = false;
       }
     );
@@ -208,9 +208,11 @@ export class MenuAddComponent implements OnInit {
    * @param error
    * @returns le msg d'erreur
    */
-  getError(error: number): string {
-    if (error && error === 401) {
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
       return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else if (error && error.status === 500) {
+      return error.error.message;
     } else {
       return "Une erreur s'est produite. Veuillez réessayer plus tard.";
     }

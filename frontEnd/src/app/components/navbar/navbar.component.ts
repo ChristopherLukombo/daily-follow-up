@@ -33,7 +33,9 @@ export class NavbarComponent implements OnInit {
    */
   connected(): Boolean {
     return (
-      this.loginService.isAuthenticated() && !this.loginService.isTokenExpired()
+      this.loginService.isAuthenticated() &&
+      !this.loginService.isTokenExpired() &&
+      this.loginService.hasChangedPassword()
     );
   }
 }

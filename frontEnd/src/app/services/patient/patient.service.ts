@@ -36,6 +36,17 @@ export class PatientService {
   }
 
   /**
+   * Retourne la liste de patient d'un étage
+   * @param number le numéro de la chambre
+   * @returns une liste de patient
+   */
+  getPatientsByFloor(number: number): Observable<Patient[]> {
+    return this.http
+      .get<Patient[]>(PATIENTS_URL + `/floor/${number}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Retourne tout les anciens patients de la clinique
    * @returns une liste d'anciens patients
    */

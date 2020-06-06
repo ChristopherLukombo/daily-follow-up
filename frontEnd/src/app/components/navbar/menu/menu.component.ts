@@ -14,8 +14,6 @@ import { LoginService } from "src/app/services/login/login.service";
 export class MenuComponent implements OnInit {
   logoutLogo = faSignOutAlt;
   opened: boolean = false;
-  /***/
-  token: string = localStorage.getItem("token");
 
   constructor(
     private _eref: ElementRef,
@@ -47,7 +45,9 @@ export class MenuComponent implements OnInit {
    */
   connected(): Boolean {
     return (
-      this.loginService.isAuthenticated() && !this.loginService.isTokenExpired()
+      this.loginService.isAuthenticated() &&
+      !this.loginService.isTokenExpired() &&
+      this.loginService.hasChangedPassword()
     );
   }
 

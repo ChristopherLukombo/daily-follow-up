@@ -85,7 +85,7 @@ export class AlimentationService {
   createMenu(menuDTO: MenuDTO): Observable<Menu> {
     return this.http
       .post<Menu>(MENUS_URL, JSON.stringify(menuDTO), httpOptions)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleCustomError));
   }
 
   /**
@@ -101,5 +101,20 @@ export class AlimentationService {
       );
     }
     return throwError(error.status);
+  }
+
+  /**
+   * Gestion des erreurs du backend
+   * @param error
+   */
+  private handleCustomError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error("An error occurred:", error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, body was : ${error.error.message}`
+      );
+    }
+    return throwError(error);
   }
 }

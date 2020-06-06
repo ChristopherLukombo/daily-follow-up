@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-clinic-navbar></app-clinic-navbar>
+    </div>
+    <div class="col">
+      <h2>Chambres de la clinique</h2>
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="!loading && !error && selectedFloor">
+        <div class="row">
+          <div class="col">
+            <div class="btn-group">
+              <button
+                *ngFor="let floor of floors"
+                type="button"
+                class="btn btn-primary"
+                (click)="selectFloor(floor)"
+                [class.active]="floor == selectedFloor"
+              >
+                {{ floor?.number | floorName }}
+              </button>
+            </div>
+            <br /><br />
+            <app-detail-floor [floor]="selectedFloor"></app-detail-floor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

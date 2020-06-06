@@ -9,6 +9,7 @@ import { throwError, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { Caregiver } from "src/app/models/user/caregiver";
 import { User } from "src/app/models/user/user";
+import { CaregiverDTO } from "src/app/models/dto/user/caregiverDTO";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -37,11 +38,33 @@ export class UserService {
 
   /**
    * Retourne tout les aides-soignats de la clinique
-   * @returns une liste de d'aides-soignats
+   * @returns une liste de d'aides-soignants
    */
   getAllCaregivers(): Observable<Caregiver[]> {
     return this.http
       .get<Caregiver[]>(CAREGIVER_URL, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne les aides-soignants d'un étage donné
+   * @param number le numero de l'étage
+   * @returns une liste d'aides-soignants
+   */
+  getCaregiversByFloor(number: number): Observable<Caregiver[]> {
+    return this.http
+      .get<Caregiver[]>(CAREGIVER_URL + `/floor/${number}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Crée un nouvel aide-soignant
+   * @param caregiverDTO
+   * @returns l'aide-soignant créé
+   */
+  createCaregiver(caregiverDTO: CaregiverDTO): Observable<Caregiver> {
+    return this.http
+      .post<Caregiver>(CAREGIVER_URL, JSON.stringify(caregiverDTO), httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -57,6 +80,18 @@ export class UserService {
   }
 
   /**
+   * Met à jour le mot de passe de l'utilisateur
+   * @param userId
+   * @param password
+   */
+  updatePassword(userId: number, password: string): Observable<Object> {
+    let dto = { password: password, userId: userId };
+    return this.http
+      .patch<Object>(USER_URL + "/pass", JSON.stringify(dto), httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
    * Gestion des erreurs du backend
    * @param error
    */
@@ -69,5 +104,20 @@ export class UserService {
       );
     }
     return throwError(error.status);
+  }
+
+  /**
+   * Gestion des erreurs du backend
+   * @param error
+   */
+  private handleCustomError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error("An error occurred:", error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, body was : ${error.error.message}`
+      );
+    }
+    return throwError(error);
   }
 }

@@ -68,8 +68,21 @@
       <br />
       <div class="row">
         <div class="col text-right">
-          <button type="button" class="btn btn-primary" (click)="onCreate()">
+          <button
+            *ngIf="!creating"
+            type="button"
+            class="btn btn-primary"
+            (click)="onCreate()"
+          >
             Confirmer la création
+          </button>
+          <button
+            *ngIf="creating"
+            type="submit"
+            class="btn btn-primary"
+            disabled
+          >
+            <span class="spinner-border spinner-border-sm"></span>Création...
           </button>
         </div>
       </div>
