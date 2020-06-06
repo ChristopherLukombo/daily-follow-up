@@ -2,6 +2,7 @@ package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,6 +23,18 @@ public class OrderDTO implements Serializable {
 	private Long id;
 
 	private LocalDate date;
+
+	private List<ContentDTO> entries;
+
+	private List<ContentDTO> dishes;
+
+	private List<ContentDTO> desserts;
+
+	private List<ContentDTO> starchyFoods;
+
+	private List<ContentDTO> vegetables;
+
+	private List<ContentDTO> dairyProducts;
 
 	private Long patientId;
 
@@ -53,9 +66,57 @@ public class OrderDTO implements Serializable {
 		this.patientId = patientId;
 	}
 
+	public List<ContentDTO> getEntries() {
+		return entries;
+	}
+
+	public void setEntries(final List<ContentDTO> entries) {
+		this.entries = entries;
+	}
+
+	public List<ContentDTO> getDishes() {
+		return dishes;
+	}
+
+	public void setDishes(final List<ContentDTO> dishes) {
+		this.dishes = dishes;
+	}
+
+	public List<ContentDTO> getDesserts() {
+		return desserts;
+	}
+
+	public void setDesserts(final List<ContentDTO> desserts) {
+		this.desserts = desserts;
+	}
+
+	public List<ContentDTO> getStarchyFoods() {
+		return starchyFoods;
+	}
+
+	public void setStarchyFoods(final List<ContentDTO> starchyFoods) {
+		this.starchyFoods = starchyFoods;
+	}
+
+	public List<ContentDTO> getVegetables() {
+		return vegetables;
+	}
+
+	public void setVegetables(final List<ContentDTO> vegetables) {
+		this.vegetables = vegetables;
+	}
+
+	public List<ContentDTO> getDairyProducts() {
+		return dairyProducts;
+	}
+
+	public void setDairyProducts(final List<ContentDTO> dairyProducts) {
+		this.dairyProducts = dairyProducts;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(patientId, date, id);
+		return Objects.hash(dairyProducts, date, desserts, dishes, entries, id, patientId, starchyFoods, vegetables);
 	}
 
 	@Override
@@ -67,8 +128,11 @@ public class OrderDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final OrderDTO other = (OrderDTO) obj;
-		return Objects.equals(patientId, other.patientId) && Objects.equals(date, other.date)
-				&& Objects.equals(id, other.id);
+		return Objects.equals(dairyProducts, other.dairyProducts) && Objects.equals(date, other.date)
+				&& Objects.equals(desserts, other.desserts) && Objects.equals(dishes, other.dishes)
+				&& Objects.equals(entries, other.entries) && Objects.equals(id, other.id)
+				&& Objects.equals(patientId, other.patientId) && Objects.equals(starchyFoods, other.starchyFoods)
+				&& Objects.equals(vegetables, other.vegetables);
 	}
 
 	@Override
