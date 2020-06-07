@@ -17,10 +17,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* A caregiver.
-*/
+ *
+ * @author christopher A caregiver.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,6 +38,6 @@ public class Caregiver implements Serializable {
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE })
 	private User user;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REFRESH)
 	private Floor floor;
 }
