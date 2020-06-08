@@ -3,6 +3,7 @@ import {
   HttpHeaders,
   HttpClient,
   HttpErrorResponse,
+  HttpResponse,
 } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { throwError, Observable } from "rxjs";
@@ -10,6 +11,7 @@ import { catchError } from "rxjs/operators";
 import { Caregiver } from "src/app/models/user/caregiver";
 import { User } from "src/app/models/user/user";
 import { CaregiverDTO } from "src/app/models/dto/user/caregiverDTO";
+import { UserDTO } from "src/app/models/dto/user/userDTO";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -19,6 +21,7 @@ const httpOptions = {
 
 const CAREGIVER_URL = environment.appRootUrl + "/api/caregivers";
 const USER_URL = environment.appRootUrl + "/api/users";
+const REGISTER_URL = environment.appRootUrl + "/api/register";
 
 @Injectable({
   providedIn: "root",
@@ -37,12 +40,66 @@ export class UserService {
   }
 
   /**
+   * Retourne un utilisateur de l'application
+   * @param id de l'utilisateur
+   * @returns un utilisateur
+   */
+  getUser(id: number): Observable<User> {
+    return this.http
+      .get<User>(USER_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Crée un nouvel utilisateur
+   * @param userDTO
+   * @returns l'utilisateur créé
+   */
+  createUser(userDTO: UserDTO): Observable<User> {
+    return this.http
+      .post<User>(REGISTER_URL, JSON.stringify(userDTO), httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Met à jour un utilisateur
+   * @param userDTO
+   * @returns l'utilisateur mis à jour
+   */
+  updateUser(userDTO: UserDTO): Observable<User> {
+    return this.http
+      .put<User>(USER_URL + "/update", JSON.stringify(userDTO), httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Supprime un utilisateur
+   * @param id
+   */
+  deleteUser(id: number): Observable<HttpResponse<Object>> {
+    return this.http
+      .delete<HttpResponse<Object>>(USER_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Retourne tout les aides-soignats de la clinique
    * @returns une liste de d'aides-soignants
    */
   getAllCaregivers(): Observable<Caregiver[]> {
     return this.http
       .get<Caregiver[]>(CAREGIVER_URL, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne un aide-soignant de la clinique
+   * @param id de l'aide-soignant
+   * @returns un aide-soignant
+   */
+  getCaregiver(id: number): Observable<Caregiver> {
+    return this.http
+      .get<Caregiver>(CAREGIVER_URL + `/${id}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -69,13 +126,12 @@ export class UserService {
   }
 
   /**
-   * Retourne un utilisateur de l'application
-   * @param id de l'utilisateur
-   * @returns une liste de d'utilisateur
+   * Supprime un aide-soignant
+   * @param id
    */
-  getUser(id: number): Observable<User> {
+  deleteCaregiver(id: number): Observable<HttpResponse<Object>> {
     return this.http
-      .get<User>(USER_URL + `/${id}`, httpOptions)
+      .delete<HttpResponse<Object>>(CAREGIVER_URL + `/${id}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -89,6 +145,14 @@ export class UserService {
     return this.http
       .patch<Object>(USER_URL + "/pass", JSON.stringify(dto), httpOptions)
       .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Génere un mot de passe temporaire pour les comptes utilisateurs
+   * @returns le mot de passe temporaire
+   */
+  generateUserPassword(): string {
+    return "Motdepasse!" + Math.floor(Math.random() * 10) + 10;
   }
 
   /**

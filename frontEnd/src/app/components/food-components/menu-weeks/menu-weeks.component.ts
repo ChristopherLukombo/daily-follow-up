@@ -49,7 +49,7 @@ export class MenuWeeksComponent implements OnInit {
           this.allContents = data;
         } else {
           this.noContents =
-            "Il n'y a aucun plats disonibles actuellement dans la clinique. Veuillez d'abord en ajouter afin de pouvoir composer un menu.";
+            "Il n'y a aucun plats disponibles actuellement dans la clinique. Veuillez d'abord en ajouter afin de pouvoir composer un menu.";
         }
       },
       (error) => {

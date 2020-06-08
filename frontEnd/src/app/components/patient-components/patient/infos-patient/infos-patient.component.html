@@ -88,15 +88,22 @@
     </tbody>
   </table>
   <br />
-  <div *ngIf="!room && warning">
-    <app-alert-warning [content]="warning" [close]="false"></app-alert-warning>
+  <div class="row">
+    <div class="col-4">
+      <div *ngIf="!room && warning">
+        <app-alert-warning
+          [content]="warning"
+          [close]="false"
+        ></app-alert-warning>
+      </div>
+      <table *ngIf="room" class="table table-bordered">
+        <tbody>
+          <tr>
+            <td><fa-icon [icon]="roomLogo"></fa-icon> Chambre</td>
+            <td>{{ room?.number }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-  <table *ngIf="room" class="table table-bordered">
-    <tbody>
-      <tr>
-        <th><fa-icon [icon]="roomLogo"></fa-icon> Chambre</th>
-        <td>{{ room?.number }}</td>
-      </tr>
-    </tbody>
-  </table>
 </div>

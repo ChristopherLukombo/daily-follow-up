@@ -30,10 +30,14 @@
           <br />
           <app-infos-patient [patient]="patient"></app-infos-patient>
         </div>
-        <div *ngIf="patient" class="col">
+      </div>
+      <br />
+      <div class="row">
+        <div *ngIf="patient" class="col-9">
           <app-food-patient [patient]="patient"></app-food-patient>
         </div>
       </div>
+      <br />
       <div class="row" *ngIf="patient && !patient?.state">
         <div class="col text-center">
           <div class="alert alert-info">
@@ -86,4 +90,5 @@
       </div>
     </div>
   </div>
+  <br />
 </div>

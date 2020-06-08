@@ -16,19 +16,8 @@
     />
   </div>
 </div>
-<div class="form-group">
-  <div class="floors-form-checkboxes">
-    <label *ngFor="let f of floors; let i = index" class="checkbox-inline">
-      <input
-        type="checkbox"
-        [(ngModel)]="filter[i]"
-        (ngModelChange)="filterChange()"
-      />
-      {{ f?.number | floorName }}
-    </label>
-  </div>
-</div>
-<table *ngIf="filteredCaregivers.length > 0" class="table">
+<br />
+<table *ngIf="nutritionists.length > 0" class="table">
   <thead>
     <tr>
       <th scope="col">Nom</th>
@@ -39,23 +28,23 @@
   <tbody>
     <tr
       *ngFor="
-        let caregiver of filteredCaregivers
-          | orderByInside: 'user':'lastName'
-          | searchInside: 'user':'lastName':lastName
-          | searchInside: 'user':'firstName':firstName
+        let nutritionist of nutritionists
+          | orderBy: 'lastName'
+          | search: 'lastName':lastName
+          | search: 'firstName':firstName
           | paginate: pagination
       "
-      (click)="selectCaregiver(caregiver)"
+      (click)="selectNutritionist(nutritionist)"
     >
       <th
         scope="row"
         innerHTML="{{
-          caregiver.user.lastName | uppercase | highlight: lastName
+          nutritionist?.lastName | uppercase | highlight: lastName
         }}"
       ></th>
       <td
         innerHTML="{{
-          caregiver.user.firstName | titlecase | highlight: firstName
+          nutritionist?.firstName | titlecase | highlight: firstName
         }}"
       ></td>
       <td>
@@ -63,7 +52,7 @@
           type="button"
           class="btn btn-light btn-sm"
           data-toggle="modal"
-          data-target=".bd-example-modal-lg"
+          data-target=".bd-example-modal-lg-nutritionist"
         >
           <fa-icon [icon]="detailLogo"></fa-icon>
         </button>
@@ -80,20 +69,20 @@
   nextLabel="Suivant"
 ></pagination-controls>
 
-<!-- Modal -->
+<!-- Modal Motdepasse!110 -->
 <div
-  class="modal fade bd-example-modal-lg"
+  class="modal fade bd-example-modal-lg-nutritionist"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="myLargeModalLabel"
+  aria-labelledby="myLargeModalLabelNutritionist"
   aria-hidden="true"
 >
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">
-          {{ selectedCaregiver?.user?.lastName | uppercase }}
-          {{ selectedCaregiver?.user?.firstName | titlecase }}
+        <h4 class="modal-title" id="exampleModalLabelNutritionist">
+          {{ selectedNutritionist?.lastName | uppercase }}
+          {{ selectedNutritionist?.firstName | titlecase }}
         </h4>
         <button
           type="button"
@@ -105,11 +94,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <div *ngIf="selectedCaregiver">
-          <app-detail-caregiver
-            (hasDeleteCaregiver)="removeFromList($event)"
-            [caregiver]="selectedCaregiver"
-          ></app-detail-caregiver>
+        <div *ngIf="selectedNutritionist">
+          <app-detail-user
+            (hasDeleteUser)="removeFromList($event)"
+            [user]="selectedNutritionist"
+          ></app-detail-user>
         </div>
       </div>
     </div>
