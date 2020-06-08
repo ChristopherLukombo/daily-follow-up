@@ -109,11 +109,6 @@ INSERT INTO caregiver (floor_id, user_id) VALUES
 ('1','4'),
 ('2', '5'),
 ('3', '6');
-/** les etages ayant un ou plusieurs aides soignants **/
-INSERT INTO floor_caregivers (floor_id, caregivers_id) VALUES
-('1', '1'),
-('2', '2'),
-('3', '3');
 
 /******************** ALIMENTATIONS DES PATIENTS ********************/
 INSERT INTO diet (name) VALUES
