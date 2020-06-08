@@ -3,15 +3,15 @@
     <div class="col-sm-2">
       <app-role-navbar></app-role-navbar>
     </div>
-    <div *ngIf="caregivers" class="col">
+    <div class="col">
       <h2>Employés de la clinique</h2>
       <br />
       <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
       <div class="row">
-        <div *ngIf="error">
-          <app-alert-error [content]="error"></app-alert-error>
-        </div>
-        <div *ngIf="caregivers && !error" class="col">
+        <div *ngIf="!error" class="col">
           <h3>Aides-soignants</h3>
           <br />
           <app-list-caregivers
@@ -19,9 +19,12 @@
             [floors]="floors"
           ></app-list-caregivers>
         </div>
-        <div class="col">
+        <div *ngIf="!error" class="col">
           <h3>Diététiciens</h3>
           <br />
+          <app-list-nutritionists
+            [nutritionists]="nutritionists"
+          ></app-list-nutritionists>
         </div>
       </div>
     </div>

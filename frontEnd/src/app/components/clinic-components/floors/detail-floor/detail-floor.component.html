@@ -56,7 +56,11 @@
         </div>
       </div>
       <ul *ngFor="let p of room?.value" class="list-group list-group-flush">
-        <li class="list-group-item">{{ p.lastName }} {{ p.firstName }}</li>
+        <li class="list-group-item">
+          <a routerLink="/patient/details" [queryParams]="{ id: p.id }"
+            >{{ p.lastName }} {{ p.firstName }}</a
+          >
+        </li>
       </ul>
     </div>
   </div>

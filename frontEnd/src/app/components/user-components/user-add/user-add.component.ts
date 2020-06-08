@@ -66,7 +66,6 @@ export class UserAddComponent implements OnInit {
         "",
         [Validators.required, Validators.pattern("[A-Za-z]{2,20}")],
       ],
-      createDate: [null, Validators.required],
       floor: [null],
     };
     this.form = this.formBuilder.group(target);
@@ -105,23 +104,39 @@ export class UserAddComponent implements OnInit {
   }
 
   generateLogin(firstName: string, lastName: string): string {
-    return lastName.toLowerCase() + "_" + firstName.charAt(0);
+    return lastName.toLowerCase() + "_" + firstName.charAt(0).toLowerCase();
   }
 
   createCaregiver(user: UserDTO, floorId: number): void {
     let dto = new CaregiverDTO(null, floorId, user);
     this.userService.createCaregiver(dto).subscribe(
       (data) => {
-        let login: string = data.user.pseudo;
         this.creating = false;
         this.toastrService.success(
-          "L'utilisateur " + login + " a bien été crée",
+          "L'utilisateur " + data.user.pseudo + " a bien été crée",
           "Création terminée !"
         );
         this.createdMessage = this.getCreatedMsg(
           dto.user.pseudo,
           dto.user.password
         );
+      },
+      (error) => {
+        this.creating = false;
+        this.toastrService.error(this.getError(error), "Oops !");
+      }
+    );
+  }
+
+  createNutritionist(user: UserDTO): void {
+    this.userService.createUser(user).subscribe(
+      (data) => {
+        this.creating = false;
+        this.toastrService.success(
+          "L'utilisateur " + data.pseudo + " a bien été crée",
+          "Création terminée !"
+        );
+        this.createdMessage = this.getCreatedMsg(user.pseudo, user.password);
       },
       (error) => {
         this.creating = false;
@@ -147,7 +162,7 @@ export class UserAddComponent implements OnInit {
       password,
       this.f.firstName.value,
       this.f.lastName.value,
-      this.f.createDate.value,
+      null,
       true,
       null,
       this.selectedRole,
@@ -155,8 +170,8 @@ export class UserAddComponent implements OnInit {
     );
     if (this.selectedRole === Role.ROLE_CAREGIVER) {
       this.createCaregiver(user, this.f.floor.value.id);
-    } else {
-      //TODO : Creation diet
+    } else if (this.selectedRole === Role.ROLE_NUTRITIONIST) {
+      this.createNutritionist(user);
     }
   }
 

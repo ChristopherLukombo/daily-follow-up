@@ -1,0 +1,50 @@
+<div
+  *ngIf="updatedMessage"
+  class="alert alert-success"
+  role="alert"
+  [innerHTML]="updatedMessage"
+>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="row">
+  <div class="col text-left">
+    <button
+      *ngIf="!updating"
+      type="button"
+      class="btn btn-primary"
+      (click)="onResetPassword()"
+      [disabled]="!user"
+    >
+      Réinitialiser le mot de passe
+    </button>
+    <button *ngIf="updating" type="button" class="btn btn-primary" disabled>
+      <span class="spinner-border spinner-border-sm"></span>Réinitialisation...
+    </button>
+  </div>
+  <div class="col text-right">
+    <button
+      *ngIf="!deleting"
+      type="button"
+      class="btn btn-danger"
+      (click)="onDelete()"
+      [disabled]="!user"
+    >
+      Supprimer l'utilisateur
+    </button>
+    <button *ngIf="deleting" type="button" class="btn btn-danger" disabled>
+      <span class="spinner-border spinner-border-sm"></span>Suppression...
+    </button>
+  </div>
+</div>
+<br />
+<div *ngIf="!user" class="alert alert-info" role="alert">
+  Cet utilisateur n'éxiste plus.
+</div>
+<div class="row">
+  <div class="col">
+    <h5>Activités</h5>
+    ...
+  </div>
+</div>

@@ -15,9 +15,9 @@ import { ChartsModule } from "ng2-charts";
 import { NgSelectModule } from "@ng-select/ng-select";
 
 import { AppComponent } from "./app.component";
-import { LoaderComponent } from "./components/loader/loader.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { MenuComponent } from "./components/navbar/menu/menu.component";
+
 import { PatientsComponent } from "./components/patient-components/patients/patients.component";
 import { ListPatientsComponent } from "./components/patient-components/patients/list-patients/list-patients.component";
 import { DetailPatientComponent } from "./components/patient-components/patients/detail-patient/detail-patient.component";
@@ -40,19 +40,32 @@ import { FormPatientAddComponent } from "./components/patient-components/patient
 import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 import { FormPatientEditComponent } from "./components/patient-components/patient/patient-edit/form-patient-edit/form-patient-edit.component";
 
+import { FoodNavbarComponent } from "./components/navbar-vertical/food-navbar/food-navbar.component";
 import { FormMealAddComponent } from "./components/food-components/meals-add/form-meal-add/form-meal-add.component";
 import { InfosMealComponent } from "./components/food-components/meals-add/infos-meal/infos-meal.component";
 import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
-import { FoodNavbarComponent } from "./components/navbar-vertical/food-navbar/food-navbar.component";
+import { MealsComponent } from "./components/food-components/meals/meals.component";
+import { ListMealsComponent } from "./components/food-components/meals/list-meals/list-meals.component";
 import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
 import { MenuWeeksComponent } from "./components/food-components/menu-weeks/menu-weeks.component";
 import { ContentsDayMenuComponent } from "./components/food-components/menu-weeks/contents-day-menu/contents-day-menu.component";
+import { ReplacementsCardComponent } from "./components/food-components/menu-weeks/replacements-card/replacements-card.component";
+import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
+import { CurrentWeeksComponent } from "./components/food-components/menu-currents/current-weeks/current-weeks.component";
 
-import { UsersComponent } from "./components/user-components/users/users.component";
-import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
 import { RoleNavbarComponent } from "./components/navbar-vertical/role-navbar/role-navbar.component";
+import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
+import { ResetUserPasswordComponent } from "./components/user-components/reset-user-password/reset-user-password.component";
+import { UsersComponent } from "./components/user-components/users/users.component";
 import { ListCaregiversComponent } from "./components/user-components/users/list-caregivers/list-caregivers.component";
+import { ListNutritionistsComponent } from "./components/user-components/users/list-nutritionists/list-nutritionists.component";
+import { DetailUserComponent } from "./components/user-components/users/list-nutritionists/detail-user/detail-user.component";
 
+import { ClinicNavbarComponent } from "./components/navbar-vertical/clinic-navbar/clinic-navbar.component";
+import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
+import { DetailFloorComponent } from "./components/clinic-components/floors/detail-floor/detail-floor.component";
+
+import { LoaderComponent } from "./components/loader/loader.component";
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
 import { AlertWarningComponent } from "./components/utils-components/alert-warning/alert-warning.component";
 import { ModalDangerComponent } from "./components/utils-components/modal-danger/modal-danger.component";
@@ -75,15 +88,7 @@ import {
   truncateStringPipe,
   getFloorNamePipe,
 } from "./utils/pipes/string-utils.pipe";
-import { MealsComponent } from "./components/food-components/meals/meals.component";
-import { ListMealsComponent } from "./components/food-components/meals/list-meals/list-meals.component";
-import { ReplacementsCardComponent } from "./components/food-components/menu-weeks/replacements-card/replacements-card.component";
-import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
-import { CurrentWeeksComponent } from "./components/food-components/menu-currents/current-weeks/current-weeks.component";
-import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
-import { ClinicNavbarComponent } from "./components/navbar-vertical/clinic-navbar/clinic-navbar.component";
-import { DetailFloorComponent } from './components/clinic-components/floors/detail-floor/detail-floor.component';
-import { ResetUserPasswordComponent } from './components/user-components/reset-user-password/reset-user-password.component';
+import { DetailCaregiverComponent } from './components/user-components/users/list-caregivers/detail-caregiver/detail-caregiver.component';
 
 @NgModule({
   declarations: [
@@ -149,6 +154,9 @@ import { ResetUserPasswordComponent } from './components/user-components/reset-u
     ClinicNavbarComponent,
     DetailFloorComponent,
     ResetUserPasswordComponent,
+    ListNutritionistsComponent,
+    DetailUserComponent,
+    DetailCaregiverComponent,
   ],
   imports: [
     BrowserModule,
