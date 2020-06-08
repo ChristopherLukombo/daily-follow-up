@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -13,7 +15,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.LastModifiedBy;
@@ -52,13 +54,15 @@ public class Menu implements Serializable {
 	@NotNull
 	private LocalDate endDate;
 
-	@NotBlank
 	private String texture;
 
 	@ManyToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	private Replacement replacement;
 
-	private String diet;
+	@NotEmpty
+	@ElementCollection
+	@CollectionTable(name ="diet")
+	private List<String> diets;
 
 	@ManyToMany(cascade = { CascadeType.PERSIST })
 	private List<Week> weeks;

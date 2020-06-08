@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -32,12 +32,12 @@ public class MenuDTO implements Serializable {
 	@NotNull
 	private LocalDate endDate;
 
-	@NotBlank
+	@NotEmpty
 	private String texture;
 
 	private ReplacementDTO replacement;
 
-	private String diet;
+	private List<String> diets;
 
 	private List<WeekDTO> weeks;
 
@@ -73,14 +73,6 @@ public class MenuDTO implements Serializable {
 		this.endDate = endDate;
 	}
 
-	public String getTexture() {
-		return texture;
-	}
-
-	public void setTexture(final String texture) {
-		this.texture = texture;
-	}
-
 	public ReplacementDTO getReplacement() {
 		return replacement;
 	}
@@ -89,13 +81,7 @@ public class MenuDTO implements Serializable {
 		this.replacement = replacement;
 	}
 
-	public String getDiet() {
-		return diet;
-	}
 
-	public void setDiet(final String diet) {
-		this.diet = diet;
-	}
 
 	public List<WeekDTO> getWeeks() {
 		return weeks;
@@ -121,9 +107,28 @@ public class MenuDTO implements Serializable {
 		this.lastModificationDateBy = lastModificationDateBy;
 	}
 
+	public List<String> getDiets() {
+		return diets;
+	}
+
+	public void setDiets(final List<String> diets) {
+		this.diets = diets;
+	}
+
+	public String getTexture() {
+		return texture;
+	}
+
+
+
+	public void setTexture(final String texture) {
+		this.texture = texture;
+	}
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(diet, endDate, id, lastModificationDateBy, lastModifiedBy, replacement, startDate, texture,
+		return Objects.hash(diets, endDate, id, lastModificationDateBy, lastModifiedBy, replacement, startDate, texture,
 				weeks);
 	}
 
@@ -136,7 +141,7 @@ public class MenuDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final MenuDTO other = (MenuDTO) obj;
-		return Objects.equals(diet, other.diet) && Objects.equals(endDate, other.endDate)
+		return Objects.equals(diets, other.diets) && Objects.equals(endDate, other.endDate)
 				&& Objects.equals(id, other.id) && Objects.equals(lastModificationDateBy, other.lastModificationDateBy)
 				&& Objects.equals(lastModifiedBy, other.lastModifiedBy)
 				&& Objects.equals(replacement, other.replacement) && Objects.equals(startDate, other.startDate)
@@ -147,5 +152,6 @@ public class MenuDTO implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
 
 }

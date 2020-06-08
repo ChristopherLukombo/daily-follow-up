@@ -271,7 +271,8 @@ public class MenuServiceImpl implements MenuService {
 
 	private String findDietName(final Menu menu) {
 		return Optional.ofNullable(menu)
-				.map(Menu::getDiet)
+				.map(Menu::getDiets)
+				.map(Collection::toString)
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
@@ -378,7 +379,7 @@ public class MenuServiceImpl implements MenuService {
 			return false;
 		}
 
-		return findString(menu.getDiet()).equalsIgnoreCase(menuDTO.getDiet())
+		return menu.getDiets().containsAll(menuDTO.getDiets())
 				&& findString(menu.getTexture()).equalsIgnoreCase(menuDTO.getTexture());
 	}
 

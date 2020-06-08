@@ -379,15 +379,15 @@ public class MenuServiceTest {
 	public void shouldReturnFalseWhenCheckSpecificationsOfMenuDateIsNotValid() {
 		// Given
 		final Menu firstMenu = new Menu();
-		firstMenu.setDiet("test");
+		firstMenu.setDiets(Arrays.asList("test"));
 		firstMenu.setTexture("jfjd");
 		final Menu secondMenu = new Menu();
-		secondMenu.setDiet("bibi");
+		secondMenu.setDiets(Arrays.asList("bibi"));
 		secondMenu.setTexture("test");
 
 		final List<Menu> menus = Arrays.asList(firstMenu, secondMenu);
 		final MenuDTO menuDTO = createMenuDTO();
-		menuDTO.setDiet("bibi");
+		menuDTO.setDiets(Arrays.asList("bibi"));
 		menuDTO.setTexture("test");
 
 		// When
@@ -401,21 +401,21 @@ public class MenuServiceTest {
 	public void shouldCheckSpecificationsOfMenu() {
 		// Given
 		final Menu firstMenu = new Menu();
-		firstMenu.setDiet("Normal");
+		firstMenu.setDiets(Arrays.asList("Normal"));
 		firstMenu.setTexture("Normal");
 		firstMenu.setStartDate(LocalDate.of(2019, Month.AUGUST, 1));
 		firstMenu.setEndDate(LocalDate.of(2019, Month.AUGUST, 20));
 		final Menu secondMenu = new Menu();
-		secondMenu.setDiet("Normal");
+		secondMenu.setDiets(Arrays.asList("Normal"));
 		secondMenu.setTexture("Mixe");
 		secondMenu.setStartDate(LocalDate.of(2019, Month.SEPTEMBER, 1));
 		secondMenu.setEndDate(LocalDate.of(2019, Month.OCTOBER, 1));
 
 		final List<Menu> menus = Arrays.asList(firstMenu, secondMenu);
 		final MenuDTO menuDTO = createMenuDTO();
-		menuDTO.setDiet("bibi");
+		menuDTO.setDiets(Arrays.asList("bibi"));
 		menuDTO.setTexture("test");
-		menuDTO.setDiet("Normal");
+		menuDTO.setDiets(Arrays.asList("Normal"));
 		menuDTO.setTexture("Mixe");
 		menuDTO.setStartDate(LocalDate.of(2019, Month.SEPTEMBER, 1));
 		menuDTO.setEndDate(LocalDate.of(2019, Month.NOVEMBER, 12));

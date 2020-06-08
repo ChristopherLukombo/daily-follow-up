@@ -17,8 +17,8 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 	List<Menu> findAllByOrderByIdAsc();
 
 	@Query("SELECT menu FROM Menu menu "
-			+ "WHERE menu.texture = :textureName "
-			+ "AND menu.diet IN :dietNames "
+			+ "WHERE menu.diets = :dietNames "
+			+ "AND menu.texture = :textureName "
 			+ "AND menu.startDate >= :startDate "
 			+ "AND menu.endDate <= :endDate")
 	List<Menu> findAllByWeek(
