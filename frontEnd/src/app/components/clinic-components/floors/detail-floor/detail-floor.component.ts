@@ -63,7 +63,7 @@ export class DetailFloorComponent implements OnInit {
       this.freePlaces += room.maxCapacity - room.numberOfPatients;
       this.roomsOfPatients.set(
         room,
-        patients.filter((p) => p.roomId === room.id)
+        patients ? patients.filter((p) => p.roomId === room.id) : []
       );
     });
   }

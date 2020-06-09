@@ -17,6 +17,8 @@ import { MealsComponent } from "./components/food-components/meals/meals.compone
 import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
 import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
 import { ResetUserPasswordComponent } from "./components/user-components/reset-user-password/reset-user-password.component";
+import { FloorAddComponent } from "./components/clinic-components/floor-add/floor-add.component";
+import { DietAddComponent } from "./components/food-components/diet-add/diet-add.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -77,8 +79,18 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: "food/diet/add",
+    component: DietAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: "clinic/floor/all",
     component: FloorsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "clinic/floor/add",
+    component: FloorAddComponent,
     canActivate: [AuthGuard],
   },
   {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+import { faDoorOpen, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-clinic-navbar",
@@ -8,6 +8,7 @@ import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 })
 export class ClinicNavbarComponent implements OnInit {
   roomsLogo = faDoorOpen;
+  FloorAddLogo = faPlus;
 
   constructor() {}
 

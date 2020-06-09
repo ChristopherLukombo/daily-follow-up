@@ -89,6 +89,8 @@ import {
   getFloorNamePipe,
 } from "./utils/pipes/string-utils.pipe";
 import { DetailCaregiverComponent } from './components/user-components/users/list-caregivers/detail-caregiver/detail-caregiver.component';
+import { FloorAddComponent } from './components/clinic-components/floor-add/floor-add.component';
+import { DietAddComponent } from './components/food-components/diet-add/diet-add.component';
 
 @NgModule({
   declarations: [
@@ -157,6 +159,8 @@ import { DetailCaregiverComponent } from './components/user-components/users/lis
     ListNutritionistsComponent,
     DetailUserComponent,
     DetailCaregiverComponent,
+    FloorAddComponent,
+    DietAddComponent,
   ],
   imports: [
     BrowserModule,
