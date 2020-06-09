@@ -66,7 +66,7 @@ public class MenuResourceTest {
 				.startDate(LocalDate.of(2020, Month.APRIL, 6))
 				.endDate(LocalDate.of(2020, Month.APRIL, 12))
 				.texture("dsd")
-				.diet("Mixe")
+				.diets(Arrays.asList("Mixe"))
 				.build();
 	}
 

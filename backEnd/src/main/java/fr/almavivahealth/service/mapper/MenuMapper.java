@@ -1,8 +1,13 @@
 package fr.almavivahealth.service.mapper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 
 import fr.almavivahealth.domain.entity.Menu;
@@ -24,7 +29,7 @@ public interface MenuMapper {
 	@Mapping(source = "endDate", target = "endDate")
 	@Mapping(source = "texture", target = "texture")
 	@Mapping(source = "replacement", target = "replacement")
-	@Mapping(source = "diet", target = "diet")
+	@Mapping(source = "diets", target = "diets", qualifiedByName = "toDiets")
 	@Mapping(source = "weeks", target = "weeks")
 	@Mapping(source = "lastModifiedBy", target = "lastModifiedBy")
 	@Mapping(source = "lastModificationDateBy", target = "lastModificationDateBy")
@@ -32,4 +37,16 @@ public interface MenuMapper {
 
 	@InheritInverseConfiguration
 	Menu menuDTOToMenu(MenuDTO menuDTO);
+
+	@Named("toDiets")
+	default List<String> toTextures(final List<String> diets) {
+		if (null == diets || diets.isEmpty()) {
+			return Collections.emptyList();
+		}
+		final List<String> dietsDTOs = new ArrayList<>(diets.size());
+		for (final String diet : diets) {
+			dietsDTOs.add(diet);
+		}
+		return dietsDTOs;
+	}
 }
