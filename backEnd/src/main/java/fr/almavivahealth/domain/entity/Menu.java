@@ -10,11 +10,13 @@ import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -61,7 +63,7 @@ public class Menu implements Serializable {
 
 	@NotEmpty
 	@ElementCollection
-	@CollectionTable(name ="diet")
+	@CollectionTable(name = "menu_diets")
 	private List<String> diets;
 
 	@ManyToMany(cascade = { CascadeType.PERSIST })
@@ -72,4 +74,7 @@ public class Menu implements Serializable {
 
 	@LastModifiedDate
 	private LocalDateTime lastModificationDateBy;
+
+	@OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<MenuHistory> menuHistories;
 }
