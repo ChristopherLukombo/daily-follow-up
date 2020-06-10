@@ -251,7 +251,11 @@ export class FormPatientEditComponent implements OnInit {
       (diet: FormControl, i: number) => {
         if (diet.value === true && this.dietsAvailable[i]) {
           diets.push(
-            new DietDTO(this.dietsAvailable[i].id, this.dietsAvailable[i].name)
+            new DietDTO(
+              this.dietsAvailable[i].id,
+              this.dietsAvailable[i].name,
+              this.dietsAvailable[i].elementsToCheck
+            )
           );
         }
       }

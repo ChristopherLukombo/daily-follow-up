@@ -3,7 +3,7 @@ import { Replacement } from "./replacement";
 
 export class Menu {
   /***/
-  diet: string;
+  diets: Array<string>;
   /***/
   endDate: string;
   /***/
