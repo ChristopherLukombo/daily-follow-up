@@ -25,6 +25,7 @@ import fr.almavivahealth.service.dto.MenuDTO;
 public interface MenuMapper {
 
 	@Mapping(source = "id", target = "id")
+	@Mapping(source = "name", target = "name")
 	@Mapping(source = "startDate", target = "startDate")
 	@Mapping(source = "endDate", target = "endDate")
 	@Mapping(source = "texture", target = "texture")

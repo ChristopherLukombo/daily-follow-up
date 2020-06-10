@@ -26,6 +26,8 @@ public class MenuDTO implements Serializable {
 
 	private Long id;
 
+	private String name;
+
 	@NotNull
 	private LocalDate startDate;
 
@@ -61,6 +63,14 @@ public class MenuDTO implements Serializable {
 		return startDate;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(final String name) {
+		this.name = name;
+	}
+
 	public void setStartDate(final LocalDate startDate) {
 		this.startDate = startDate;
 	}
@@ -80,8 +90,6 @@ public class MenuDTO implements Serializable {
 	public void setReplacement(final ReplacementDTO replacement) {
 		this.replacement = replacement;
 	}
-
-
 
 	public List<WeekDTO> getWeeks() {
 		return weeks;
@@ -119,17 +127,14 @@ public class MenuDTO implements Serializable {
 		return texture;
 	}
 
-
-
 	public void setTexture(final String texture) {
 		this.texture = texture;
 	}
 
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(diets, endDate, id, lastModificationDateBy, lastModifiedBy, replacement, startDate, texture,
-				weeks);
+		return Objects.hash(diets, endDate, id, lastModificationDateBy, lastModifiedBy, name, replacement, startDate,
+				texture, weeks);
 	}
 
 	@Override
@@ -143,7 +148,7 @@ public class MenuDTO implements Serializable {
 		final MenuDTO other = (MenuDTO) obj;
 		return Objects.equals(diets, other.diets) && Objects.equals(endDate, other.endDate)
 				&& Objects.equals(id, other.id) && Objects.equals(lastModificationDateBy, other.lastModificationDateBy)
-				&& Objects.equals(lastModifiedBy, other.lastModifiedBy)
+				&& Objects.equals(lastModifiedBy, other.lastModifiedBy) && Objects.equals(name, other.name)
 				&& Objects.equals(replacement, other.replacement) && Objects.equals(startDate, other.startDate)
 				&& Objects.equals(texture, other.texture) && Objects.equals(weeks, other.weeks);
 	}
@@ -152,6 +157,4 @@ public class MenuDTO implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
-
 }
