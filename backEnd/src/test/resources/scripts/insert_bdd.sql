@@ -20,9 +20,6 @@ INSERT INTO "user" (first_name, last_name, pseudo, password_hash, role_id, image
 ('Laetitia', 'BEAUCHEMIN', 'beauchemin_l', '$2a$10$tTLoZWpck0crX0QiC7Pyz.7cl7p4CZRwGDe9BhlCtHULDvEZcvWX.', '3', null, '2020-03-21', 'true');
 
 /******************** ALIMENTATIONS DES PATIENTS ********************/
-
-/*
-TODO : Corriger le script
 INSERT INTO diet (name) VALUES
 ('Normale'),
 ('Hyperprotéiné'),
@@ -30,7 +27,6 @@ INSERT INTO diet (name) VALUES
 ('Sans porc'),
 ('Sans sel'),
 ('Sans résidu');
-*/
 
 /******************** TEXTURES DES PLATS ********************/
 INSERT INTO texture (name) VALUES

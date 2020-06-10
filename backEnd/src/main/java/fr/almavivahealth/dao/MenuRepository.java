@@ -2,7 +2,6 @@ package fr.almavivahealth.dao;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,13 +16,14 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 	List<Menu> findAllByOrderByIdAsc();
 
 	@Query("SELECT menu FROM Menu menu "
-			+ "WHERE menu.diets = :dietNames "
+			+ "INNER JOIN menu.diets md "
+			+ "WHERE md IN :dietNames "
 			+ "AND menu.texture = :textureName "
 			+ "AND menu.startDate >= :startDate "
 			+ "AND menu.endDate <= :endDate")
 	List<Menu> findAllByWeek(
 			@Param("textureName") String textureName,
-			@Param("dietNames") Set<String> dietNames,
+			@Param("dietNames") List<String> dietNames,
 			@Param("startDate") LocalDate startDate,
 			@Param("endDate") LocalDate endDate);
 
