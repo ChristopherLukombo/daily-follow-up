@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import fr.almavivahealth.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,10 +24,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* An order.
-*/
+ *
+ * @author christopher An order.
+ */
 @Entity
 @Table(name = "\"order\"")
 @NoArgsConstructor
@@ -41,6 +43,9 @@ public class Order implements Serializable {
 	private Long id;
 
 	private LocalDate date;
+
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 
 	@ManyToMany
 	private List<Content> entries;
