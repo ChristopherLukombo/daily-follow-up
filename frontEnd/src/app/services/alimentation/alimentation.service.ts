@@ -78,6 +78,16 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne tout les menus de la clinique
+   * @returns tout les menus
+   */
+  getAllMenus(): Observable<Menu[]> {
+    return this.http
+      .get<Menu[]>(MENUS_URL, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Créer un menu
    * @param menuDTO le menu
    * @returns le menu crée

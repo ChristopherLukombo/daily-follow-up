@@ -13,6 +13,8 @@ export class MenuDTO {
   /***/
   lastModifiedBy: string;
   /***/
+  name: string;
+  /***/
   replacement: ReplacementDTO;
   /***/
   startDate: string;
@@ -33,6 +35,8 @@ export class MenuDTO {
     weeks: Array<WeekDTO>
   ) {
     (this.id = id),
+      (this.name =
+        diets.toString() + " - " + texture + " - " + startDate + "_" + endDate),
       (this.startDate = startDate),
       (this.endDate = endDate),
       (this.diets = diets),

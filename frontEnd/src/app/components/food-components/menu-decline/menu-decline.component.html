@@ -1,0 +1,65 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-food-navbar></app-food-navbar>
+    </div>
+    <div class="col">
+      <h2>Décliner un menu</h2>
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="menus.length > 0 && diets.length > 0 && !error">
+        <div class="form-group">
+          <label><h5>Recherchez le menu à décliner</h5></label>
+          <ng-select
+            [items]="menus"
+            #select
+            bindLabel="name"
+            dropdownPosition="auto"
+            placeholder="Entrez le régime, la texture, la date du début ou la date de fin..."
+            notFoundText="Aucun menu trouvé"
+            [virtualScroll]="true"
+            [(ngModel)]="selectedMenu"
+          >
+          </ng-select>
+        </div>
+        <br />
+        <div *ngIf="selectedMenu">
+          <app-menu-weeks-lock [menu]="selectedMenu"> </app-menu-weeks-lock>
+          <br />
+          <div class="form-group">
+            <label><h5>Selectionnez la (ou les) déclinaison(s)</h5></label>
+            <br />
+            <div class="btn-group">
+              <button
+                *ngFor="let d of diets"
+                type="button"
+                class="btn btn-primary"
+                (click)="selectOrDeselectDiet(d)"
+                [class.active]="containsDiet(d)"
+              >
+                {{ d.name }}
+              </button>
+            </div>
+          </div>
+          <br />
+          <button
+            type="button"
+            class="btn btn-primary"
+            [class.disabled]="selectedDiets.length == 0"
+            (click)="onDecline()"
+          >
+            Décliner le menu
+          </button>
+          <br /><br />
+          <div *ngIf="cannotDecline">
+            <app-alert-warning [content]="cannotDecline"></app-alert-warning>
+          </div>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>

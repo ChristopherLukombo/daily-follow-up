@@ -19,6 +19,7 @@ import { FloorsComponent } from "./components/clinic-components/floors/floors.co
 import { ResetUserPasswordComponent } from "./components/user-components/reset-user-password/reset-user-password.component";
 import { FloorAddComponent } from "./components/clinic-components/floor-add/floor-add.component";
 import { DietAddComponent } from "./components/food-components/diet-add/diet-add.component";
+import { MenuDeclineComponent } from "./components/food-components/menu-decline/menu-decline.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -76,6 +77,11 @@ const routes: Routes = [
   {
     path: "food/menu/add",
     component: MenuAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/menu/decline",
+    component: MenuDeclineComponent,
     canActivate: [AuthGuard],
   },
   {

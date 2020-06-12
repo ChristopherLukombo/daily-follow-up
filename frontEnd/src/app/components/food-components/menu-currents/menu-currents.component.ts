@@ -24,7 +24,7 @@ export class MenuCurrentsComponent implements OnInit {
 
   ngOnInit(): void {
     moment.locale();
-    this.dateOfTheDay = moment().lang("fr").format("dddd Do MMMM YYYY");
+    this.dateOfTheDay = moment().locale("fr").format("dddd Do MMMM YYYY");
     this.loading = true;
     this.alimentationService.getAllDiets().subscribe(
       (data) => {
