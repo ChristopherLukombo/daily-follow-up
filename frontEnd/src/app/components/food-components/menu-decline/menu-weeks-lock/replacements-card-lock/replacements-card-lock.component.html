@@ -1,0 +1,53 @@
+<button
+  type="button"
+  class="btn btn-outline-info"
+  data-toggle="modal"
+  data-target="#exampleModal"
+>
+  <strong>Carte de remplacement</strong>
+</button>
+
+<!-- MODAL -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div *ngIf="replacement" class="modal-content text-left">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabel">
+          Carte de remplacement
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div
+          *ngFor="let item of card | keyvalue: notOrdered"
+          class="form-group"
+        >
+          <label>
+            <h6>
+              {{ item?.key }}
+            </h6>
+          </label>
+          <br />
+          <ul *ngFor="let content of item.value">
+            <li>{{ content?.name }}</li>
+          </ul>
+          <hr />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

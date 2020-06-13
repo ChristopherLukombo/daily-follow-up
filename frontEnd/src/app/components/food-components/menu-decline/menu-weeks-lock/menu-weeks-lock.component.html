@@ -1,0 +1,74 @@
+<div *ngIf="menu" class="row">
+  <div class="col text-left">
+    Période allant du <strong>{{ menu?.startDate }}</strong> au
+    <strong>{{ menu?.endDate }}</strong>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col">
+    <div class="btn-group">
+      <button
+        *ngFor="let n of menu?.weeks"
+        type="button"
+        class="btn btn-primary"
+        (click)="selectWeek(n?.number)"
+        [class.active]="n?.number == selectedWeek"
+      >
+        Semaine {{ n?.number }}
+      </button>
+    </div>
+  </div>
+  <div *ngIf="menu?.replacement" class="col text-right">
+    <app-replacements-card-lock
+      [replacement]="menu.replacement"
+    ></app-replacements-card-lock>
+  </div>
+</div>
+<br />
+<div *ngIf="menu">
+  <div *ngFor="let n of menu?.weeks" class="row">
+    <div class="col">
+      <div class="table-responsive">
+        <table
+          [hidden]="selectedWeek !== n?.number"
+          class="table table-bordered"
+        >
+          <thead>
+            <tr class="text-center">
+              <th></th>
+              <th *ngFor="let day of n?.days" scope="col">
+                {{ day?.name }}
+                <br />
+                <small>
+                  {{ getDateOfTheDay(n?.number, day?.name) }}
+                </small>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let moment of moments">
+              <th scope="row" class="moment-day">{{ moment }}</th>
+              <td *ngFor="let day of n?.days">
+                <app-contents-day-menu-lock
+                  [day]="day"
+                  [momentTime]="moment"
+                ></app-contents-day-menu-lock>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col text-right">
+      <small>
+        Mis à jour le
+        {{ menu.lastModificationDateBy | date: "dd/MM/yyyy à HH:mm":"GMT+4" }}
+        par
+        <strong>{{ menu.lastModifiedBy }}</strong>
+      </small>
+    </div>
+  </div>
+</div>

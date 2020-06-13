@@ -52,6 +52,11 @@ import { ContentsDayMenuComponent } from "./components/food-components/menu-week
 import { ReplacementsCardComponent } from "./components/food-components/menu-weeks/replacements-card/replacements-card.component";
 import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
 import { CurrentWeeksComponent } from "./components/food-components/menu-currents/current-weeks/current-weeks.component";
+import { DietAddComponent } from "./components/food-components/diet-add/diet-add.component";
+import { MenuDeclineComponent } from "./components/food-components/menu-decline/menu-decline.component";
+import { MenuWeeksLockComponent } from "./components/food-components/menu-decline/menu-weeks-lock/menu-weeks-lock.component";
+import { ContentsDayMenuLockComponent } from "./components/food-components/menu-decline/menu-weeks-lock/contents-day-menu-lock/contents-day-menu-lock.component";
+import { ReplacementsCardLockComponent } from "./components/food-components/menu-decline/menu-weeks-lock/replacements-card-lock/replacements-card-lock.component";
 
 import { RoleNavbarComponent } from "./components/navbar-vertical/role-navbar/role-navbar.component";
 import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
@@ -60,10 +65,12 @@ import { UsersComponent } from "./components/user-components/users/users.compone
 import { ListCaregiversComponent } from "./components/user-components/users/list-caregivers/list-caregivers.component";
 import { ListNutritionistsComponent } from "./components/user-components/users/list-nutritionists/list-nutritionists.component";
 import { DetailUserComponent } from "./components/user-components/users/list-nutritionists/detail-user/detail-user.component";
+import { DetailCaregiverComponent } from "./components/user-components/users/list-caregivers/detail-caregiver/detail-caregiver.component";
 
 import { ClinicNavbarComponent } from "./components/navbar-vertical/clinic-navbar/clinic-navbar.component";
 import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
 import { DetailFloorComponent } from "./components/clinic-components/floors/detail-floor/detail-floor.component";
+import { FloorAddComponent } from "./components/clinic-components/floor-add/floor-add.component";
 
 import { LoaderComponent } from "./components/loader/loader.component";
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
@@ -88,9 +95,6 @@ import {
   truncateStringPipe,
   getFloorNamePipe,
 } from "./utils/pipes/string-utils.pipe";
-import { DetailCaregiverComponent } from './components/user-components/users/list-caregivers/detail-caregiver/detail-caregiver.component';
-import { FloorAddComponent } from './components/clinic-components/floor-add/floor-add.component';
-import { DietAddComponent } from './components/food-components/diet-add/diet-add.component';
 
 @NgModule({
   declarations: [
@@ -161,6 +165,10 @@ import { DietAddComponent } from './components/food-components/diet-add/diet-add
     DetailCaregiverComponent,
     FloorAddComponent,
     DietAddComponent,
+    MenuDeclineComponent,
+    MenuWeeksLockComponent,
+    ContentsDayMenuLockComponent,
+    ReplacementsCardLockComponent,
   ],
   imports: [
     BrowserModule,

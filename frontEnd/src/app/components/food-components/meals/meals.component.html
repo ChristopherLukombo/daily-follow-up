@@ -13,6 +13,23 @@
       <div *ngIf="!loading && !error">
         <app-list-meals [contents]="contents"></app-list-meals>
       </div>
+      <div class="row">
+        <div class="col text-left">
+          <button
+            type="button"
+            class="btn btn-primary"
+            routerLink="/food/meal/add"
+          >
+            Nouvelle livraison
+          </button>
+        </div>
+        <div class="col text-right">
+          <button type="button" class="btn btn-danger">
+            Supprimer tout les plats
+          </button>
+        </div>
+      </div>
+      <br />
     </div>
   </div>
 </div>

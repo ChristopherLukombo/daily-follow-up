@@ -13,6 +13,8 @@ export class Menu {
   /***/
   lastModifiedBy: string;
   /***/
+  name: string;
+  /***/
   replacement: Replacement;
   /***/
   startDate: string;

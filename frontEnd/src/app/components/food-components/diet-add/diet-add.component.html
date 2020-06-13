@@ -25,13 +25,13 @@
         <br />
         <div class="form-group">
           <h5>
-            <label>Ingrédient(s) à surveiller - non obligatoire</label>
+            <label>Caractéristique(s) du régime (non obligatoire)</label>
           </h5>
           <div class="alert alert-primary" role="alert">
-            Notez le ou les ingrédient(s) devants être présent en faible
-            quantités dans un plat pour ce régime (moins de 10g). Ex.
-            <code>Sucres</code> pour <code>Diabétique</code>. Cela servira
-            d'indicateur pour la déclinaison automatique de menus.
+            Notez le (ou les) ingrédient(s) devants être présent en faible ou en
+            grande quantités dans un plat pour ce régime. Ex.
+            <code>Diabétique</code> : Pauvre en <code>Sucres</code>. Cela
+            servira d'indicateur pour la déclinaison automatique de menus.
           </div>
           <div class="types-form-checkboxes">
             <label
@@ -40,6 +40,7 @@
             >
               <input type="checkbox" [formControl]="element" />
               {{ caracteristics[i] }}
+              <span *ngIf="element.value">+/-</span>
             </label>
           </div>
         </div>
