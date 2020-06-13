@@ -119,6 +119,18 @@ INSERT INTO diet (name) VALUES
 ('Sans sel'),
 ('Sans résidu');
 
+/******************** ELEMENTS A VERIFIER POUR LA DECLINAISON DES MENUS ********************/
+INSERT INTO elements_to_check (diet_id, elements_to_check, elements_to_check_key) VALUES
+(1, null, ''),
+(2, 1, 'calories'),
+(2, 1, 'protein'),
+(3, 0, 'sugars'),
+(3, 0, 'carbohydrate'),
+(4, null, ''),
+(5, 0, 'salt'),
+(6, null, '');
+
+
 /******************** TEXTURES DES PLATS ********************/
 INSERT INTO texture (name) VALUES
 ('Normale'),
