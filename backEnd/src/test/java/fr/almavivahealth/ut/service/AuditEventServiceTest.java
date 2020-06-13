@@ -18,13 +18,17 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 
+import fr.almavivahealth.dao.CaregiverHistoryRepository;
 import fr.almavivahealth.dao.MenuHistoryRepository;
 import fr.almavivahealth.dao.PatientHistoryRepository;
+import fr.almavivahealth.domain.entity.CaregiverHistory;
 import fr.almavivahealth.domain.entity.MenuHistory;
 import fr.almavivahealth.domain.entity.PatientHistory;
+import fr.almavivahealth.service.dto.CaregiverHistoryDTO;
 import fr.almavivahealth.service.dto.MenuHistoryDTO;
 import fr.almavivahealth.service.dto.PatientHistoryDTO;
 import fr.almavivahealth.service.impl.audit.AuditEventServiceImpl;
+import fr.almavivahealth.service.mapper.CaregiverHistoryMapper;
 import fr.almavivahealth.service.mapper.MenuHistoryMapper;
 import fr.almavivahealth.service.mapper.PatientHistoryMapper;
 
@@ -42,6 +46,12 @@ public class AuditEventServiceTest {
 
 	@Mock
 	private PatientHistoryMapper  patientHistoryMapper;
+
+	@Mock
+    private CaregiverHistoryRepository caregiverHistoryRepository;
+
+	@Mock
+	private CaregiverHistoryMapper  caregiverHistoryMapper;
 
 	@InjectMocks
 	private AuditEventServiceImpl auditEventServiceImpl;
@@ -64,6 +74,16 @@ public class AuditEventServiceTest {
 	private static MenuHistoryDTO createMenuHistoryDTO() {
 		final MenuHistoryDTO menuHistoryDTO = new MenuHistoryDTO();
 		return menuHistoryDTO;
+	}
+
+	private static CaregiverHistory createCaregiverHistory() {
+		final CaregiverHistory caregiverHistory = new CaregiverHistory();
+		return caregiverHistory;
+	}
+
+	private static CaregiverHistoryDTO createCaregiverHistoryDTO() {
+		final CaregiverHistoryDTO caregiverHistoryDTO = new CaregiverHistoryDTO();
+		return caregiverHistoryDTO;
 	}
 
 	@Test
@@ -153,6 +173,51 @@ public class AuditEventServiceTest {
 
 		// Then
 		assertThatThrownBy(() -> auditEventServiceImpl.findAllMenuHistorysByMenuId(1L, 0, 10))
+		.isInstanceOf(NullPointerException.class);
+	}
+
+	@Test
+	public void shouldFindAllCaregiverHistorys() {
+		// Given
+		final List<CaregiverHistory> content = Arrays.asList(createCaregiverHistory());
+		final Page<CaregiverHistory> caregiverHistorys = new PageImpl<>(content);
+		final CaregiverHistoryDTO caregiverHistoryDTO = createCaregiverHistoryDTO();
+
+		// When
+		when(caregiverHistoryRepository.findAllByCaregiverIdOrderByModifiedDateDesc(anyLong(), (org.springframework.data.domain.Pageable) any()))
+				.thenReturn(caregiverHistorys);
+		when(caregiverHistoryMapper.caregiverHistoryToCaregiverHistoryDTO((CaregiverHistory) any()))
+				.thenReturn(caregiverHistoryDTO);
+
+		// Then
+		assertThat(auditEventServiceImpl.findAllCaregiverHistorysByCaregiverId(1L, 0, 10)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnEmptyPageWhenTryingToFindAllCaregiverHistorys() {
+		// Given
+		final List<CaregiverHistory> content = new ArrayList<>();
+		final Page<CaregiverHistory> caregiverHistorys = new PageImpl<>(content);
+
+		// When
+		when(caregiverHistoryRepository.findAllByCaregiverIdOrderByModifiedDateDesc(anyLong(), (org.springframework.data.domain.Pageable) any()))
+				.thenReturn(caregiverHistorys);
+
+		// Then
+		assertThat(auditEventServiceImpl.findAllCaregiverHistorysByCaregiverId(1L, 0, 10)).isEmpty();
+	}
+
+	@Test
+	public void shouldThrowPageWhenTryingToFindAllCaregiverHistorys() {
+		// Given
+		final Page<CaregiverHistory> caregiverHistorys = null;
+
+		// When
+		when(caregiverHistoryRepository.findAllByCaregiverIdOrderByModifiedDateDesc(anyLong(), (org.springframework.data.domain.Pageable) any()))
+				.thenReturn(caregiverHistorys);
+
+		// Then
+		assertThatThrownBy(() -> auditEventServiceImpl.findAllCaregiverHistorysByCaregiverId(1L, 0, 10))
 		.isInstanceOf(NullPointerException.class);
 	}
 }
