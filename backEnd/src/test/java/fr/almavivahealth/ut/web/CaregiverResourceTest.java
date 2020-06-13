@@ -227,4 +227,37 @@ public class CaregiverResourceTest {
 		.andExpect(status().isNoContent());
 		verify(caregiverService, times(1)).findAllByFloorNumber(anyInt());
 	}
+
+	@Test
+	public void shouldGetCaregiverByUserId() throws IOException, Exception {
+		// Given
+		final CaregiverDTO caregiverDTO = createCaregiverDTO();
+
+		// When
+		when(caregiverService.findByUserId(anyLong())).thenReturn(Optional.ofNullable(caregiverDTO));
+
+		// Then
+		mockMvc.perform(get("/api/caregivers/user/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(caregiverDTO)))
+		.andExpect(status().isOk());
+		verify(caregiverService, times(1)).findByUserId(1L);
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetCaregiverByUserId() throws IOException, Exception {
+		// Given
+		final CaregiverDTO caregiverDTO = null;
+
+		// When
+		when(caregiverService.findByUserId(anyLong())).thenReturn(Optional.ofNullable(caregiverDTO));
+
+		// Then
+		mockMvc.perform(get("/api/caregivers/user/2")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(caregiverDTO)))
+		.andExpect(status().isNoContent());
+		verify(caregiverService, times(1)).findByUserId(2L);
+	}
+
 }
