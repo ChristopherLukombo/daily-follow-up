@@ -58,4 +58,12 @@ public interface CaregiverService {
 	 * @return the list of entities
 	 */
 	List<CaregiverDTO> findAllByFloorNumber(Integer number);
+
+	/**
+	 * Get the "userId" caregiver.
+	 *
+	 * @param userId the user id
+	 * @return the entity
+	 */
+	Optional<CaregiverDTO> findByUserId(Long userId);
 }

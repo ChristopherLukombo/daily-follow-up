@@ -238,4 +238,31 @@ public class CaregiverServiceTest {
 		// Then
 		assertThat(caregiverServiceImpl.findAllByFloorNumber(NUMBER)).isEmpty();
 	}
+
+	@Test
+	public void shouldFindByUserId() {
+		// Given
+		final Caregiver caregiver = createCaregiver();
+		final CaregiverDTO caregiverDTO = createCaregiverDTO();
+
+		// When
+		when(caregiverRepository.findByUserId(anyLong())).thenReturn(Optional.ofNullable(caregiver));
+		when(caregiverMapper.caregiverToCaregiverDTO((Caregiver) any())).thenReturn(caregiverDTO);
+
+		// Then
+		assertThat(caregiverServiceImpl.findByUserId(ID)).isEqualTo(Optional.ofNullable(caregiverDTO));
+	}
+
+	@Test
+	public void shouldFindByUserIdWhenIsNull() {
+		// Given
+		final Caregiver caregiver = null;
+		final CaregiverDTO caregiverDTO = null;
+
+		// When
+		when(caregiverRepository.findByUserId(anyLong())).thenReturn(Optional.ofNullable(caregiver));
+
+		// Then
+		assertThat(caregiverServiceImpl.findByUserId(ID)).isEqualTo(Optional.ofNullable(caregiverDTO));
+	}
 }

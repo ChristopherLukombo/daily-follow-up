@@ -175,4 +175,18 @@ public class CaregiverServiceImpl implements CaregiverService {
 			   .map(caregiverMapper::caregiverToCaregiverDTO)
 			   .collect(Collectors.toList());
 	}
+
+	/**
+	 * Get the "userId" caregiver.
+	 *
+	 * @param userId the user id
+	 * @return the entity
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<CaregiverDTO> findByUserId(final Long userId) {
+		LOGGER.debug("Request to get Caregiver by user id : {}", userId);
+		return caregiverRepository.findByUserId(userId)
+				.map(caregiverMapper::caregiverToCaregiverDTO);
+	}
 }
