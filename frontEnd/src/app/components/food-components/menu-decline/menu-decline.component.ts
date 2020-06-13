@@ -64,7 +64,8 @@ export class MenuDeclineComponent implements OnInit {
   }
 
   onDecline(): void {
-    if (this.selectedDiets.every((diet) => !diet.elementsToCheck.length)) {
+    console.log(this.selectedDiets);
+    if (this.selectedDiets.every((diet) => !diet.elementsToCheck.size)) {
       this.cannotDecline =
         "Le menu ne peut pas être automatiquement adapté au(s) régime(s) séléctionné(s), veuillez le faire manuellement.";
       return;
@@ -72,7 +73,7 @@ export class MenuDeclineComponent implements OnInit {
     this.alimentationService.getAllContents().subscribe(
       (data) => {
         this.allContents = data;
-        let newMenu: Menu = this.declinatorService.declineMenuForDiets(
+        this.declinatorService.declineMenuForDiets(
           this.selectedMenu,
           this.selectedDiets,
           this.allContents

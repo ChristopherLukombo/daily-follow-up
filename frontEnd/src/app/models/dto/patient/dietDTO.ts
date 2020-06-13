@@ -4,9 +4,9 @@ export class DietDTO {
   /***/
   name: string;
   /***/
-  elementsToCheck: Array<string>;
+  elementsToCheck: Map<string, number>;
 
-  constructor(id: number, name: string, elementsToCheck: Array<string>) {
+  constructor(id: number, name: string, elementsToCheck: Map<string, number>) {
     this.id = id;
     this.name = name;
     this.elementsToCheck = elementsToCheck;

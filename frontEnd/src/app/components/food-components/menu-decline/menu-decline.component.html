@@ -10,7 +10,7 @@
       <div *ngIf="error">
         <app-alert-error [content]="error"></app-alert-error>
       </div>
-      <div *ngIf="menus.length > 0 && diets.length > 0 && !error">
+      <div *ngIf="diets.length > 0 && !error">
         <div class="form-group">
           <label><h5>Recherchez le menu à décliner</h5></label>
           <ng-select
