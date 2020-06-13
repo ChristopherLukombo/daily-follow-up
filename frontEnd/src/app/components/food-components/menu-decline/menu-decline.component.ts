@@ -77,8 +77,6 @@ export class MenuDeclineComponent implements OnInit {
           this.selectedDiets,
           this.allContents
         );
-        console.log(this.selectedMenu.replacement);
-        console.log(newMenu.replacement);
       },
       (error) => {
         this.error = this.getError(error);

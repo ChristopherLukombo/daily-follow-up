@@ -11,10 +11,6 @@ export class DeclinatorService {
   constructor() {}
 
   declineMenuForDiets(menu: Menu, diets: Diet[], contents: Content[]): Menu {
-    console.log("---------------------");
-    console.log(menu);
-    console.log(diets);
-    console.log(contents);
     let elementsToFilter: string[] = [];
     let declinedMenu: Menu = menu;
     diets.forEach((diet) => {
