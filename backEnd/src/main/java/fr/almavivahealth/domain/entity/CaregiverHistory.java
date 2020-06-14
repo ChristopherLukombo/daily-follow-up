@@ -21,40 +21,40 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import fr.almavivahealth.domain.enums.Action;
 
 /**
-*
-* @author christopher A MenuHistory.
-*/
+ *
+ * @author christopher A CaregiverHistory.
+ */
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class MenuHistory implements Serializable {
+public class CaregiverHistory implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "menu_id")
-    private Menu menu;
+	@ManyToOne
+	@JoinColumn(name = "caregiver_id")
+	private Caregiver caregiver;
 
-    @CreatedBy
-    private String modifiedBy;
+	@CreatedBy
+	private String modifiedBy;
 
-    @CreatedDate
-    private LocalDateTime modifiedDate;
+	@CreatedDate
+	private LocalDateTime modifiedDate;
 
-    @Enumerated(EnumType.STRING)
-    private Action action;
+	@Enumerated(EnumType.STRING)
+	private Action action;
 
-    public MenuHistory() {
-    	// Empty constructor needed for Hibernate.
+	public CaregiverHistory() {
+		// Empty constructor needed for Hibernate.
 	}
 
-    public MenuHistory(final Menu menu, final Action action) {
-        this.menu = menu;
-        this.action = action;
-    }
+	public CaregiverHistory(final Caregiver caregiver, final Action action) {
+		this.caregiver = caregiver;
+		this.action = action;
+	}
 
 	public Long getId() {
 		return id;
@@ -64,12 +64,12 @@ public class MenuHistory implements Serializable {
 		this.id = id;
 	}
 
-	public Menu getMenu() {
-		return menu;
+	public Caregiver getCaregiver() {
+		return caregiver;
 	}
 
-	public void setMenu(final Menu menu) {
-		this.menu = menu;
+	public void setCaregiver(final Caregiver caregiver) {
+		this.caregiver = caregiver;
 	}
 
 	public String getModifiedBy() {
@@ -98,7 +98,7 @@ public class MenuHistory implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(action, id, menu, modifiedBy, modifiedDate);
+		return Objects.hash(action, id, caregiver, modifiedBy, modifiedDate);
 	}
 
 	@Override
@@ -109,8 +109,8 @@ public class MenuHistory implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final MenuHistory other = (MenuHistory) obj;
-		return action == other.action && Objects.equals(id, other.id) && Objects.equals(menu, other.menu)
+		final CaregiverHistory other = (CaregiverHistory) obj;
+		return action == other.action && Objects.equals(id, other.id) && Objects.equals(caregiver, other.caregiver)
 				&& Objects.equals(modifiedBy, other.modifiedBy) && Objects.equals(modifiedDate, other.modifiedDate);
 	}
 }

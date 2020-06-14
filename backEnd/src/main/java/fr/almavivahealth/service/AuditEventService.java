@@ -2,6 +2,7 @@ package fr.almavivahealth.service;
 
 import org.springframework.data.domain.Page;
 
+import fr.almavivahealth.service.dto.CaregiverHistoryDTO;
 import fr.almavivahealth.service.dto.MenuHistoryDTO;
 import fr.almavivahealth.service.dto.PatientHistoryDTO;
 
@@ -30,4 +31,14 @@ public interface AuditEventService {
 	 * @return the page
 	 */
 	Page<MenuHistoryDTO> findAllMenuHistorysByMenuId(final Long menuId, final Integer page, final Integer size);
+
+	/**
+	 * Get all menu historys by caregiver id.
+	 *
+	 * @param caregiverId the caregiver id
+	 * @param page   the page
+	 * @param size   the size
+	 * @return the page
+	 */
+	Page<CaregiverHistoryDTO> findAllCaregiverHistorysByCaregiverId(final Long caregiverId, final Integer page, final Integer size);
 }

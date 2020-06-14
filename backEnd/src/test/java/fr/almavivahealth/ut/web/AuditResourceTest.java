@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import fr.almavivahealth.dao.MenuHistoryRepository;
 import fr.almavivahealth.service.AuditEventService;
+import fr.almavivahealth.service.dto.CaregiverHistoryDTO;
 import fr.almavivahealth.service.dto.MenuHistoryDTO;
 import fr.almavivahealth.service.dto.PatientHistoryDTO;
 import fr.almavivahealth.service.mapper.MenuHistoryMapper;
@@ -64,6 +65,11 @@ public class AuditResourceTest {
 		return menuHistoryDTO;
 	}
 
+	private static CaregiverHistoryDTO createCaregiverHistoryDTO() {
+		final CaregiverHistoryDTO caregiverHistoryDTO = new CaregiverHistoryDTO();
+		return caregiverHistoryDTO;
+	}
+
 	@Test
 	public void shouldGetAllPatientHistorysWhenIsOk() throws Exception {
 		// Given
@@ -76,7 +82,7 @@ public class AuditResourceTest {
 		// Then
 		mockMvc.perform(get("/management/audits/patient/history/1?page=0&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isOk());
+		.andExpect(status().isOk());
 		verify(auditEventService, times(1)).findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt());
 	}
 
@@ -92,7 +98,7 @@ public class AuditResourceTest {
 		// Then
 		mockMvc.perform(get("/management/audits/patient/history/1?page=0&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isNoContent());
+		.andExpect(status().isNoContent());
 		verify(auditEventService, times(1)).findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt());
 	}
 
@@ -101,7 +107,7 @@ public class AuditResourceTest {
 		// Then
 		mockMvc.perform(get("/management/audits/patient/history/1")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isBadRequest());
+		.andExpect(status().isBadRequest());
 		verify(auditEventService, times(0)).findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt());
 	}
 
@@ -110,7 +116,7 @@ public class AuditResourceTest {
 		// Then
 		mockMvc.perform(get("/management/audits/patient/history/1?page=a&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isBadRequest());
+		.andExpect(status().isBadRequest());
 		verify(auditEventService, times(0)).findAllPatientHistorysByPatientId(anyLong(), anyInt(), anyInt());
 	}
 
@@ -126,7 +132,7 @@ public class AuditResourceTest {
 		// Then
 		mockMvc.perform(get("/management/audits/menu/history/1?page=0&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isOk());
+		.andExpect(status().isOk());
 		verify(auditEventService, times(1)).findAllMenuHistorysByMenuId(anyLong(), anyInt(), anyInt());
 	}
 
@@ -142,7 +148,7 @@ public class AuditResourceTest {
 		// Then
 		mockMvc.perform(get("/management/audits/menu/history/1?page=0&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isNoContent());
+		.andExpect(status().isNoContent());
 		verify(auditEventService, times(1)).findAllMenuHistorysByMenuId(anyLong(), anyInt(), anyInt());
 	}
 
@@ -151,7 +157,7 @@ public class AuditResourceTest {
 		// Then
 		mockMvc.perform(get("/management/audits/menu/history/1")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isBadRequest());
+		.andExpect(status().isBadRequest());
 		verify(auditEventService, times(0)).findAllMenuHistorysByMenuId(anyLong(), anyInt(), anyInt());
 	}
 
@@ -160,7 +166,58 @@ public class AuditResourceTest {
 		// Then
 		mockMvc.perform(get("/management/audits/menu/history/1?page=a&size=10")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
-		        .andExpect(status().isBadRequest());
+		.andExpect(status().isBadRequest());
 		verify(auditEventService, times(0)).findAllMenuHistorysByMenuId(anyLong(), anyInt(), anyInt());
+	}
+
+	//
+	@Test
+	public void shouldGetAllCaregiverHistorysWhenIsOk() throws Exception {
+		// Given
+		final List<CaregiverHistoryDTO> content = Arrays.asList(createCaregiverHistoryDTO());
+		final Page<CaregiverHistoryDTO> caregiverHistorys = new PageImpl<>(content);
+
+		// When
+		when(auditEventService.findAllCaregiverHistorysByCaregiverId(anyLong(), anyInt(), anyInt())).thenReturn(caregiverHistorys);
+
+		// Then
+		mockMvc.perform(get("/management/audits/caregiver/history/1?page=0&size=10")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(auditEventService, times(1)).findAllCaregiverHistorysByCaregiverId(anyLong(), anyInt(), anyInt());
+	}
+
+	@Test
+	public void shouldGetAllCaregiverHistorysWhenIsEmpty() throws Exception {
+		// Given
+		final List<CaregiverHistoryDTO> content = Collections.emptyList();
+		final Page<CaregiverHistoryDTO> caregiverHistorys = new PageImpl<>(content);
+
+		// When
+		when(auditEventService.findAllCaregiverHistorysByCaregiverId(anyLong(), anyInt(), anyInt())).thenReturn(caregiverHistorys);
+
+		// Then
+		mockMvc.perform(get("/management/audits/caregiver/history/1?page=0&size=10")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(auditEventService, times(1)).findAllCaregiverHistorysByCaregiverId(anyLong(), anyInt(), anyInt());
+	}
+
+	@Test
+	public void shouldGetAllCaregiverHistorysWhenIsBadRequest() throws Exception {
+		// Then
+		mockMvc.perform(get("/management/audits/caregiver/history/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isBadRequest());
+		verify(auditEventService, times(0)).findAllCaregiverHistorysByCaregiverId(anyLong(), anyInt(), anyInt());
+	}
+
+	@Test
+	public void shouldGetAllCaregiverHistorysWhenIsNotValidParam() throws Exception {
+		// Then
+		mockMvc.perform(get("/management/audits/caregiver/history/1?page=a&size=10")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isBadRequest());
+		verify(auditEventService, times(0)).findAllCaregiverHistorysByCaregiverId(anyLong(), anyInt(), anyInt());
 	}
 }
