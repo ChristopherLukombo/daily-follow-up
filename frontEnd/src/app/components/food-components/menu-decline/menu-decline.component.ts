@@ -24,6 +24,8 @@ export class MenuDeclineComponent implements OnInit {
 
   cannotDecline: string;
 
+  newMenu: Menu;
+
   constructor(
     private alimentationService: AlimentationService,
     private declinatorService: DeclinatorService
@@ -64,6 +66,8 @@ export class MenuDeclineComponent implements OnInit {
   }
 
   onDecline(): void {
+    this.cannotDecline = null;
+    this.newMenu = null;
     console.log(this.selectedDiets);
     if (this.selectedDiets.every((diet) => !diet.elementsToCheck.size)) {
       this.cannotDecline =
@@ -73,11 +77,13 @@ export class MenuDeclineComponent implements OnInit {
     this.alimentationService.getAllContents().subscribe(
       (data) => {
         this.allContents = data;
-        this.declinatorService.declineMenuForDiets(
+        let declined: Menu = this.declinatorService.declineMenuForDiets(
           this.selectedMenu,
           this.selectedDiets,
           this.allContents
         );
+        this.newMenu = declined;
+        console.log(this.newMenu.replacement);
       },
       (error) => {
         this.error = this.getError(error);

@@ -3,6 +3,7 @@ import { Menu } from "src/app/models/food/menu";
 import { Diet } from "src/app/models/patient/diet";
 import { Content } from "src/app/models/food/content";
 import { Replacement } from "src/app/models/food/replacement";
+import { Week } from "src/app/models/food/week";
 
 const QUANTITY_MAX_AUTHORIZED: number = 10;
 const QUANTITY_MIN_AUTHORIZED: number = 20;
@@ -19,12 +20,17 @@ const DESSERT_TYPE: string = "Dessert";
 export class DeclinatorService {
   constructor() {}
 
-  declineMenuForDiets(
-    base: Menu,
-    dietsToRespect: Diet[],
-    contents: Content[]
-  ): Menu {
+  /**
+   * Décline un menu en un autre menu conforme au régimes donnés
+   * @param base
+   * @param diets
+   * @param allContents
+   * @returns le nouveau Menu
+   */
+  declineMenuForDiets(base: Menu, diets: Diet[], allContents: Content[]): Menu {
     let declinedMenu: Menu = Object.assign({}, base);
+    let dietsToRespect: Diet[] = Object.assign([], diets);
+    let contents: Content[] = Object.assign([], allContents);
     let ingredientsToRespect: Map<
       string,
       number
@@ -36,9 +42,12 @@ export class DeclinatorService {
       ingredientsToRespect,
       contents
     );
-    console.log(declinedMenu.replacement);
-
     // 2) menus pour chaque jour
+    declinedMenu.weeks = this.declineContentsForEachWeeks(
+      declinedMenu.weeks,
+      ingredientsToRespect,
+      contents
+    );
 
     return declinedMenu;
   }
@@ -56,6 +65,65 @@ export class DeclinatorService {
           result.set(ingredient, hasToBeMoreOrLess);
         }
       );
+    });
+    return result;
+  }
+
+  /**
+   * Décline tout les plats de chaque semaine en fonction du régime donné
+   * @param baseMenuWeeks
+   * @param ingredientsToRespect
+   * @param contents
+   * @returns les semaines de plats déclinés
+   */
+  declineContentsForEachWeeks(
+    baseMenuWeeks: Week[],
+    ingredientsToRespect: Map<string, number>,
+    contents: Content[]
+  ): Week[] {
+    baseMenuWeeks.forEach((week) =>
+      week.days.forEach((day) =>
+        day.momentDays.forEach(
+          (moment) =>
+            (moment.contents = this.replaceNotAuthorizedContents(
+              moment.contents,
+              ingredientsToRespect,
+              contents
+            ))
+        )
+      )
+    );
+    return baseMenuWeeks;
+  }
+
+  /**
+   * Remplace dans une liste de plat, les plats ne respectant pas
+   * un régime donné
+   * @param baseContents
+   * @param ingredientsToRespect
+   * @param contents
+   * @returns une liste de plat conforme au régime
+   */
+  replaceNotAuthorizedContents(
+    baseContents: Content[],
+    ingredientsToRespect: Map<string, number>,
+    contents: Content[]
+  ): Content[] {
+    let authorizedContents: Content[] = this.getAuthorizedContents(
+      ingredientsToRespect,
+      contents
+    );
+    let result: Content[] = [];
+    baseContents.forEach((content) => {
+      if (!authorizedContents.find((c) => c.name === content.name)) {
+        console.log(content.name + " pas autorisé !");
+        let alternativeContent = authorizedContents.find((newContent) =>
+          newContent.typeMeals.find((t) => t === content.typeMeals[0])
+        );
+        result.push(alternativeContent);
+      } else {
+        result.push(content);
+      }
     });
     return result;
   }
@@ -181,6 +249,18 @@ export class DeclinatorService {
     }
     return result;
   }
+
+  // isAuthorizedByDiet(content : Content, ingredientsToRespect: Map<string, number>) : boolean {
+  //   for(let ingredient of Array.from(ingredientsToRespect.keys())) {
+  //     if(ingredientsToRespect.get(ingredient) === 0) {
+  //       // l'ingredient doit etre inférieur à la limite autorisé
+  //       if()
+  //     } else if(ingredientsToRespect.get(ingredient) === 0) {
+  //       // l'ingredient doit etre supérieur à la limite autorisé
+
+  //     }
+  //   }
+  // }
 
   /****************************************************************************************** */
 

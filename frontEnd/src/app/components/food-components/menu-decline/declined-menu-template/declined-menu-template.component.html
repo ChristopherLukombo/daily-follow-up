@@ -1,0 +1,53 @@
+<div class="row" style="font-size: 10px;">
+  <div class="col">
+    <h6>ENTREES</h6>
+    <ul *ngFor="let entr of menu?.replacement?.entries">
+      <li>{{ entr?.name }}</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h6>PlATS</h6>
+    <ul *ngFor="let dish of menu?.replacement?.dishes">
+      <li>{{ dish?.name }}</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h6>GARNITURES</h6>
+    <ul *ngFor="let starch of menu?.replacement?.starchyFoods">
+      <li>{{ starch?.name }}</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h6>LEGUMES</h6>
+    <ul *ngFor="let veget of menu?.replacement?.vegetables">
+      <li>{{ veget?.name }}</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h6>PL</h6>
+    <ul *ngFor="let dp of menu?.replacement?.dairyProducts">
+      <li>{{ dp?.name }}</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h6>DESSERTS</h6>
+    <ul *ngFor="let dessert of menu?.replacement?.desserts">
+      <li>{{ dessert?.name }}</li>
+    </ul>
+  </div>
+</div>
+<br />
+<div *ngFor="let week of menu?.weeks" class="row" style="font-size: 10px;">
+  <div *ngFor="let day of week?.days" class="col">
+    <h6>{{ day?.name }}</h6>
+    <br />
+    <div *ngFor="let moment of day?.momentDays" class="row">
+      <div class="col">
+        <ul *ngFor="let c of moment?.contents">
+          <li>{{ c?.name }}</li>
+        </ul>
+        <hr />
+      </div>
+    </div>
+  </div>
+</div>

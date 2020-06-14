@@ -57,6 +57,16 @@
           <div *ngIf="cannotDecline">
             <app-alert-warning [content]="cannotDecline"></app-alert-warning>
           </div>
+          <div *ngIf="newMenu">
+            <div class="alert alert-primary" role="alert">
+              Voici ci-dessous la proposition de déclinaison du menu
+              <strong>{{ selectedMenu?.name }}</strong> en
+              <code *ngFor="let diet of selectedDiets">{{ diet?.name }}</code>
+            </div>
+            <app-declined-menu-template
+              [menu]="newMenu"
+            ></app-declined-menu-template>
+          </div>
         </div>
       </div>
       <br />
