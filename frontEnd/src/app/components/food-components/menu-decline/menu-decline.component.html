@@ -46,12 +46,22 @@
           </div>
           <br />
           <button
+            *ngIf="!declining"
             type="button"
             class="btn btn-primary"
-            [class.disabled]="selectedDiets.length == 0"
+            [disabled]="!selectedDiets.length"
             (click)="onDecline()"
           >
             Décliner le menu
+          </button>
+          <button
+            *ngIf="declining"
+            type="button"
+            class="btn btn-primary"
+            disabled
+          >
+            <span class="spinner-border spinner-border-sm"></span>
+            Recherche d'un menu adapté en cours...
           </button>
           <br /><br />
           <div *ngIf="cannotDecline">
@@ -59,9 +69,9 @@
           </div>
           <div *ngIf="newMenu">
             <div class="alert alert-primary" role="alert">
-              Voici ci-dessous la proposition de déclinaison du menu
+              Voici ci-dessous une proposition de déclinaison du menu
               <strong>{{ selectedMenu?.name }}</strong> en
-              <code *ngFor="let diet of selectedDiets">{{ diet?.name }}</code>
+              <code *ngFor="let diet of newMenu?.diets">{{ diet }}&nbsp;</code>
             </div>
             <app-declined-menu-template
               [menu]="newMenu"

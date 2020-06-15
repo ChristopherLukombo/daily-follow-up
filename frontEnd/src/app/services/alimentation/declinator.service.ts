@@ -28,16 +28,15 @@ export class DeclinatorService {
    * @returns le nouveau Menu
    */
   declineMenuForDiets(base: Menu, diets: Diet[], allContents: Content[]): Menu {
-    let declinedMenu: Menu = Object.assign({}, base);
+    let declinedMenu: Menu = <Menu>JSON.parse(JSON.stringify(base));
     let dietsToRespect: Diet[] = Object.assign([], diets);
     let contents: Content[] = Object.assign([], allContents);
     let ingredientsToRespect: Map<
       string,
       number
     > = this.getAllIngredientsToRespect(dietsToRespect);
-    console.log(ingredientsToRespect);
 
-    // 1) Carte de remplacement
+    // 1) carte de remplacement
     declinedMenu.replacement = this.generateDeclinedReplacement(
       ingredientsToRespect,
       contents
@@ -48,6 +47,8 @@ export class DeclinatorService {
       ingredientsToRespect,
       contents
     );
+    // 3) régime du menu
+    declinedMenu.diets = this.getDietsOfTheDeclinedMenu(dietsToRespect);
 
     return declinedMenu;
   }
@@ -67,6 +68,17 @@ export class DeclinatorService {
       );
     });
     return result;
+  }
+
+  /**
+   * Retourne la liste de diets du menu décliné
+   * @param diets
+   * @returns une liste de nom de diet
+   */
+  getDietsOfTheDeclinedMenu(diets: Diet[]): string[] {
+    let dietsOfTheMenu: string[] = [];
+    diets.forEach((diet) => dietsOfTheMenu.push(diet.name));
+    return dietsOfTheMenu;
   }
 
   /**
@@ -116,7 +128,6 @@ export class DeclinatorService {
     let result: Content[] = [];
     baseContents.forEach((content) => {
       if (!authorizedContents.find((c) => c.name === content.name)) {
-        console.log(content.name + " pas autorisé !");
         let alternativeContent = authorizedContents.find((newContent) =>
           newContent.typeMeals.find((t) => t === content.typeMeals[0])
         );
@@ -248,57 +259,5 @@ export class DeclinatorService {
       if (tmp[i]) result[i] = tmp[i];
     }
     return result;
-  }
-
-  // isAuthorizedByDiet(content : Content, ingredientsToRespect: Map<string, number>) : boolean {
-  //   for(let ingredient of Array.from(ingredientsToRespect.keys())) {
-  //     if(ingredientsToRespect.get(ingredient) === 0) {
-  //       // l'ingredient doit etre inférieur à la limite autorisé
-  //       if()
-  //     } else if(ingredientsToRespect.get(ingredient) === 0) {
-  //       // l'ingredient doit etre supérieur à la limite autorisé
-
-  //     }
-  //   }
-  // }
-
-  /****************************************************************************************** */
-
-  /**
-   * Retourne une carte de remplacement adapté en fonction des caractéristique du régime
-   * @param contents liste de plat de la clinique
-   * @param elementToCheck caractéristiques du régime à filtrer
-   * @returns la nouvelle carte de remplacement
-   */
-  getAuthorizedReplacementss(
-    keysToFilter: string[],
-    contents: Content[]
-  ): Replacement {
-    let newReplacement = new Replacement();
-    Object.keys(newReplacement).forEach((propertyName) => {
-      if (this.isArrayOfContents(newReplacement[propertyName])) {
-        let authorizedContents: Content[] = contents;
-        keysToFilter.forEach((key) => {
-          authorizedContents = authorizedContents.filter((content) => {
-            content[key] < 10;
-          });
-        });
-        newReplacement[propertyName] = authorizedContents;
-      }
-    });
-    return newReplacement;
-  }
-
-  /**
-   * Vérifie si la propriété d'un objet est une liste de plat ou non
-   * @param property
-   * @returns true si oui, false si non
-   */
-  isArrayOfContents(property: any): boolean {
-    return (
-      Array.isArray(property) &&
-      property.length &&
-      property.every((item) => item instanceof Content)
-    );
   }
 }
