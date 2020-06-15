@@ -28,19 +28,42 @@
             <label>Caractéristique(s) du régime (non obligatoire)</label>
           </h5>
           <div class="alert alert-primary" role="alert">
-            Notez le (ou les) ingrédient(s) devants être présent en faible ou en
-            grande quantités dans un plat pour ce régime. Ex.
-            <code>Diabétique</code> : Pauvre en <code>Sucres</code>. Cela
-            servira d'indicateur pour la déclinaison automatique de menus.
+            Notez ici le (ou les) ingrédient(s), définissant au mieux le régime
+            alimentaire.
+            <br /><strong>Exemple :</strong> Un régime
+            <code>Hyperprotéiné</code> est <code>riche en fibres</code> et
+            <code>faible en A.G saturés</code>. <br />Cela servira d'indicateur
+            pour la déclinaison automatique de menus.
           </div>
+          <h6>
+            <label
+              >Élément(s) devant être présent en
+              <span class="text-success">grande quantité</span> :</label
+            >
+          </h6>
           <div class="types-form-checkboxes">
             <label
-              *ngFor="let element of elementsToCheck; let i = index"
+              *ngFor="let high of highElements; let i = index"
               class="checkbox-inline"
             >
-              <input type="checkbox" [formControl]="element" />
+              <input type="checkbox" [formControl]="high" />
               {{ caracteristics[i] }}
-              <span *ngIf="element.value">+/-</span>
+            </label>
+          </div>
+          <br />
+          <h6>
+            <label
+              >Élément(s) devant être présent en
+              <span class="text-danger">faible quantité</span> :</label
+            >
+          </h6>
+          <div class="types-form-checkboxes">
+            <label
+              *ngFor="let low of lowElements; let i = index"
+              class="checkbox-inline"
+            >
+              <input type="checkbox" [formControl]="low" />
+              {{ caracteristics[i] }}
             </label>
           </div>
         </div>
