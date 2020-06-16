@@ -1,53 +1,180 @@
-<div class="row" style="font-size: 10px;">
+<div class="row">
   <div class="col">
-    <h6>ENTREES</h6>
-    <ul *ngFor="let entr of menu?.replacement?.entries">
-      <li>{{ entr?.name }}</li>
-    </ul>
-  </div>
-  <div class="col">
-    <h6>PlATS</h6>
-    <ul *ngFor="let dish of menu?.replacement?.dishes">
-      <li>{{ dish?.name }}</li>
-    </ul>
-  </div>
-  <div class="col">
-    <h6>GARNITURES</h6>
-    <ul *ngFor="let starch of menu?.replacement?.starchyFoods">
-      <li>{{ starch?.name }}</li>
-    </ul>
-  </div>
-  <div class="col">
-    <h6>LEGUMES</h6>
-    <ul *ngFor="let veget of menu?.replacement?.vegetables">
-      <li>{{ veget?.name }}</li>
-    </ul>
-  </div>
-  <div class="col">
-    <h6>PL</h6>
-    <ul *ngFor="let dp of menu?.replacement?.dairyProducts">
-      <li>{{ dp?.name }}</li>
-    </ul>
-  </div>
-  <div class="col">
-    <h6>DESSERTS</h6>
-    <ul *ngFor="let dessert of menu?.replacement?.desserts">
-      <li>{{ dessert?.name }}</li>
-    </ul>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">Entrée(s)</th>
+            <th scope="col">Plat(s)</th>
+            <th scope="col">Féculent(s)</th>
+            <th scope="col">Légume(s)</th>
+            <th scope="col">Produit(s) laitier(s)</th>
+            <th scope="col">Dessert(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let entr of menu?.replacement?.entries"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ entr?.name }}">
+                    {{ entr?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let dish of menu?.replacement?.dishes"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ dish?.name }}">
+                    {{ dish?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let starch of menu?.replacement?.starchyFoods"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ starch?.name }}">
+                    {{ starch?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let veget of menu?.replacement?.vegetables"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ veget?.name }}">
+                    {{ veget?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let dp of menu?.replacement?.dairyProducts"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ dp?.name }}">
+                    {{ dp?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let dessert of menu?.replacement?.desserts"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ dessert?.name }}">
+                    {{ dessert?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 <br />
-<div *ngFor="let week of menu?.weeks" class="row" style="font-size: 10px;">
-  <div *ngFor="let day of week?.days" class="col">
-    <h6>{{ day?.name }}</h6>
-    <br />
-    <div *ngFor="let moment of day?.momentDays" class="row">
-      <div class="col">
-        <ul *ngFor="let c of moment?.contents">
-          <li>{{ c?.name }}</li>
-        </ul>
-        <hr />
-      </div>
+<div class="row">
+  <div class="col">
+    <div class="btn-group">
+      <button
+        *ngFor="let n of menu?.weeks"
+        type="button"
+        class="btn btn-primary"
+        (click)="selectWeek(n?.number)"
+        [class.active]="n?.number == selectedWeek"
+      >
+        Semaine {{ n?.number }}
+      </button>
     </div>
+  </div>
+</div>
+<br />
+<div *ngFor="let n of menu?.weeks" class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table [hidden]="selectedWeek !== n?.number" class="table table-bordered">
+        <thead>
+          <tr class="text-center">
+            <th></th>
+            <th *ngFor="let day of n?.days" scope="col">
+              {{ day?.name }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let moment of moments; let i = index">
+            <th scope="row" class="moment-day">{{ moment }}</th>
+            <td *ngFor="let day of n?.days">
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let content of (day?.momentDays)[i]?.contents"
+                  class="list-group list-group-flush"
+                >
+                  <li
+                    class="list-group-item"
+                    [ngStyle]="{
+                      'background-color': content ? '#dee2e6;' : '#ed969e'
+                    }"
+                    title="{{ content?.name }}"
+                  >
+                    <span class="text-success">{{
+                      content?.name | truncate: 30
+                    }}</span>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<br />
+<div *ngIf="error" class="text-danger">
+  <app-alert-error [content]="error"></app-alert-error>
+</div>
+<div class="row">
+  <div class="col text-right">
+    <button
+      type="button"
+      class="btn btn-info"
+      [disabled]="creating"
+      (click)="onEdit()"
+    >
+      Modifier la proposition
+    </button>
+    &nbsp;
+    <button
+      *ngIf="!creating"
+      type="button"
+      class="btn btn-primary"
+      (click)="onConfirm()"
+    >
+      Confirmer
+    </button>
+    <button *ngIf="creating" type="button" class="btn btn-primary" disabled>
+      <span class="spinner-border spinner-border-sm"></span>Création ...
+    </button>
   </div>
 </div>
