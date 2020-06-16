@@ -4,5 +4,5 @@ export class Diet {
   /***/
   name: string;
   /***/
-  elementsToCheck: Array<string>;
+  elementsToCheck: Map<string, number>;
 }

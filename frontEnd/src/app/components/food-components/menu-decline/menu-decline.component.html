@@ -10,7 +10,7 @@
       <div *ngIf="error">
         <app-alert-error [content]="error"></app-alert-error>
       </div>
-      <div *ngIf="menus.length > 0 && diets.length > 0 && !error">
+      <div *ngIf="diets.length > 0 && !error">
         <div class="form-group">
           <label><h5>Recherchez le menu à décliner</h5></label>
           <ng-select
@@ -46,16 +46,36 @@
           </div>
           <br />
           <button
+            *ngIf="!declining"
             type="button"
             class="btn btn-primary"
-            [class.disabled]="selectedDiets.length == 0"
+            [disabled]="!selectedDiets.length"
             (click)="onDecline()"
           >
             Décliner le menu
           </button>
+          <button
+            *ngIf="declining"
+            type="button"
+            class="btn btn-primary"
+            disabled
+          >
+            <span class="spinner-border spinner-border-sm"></span>
+            Recherche d'un menu adapté en cours...
+          </button>
           <br /><br />
           <div *ngIf="cannotDecline">
             <app-alert-warning [content]="cannotDecline"></app-alert-warning>
+          </div>
+          <div *ngIf="newMenu">
+            <div class="alert alert-primary" role="alert">
+              Voici ci-dessous une proposition de déclinaison du menu
+              <strong>{{ selectedMenu?.name }}</strong> en
+              <code *ngFor="let diet of newMenu?.diets">{{ diet }}&nbsp;</code>
+            </div>
+            <app-declined-menu-template
+              [menu]="newMenu"
+            ></app-declined-menu-template>
           </div>
         </div>
       </div>

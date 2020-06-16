@@ -95,6 +95,7 @@ import {
   truncateStringPipe,
   getFloorNamePipe,
 } from "./utils/pipes/string-utils.pipe";
+import { DeclinedMenuTemplateComponent } from './components/food-components/menu-decline/declined-menu-template/declined-menu-template.component';
 
 @NgModule({
   declarations: [
@@ -169,6 +170,7 @@ import {
     MenuWeeksLockComponent,
     ContentsDayMenuLockComponent,
     ReplacementsCardLockComponent,
+    DeclinedMenuTemplateComponent,
   ],
   imports: [
     BrowserModule,

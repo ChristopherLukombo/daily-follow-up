@@ -24,6 +24,19 @@ export class DietAddComponent implements OnInit {
     "A.G saturés",
     "Sel",
   ];
+  propertyNamesOfContent: Map<string, string> = new Map([
+    [this.caracteristics[0], "calories"],
+    [this.caracteristics[1], "protein"],
+    [this.caracteristics[2], "carbohydrate"],
+    [this.caracteristics[3], "lipids"],
+    [this.caracteristics[4], "sugars"],
+    [this.caracteristics[5], "foodFibres"],
+    [this.caracteristics[6], "agSaturates"],
+    [this.caracteristics[7], "salt"],
+  ]);
+
+  HIGH_QUANTITY: number = 1;
+  LOW_QUANTITY: number = 0;
 
   form: FormGroup;
   submitted: boolean = false;
@@ -37,7 +50,8 @@ export class DietAddComponent implements OnInit {
   createForm(): void {
     const target = {
       name: [null, Validators.required],
-      elementsToCheck: this.buildCheckboxes(),
+      highElements: this.buildCheckboxes(),
+      lowElements: this.buildCheckboxes(),
     };
     this.form = this.formBuilder.group(target);
   }
@@ -57,26 +71,33 @@ export class DietAddComponent implements OnInit {
     return this.form.controls;
   }
 
-  get elementsToCheck() {
-    return this.form.controls.elementsToCheck["controls"];
+  get highElements() {
+    return this.form.controls.highElements["controls"];
   }
 
-  getContentPropertiesName(): string[] {
-    let properties: Map<string, string> = new Map([
-      [this.caracteristics[0], "calories"],
-      [this.caracteristics[1], "protein"],
-      [this.caracteristics[2], "carbohydrate"],
-      [this.caracteristics[3], "lipids"],
-      [this.caracteristics[4], "sugars"],
-      [this.caracteristics[5], "foodFibres"],
-      [this.caracteristics[6], "agSaturates"],
-      [this.caracteristics[7], "salt"],
-    ]);
-    let elementsToCheck: string[] = [];
-    this.form.controls.elementsToCheck["controls"].forEach(
+  get lowElements() {
+    return this.form.controls.lowElements["controls"];
+  }
+
+  getContentPropertiesName(): Map<string, number> {
+    let elementsToCheck: Map<string, number> = new Map();
+    this.form.controls.highElements["controls"].forEach(
       (element: FormControl, i: number) => {
-        if (element.value === true && this.caracteristics[i]) {
-          elementsToCheck.push(properties.get(this.caracteristics[i]));
+        if (element.value && this.caracteristics[i]) {
+          elementsToCheck.set(
+            this.propertyNamesOfContent.get(this.caracteristics[i]),
+            this.HIGH_QUANTITY
+          );
+        }
+      }
+    );
+    this.form.controls.lowElements["controls"].forEach(
+      (element: FormControl, i: number) => {
+        if (element.value && this.caracteristics[i]) {
+          elementsToCheck.set(
+            this.propertyNamesOfContent.get(this.caracteristics[i]),
+            this.LOW_QUANTITY
+          );
         }
       }
     );

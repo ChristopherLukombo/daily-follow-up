@@ -7,7 +7,7 @@ import {
 } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { Diet } from "src/app/models/patient/diet";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { Texture } from "src/app/models/food/texture";
 import { ContentDTO } from "src/app/models/dto/food/contentDTO";
 import { Content } from "src/app/models/food/content";
@@ -38,7 +38,30 @@ export class AlimentationService {
   getAllDiets(): Observable<Diet[]> {
     return this.http
       .get<Diet[]>(DIETS_URL, httpOptions)
+      .pipe(map((diets) => this.convertElementsToMap(diets)))
       .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Convertit les ingrédients caractéristiques des régimes en Map
+   * @param diets
+   * @returns la liste de régime avec la Map des <ingrédients, (riche en/pauvre en)>
+   */
+  convertElementsToMap(diets: Diet[]): Diet[] {
+    diets.forEach((diet) => {
+      diet = this.convertPropertyElementsToMap(diet);
+    });
+    return diets;
+  }
+
+  /**
+   * Convertit les ingrédients caractéristiques d'un régime en Map
+   * @param diet
+   * @returns le régime avec la Map des <ingrédients, (riche en/pauvre en)>
+   */
+  convertPropertyElementsToMap(diet: Diet): Diet {
+    diet.elementsToCheck = new Map(Object.entries(diet.elementsToCheck));
+    return diet;
   }
 
   /**

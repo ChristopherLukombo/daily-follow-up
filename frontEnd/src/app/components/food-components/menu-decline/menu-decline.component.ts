@@ -17,12 +17,13 @@ export class MenuDeclineComponent implements OnInit {
   selectedMenu: Menu;
   selectedDiets: Diet[] = [];
 
-  allContents: Content[] = [];
-
   error: string;
   loading: boolean = false;
 
+  declining: boolean = false;
   cannotDecline: string;
+
+  newMenu: Menu;
 
   constructor(
     private alimentationService: AlimentationService,
@@ -64,22 +65,26 @@ export class MenuDeclineComponent implements OnInit {
   }
 
   onDecline(): void {
-    if (this.selectedDiets.every((diet) => !diet.elementsToCheck.length)) {
+    this.cannotDecline = null;
+    this.newMenu = null;
+    if (this.selectedDiets.every((diet) => !diet.elementsToCheck.size)) {
       this.cannotDecline =
         "Le menu ne peut pas être automatiquement adapté au(s) régime(s) séléctionné(s), veuillez le faire manuellement.";
       return;
     }
+    this.declining = true;
     this.alimentationService.getAllContents().subscribe(
       (data) => {
-        this.allContents = data;
-        let newMenu: Menu = this.declinatorService.declineMenuForDiets(
+        this.newMenu = this.declinatorService.declineMenuForDiets(
           this.selectedMenu,
           this.selectedDiets,
-          this.allContents
+          data
         );
+        this.declining = false;
       },
       (error) => {
         this.error = this.getError(error);
+        this.declining = false;
       }
     );
   }
