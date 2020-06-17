@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
 import { Menu } from "src/app/models/food/menu";
+import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 
 @Component({
   selector: "app-menu-declined-edit",
@@ -13,13 +13,24 @@ export class MenuDeclinedEditComponent implements OnInit {
   loading: boolean = false;
   warning: string;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private alimentationService: AlimentationService) {}
 
   ngOnInit(): void {
-    if (!this.menu) {
-      this.warning = "Impossible de charger le menu à modifier";
-    }
-    console.log(window.history.state.data);
-    console.log(this.router.getCurrentNavigation().extras.state.data);
+    this.loading = true;
+    this.alimentationService.getMenuFromLocal().subscribe(
+      (data) => {
+        this.menu = data;
+        if (!this.menu) this.warning = this.impossibleToGetMenu();
+        this.loading = false;
+      },
+      (error) => {
+        this.warning = this.impossibleToGetMenu();
+        this.loading = false;
+      }
+    );
+  }
+
+  impossibleToGetMenu(): string {
+    return "Impossible de charger le menu à modifier";
   }
 }

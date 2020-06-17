@@ -5,7 +5,7 @@ import {
   HttpClient,
   HttpErrorResponse,
 } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
+import { Observable, throwError, BehaviorSubject } from "rxjs";
 import { Diet } from "src/app/models/patient/diet";
 import { catchError, map } from "rxjs/operators";
 import { Texture } from "src/app/models/food/texture";
@@ -29,6 +29,10 @@ const MENUS_URL = environment.appRootUrl + "/api/menus";
   providedIn: "root",
 })
 export class AlimentationService {
+  private menuFromLocal: BehaviorSubject<Menu> = new BehaviorSubject<Menu>(
+    null
+  );
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -108,6 +112,29 @@ export class AlimentationService {
     return this.http
       .get<Menu[]>(MENUS_URL, httpOptions)
       .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Sauvegarde en local un menu afin de le réutiliser plus tard
+   * @param menu
+   */
+  storeMenuToLocal(menu: Menu): void {
+    this.menuFromLocal.next(menu);
+  }
+
+  /**
+   * Supprime le menu sauvegardé en local
+   */
+  clearMenuFromLocal(): void {
+    this.menuFromLocal.next(null);
+  }
+
+  /**
+   * Retourne le menu sauvegardé en local
+   * @returns le menu
+   */
+  getMenuFromLocal(): Observable<Menu> {
+    return this.menuFromLocal.asObservable();
   }
 
   /**

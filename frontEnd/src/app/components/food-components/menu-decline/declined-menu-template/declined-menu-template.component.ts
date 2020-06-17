@@ -155,9 +155,8 @@ export class DeclinedMenuTemplateComponent implements OnInit {
   }
 
   onEdit(): void {
-    this.router.navigate(["/food/menu/decline/edit"], {
-      state: { data: this.menu },
-    });
+    this.alimentationService.storeMenuToLocal(this.menu);
+    this.router.navigate(["/food/menu/decline/edit"]);
   }
 
   /**
