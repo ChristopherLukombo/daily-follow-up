@@ -109,7 +109,7 @@
   </div>
 </div>
 <br />
-<div *ngFor="let n of menu?.weeks" class="row">
+<div *ngFor="let n of menu?.weeks; let i = index" class="row">
   <div class="col">
     <div class="table-responsive">
       <table [hidden]="selectedWeek !== n?.number" class="table table-bordered">
@@ -122,27 +122,13 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let moment of moments; let i = index">
+          <tr *ngFor="let moment of moments; let j = index">
             <th scope="row" class="moment-day">{{ moment }}</th>
-            <td *ngFor="let day of n?.days">
-              <div class="meals-of-the-day">
-                <ul
-                  *ngFor="let content of (day?.momentDays)[i]?.contents"
-                  class="list-group list-group-flush"
-                >
-                  <li
-                    class="list-group-item"
-                    [ngStyle]="{
-                      'background-color': content ? '#dee2e6;' : '#ed969e'
-                    }"
-                    title="{{ content?.name }}"
-                  >
-                    <span class="text-success">{{
-                      content?.name | truncate: 30
-                    }}</span>
-                  </li>
-                </ul>
-              </div>
+            <td *ngFor="let day of n?.days; let k = index">
+              <app-diff-declined-content-day
+                [from]="(((from?.weeks)[i]?.days)[k]?.momentDays)[j]?.contents"
+                [to]="(((menu?.weeks)[i]?.days)[k]?.momentDays)[j]?.contents"
+              ></app-diff-declined-content-day>
             </td>
           </tr>
         </tbody>

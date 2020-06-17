@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Menu } from "src/app/models/food/menu";
-import * as moment from "moment";
 import { MenuDTO } from "src/app/models/dto/food/menuDTO";
 import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
 import { WeekDTO } from "src/app/models/dto/food/weekDTO";
@@ -16,6 +15,7 @@ import { Router } from "@angular/router";
 })
 export class DeclinedMenuTemplateComponent implements OnInit {
   @Input() menu: Menu;
+  @Input() from: Menu;
 
   selectedWeek: number;
   moments: string[] = ["Déjeuner", "Dîner"];
@@ -154,7 +154,11 @@ export class DeclinedMenuTemplateComponent implements OnInit {
     );
   }
 
-  onEdit(): void {}
+  onEdit(): void {
+    this.router.navigate(["/food/menu/decline/edit"], {
+      state: { data: this.menu },
+    });
+  }
 
   /**
    * Récupération du code erreur et ajout du message à afficher
