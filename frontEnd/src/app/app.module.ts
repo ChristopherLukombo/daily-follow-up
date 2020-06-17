@@ -96,6 +96,8 @@ import {
   getFloorNamePipe,
 } from "./utils/pipes/string-utils.pipe";
 import { DeclinedMenuTemplateComponent } from './components/food-components/menu-decline/declined-menu-template/declined-menu-template.component';
+import { DiffDeclinedContentDayComponent } from './components/food-components/menu-decline/declined-menu-template/diff-declined-content-day/diff-declined-content-day.component';
+import { MenuDeclinedEditComponent } from './components/food-components/menu-declined-edit/menu-declined-edit.component';
 
 @NgModule({
   declarations: [
@@ -171,6 +173,8 @@ import { DeclinedMenuTemplateComponent } from './components/food-components/menu
     ContentsDayMenuLockComponent,
     ReplacementsCardLockComponent,
     DeclinedMenuTemplateComponent,
+    DiffDeclinedContentDayComponent,
+    MenuDeclinedEditComponent,
   ],
   imports: [
     BrowserModule,

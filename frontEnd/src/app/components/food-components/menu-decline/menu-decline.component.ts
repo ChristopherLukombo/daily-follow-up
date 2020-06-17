@@ -4,7 +4,6 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { Diet } from "src/app/models/patient/diet";
 import { forkJoin } from "rxjs";
 import { DeclinatorService } from "src/app/services/alimentation/declinator.service";
-import { Content } from "src/app/models/food/content";
 
 @Component({
   selector: "app-menu-decline",

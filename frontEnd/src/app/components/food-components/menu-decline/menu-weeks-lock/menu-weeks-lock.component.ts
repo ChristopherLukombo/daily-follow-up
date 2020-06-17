@@ -33,12 +33,4 @@ export class MenuWeeksLockComponent implements OnInit {
   selectWeek(numWeek: number): void {
     this.selectedWeek = numWeek;
   }
-
-  getDateOfTheDay(numWeek: number, day: string): string {
-    let date: string = moment(this.menu.startDate)
-      .add(numWeek - 1, "week")
-      .add(this.indexOfDays.get(day), "day")
-      .format("DD/MM");
-    return date;
-  }
 }

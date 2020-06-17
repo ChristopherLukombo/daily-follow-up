@@ -39,10 +39,6 @@
               <th></th>
               <th *ngFor="let day of n?.days" scope="col">
                 {{ day?.name }}
-                <br />
-                <small>
-                  {{ getDateOfTheDay(n?.number, day?.name) }}
-                </small>
               </th>
             </tr>
           </thead>
