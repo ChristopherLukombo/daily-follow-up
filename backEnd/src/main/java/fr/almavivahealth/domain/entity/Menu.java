@@ -79,4 +79,6 @@ public class Menu implements Serializable {
 
 	@OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<MenuHistory> menuHistories;
+
+	private Integer repetition;
 }

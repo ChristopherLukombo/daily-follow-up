@@ -34,6 +34,7 @@ public interface MenuMapper {
 	@Mapping(source = "weeks", target = "weeks")
 	@Mapping(source = "lastModifiedBy", target = "lastModifiedBy")
 	@Mapping(source = "lastModificationDateBy", target = "lastModificationDateBy")
+	@Mapping(source = "repetition", target = "repetition")
 	MenuDTO menuToMenuDTO(Menu menu);
 
 	@InheritInverseConfiguration
