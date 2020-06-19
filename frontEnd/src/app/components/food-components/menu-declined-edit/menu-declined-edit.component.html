@@ -6,9 +6,39 @@
     <div class="col">
       <h2>Modifier la déclinaison</h2>
       <br />
-      <div *ngIf="loading"><app-loader></app-loader></div>
       <div *ngIf="warning">
         <app-alert-warning [content]="warning"></app-alert-warning>
+      </div>
+      <div *ngIf="!warning && menu" class="row">
+        <div class="col">
+          <h4>
+            <span class="badge badge-secondary">{{ menu.texture }}</span>
+          </h4>
+          <h4>
+            <span *ngFor="let diet of menu.diets" class="spaced-badge">
+              <span class="badge badge-info">
+                {{ diet }}
+              </span>
+            </span>
+          </h4>
+        </div>
+        <div class="col text-right">
+          Période allant du <strong>{{ menu?.startDate }}</strong> au
+          <strong>{{ menu?.endDate }}</strong>
+        </div>
+      </div>
+      <br />
+      <app-menu-weeks-edit [menu]="menu"></app-menu-weeks-edit>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col text-right">
+          <button type="button" class="btn btn-primary" (click)="onSubmit()">
+            Confirmer la création
+          </button>
+        </div>
       </div>
       <br />
     </div>

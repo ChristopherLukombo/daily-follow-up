@@ -30,13 +30,13 @@
           <app-menu-weeks-lock [menu]="selectedMenu"> </app-menu-weeks-lock>
           <br />
           <div class="form-group">
-            <label><h5>Selectionnez la (ou les) déclinaison(s)</h5></label>
+            <label><h5>Sélectionnez la (ou les) déclinaison(s)</h5></label>
             <br />
             <div class="btn-group">
               <button
                 *ngFor="let d of diets"
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-info"
                 (click)="selectOrDeselectDiet(d)"
                 [class.active]="containsDiet(d)"
               >
