@@ -47,6 +47,8 @@ public class MenuDTO implements Serializable {
 
 	private LocalDateTime lastModificationDateBy;
 
+	private Integer repetition;
+
 	public MenuDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -133,8 +135,8 @@ public class MenuDTO implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(diets, endDate, id, lastModificationDateBy, lastModifiedBy, name, replacement, startDate,
-				texture, weeks);
+		return Objects.hash(diets, endDate, id, lastModificationDateBy, lastModifiedBy, name, repetition, replacement,
+				startDate, texture, weeks);
 	}
 
 	@Override
@@ -149,8 +151,9 @@ public class MenuDTO implements Serializable {
 		return Objects.equals(diets, other.diets) && Objects.equals(endDate, other.endDate)
 				&& Objects.equals(id, other.id) && Objects.equals(lastModificationDateBy, other.lastModificationDateBy)
 				&& Objects.equals(lastModifiedBy, other.lastModifiedBy) && Objects.equals(name, other.name)
-				&& Objects.equals(replacement, other.replacement) && Objects.equals(startDate, other.startDate)
-				&& Objects.equals(texture, other.texture) && Objects.equals(weeks, other.weeks);
+				&& Objects.equals(repetition, other.repetition) && Objects.equals(replacement, other.replacement)
+				&& Objects.equals(startDate, other.startDate) && Objects.equals(texture, other.texture)
+				&& Objects.equals(weeks, other.weeks);
 	}
 
 	@Override
