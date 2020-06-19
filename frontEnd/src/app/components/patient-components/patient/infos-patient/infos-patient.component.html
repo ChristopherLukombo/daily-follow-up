@@ -41,52 +41,48 @@
             <th>Poids</th>
             <td>{{ patient?.weight }} kg</td>
           </tr>
+          <tr>
+            <th>Situation familliale</th>
+            <td>{{ patient?.situation }}</td>
+          </tr>
+          <tr>
+            <th>Situation pro</th>
+            <td>{{ patient?.job }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <table class="infos-patient">
+        <tbody>
+          <tr>
+            <th>Mail</th>
+            <td>{{ patient?.email }}</td>
+          </tr>
+          <tr>
+            <th>Télephone</th>
+            <td>{{ patient?.phoneNumber }}</td>
+          </tr>
+          <tr>
+            <th>Télephone Mobile</th>
+            <td>{{ patient?.mobilePhone }}</td>
+          </tr>
+          <tr>
+            <th>Adresse</th>
+            <td>{{ patient?.address?.streetName }}</td>
+          </tr>
+          <tr>
+            <th>Code postal</th>
+            <td>{{ patient?.address?.postalCode }}</td>
+          </tr>
+          <tr>
+            <th>Ville</th>
+            <td>{{ patient?.address?.city | titlecase }}</td>
+          </tr>
         </tbody>
       </table>
     </div>
   </div>
-  <br />
-  <table class="infos-patient">
-    <tbody>
-      <tr>
-        <th>Situation familliale</th>
-        <td>{{ patient?.situation }}</td>
-      </tr>
-      <tr>
-        <th>Situation pro</th>
-        <td>{{ patient?.job }}</td>
-      </tr>
-    </tbody>
-  </table>
-  <br />
-  <table class="infos-patient">
-    <tbody>
-      <tr>
-        <th>Mail</th>
-        <td>{{ patient?.email }}</td>
-      </tr>
-      <tr>
-        <th>Télephone</th>
-        <td>{{ patient?.phoneNumber }}</td>
-      </tr>
-      <tr>
-        <th>Télephone</th>
-        <td>{{ patient?.mobilePhone }}</td>
-      </tr>
-      <tr>
-        <th>Adresse</th>
-        <td>{{ patient?.address?.streetName }}</td>
-      </tr>
-      <tr>
-        <th>Code postal</th>
-        <td>{{ patient?.address?.postalCode }}</td>
-      </tr>
-      <tr>
-        <th>Ville</th>
-        <td>{{ patient?.address?.city | titlecase }}</td>
-      </tr>
-    </tbody>
-  </table>
   <br />
   <div class="row">
     <div class="col-4">
