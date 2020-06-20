@@ -38,6 +38,8 @@ public class OrderDTO implements Serializable {
 
 	private List<ContentDTO> dairyProducts;
 
+	private String moment;
+
 	private Long patientId;
 
 	public OrderDTO() {
@@ -124,10 +126,18 @@ public class OrderDTO implements Serializable {
 		this.dairyProducts = dairyProducts;
 	}
 
+	public String getMoment() {
+		return moment;
+	}
+
+	public void setMoment(final String moment) {
+		this.moment = moment;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(dairyProducts, date, desserts, dishes, entries, id, orderStatus, patientId, starchyFoods,
-				vegetables);
+		return Objects.hash(dairyProducts, date, desserts, dishes, entries, id, moment, orderStatus, patientId,
+				starchyFoods, vegetables);
 	}
 
 	@Override
@@ -142,8 +152,9 @@ public class OrderDTO implements Serializable {
 		return Objects.equals(dairyProducts, other.dairyProducts) && Objects.equals(date, other.date)
 				&& Objects.equals(desserts, other.desserts) && Objects.equals(dishes, other.dishes)
 				&& Objects.equals(entries, other.entries) && Objects.equals(id, other.id)
-				&& orderStatus == other.orderStatus && Objects.equals(patientId, other.patientId)
-				&& Objects.equals(starchyFoods, other.starchyFoods) && Objects.equals(vegetables, other.vegetables);
+				&& Objects.equals(moment, other.moment) && Objects.equals(orderStatus, other.orderStatus)
+				&& Objects.equals(patientId, other.patientId) && Objects.equals(starchyFoods, other.starchyFoods)
+				&& Objects.equals(vegetables, other.vegetables);
 	}
 
 	@Override
