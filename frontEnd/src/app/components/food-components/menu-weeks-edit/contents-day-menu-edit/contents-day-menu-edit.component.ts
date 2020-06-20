@@ -69,7 +69,11 @@ export class ContentsDayMenuEditComponent implements OnInit {
       dish: [moment.contents[1], Validators.required],
       garnish: [moment.contents[2], Validators.required],
       dairyProduct: [moment.contents[3], Validators.required],
-      dessert: [moment.contents[4], Validators.required],
+      // pour un Diner, la liste est de taille 4 (dejeuner = 5), donc le dessert est à l'index 3
+      dessert: [
+        this.moment === "Dîner" ? moment.contents[3] : moment.contents[4],
+        Validators.required,
+      ],
     };
     this.form = this.formBuilder.group(target);
     this.refreshContents();
@@ -113,7 +117,6 @@ export class ContentsDayMenuEditComponent implements OnInit {
     if (this.form.invalid) return;
     this.refreshContents();
     this.setContentsOfParentMenu();
-    console.log("ok");
   }
 
   /**

@@ -3,6 +3,10 @@ import { Menu } from "src/app/models/food/menu";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { MenuDTO } from "src/app/models/dto/food/menuDTO";
+import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
+import { WeekDTO } from "src/app/models/dto/food/weekDTO";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-menu-declined-edit",
@@ -76,6 +80,48 @@ export class MenuDeclinedEditComponent implements OnInit {
     );
   }
 
+  getMenuDTO(): MenuDTO {
+    return new MenuDTO(
+      null,
+      this.menu.startDate,
+      this.menu.endDate,
+      this.menu.diets,
+      this.menu.texture,
+      this.getReplacementDTO(),
+      null,
+      null,
+      this.getWeeksDTOFromWeek()
+    );
+  }
+
+  getReplacementDTO(): ReplacementDTO {
+    return new ReplacementDTO(
+      null,
+      this.menu.replacement.entries,
+      this.menu.replacement.dishes,
+      this.menu.replacement.starchyFoods,
+      this.menu.replacement.vegetables,
+      this.menu.replacement.dairyProducts,
+      this.menu.replacement.desserts
+    );
+  }
+
+  getWeeksDTOFromWeek(): WeekDTO[] {
+    let dtoFromWeeks: WeekDTO[] = <WeekDTO[]>(
+      JSON.parse(JSON.stringify(this.menu.weeks))
+    );
+    dtoFromWeeks.forEach((week) => {
+      week.id = null;
+      week.days.forEach((day) => {
+        day.id = null;
+        day.momentDays.forEach((moment) => {
+          moment.id = null;
+        });
+      });
+    });
+    return dtoFromWeeks;
+  }
+
   onSubmit(): void {
     this.error = null;
     if (!this.weeksAreValid() || !this.replacementIsValid()) {
@@ -83,6 +129,37 @@ export class MenuDeclinedEditComponent implements OnInit {
         "Le menu est incomplet. Veuillez vérifier la carte de remplacement ainsi que vos insertions pour chaque jour.";
       return;
     }
-    console.log(this.menu);
+    let dto = this.getMenuDTO();
+    this.creating = true;
+    this.alimentationService.createMenu(dto).subscribe(
+      (data) => {
+        this.toastrService.success(
+          "Le menu a bien été crée",
+          "Création terminée !"
+        );
+        this.creating = false;
+        this.alimentationService.removeMenuFromLocal();
+        this.router.navigate(["/food/menu/currents"]);
+      },
+      (error) => {
+        this.toastrService.error(this.getCustomError(error), "Oops !");
+        this.creating = false;
+      }
+    );
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
+      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else if (error && error.status === 500) {
+      return error.error.message;
+    } else {
+      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+    }
   }
 }

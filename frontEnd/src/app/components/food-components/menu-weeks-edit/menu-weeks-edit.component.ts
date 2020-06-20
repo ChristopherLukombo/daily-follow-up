@@ -43,7 +43,6 @@ export class MenuWeeksEditComponent implements OnInit {
 
   ngOnChanges(): void {
     if (this.menu) {
-      console.log(this.menu);
       this.selectedWeek = this.menu.weeks[0].number;
     }
   }

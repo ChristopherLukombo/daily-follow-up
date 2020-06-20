@@ -135,8 +135,6 @@ export class DeclinedMenuTemplateComponent implements OnInit {
       return;
     }
     let dto = this.getMenuDTO();
-    console.log(dto);
-    console.log(this.menu);
     this.creating = true;
     this.alimentationService.createMenu(dto).subscribe(
       (data) => {

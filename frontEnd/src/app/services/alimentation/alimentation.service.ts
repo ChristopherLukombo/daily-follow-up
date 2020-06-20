@@ -121,7 +121,7 @@ export class AlimentationService {
   /**
    * Supprime le menu sauvegardé en local
    */
-  clearMenuFromLocal(): void {
+  removeMenuFromLocal(): void {
     localStorage.removeItem("menu");
   }
 
