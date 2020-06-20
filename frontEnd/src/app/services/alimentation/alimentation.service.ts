@@ -29,10 +29,6 @@ const MENUS_URL = environment.appRootUrl + "/api/menus";
   providedIn: "root",
 })
 export class AlimentationService {
-  private menuFromLocal: BehaviorSubject<Menu> = new BehaviorSubject<Menu>(
-    null
-  );
-
   constructor(private http: HttpClient) {}
 
   /**
@@ -119,22 +115,23 @@ export class AlimentationService {
    * @param menu
    */
   storeMenuToLocal(menu: Menu): void {
-    this.menuFromLocal.next(menu);
+    localStorage.setItem("menu", JSON.stringify(menu));
   }
 
   /**
    * Supprime le menu sauvegardé en local
    */
-  clearMenuFromLocal(): void {
-    this.menuFromLocal.next(null);
+  removeMenuFromLocal(): void {
+    localStorage.removeItem("menu");
   }
 
   /**
    * Retourne le menu sauvegardé en local
    * @returns le menu
    */
-  getMenuFromLocal(): Observable<Menu> {
-    return this.menuFromLocal.asObservable();
+  getMenuFromLocal(): Menu {
+    let item = localStorage.getItem("menu");
+    return <Menu>JSON.parse(item);
   }
 
   /**
