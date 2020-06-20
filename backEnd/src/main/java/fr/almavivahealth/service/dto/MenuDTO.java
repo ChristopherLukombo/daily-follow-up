@@ -133,6 +133,14 @@ public class MenuDTO implements Serializable {
 		this.texture = texture;
 	}
 
+	public Integer getRepetition() {
+		return repetition;
+	}
+
+	public void setRepetition(final Integer repetition) {
+		this.repetition = repetition;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(diets, endDate, id, lastModificationDateBy, lastModifiedBy, name, repetition, replacement,
