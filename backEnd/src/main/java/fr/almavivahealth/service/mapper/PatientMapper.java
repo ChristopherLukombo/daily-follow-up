@@ -11,10 +11,10 @@ import fr.almavivahealth.service.dto.PatientDTO;
 
 /**
  * Mapper for the entity Patient and its DTO called PatientDTO.
- * 
+ *
  * @author christopher
  */
-@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Mapper(componentModel = "spring", uses = OrderMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 @DecoratedWith(PatientMapperDecorator.class)
 public interface PatientMapper {
 
@@ -36,6 +36,7 @@ public interface PatientMapper {
 	@Mapping(source = "texture", target = "texture")
 	@Mapping(source = "comment", target = "comment")
 	@Mapping(source = "room.id", target = "roomId")
+	@Mapping(source = "orders", target = "orders")
 	PatientDTO patientToPatientDTO(Patient patient);
 
 	@InheritInverseConfiguration

@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import fr.almavivahealth.domain.entity.Address;
 import fr.almavivahealth.domain.entity.Allergy;
 import fr.almavivahealth.domain.entity.Comment;
 import fr.almavivahealth.domain.entity.Diet;
+import fr.almavivahealth.domain.entity.Order;
 import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.domain.entity.Texture;
@@ -15,6 +18,7 @@ import fr.almavivahealth.service.dto.AddressDTO;
 import fr.almavivahealth.service.dto.AllergyDTO;
 import fr.almavivahealth.service.dto.CommentDTO;
 import fr.almavivahealth.service.dto.DietDTO;
+import fr.almavivahealth.service.dto.OrderDTO;
 import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.dto.TextureDTO;
 
@@ -24,6 +28,9 @@ import fr.almavivahealth.service.dto.TextureDTO;
  * @author christopher
  */
 public abstract class PatientMapperDecorator implements PatientMapper {
+
+	@Autowired
+	private OrderMapper orderMapper;
 
 	@Override
 	public PatientDTO patientToPatientDTO(final Patient patient) {
@@ -51,6 +58,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.allergies(buildAllergiesDTO(patient))
 				.comment(buildCommentDTO(patient))
 				.roomId(buildRoomDTO(patient))
+				.orders(orderListToOrderDTOList(patient.getOrders()))
 				.build();
 	}
 
@@ -126,6 +134,22 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 		return room.getId();
 	}
 
+	private List<OrderDTO> orderListToOrderDTOList(final List<Order> orders) {
+		if (orders == null) {
+			return Collections.emptyList();
+		}
+
+		final List<OrderDTO> orderDTOs = new ArrayList<>(orders.size());
+		for (final Order order : orders) {
+			orderDTOs.add(orderMapper.orderToOrderDTO(order));
+		}
+
+		return orderDTOs;
+	}
+
+
+
+
 	@Override
 	public Patient patientDTOToPatient(final PatientDTO patientDTO) {
 		if (patientDTO == null) {
@@ -152,6 +176,7 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 				.allergies(this.buildAllergies(patientDTO))
 				.comment(this.buildComment(patientDTO))
 				.room(this.buildRoom(patientDTO))
+                .orders(orderDTOListToOrderList(patientDTO.getOrders()))
 				.build();
 	}
 
@@ -226,5 +251,18 @@ public abstract class PatientMapperDecorator implements PatientMapper {
 		return Room.builder()
 				.id(patientDTO.getRoomId())
 				.build();
+	}
+
+	private List<Order> orderDTOListToOrderList(final List<OrderDTO> orderDTOs) {
+		if (orderDTOs == null) {
+			return Collections.emptyList();
+		}
+
+		final List<Order> orders = new ArrayList<>(orderDTOs.size());
+		for (final OrderDTO orderDTO : orderDTOs) {
+			orders.add(orderMapper.orderDTOToOrder(orderDTO));
+		}
+
+		return orders;
 	}
 }
