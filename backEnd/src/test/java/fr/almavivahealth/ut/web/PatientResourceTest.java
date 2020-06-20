@@ -423,4 +423,28 @@ public class PatientResourceTest {
 		.andExpect(status().isNoContent());
 		verify(patientService, times(1)).findAllByFloorNumber(anyInt());
 	}
+
+	@Test
+	public void shouldChangeRooms() throws Exception {
+		// When
+		when(patientService.changeRooms(anyLong(), anyLong())).thenReturn(true);
+
+		// Then
+		mockMvc.perform(post("/api/patients/changesRoom/1/2")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(patientService, times(1)).changeRooms(anyLong(), anyLong());
+	}
+
+	@Test
+	public void shouldThrow500WhenPatientNotExistInTryingToChangeRooms() throws Exception {
+		// When
+		when(patientService.changeRooms(anyLong(), anyLong())).thenReturn(false);
+
+		// Then
+		mockMvc.perform(post("/api/patients/changesRoom/1/2")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isInternalServerError());
+		verify(patientService, times(1)).changeRooms(anyLong(), anyLong());
+	}
 }
