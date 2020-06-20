@@ -44,7 +44,6 @@ public class OrderServiceTest {
 	private static Order createOrder() {
 		return Order.builder()
 				.id(ID)
-				.momentDays(null)
 				.patient(null)
 				.build();
 	}

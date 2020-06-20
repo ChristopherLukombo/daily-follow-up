@@ -7,13 +7,11 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import fr.almavivahealth.domain.enums.OrderStatus;
@@ -65,8 +63,7 @@ public class Order implements Serializable {
 	@ManyToMany
 	private List<Content> dairyProducts;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<MomentDay> momentDays;
+	private String moment;
 
 	@ManyToOne
 	private Patient patient;
