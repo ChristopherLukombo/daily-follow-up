@@ -140,7 +140,7 @@ export class DeclinedMenuTemplateComponent implements OnInit {
     this.alimentationService.createMenu(dto).subscribe(
       (data) => {
         this.toastrService.success(
-          "Le menu a bien été crée",
+          "Le menu a bien été créé",
           "Création terminée !"
         );
         this.creating = false;

@@ -266,7 +266,7 @@ export class FormPatientAddComponent implements OnInit {
         const id = data.id;
         this.creating = false;
         this.toastrService.success(
-          "Le patient a bien été crée",
+          "Le patient a bien été créé",
           "Création terminée !"
         );
         this.router.navigate(["/patient/details"], { queryParams: { id: id } });

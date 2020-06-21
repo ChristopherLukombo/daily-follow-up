@@ -113,7 +113,7 @@ export class UserAddComponent implements OnInit {
       (data) => {
         this.creating = false;
         this.toastrService.success(
-          "L'utilisateur " + data.user.pseudo + " a bien été crée",
+          "L'utilisateur " + data.user.pseudo + " a bien été créé",
           "Création terminée !"
         );
         this.createdMessage = this.getCreatedMsg(
@@ -133,7 +133,7 @@ export class UserAddComponent implements OnInit {
       (data) => {
         this.creating = false;
         this.toastrService.success(
-          "L'utilisateur " + data.pseudo + " a bien été crée",
+          "L'utilisateur " + data.pseudo + " a bien été créé",
           "Création terminée !"
         );
         this.createdMessage = this.getCreatedMsg(user.pseudo, user.password);
