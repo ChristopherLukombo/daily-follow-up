@@ -11,25 +11,35 @@
         <app-alert-error [content]="error"></app-alert-error>
       </div>
       <div *ngIf="!loading && !error">
-        <app-list-meals [contents]="contents"></app-list-meals>
-      </div>
-      <div class="row">
-        <div class="col text-left">
-          <button
-            type="button"
-            class="btn btn-primary"
-            routerLink="/food/meal/add"
-          >
-            Nouvelle livraison
-          </button>
+        <div class="row">
+          <div class="col">
+            <app-list-meals
+              [contents]="contents"
+              (selectedContent)="setContent($event)"
+            ></app-list-meals>
+          </div>
+          <div *ngIf="content" class="col-4">
+            <app-detail-meal [content]="content"></app-detail-meal>
+          </div>
         </div>
-        <div class="col text-right">
-          <button type="button" class="btn btn-danger">
-            Supprimer tout les plats
-          </button>
+        <div class="row">
+          <div class="col text-left">
+            <button
+              type="button"
+              class="btn btn-primary"
+              routerLink="/food/meal/add"
+            >
+              Nouvelle livraison
+            </button>
+          </div>
+          <div class="col text-right">
+            <button type="button" class="btn btn-danger">
+              Supprimer tout les plats
+            </button>
+          </div>
         </div>
+        <br />
       </div>
-      <br />
     </div>
   </div>
 </div>

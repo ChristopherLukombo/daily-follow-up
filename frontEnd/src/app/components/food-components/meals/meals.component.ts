@@ -9,6 +9,7 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 })
 export class MealsComponent implements OnInit {
   contents: Content[] = [];
+  content: Content;
 
   error: string;
   loading: Boolean = false;
@@ -28,6 +29,10 @@ export class MealsComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  setContent(content: Content): void {
+    this.content = content;
   }
 
   /**

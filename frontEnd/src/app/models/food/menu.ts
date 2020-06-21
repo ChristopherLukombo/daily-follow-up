@@ -15,6 +15,8 @@ export class Menu {
   /***/
   name: string;
   /***/
+  repetition: number;
+  /***/
   replacement: Replacement;
   /***/
   startDate: string;

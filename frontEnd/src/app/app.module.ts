@@ -101,6 +101,8 @@ import { MenuDeclinedEditComponent } from './components/food-components/menu-dec
 import { MenuWeeksEditComponent } from './components/food-components/menu-weeks-edit/menu-weeks-edit.component';
 import { ContentsDayMenuEditComponent } from './components/food-components/menu-weeks-edit/contents-day-menu-edit/contents-day-menu-edit.component';
 import { ReplacementsCardEditComponent } from './components/food-components/menu-weeks-edit/replacements-card-edit/replacements-card-edit.component';
+import { MealEditComponent } from './components/food-components/meal/meal-edit/meal-edit.component';
+import { DetailMealComponent } from './components/food-components/meals/detail-meal/detail-meal.component';
 
 @NgModule({
   declarations: [
@@ -181,6 +183,8 @@ import { ReplacementsCardEditComponent } from './components/food-components/menu
     MenuWeeksEditComponent,
     ContentsDayMenuEditComponent,
     ReplacementsCardEditComponent,
+    MealEditComponent,
+    DetailMealComponent,
   ],
   imports: [
     BrowserModule,
