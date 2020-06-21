@@ -31,20 +31,25 @@ export class MenuDeclineComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    let allMenus = this.alimentationService.getAllMenus();
-    let allDiets = this.alimentationService.getAllDiets();
-    // TODO : récupérer uniquement les menus 'Normal' dans le futur
-    forkJoin([allMenus, allDiets]).subscribe(
-      (datas) => {
-        this.menus = datas[0];
-        this.diets = datas[1].filter(
-          (d) => !d.name.toLowerCase().includes("normal")
-        );
+    this.alimentationService.getAllMenus().subscribe(
+      (data) => {
+        this.menus = data;
         this.loading = false;
       },
       (error) => {
         this.error = this.getError(error);
         this.loading = false;
+      }
+    );
+  }
+
+  getDeclinableDiets(selected: Menu): void {
+    this.alimentationService.getAllDiets().subscribe(
+      (data) => {
+        this.diets = data.filter((d) => !selected.diets.includes(d.name));
+      },
+      (error) => {
+        console.log(error);
       }
     );
   }

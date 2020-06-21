@@ -112,7 +112,7 @@ INSERT INTO caregiver (floor_id, user_id) VALUES
 
 /******************** ALIMENTATIONS DES PATIENTS ********************/
 INSERT INTO diet (name) VALUES
-('Normale'),
+('Normal'),
 ('Hyperprotéiné'),
 ('Diabétique'),
 ('Sans porc'),
@@ -131,7 +131,7 @@ INSERT INTO elements_to_check (diet_id, elements_to_check, elements_to_check_key
 
 /******************** TEXTURES DES PLATS ********************/
 INSERT INTO texture (name) VALUES
-('Normale'),
+('Normal'),
 ('Haché'),
 ('Mixé');
 

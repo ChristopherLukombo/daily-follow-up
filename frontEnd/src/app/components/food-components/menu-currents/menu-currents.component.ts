@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { Texture } from "src/app/models/food/texture";
 import { Diet } from "src/app/models/patient/diet";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import * as moment from "moment";
+import { TypeTexture } from "src/app/models/utils/texture-enum";
 
 @Component({
   selector: "app-menu-currents",
@@ -10,7 +10,7 @@ import * as moment from "moment";
   styleUrls: ["./menu-currents.component.scss"],
 })
 export class MenuCurrentsComponent implements OnInit {
-  textures: string[] = ["Normal", "Mixé"];
+  textures: string[] = [TypeTexture.NORMAL, TypeTexture.MIXED];
   selectedTexture: string = this.textures[0];
   diets: Diet[] = [];
   selectedDiet: string;

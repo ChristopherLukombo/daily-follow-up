@@ -10,7 +10,7 @@
       <div *ngIf="error">
         <app-alert-error [content]="error"></app-alert-error>
       </div>
-      <div *ngIf="diets.length > 0 && !error">
+      <div *ngIf="menus && menus.length > 0 && !error">
         <div class="form-group">
           <label><h5>Recherchez le menu à décliner</h5></label>
           <ng-select
@@ -22,11 +22,12 @@
             notFoundText="Aucun menu trouvé"
             [virtualScroll]="true"
             [(ngModel)]="selectedMenu"
+            (ngModelChange)="getDeclinableDiets($event)"
           >
           </ng-select>
         </div>
         <br />
-        <div *ngIf="selectedMenu">
+        <div *ngIf="selectedMenu && diets && diets.length > 0">
           <app-menu-weeks-lock [menu]="selectedMenu"> </app-menu-weeks-lock>
           <br />
           <div class="form-group">
