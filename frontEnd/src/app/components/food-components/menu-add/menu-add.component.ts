@@ -145,15 +145,31 @@ export class MenuAddComponent implements OnInit {
     return true;
   }
 
+  repetitionsAreValids(): boolean {
+    return (
+      this.repeat &&
+      Number.isInteger(this.repeat) &&
+      this.repeat > 0 &&
+      this.repeat < 7
+    );
+  }
+
   getMoment(day: string, week: number): string {
     return moment().day(day).week(week).format("YYYY-MM-DD");
   }
 
-  getMenuDTO(begin: string, end: string): MenuDTO {
+  getMenuDTO(beginWeek: string, repetition: number): MenuDTO {
+    let week: number = parseInt(beginWeek.split("-")[1].replace("W", ""));
+    let begin = this.getMoment("Monday", week);
+    let end = this.getMoment(
+      "Sunday",
+      week + this.weeksDTO.length * repetition
+    );
     return new MenuDTO(
       null,
       begin,
       end,
+      repetition,
       ["Normal"],
       this.selectedTexture,
       this.replacementDTO,
@@ -167,26 +183,18 @@ export class MenuAddComponent implements OnInit {
     this.submitted = true;
     this.error = null;
     if (
-      !this.weeksAreValid() ||
       !this.beginWeek ||
-      !this.repeat ||
-      !this.replacementDTO
+      !this.repetitionsAreValids() ||
+      !this.replacementDTO ||
+      !this.weeksAreValid()
     ) {
       this.error =
         "Le menu est incomplet. Veuillez vérifier la carte de remplacement ainsi que vos insertions pour chaque jour.";
       return;
     }
     this.creating = true;
-    const indexWeek: number = parseInt(
-      this.beginWeek.split("-")[1].replace("W", "")
-    );
-    let beginDate = this.getMoment("Monday", indexWeek);
-    let endDate = this.getMoment(
-      "Sunday",
-      indexWeek + this.weeksDTO.length * this.repeat
-    );
     // TODO : check la semaine déjà passé ou non
-    let dto = this.getMenuDTO(beginDate, endDate);
+    let dto = this.getMenuDTO(this.beginWeek, this.repeat);
     this.alimentationService.createMenu(dto).subscribe(
       (data) => {
         // TODO : redirection vers la page visualisation menu en cours

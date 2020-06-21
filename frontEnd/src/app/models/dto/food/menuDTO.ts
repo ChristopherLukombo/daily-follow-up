@@ -15,6 +15,8 @@ export class MenuDTO {
   /***/
   name: string;
   /***/
+  repetition: number;
+  /***/
   replacement: ReplacementDTO;
   /***/
   startDate: string;
@@ -27,6 +29,7 @@ export class MenuDTO {
     id: number,
     startDate: string,
     endDate: string,
+    repetition: number,
     diets: Array<string>,
     texture: string,
     replacement: ReplacementDTO,
@@ -39,6 +42,7 @@ export class MenuDTO {
         diets.toString() + " - " + texture + " - " + startDate + "_" + endDate),
       (this.startDate = startDate),
       (this.endDate = endDate),
+      (this.repetition = repetition),
       (this.diets = diets),
       (this.texture = texture),
       (this.replacement = replacement),

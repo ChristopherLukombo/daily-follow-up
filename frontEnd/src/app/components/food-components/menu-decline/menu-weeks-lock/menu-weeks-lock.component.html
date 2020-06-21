@@ -1,7 +1,16 @@
 <div *ngIf="menu" class="row">
   <div class="col text-left">
     Période allant du <strong>{{ menu?.startDate }}</strong> au
-    <strong>{{ menu?.endDate }}</strong>
+    <strong>{{ menu?.endDate }}</strong
+    >.
+    <br />
+    <span *ngIf="menu?.repetition > 1">
+      Ce menu se répète <strong>{{ menu?.repetition }}</strong>
+      fois.
+    </span>
+    <span *ngIf="menu?.repetition === 1">
+      Ce menu ne se répète pas.
+    </span>
   </div>
 </div>
 <br />

@@ -85,6 +85,7 @@ export class MenuDeclinedEditComponent implements OnInit {
       null,
       this.menu.startDate,
       this.menu.endDate,
+      this.menu.repetition,
       this.menu.diets,
       this.menu.texture,
       this.getReplacementDTO(),

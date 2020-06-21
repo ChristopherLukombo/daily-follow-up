@@ -24,7 +24,16 @@
         </div>
         <div class="col text-right">
           Période allant du <strong>{{ menu?.startDate }}</strong> au
-          <strong>{{ menu?.endDate }}</strong>
+          <strong>{{ menu?.endDate }}</strong
+          >.
+          <br />
+          <span *ngIf="menu?.repetition > 1">
+            Le menu se répète <strong>{{ menu?.repetition }}</strong>
+            fois.
+          </span>
+          <span *ngIf="menu?.repetition === 1">
+            Le menu ne se répète pas.
+          </span>
         </div>
       </div>
       <br />
