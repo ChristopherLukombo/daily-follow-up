@@ -1,11 +1,13 @@
 package fr.almavivahealth.web.rest;
 
 import static fr.almavivahealth.constants.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_IMPORT_THE_PATIENTS;
+import static fr.almavivahealth.constants.ErrorMessage.ERROR_PATIENT_ROOM_CHANGE;
 import static fr.almavivahealth.constants.ErrorMessage.THE_FILE_MUST_BE_OF_TYPE_CSV;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +40,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * REST controller for managing Patient.
@@ -310,4 +313,33 @@ public class PatientResource {
 		}
 		return ResponseEntity.ok().body(patients);
 	}
+
+	/**
+	 * POST /patients/changeRoom/{firstPatientId}/{secondPatientId} : Change rooms.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of patients in body
+	 * or with status 204 (No Content) if there is no patient.
+	 * @throws DailyFollowUpException
+	 *
+	 */
+	@ApiOperation("Change rooms of patients.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+		@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+		@PostMapping("/patients/changesRoom/{firstPatientId}/{secondPatientId}")
+		public ResponseEntity<HttpStatus> changeRooms(@PathVariable final Long firstPatientId,
+				@PathVariable final Long secondPatientId, @ApiIgnore final Locale locale) throws DailyFollowUpException {
+			LOGGER.debug("REST request to get all Patients for floor: {} {}", firstPatientId, secondPatientId);
+			final boolean changeRooms = patientService.changeRooms(firstPatientId, secondPatientId);
+			if (!changeRooms) {
+				throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					messageSource.getMessage(ERROR_PATIENT_ROOM_CHANGE, null, locale));
+			}
+			return ResponseEntity.ok().build();
+		}
 }

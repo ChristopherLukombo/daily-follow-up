@@ -437,4 +437,24 @@ public class PatientServiceTest {
 		assertThatThrownBy(() -> patientServiceImpl.findAllByFloorNumber(NUMBER))
 		.isInstanceOf(NullPointerException.class);
 	}
+
+	@SuppressWarnings("unchecked")
+	@Test
+	public void shouldChangeRooms() {
+		// Given
+		final Patient firstPatient = getPatient();
+		final Patient secondPatient = getPatient();
+
+		// When
+		when(patientRepository.findById(anyLong())).thenReturn(Optional.of(firstPatient), Optional.of(secondPatient));
+
+		// Then
+		assertThat(patientServiceImpl.changeRooms(1L, 2L)).isTrue();
+	}
+
+	@Test
+	public void shouldReturnsFalseWhenPatientNotExistInTryingToChangeRooms() {
+		// Then
+		assertThat(patientServiceImpl.changeRooms(1L, 2L)).isFalse();
+	}
 }

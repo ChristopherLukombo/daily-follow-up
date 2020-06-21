@@ -395,4 +395,47 @@ public class PatientServiceImpl implements PatientService {
 				.map(patientMapper::patientToPatientDTO)
 				.collect(Collectors.toList());
 	}
+
+	/**
+	 * Change rooms.
+	 *
+	 * @param firstPatientId  the first patient id
+	 * @param secondPatientId the second patient id
+	 * @return true, if successful
+	 */
+	@Override
+	public boolean changeRooms(final Long firstPatientId, final Long secondPatientId) {
+		LOGGER.debug("Request to change room for patients: {} {}", firstPatientId, secondPatientId);
+		final Patient firstPatient = patientRepository.findById(firstPatientId).orElse(null);
+		final Room roomFirstPatient = findRoom(firstPatient);
+
+		final Patient secondPatient = patientRepository.findById(secondPatientId).orElse(null);
+		final Room roomSecondPatient = findRoom(secondPatient);
+
+		if (null == firstPatient || null == secondPatient) {
+             return false;
+		}
+
+		// Free rooms
+		firstPatient.setRoom(null);
+		secondPatient.setRoom(null);
+
+		patientRepository.saveAndFlush(firstPatient);
+		patientRepository.saveAndFlush(secondPatient);
+
+		// Change rooms
+		firstPatient.setRoom(roomSecondPatient);
+		patientRepository.saveAndFlush(firstPatient);
+
+		secondPatient.setRoom(roomFirstPatient);
+		patientRepository.saveAndFlush(secondPatient);
+
+		return true;
+	}
+
+	private Room findRoom(final Patient patient) {
+		return Optional.ofNullable(patient)
+				.map(Patient::getRoom)
+				.orElse(null);
+	}
 }

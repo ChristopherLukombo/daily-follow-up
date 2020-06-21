@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -80,5 +82,7 @@ public class Menu implements Serializable {
 	@OneToMany(mappedBy = "menu", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<MenuHistory> menuHistories;
 
+	@Min(1)
+	@Max(6)
 	private Integer repetition;
 }
