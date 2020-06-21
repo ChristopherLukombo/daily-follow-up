@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -47,6 +49,8 @@ public class MenuDTO implements Serializable {
 
 	private LocalDateTime lastModificationDateBy;
 
+	@Min(1)
+	@Max(6)
 	private Integer repetition;
 
 	public MenuDTO() {
