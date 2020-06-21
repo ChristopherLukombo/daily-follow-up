@@ -107,6 +107,7 @@ import { FormMealEditComponent } from './components/food-components/meal/meal-ed
 import { OrdersComponent } from './components/order-components/orders/orders.component';
 import { OrderNavbarComponent } from './components/navbar-vertical/order-navbar/order-navbar.component';
 import { PictureMealEditComponent } from './components/food-components/meal/meal-edit/picture-meal-edit/picture-meal-edit.component';
+import { StatisticsPatientsComponent } from './components/statistics/statistics-patients/statistics-patients.component';
 
 @NgModule({
   declarations: [
@@ -193,6 +194,7 @@ import { PictureMealEditComponent } from './components/food-components/meal/meal
     OrdersComponent,
     OrderNavbarComponent,
     PictureMealEditComponent,
+    StatisticsPatientsComponent,
   ],
   imports: [
     BrowserModule,
