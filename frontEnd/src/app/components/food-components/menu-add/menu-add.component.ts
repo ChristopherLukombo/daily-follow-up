@@ -154,16 +154,21 @@ export class MenuAddComponent implements OnInit {
     );
   }
 
+  dateIsInTheFuture(week: number): boolean {
+    let date = moment().day("Monday").week(week);
+    let endOfCurrentWeek = moment().day("Sunday");
+    return date > endOfCurrentWeek;
+  }
+
   getMoment(day: string, week: number): string {
     return moment().day(day).week(week).format("YYYY-MM-DD");
   }
 
-  getMenuDTO(beginWeek: string, repetition: number): MenuDTO {
-    let week: number = parseInt(beginWeek.split("-")[1].replace("W", ""));
-    let begin = this.getMoment("Monday", week);
+  getMenuDTO(beginWeek: number, repetition: number): MenuDTO {
+    let begin = this.getMoment("Monday", beginWeek);
     let end = this.getMoment(
       "Sunday",
-      week + this.weeksDTO.length * repetition
+      beginWeek + this.weeksDTO.length * repetition
     );
     return new MenuDTO(
       null,
@@ -192,12 +197,16 @@ export class MenuAddComponent implements OnInit {
         "Le menu est incomplet. Veuillez vérifier la carte de remplacement ainsi que vos insertions pour chaque jour.";
       return;
     }
+    let week: number = parseInt(this.beginWeek.split("-")[1].replace("W", ""));
+    if (!this.dateIsInTheFuture(week)) {
+      this.error =
+        "Le menu doit débuter au moins partir de la semaine prochaine.";
+      return;
+    }
     this.creating = true;
-    // TODO : check la semaine déjà passé ou non
-    let dto = this.getMenuDTO(this.beginWeek, this.repeat);
+    let dto = this.getMenuDTO(week, this.repeat);
     this.alimentationService.createMenu(dto).subscribe(
       (data) => {
-        // TODO : redirection vers la page visualisation menu en cours
         this.toastrService.success(
           "Le menu a bien été crée",
           "Création terminée !"
