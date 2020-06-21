@@ -15,7 +15,6 @@ import { HttpErrorResponse } from "@angular/common/http";
 })
 export class MenuDeclinedEditComponent implements OnInit {
   menu: Menu;
-  textures: string[] = ["Normal", "Mixé"];
 
   warning: string;
 

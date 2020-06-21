@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 import { FormGroup } from "@angular/forms";
 import { Content } from "src/app/models/food/content";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
@@ -6,6 +6,7 @@ import { MomentDayCustomInfos } from "src/app/models/utils/moment-day-custom-inf
 import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { Action } from "src/app/models/utils/actions-enum";
+import { TypeTexture } from "src/app/models/utils/texture-enum";
 
 @Component({
   selector: "app-menu-weeks",
@@ -15,6 +16,8 @@ import { Action } from "src/app/models/utils/actions-enum";
 export class MenuWeeksComponent implements OnInit {
   moreLogo = faPlus;
   revertLogo = faMinus;
+
+  @Input() texture: string;
 
   weeks: number[] = [1, 2, 3, 4];
   selectedWeek: number = this.weeks[0];
@@ -41,12 +44,18 @@ export class MenuWeeksComponent implements OnInit {
 
   constructor(private alimentationService: AlimentationService) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  ngOnChanges(): void {
+    this.getAllContentsAvailable();
+  }
+
+  getAllContentsAvailable(): void {
     this.loading = true;
     this.alimentationService.getAllContents().subscribe(
       (data) => {
         if (data) {
-          this.allContents = data;
+          this.allContents = this.filterByTexture(data, this.texture);
         } else {
           this.noContents =
             "Il n'y a aucun plats disponibles actuellement dans la clinique. Veuillez d'abord en ajouter afin de pouvoir composer un menu.";
@@ -60,6 +69,12 @@ export class MenuWeeksComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  filterByTexture(contents: Content[], texture: string): Content[] {
+    return texture === TypeTexture.MIXED
+      ? contents.filter((c) => c.mixed)
+      : contents;
   }
 
   createWeek(): void {

@@ -10,6 +10,7 @@ import { MenuDTO } from "src/app/models/dto/food/menuDTO";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { ToastrService } from "ngx-toastr";
 import { HttpErrorResponse } from "@angular/common/http";
+import { TypeTexture } from "src/app/models/utils/texture-enum";
 
 @Component({
   selector: "app-menu-add",
@@ -17,7 +18,7 @@ import { HttpErrorResponse } from "@angular/common/http";
   styleUrls: ["./menu-add.component.scss"],
 })
 export class MenuAddComponent implements OnInit {
-  textures: string[] = ["Normal", "Mixé"];
+  textures: string[] = [TypeTexture.NORMAL, TypeTexture.MIXED];
   selectedTexture: string = this.textures[0];
   beginWeek: string;
   repeat: number = 5;
