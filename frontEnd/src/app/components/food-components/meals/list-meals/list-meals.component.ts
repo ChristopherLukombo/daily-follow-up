@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { Content } from "src/app/models/food/content";
 import {
   faTimesCircle,
@@ -24,6 +24,8 @@ export class ListMealsComponent implements OnInit {
   pagination = { itemsPerPage: 8, currentPage: this.page };
 
   selectedRow: number;
+
+  @Output() selectedContent = new EventEmitter<Content>();
 
   constructor() {}
 
@@ -55,6 +57,6 @@ export class ListMealsComponent implements OnInit {
 
   selectContent(content: Content, index: number): void {
     this.selectedRow = index;
-    console.log(content);
+    this.selectedContent.emit(content);
   }
 }

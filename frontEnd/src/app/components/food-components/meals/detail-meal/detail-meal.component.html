@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <h4>{{ content?.name }} ({{ content?.calories }} kcal)</h4>
+      <hr />
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <caption>
+            <small>Composition nutrionnelle pour 100g</small>
+          </caption>
+          <tbody>
+            <tr>
+              <td class="table-danger">Protéines</td>
+              <td>{{ content?.protein }} g</td>
+            </tr>
+            <tr>
+              <td class="table-primary">Glucides</td>
+              <td>{{ content?.carbohydrate }} g</td>
+            </tr>
+            <tr>
+              <td class="table-warning">Lipides</td>
+              <td>{{ content?.lipids }} g</td>
+            </tr>
+            <tr>
+              <td class="table-default">Sucres</td>
+              <td>{{ content?.sugars }} g</td>
+            </tr>
+            <tr>
+              <td class="table-info">Fibres</td>
+              <td>{{ content?.foodFibres }} g</td>
+            </tr>
+            <tr>
+              <td class="table-secondary">A.G saturés</td>
+              <td>{{ content?.agSaturates }} g</td>
+            </tr>
+            <tr>
+              <td class="table-active">Sel</td>
+              <td>{{ content?.salt }} g</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="text-right">
+        <a
+          class="nav-link"
+          routerLink="/food/meal/details/edit"
+          [queryParams]="{ id: content?.id }"
+          ><fa-icon [icon]="moreDetailsLogo"></fa-icon> Plus de detail</a
+        >
+      </div>
+    </div>
+  </div>
+</div>

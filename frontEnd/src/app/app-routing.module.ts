@@ -21,6 +21,7 @@ import { FloorAddComponent } from "./components/clinic-components/floor-add/floo
 import { DietAddComponent } from "./components/food-components/diet-add/diet-add.component";
 import { MenuDeclineComponent } from "./components/food-components/menu-decline/menu-decline.component";
 import { MenuDeclinedEditComponent } from "./components/food-components/menu-declined-edit/menu-declined-edit.component";
+import { MealEditComponent } from "./components/food-components/meal/meal-edit/meal-edit.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -73,6 +74,11 @@ const routes: Routes = [
   {
     path: "food/meal/add",
     component: MealsAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/meal/details/edit",
+    component: MealEditComponent,
     canActivate: [AuthGuard],
   },
   {
