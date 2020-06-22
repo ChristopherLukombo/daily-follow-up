@@ -126,8 +126,8 @@
             <th scope="row" class="moment-day">{{ moment }}</th>
             <td *ngFor="let day of n?.days; let k = index">
               <app-diff-declined-content-day
-                [from]="(((from?.weeks)[i]?.days)[k]?.momentDays)[j]?.contents"
-                [to]="(((menu?.weeks)[i]?.days)[k]?.momentDays)[j]?.contents"
+                [from]="(((from?.weeks)[i]?.days)[k]?.momentDays)[j]"
+                [to]="(((menu?.weeks)[i]?.days)[k]?.momentDays)[j]"
               ></app-diff-declined-content-day>
             </td>
           </tr>

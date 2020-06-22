@@ -29,14 +29,10 @@ export class MenuDeclinedEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.menu = this.alimentationService.getMenuFromLocal();
-    if (this.menu) {
-      this.createForm();
-    } else {
+    if (!this.menu) {
       this.warning = this.impossibleToGetMenu();
     }
   }
-
-  createForm() {}
 
   impossibleToGetMenu(): string {
     return "Impossible de charger le menu à modifier";
@@ -51,11 +47,15 @@ export class MenuDeclinedEditComponent implements OnInit {
     this.menu.weeks.forEach((week) => {
       week.days.forEach((day) => {
         day.momentDays.forEach((moment) => {
-          moment.contents.forEach((content) => {
-            if (!content) {
-              result = false;
-            }
-          });
+          if (
+            !moment.entry ||
+            !moment.dish ||
+            !moment.garnish ||
+            (moment.name !== "Dîner" && !moment.dairyProduct) ||
+            !moment.dessert
+          ) {
+            result = false;
+          }
         });
       });
     });

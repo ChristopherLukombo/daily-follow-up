@@ -85,6 +85,17 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne un plat en fonction de son id
+   * @param id
+   * @returns un Content
+   */
+  getContent(id: number): Observable<Content> {
+    return this.http
+      .get<Content>(CONTENTS_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Créer plusieurs plats
    * @param listContentsDTO la liste de plat
    * @returns les plats ayant étés crées

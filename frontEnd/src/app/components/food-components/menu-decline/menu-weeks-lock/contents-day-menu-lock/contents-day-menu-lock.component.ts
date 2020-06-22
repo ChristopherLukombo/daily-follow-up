@@ -28,6 +28,12 @@ export class ContentsDayMenuLockComponent implements OnInit {
     let moment: MomentDay = this.day.momentDays.find(
       (m) => m.name == this.momentTime
     );
-    this.contents = moment.contents;
+    this.contents.push(moment.entry);
+    this.contents.push(moment.dish);
+    this.contents.push(moment.garnish);
+    if (moment.name !== "Dîner") {
+      this.contents.push(moment.dairyProduct);
+    }
+    this.contents.push(moment.dessert);
   }
 }

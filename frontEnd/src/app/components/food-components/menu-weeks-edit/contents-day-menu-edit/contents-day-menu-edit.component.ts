@@ -65,15 +65,11 @@ export class ContentsDayMenuEditComponent implements OnInit {
 
   createFormAndRefreshContents(moment: MomentDay): void {
     const target = {
-      entry: [moment.contents[0], Validators.required],
-      dish: [moment.contents[1], Validators.required],
-      garnish: [moment.contents[2], Validators.required],
-      dairyProduct: [moment.contents[3], Validators.required],
-      // pour un Diner, la liste est de taille 4 (dejeuner = 5), donc le dessert est à l'index 3
-      dessert: [
-        this.moment === "Dîner" ? moment.contents[3] : moment.contents[4],
-        Validators.required,
-      ],
+      entry: [moment.entry, Validators.required],
+      dish: [moment.dish, Validators.required],
+      garnish: [moment.garnish, Validators.required],
+      dairyProduct: [moment.dairyProduct, Validators.required],
+      dessert: [moment.dessert, Validators.required],
     };
     this.form = this.formBuilder.group(target);
     this.refreshContents();
@@ -132,9 +128,20 @@ export class ContentsDayMenuEditComponent implements OnInit {
         (m) => m.name === this.moment
       );
       if (k !== -1) {
-        this.menu.weeks[i].days[j].momentDays[k].contents = Array.from(
-          this.contentsOfTheMoment.values()
-        );
+        this.menu.weeks[i].days[j].momentDays[
+          k
+        ].entry = this.contentsOfTheMoment.get("Entrée");
+        this.menu.weeks[i].days[j].momentDays[
+          k
+        ].entry = this.contentsOfTheMoment.get("Plat");
+        this.menu.weeks[i].days[j].momentDays[
+          k
+        ].entry = this.contentsOfTheMoment.get("Garniture");
+        this.menu.weeks[i].days[j].momentDays[k].entry =
+          this.moment !== "Dîner" ? this.contentsOfTheMoment.get("P.L") : null;
+        this.menu.weeks[i].days[j].momentDays[
+          k
+        ].entry = this.contentsOfTheMoment.get("Dessert");
       }
     }
   }

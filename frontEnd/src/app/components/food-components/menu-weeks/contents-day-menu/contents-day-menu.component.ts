@@ -114,7 +114,11 @@ export class ContentsDayMenuComponent implements OnInit {
       new MomentDayDTO(
         null,
         this.moment,
-        Array.from(this.contentsOfTheMoment.values())
+        this.contentsOfTheMoment.get("Entrée"),
+        this.contentsOfTheMoment.get("Plat"),
+        this.contentsOfTheMoment.get("Garniture"),
+        this.moment !== "Dîner" ? this.contentsOfTheMoment.get("P.L") : null,
+        this.contentsOfTheMoment.get("Dessert")
       )
     );
     this.submitMoment.emit(infos);

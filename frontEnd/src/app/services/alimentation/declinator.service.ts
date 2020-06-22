@@ -95,17 +95,64 @@ export class DeclinatorService {
   ): Week[] {
     baseMenuWeeks.forEach((week) =>
       week.days.forEach((day) =>
-        day.momentDays.forEach(
-          (moment) =>
-            (moment.contents = this.replaceNotAuthorizedContents(
-              moment.contents,
+        day.momentDays.forEach((moment) => {
+          moment.entry = this.replaceIfNotAuthorizedContent(
+            moment.entry,
+            ENTRIE_TYPE,
+            ingredientsToRespect,
+            contents
+          );
+          moment.dish = this.replaceIfNotAuthorizedContent(
+            moment.dish,
+            DISH_TYPE,
+            ingredientsToRespect,
+            contents
+          );
+          moment.garnish = this.replaceIfNotAuthorizedContent(
+            moment.garnish,
+            GARNISH_TYPE,
+            ingredientsToRespect,
+            contents
+          );
+          if (moment.name !== "Dîner") {
+            moment.dairyProduct = this.replaceIfNotAuthorizedContent(
+              moment.dairyProduct,
+              DAIRY_PRODUCT_TYPE,
               ingredientsToRespect,
               contents
-            ))
-        )
+            );
+          }
+          moment.dessert = this.replaceIfNotAuthorizedContent(
+            moment.dessert,
+            DESSERT_TYPE,
+            ingredientsToRespect,
+            contents
+          );
+        })
       )
     );
     return baseMenuWeeks;
+  }
+
+  replaceIfNotAuthorizedContent(
+    baseContent: Content,
+    type: string,
+    ingredientsToRespect: Map<string, number>,
+    contents: Content[]
+  ): Content {
+    let authorizedContents: Content[] = this.getAuthorizedContentsByTypes(
+      type,
+      ingredientsToRespect,
+      contents
+    );
+    let result: Content = baseContent;
+    if (!authorizedContents.find((c) => c.name === baseContent.name)) {
+      let alternativeContent = this.selectRandoms(
+        authorizedContents
+      ).find((newContent) => newContent.typeMeals.find((t) => t === type));
+      result = alternativeContent;
+    }
+    return result;
   }
 
   /**
@@ -116,6 +163,7 @@ export class DeclinatorService {
    * @param contents
    * @returns une liste de plat conforme au régime
    */
+  // A SUPPRIMER
   replaceNotAuthorizedContents(
     baseContents: Content[],
     ingredientsToRespect: Map<string, number>,
