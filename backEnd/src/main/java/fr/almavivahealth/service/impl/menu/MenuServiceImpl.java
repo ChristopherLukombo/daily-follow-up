@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -282,17 +283,32 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	private List<String> findContentNames(final Menu menu, final String momentDay, final String dayToSearch) {
-		return menu.getWeeks().stream()
+		final MomentDay md = menu.getWeeks().stream()
 				.map(Week::getDays)
 				.flatMap(Collection::stream)
 				.filter(d -> isDaySelected(d, dayToSearch))
 				.map(Day::getMomentDays)
 				.flatMap(Collection::stream)
 				.filter(m -> isMomentDay(momentDay, m))
-				.map(MomentDay::getContents)
-				.flatMap(Collection::stream)
+				.findFirst()
+				.orElse(null);
+
+		if (null == md) {
+			return Collections.emptyList();
+		}
+
+		return Arrays.asList(
+				toName(md.getEntry()),
+				toName(md.getDish()),
+				toName(md.getGarnish()),
+				toName(md.getDairyProduct()),
+				toName(md.getDessert()));
+	}
+
+	private String toName(final Content content) {
+		return Optional.ofNullable(content)
 				.map(Content::getName)
-				.collect(Collectors.toList());
+				.orElse(StringUtils.EMPTY);
 	}
 
 	private boolean isDaySelected(final Day day, final String dayToSearch) {
