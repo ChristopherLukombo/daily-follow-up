@@ -78,7 +78,7 @@ public class MenuServiceTest {
 		return MomentDay.builder()
 				.id(ID)
 				.name("DEJEUNER")
-				.contents(Arrays.asList(createContent()))
+				.entry(createContent())
 				.build();
 	}
 
