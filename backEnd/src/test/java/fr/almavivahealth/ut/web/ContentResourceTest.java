@@ -2,7 +2,6 @@ package fr.almavivahealth.ut.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -35,7 +34,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.domain.entity.Content;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
@@ -81,7 +79,6 @@ public class ContentResourceTest {
     	contentDTO.setId(null);
 
     	// When
-    	when(contentService.findContentByName(contentDTO.getName())).thenReturn(Optional.empty());
 		when(contentService.save((ContentDTO) any())).thenReturn(contentDTO);
 
     	// Then
@@ -106,34 +103,12 @@ public class ContentResourceTest {
     }
 
 	@Test
-    public void shouldThrowWhenNameOfContentExistInCreation() throws Exception {
-    	// Given
-    	final ContentDTO contentDTO = createContentDTO();
-    	contentDTO.setId(null);
-    	final Content existingContent = new Content();
-    	existingContent.setId(ID);
-    	existingContent.setName(NAME);
-
-    	// When
-    	when(contentService.findContentByName(anyString())).thenReturn(Optional.ofNullable(existingContent));
-
-    	// Then
-    	mockMvc.perform(post("/api/contents")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(contentDTO)))
-		        .andExpect(status().isInternalServerError());
-    	verify(contentService, times(1)).findContentByName(NAME);
-		verify(contentService, times(0)).save(any(ContentDTO.class));
-    }
-
-	@Test
     public void shouldUpdateContentWhenIsOk() throws Exception {
     	// Given
     	final ContentDTO contentDTO = createContentDTO();
 
     	// When
 		when(contentService.update((ContentDTO) any())).thenReturn(contentDTO);
-		when(contentService.findContentByName(contentDTO.getName())).thenReturn(Optional.empty());
 
     	// Then
     	mockMvc.perform(put("/api/contents")
@@ -155,26 +130,6 @@ public class ContentResourceTest {
 				.content(TestUtil.convertObjectToJsonBytes(contentDTO)))
 		        .andExpect(status().isBadRequest());
 		verify(contentService, times(0)).update(contentDTO);
-    }
-
-	@Test
-    public void shouldThrowWhenNameOfContentExistInUpdate() throws Exception {
-    	// Given
-    	final ContentDTO contentDTO = createContentDTO();
-    	final Content existingContent = new Content();
-    	existingContent.setId(ID);
-    	existingContent.setName(NAME);
-
-    	// When
-    	when(contentService.findContentByName(anyString())).thenReturn(Optional.ofNullable(existingContent));
-
-    	// Then
-    	mockMvc.perform(put("/api/contents")
-				.contentType(TestUtil.APPLICATION_JSON_UTF8)
-				.content(TestUtil.convertObjectToJsonBytes(contentDTO)))
-		        .andExpect(status().isInternalServerError());
-    	verify(contentService, times(1)).findContentByName(NAME);
-		verify(contentService, times(0)).update(any(ContentDTO.class));
     }
 
 	@Test
