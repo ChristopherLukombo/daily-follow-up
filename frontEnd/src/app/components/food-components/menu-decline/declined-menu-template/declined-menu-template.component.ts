@@ -100,11 +100,15 @@ export class DeclinedMenuTemplateComponent implements OnInit {
     this.menu.weeks.forEach((week) => {
       week.days.forEach((day) => {
         day.momentDays.forEach((moment) => {
-          moment.contents.forEach((content) => {
-            if (!content) {
-              result = false;
-            }
-          });
+          if (
+            !moment.entry ||
+            !moment.dish ||
+            !moment.garnish ||
+            (moment.name !== "Dîner" && !moment.dairyProduct) ||
+            !moment.dessert
+          ) {
+            result = false;
+          }
         });
       });
     });

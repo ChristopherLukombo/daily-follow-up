@@ -72,7 +72,11 @@ export class MenuAddComponent implements OnInit {
         week.days[indexDay].momentDays[indexMoment] = new MomentDayDTO(
           null,
           nameMoment,
-          []
+          null,
+          null,
+          null,
+          null,
+          null
         );
       });
     });
@@ -133,17 +137,24 @@ export class MenuAddComponent implements OnInit {
       for (let j = 0; j < this.indexOfDays.size; j++) {
         if (!week.days[j]) return false;
         for (let k = 0; k < this.indexOfMoments.size; k++) {
-          if (
-            !week.days[j].momentDays[k] ||
-            !week.days[j].momentDays[k].contents ||
-            week.days[j].momentDays[k].contents.length === 0
-          ) {
+          if (this.invalidMoment(week.days[j].momentDays[k])) {
             return false;
           }
         }
       }
     }
     return true;
+  }
+
+  invalidMoment(moment: MomentDayDTO): boolean {
+    return (
+      !moment ||
+      !moment.entry ||
+      !moment.dish ||
+      !moment.garnish ||
+      (moment.name !== "Dîner" && !moment.dairyProduct) ||
+      !moment.dessert
+    );
   }
 
   repetitionsAreValids(): boolean {

@@ -6,5 +6,13 @@ export class MomentDay {
   /***/
   name: string;
   /***/
-  contents: Array<Content>;
+  entry: Content;
+  /***/
+  dish: Content;
+  /***/
+  garnish: Content;
+  /***/
+  dairyProduct: Content;
+  /***/
+  dessert: Content;
 }

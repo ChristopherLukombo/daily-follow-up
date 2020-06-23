@@ -85,6 +85,17 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne un plat en fonction de son id
+   * @param id
+   * @returns un Content
+   */
+  getContent(id: number): Observable<Content> {
+    return this.http
+      .get<Content>(CONTENTS_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Créer plusieurs plats
    * @param listContentsDTO la liste de plat
    * @returns les plats ayant étés crées
@@ -115,7 +126,8 @@ export class AlimentationService {
    * @param menu
    */
   storeMenuToLocal(menu: Menu): void {
-    localStorage.setItem("menu", JSON.stringify(menu));
+    let replace = (key, value) => (typeof value === "undefined" ? null : value);
+    localStorage.setItem("menu", JSON.stringify(menu, replace));
   }
 
   /**

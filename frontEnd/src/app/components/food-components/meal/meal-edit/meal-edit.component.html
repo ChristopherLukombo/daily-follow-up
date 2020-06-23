@@ -4,7 +4,7 @@
       <app-food-navbar></app-food-navbar>
     </div>
     <div class="col">
-      <h2>Détail du plat</h2>
+      <h2>{{ content?.name }}</h2>
       <br />
       <div *ngIf="loading"><app-loader></app-loader></div>
       <div *ngIf="warning">
@@ -13,7 +13,9 @@
       <div *ngIf="error">
         <app-alert-error [content]="error"></app-alert-error>
       </div>
-      <div *ngIf="content && !error && !warning"></div>
+      <div *ngIf="content && !error && !warning">
+        <app-form-meal-edit [content]="content"></app-form-meal-edit>
+      </div>
     </div>
   </div>
 </div>

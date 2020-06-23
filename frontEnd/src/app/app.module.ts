@@ -103,6 +103,7 @@ import { ContentsDayMenuEditComponent } from './components/food-components/menu-
 import { ReplacementsCardEditComponent } from './components/food-components/menu-weeks-edit/replacements-card-edit/replacements-card-edit.component';
 import { MealEditComponent } from './components/food-components/meal/meal-edit/meal-edit.component';
 import { DetailMealComponent } from './components/food-components/meals/detail-meal/detail-meal.component';
+import { FormMealEditComponent } from './components/food-components/meal/meal-edit/form-meal-edit/form-meal-edit.component';
 
 @NgModule({
   declarations: [
@@ -185,6 +186,7 @@ import { DetailMealComponent } from './components/food-components/meals/detail-m
     ReplacementsCardEditComponent,
     MealEditComponent,
     DetailMealComponent,
+    FormMealEditComponent,
   ],
   imports: [
     BrowserModule,

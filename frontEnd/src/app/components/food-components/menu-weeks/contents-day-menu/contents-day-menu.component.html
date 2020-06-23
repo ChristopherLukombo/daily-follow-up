@@ -19,6 +19,7 @@
       {{ contentsOfTheMoment.get("Garniture")?.name | truncate: 30 }}
     </li>
     <li
+      *ngIf="f.dairyProduct"
       class="list-group-item"
       title="{{ contentsOfTheMoment.get('P.L')?.name }}"
     >
