@@ -4,6 +4,7 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { Diet } from "src/app/models/patient/diet";
 import { forkJoin } from "rxjs";
 import { DeclinatorService } from "src/app/services/alimentation/declinator.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-menu-decline",
@@ -26,7 +27,8 @@ export class MenuDeclineComponent implements OnInit {
 
   constructor(
     private alimentationService: AlimentationService,
-    private declinatorService: DeclinatorService
+    private declinatorService: DeclinatorService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -66,6 +68,13 @@ export class MenuDeclineComponent implements OnInit {
 
   containsDiet(diet: Diet): boolean {
     return this.selectedDiets.find((d) => d.name === diet.name) ? true : false;
+  }
+
+  onEdit(): void {
+    this.selectedMenu.diets = this.selectedDiets.map((diet) => diet.name);
+    this.selectedMenu.replacement.id = null;
+    this.alimentationService.storeMenuToLocal(this.selectedMenu);
+    this.router.navigate(["/food/menu/decline/edit"]);
   }
 
   onDecline(): void {

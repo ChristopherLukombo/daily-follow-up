@@ -64,6 +64,16 @@
             <span class="spinner-border spinner-border-sm"></span>
             Recherche d'un menu adapté en cours...
           </button>
+          &nbsp;
+          <button
+            *ngIf="!declining"
+            type="button"
+            class="btn btn-outline-info"
+            [disabled]="!selectedDiets.length"
+            (click)="onEdit()"
+          >
+            Déclinaison manuelle
+          </button>
           <br /><br />
           <div *ngIf="cannotDecline">
             <app-alert-warning [content]="cannotDecline"></app-alert-warning>
