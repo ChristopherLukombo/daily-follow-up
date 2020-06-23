@@ -133,15 +133,15 @@ export class ContentsDayMenuEditComponent implements OnInit {
         ].entry = this.contentsOfTheMoment.get("Entrée");
         this.menu.weeks[i].days[j].momentDays[
           k
-        ].entry = this.contentsOfTheMoment.get("Plat");
+        ].dish = this.contentsOfTheMoment.get("Plat");
         this.menu.weeks[i].days[j].momentDays[
           k
-        ].entry = this.contentsOfTheMoment.get("Garniture");
-        this.menu.weeks[i].days[j].momentDays[k].entry =
+        ].garnish = this.contentsOfTheMoment.get("Garniture");
+        this.menu.weeks[i].days[j].momentDays[k].dairyProduct =
           this.moment !== "Dîner" ? this.contentsOfTheMoment.get("P.L") : null;
         this.menu.weeks[i].days[j].momentDays[
           k
-        ].entry = this.contentsOfTheMoment.get("Dessert");
+        ].dessert = this.contentsOfTheMoment.get("Dessert");
       }
     }
   }

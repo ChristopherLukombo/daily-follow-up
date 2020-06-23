@@ -126,7 +126,8 @@ export class AlimentationService {
    * @param menu
    */
   storeMenuToLocal(menu: Menu): void {
-    localStorage.setItem("menu", JSON.stringify(menu));
+    let replace = (key, value) => (typeof value === "undefined" ? null : value);
+    localStorage.setItem("menu", JSON.stringify(menu, replace));
   }
 
   /**
