@@ -108,7 +108,18 @@ export class AlimentationService {
         JSON.stringify(body),
         httpOptions
       )
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Met à jour un plat
+   * @param contentDTO
+   * @returns le Content mis à jour
+   */
+  updateContent(contentDTO: ContentDTO): Observable<Content> {
+    return this.http
+      .put<Content>(CONTENTS_URL, JSON.stringify(contentDTO), httpOptions)
+      .pipe(catchError(this.handleCustomError));
   }
 
   /**

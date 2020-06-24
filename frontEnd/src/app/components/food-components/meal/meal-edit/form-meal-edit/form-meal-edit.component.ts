@@ -11,6 +11,11 @@ import {
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
 import { Label, SingleDataSet } from "ng2-charts";
 import { ChartType } from "chart.js";
+import { ContentDTO } from "src/app/models/dto/food/contentDTO";
+import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-form-meal-edit",
@@ -43,8 +48,14 @@ export class FormMealEditComponent implements OnInit {
 
   form: FormGroup;
   submitted: boolean = false;
+  updating: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private alimentationService: AlimentationService,
+    private router: Router,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {
     if (this.content) {
@@ -165,9 +176,70 @@ export class FormMealEditComponent implements OnInit {
     }
   }
 
+  getContentDTO(): ContentDTO {
+    return new ContentDTO(
+      this.content.id,
+      this.f.name.value,
+      this.content.groupName,
+      this.content.subGroupName,
+      this.content.subSubGroupName,
+      this.f.calories.value,
+      this.f.protein.value,
+      this.f.carbohydrate.value,
+      this.f.lipids.value,
+      this.f.sugars.value,
+      this.f.foodFibres.value,
+      this.f.agSaturates.value,
+      this.f.salt.value,
+      this.getTypeMeals(),
+      this.content.imageUrl,
+      this.f.mixed.value
+    );
+  }
+
+  getTypeMeals(): string[] {
+    let types: string[] = [];
+    this.types.forEach((type: FormControl, i: number) => {
+      if (type.value === true && this.typeMeals[i]) {
+        types.push(this.typeMeals[i]);
+      }
+    });
+    return types;
+  }
+
   onSubmit(): void {
     this.submitted = true;
     if (this.form.invalid) return;
-    console.log("ok");
+    this.updating = true;
+    let dto = this.getContentDTO();
+    this.alimentationService.updateContent(dto).subscribe(
+      (data) => {
+        this.updating = false;
+        this.toastrService.success(
+          "Les informations du plat ont bien été mises à jour",
+          "Mise à jour terminée !"
+        );
+        this.router.navigate(["/food/meal/all"]);
+      },
+      (error) => {
+        this.updating = false;
+        this.toastrService.error(this.getCustomError(error), "Oops !");
+      }
+    );
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
+      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else if (error && error.status === 409) {
+      return error.error.message;
+    } else {
+      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+    }
   }
 }
