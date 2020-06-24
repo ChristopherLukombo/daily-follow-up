@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from "@angular/forms";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-meals-add",
@@ -72,7 +73,7 @@ export class MealsAddComponent implements OnInit {
       },
       (error) => {
         this.creating = false;
-        this.toastrService.error(this.getError(error), "Oops !");
+        this.toastrService.error(this.getCustomError(error), "Oops !");
       }
     );
   }
@@ -113,9 +114,11 @@ export class MealsAddComponent implements OnInit {
    * @param error
    * @returns le msg d'erreur
    */
-  getError(error: number): string {
-    if (error && error === 401) {
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
       return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else if (error && error.status === 409) {
+      return error.error.message;
     } else {
       return "Une erreur s'est produite. Veuillez réessayer plus tard.";
     }
