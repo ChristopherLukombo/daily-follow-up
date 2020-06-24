@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import {
   faAddressBook,
   faUtensils,
+  faClipboardList,
   faChartPie,
   faUserAlt,
   faClinicMedical,
@@ -18,6 +19,7 @@ import { LoginService } from "src/app/services/login/login.service";
 export class NavbarComponent implements OnInit {
   patientLogo = faAddressBook;
   foodLogo = faUtensils;
+  orderLogo = faClipboardList;
   statsLogo = faChartPie;
   userLogo = faUserAlt;
   clinicLogo = faClinicMedical;

@@ -1,0 +1,41 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-order-navbar></app-order-navbar>
+    </div>
+    <div class="col">
+      <h2>Commandes de la semaine</h2>
+      <br />
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <button
+              *ngFor="let day of daysOfTheWeek"
+              type="button"
+              class="btn btn-outline-dark"
+              (click)="selectDay(day)"
+              [class.active]="day == selectedDay"
+            >
+              {{ day }}
+            </button>
+          </div>
+          <br /><br />
+          <div class="btn-group">
+            <button
+              *ngFor="let moment of moments"
+              type="button"
+              class="btn btn-primary"
+              (click)="selectMoment(moment)"
+              [class.active]="moment == selectedMoment"
+            >
+              {{ moment }}
+            </button>
+          </div>
+        </div>
+        <div class="col-2 text-right">
+          <h4>{{ dateOfTheDay }}</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

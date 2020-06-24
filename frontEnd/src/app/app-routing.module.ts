@@ -22,6 +22,7 @@ import { DietAddComponent } from "./components/food-components/diet-add/diet-add
 import { MenuDeclineComponent } from "./components/food-components/menu-decline/menu-decline.component";
 import { MenuDeclinedEditComponent } from "./components/food-components/menu-declined-edit/menu-declined-edit.component";
 import { MealEditComponent } from "./components/food-components/meal/meal-edit/meal-edit.component";
+import { OrdersComponent } from "./components/order-components/orders/orders.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -119,6 +120,11 @@ const routes: Routes = [
   {
     path: "user/add",
     component: UserAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "order/all",
+    component: OrdersComponent,
     canActivate: [AuthGuard],
   },
   {
