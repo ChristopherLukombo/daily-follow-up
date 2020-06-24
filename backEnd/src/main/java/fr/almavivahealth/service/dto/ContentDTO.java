@@ -28,27 +28,27 @@ public class ContentDTO implements Serializable {
 	@NotEmpty(message = "{error.content.RequiredName}")
 	private String name;
 
-    private String groupName;
+	private String groupName;
 
-    private String subGroupName;
+	private String subGroupName;
 
-    private String subSubGroupName;
+	private String subSubGroupName;
 
-    private Double calories;
+	private Double calories;
 
-    private Double protein;
+	private Double protein;
 
-    private Double carbohydrate;
+	private Double carbohydrate;
 
-    private Double lipids;
+	private Double lipids;
 
-    private Double sugars;
+	private Double sugars;
 
-    private Double foodFibres;
+	private Double foodFibres;
 
-    private Double agSaturates;
+	private Double agSaturates;
 
-    private Double salt;
+	private Double salt;
 
 	private String imageUrl;
 

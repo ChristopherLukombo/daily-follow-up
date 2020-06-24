@@ -231,17 +231,4 @@ public class ContentServiceImpl implements ContentService {
 				.append(imageUrl)
 				.toString();
 	}
-
-	/**
-	 * Find content by name.
-	 *
-	 * @param name the name
-	 * @return the optional
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public Optional<Content> findContentByName(final String name) {
-	    LOGGER.debug("Request to find Content by name");
-		return contentRepository.findByNameIgnoreCase(name.trim());
-	}
 }
