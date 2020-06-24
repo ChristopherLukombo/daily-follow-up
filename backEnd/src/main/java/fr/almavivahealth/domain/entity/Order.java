@@ -40,7 +40,7 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private LocalDate date;
+	private LocalDate deliveryDate;
 
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;

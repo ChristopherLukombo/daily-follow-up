@@ -35,9 +35,9 @@ import fr.almavivahealth.web.rest.OrderResource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderResourceTest {
-	
+
 	private static final long ID = 1L;
-	
+
 	private MockMvc mockMvc;
 
 	@Mock
@@ -51,15 +51,15 @@ public class OrderResourceTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(orderResource)
 				.setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
 	}
-	
+
 	private static OrderDTO createOrderDTO() {
 		return OrderDTO.builder()
 				.id(ID)
-				.date(LocalDate.now())
+				.deliveryDate(LocalDate.now())
 				.patientId(null)
 				.build();
 	}
-	
+
 	@Test
 	public void shouldCreateOrderWhenIsOk() throws IOException, Exception {
 		// Given
@@ -126,13 +126,13 @@ public class OrderResourceTest {
 		final List<OrderDTO> ordersDTO = Arrays.asList(createOrderDTO());
 
 		// When
-		when(orderService.findAll()).thenReturn(ordersDTO);
+		when(orderService.findAllForWeek((LocalDate) any())).thenReturn(ordersDTO);
 
 		// Then
-		mockMvc.perform(get("/api/orders")
+		mockMvc.perform(get("/api/orders?selectedDate=2016-12-12")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk());
-		verify(orderService, times(1)).findAll();
+		verify(orderService, times(1)).findAllForWeek((LocalDate) any());
 	}
 
 	@Test
@@ -141,13 +141,13 @@ public class OrderResourceTest {
 		final List<OrderDTO> ordersDTO =  Collections.emptyList();
 
 		// When
-		when(orderService.findAll()).thenReturn(ordersDTO);
+		when(orderService.findAllForWeek((LocalDate) any())).thenReturn(ordersDTO);
 
 		// Then
-		mockMvc.perform(get("/api/orders")
+		mockMvc.perform(get("/api/orders?selectedDate=2016-12-12")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8))
 		.andExpect(status().isNoContent());
-		verify(orderService, times(1)).findAll();
+		verify(orderService, times(1)).findAllForWeek((LocalDate) any());
 	}
 
 	@Test

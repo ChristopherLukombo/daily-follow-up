@@ -1,6 +1,10 @@
 package fr.almavivahealth.service.impl.order;
 
+import java.time.LocalDate;
+import java.time.temporal.TemporalField;
+import java.time.temporal.WeekFields;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -66,16 +70,25 @@ public class OrderServiceImpl implements OrderService {
 	/**
 	 * Get all the orders.
 	 *
+	 * @param selectedDate the selected date
 	 * @return the list of entities
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<OrderDTO> findAll() {
+	public List<OrderDTO> findAllForWeek(final LocalDate selectedDate) {
 		LOGGER.debug("Request to get all Orders");
-		return orderRepository.findAllByOrderByIdDesc().stream()
+		final LocalDate startDate = findDateFromDay(selectedDate, 2);
+		final LocalDate endDate = findDateFromDay(selectedDate, 7).plusDays(1L);
+		return orderRepository.findAllForWeekBetween(startDate, endDate).stream()
 				.map(orderMapper::orderToOrderDTO).
 				collect(Collectors.toList());
 	}
+
+	private LocalDate findDateFromDay(final LocalDate date, final int day) {
+		final TemporalField temporalField = WeekFields.of(Locale.FRANCE).dayOfWeek();
+		return date.with(temporalField, day);
+	}
+
 
 	/**
 	 * Get the "id" order.

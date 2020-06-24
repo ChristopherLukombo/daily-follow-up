@@ -22,7 +22,7 @@ public class OrderDTO implements Serializable {
 
 	private Long id;
 
-	private LocalDate date;
+	private LocalDate deliveryDate;
 
 	private String orderStatus;
 
@@ -54,13 +54,7 @@ public class OrderDTO implements Serializable {
 		this.id = id;
 	}
 
-	public LocalDate getDate() {
-		return date;
-	}
 
-	public void setDate(final LocalDate date) {
-		this.date = date;
-	}
 
 	public String getOrderStatus() {
 		return orderStatus;
@@ -134,9 +128,17 @@ public class OrderDTO implements Serializable {
 		this.moment = moment;
 	}
 
+	public LocalDate getDeliveryDate() {
+		return deliveryDate;
+	}
+
+	public void setDeliveryDate(final LocalDate deliveryDate) {
+		this.deliveryDate = deliveryDate;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(dairyProducts, date, desserts, dishes, entries, id, moment, orderStatus, patientId,
+		return Objects.hash(dairyProducts, deliveryDate, desserts, dishes, entries, id, moment, orderStatus, patientId,
 				starchyFoods, vegetables);
 	}
 
@@ -149,7 +151,7 @@ public class OrderDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final OrderDTO other = (OrderDTO) obj;
-		return Objects.equals(dairyProducts, other.dairyProducts) && Objects.equals(date, other.date)
+		return Objects.equals(dairyProducts, other.dairyProducts) && Objects.equals(deliveryDate, other.deliveryDate)
 				&& Objects.equals(desserts, other.desserts) && Objects.equals(dishes, other.dishes)
 				&& Objects.equals(entries, other.entries) && Objects.equals(id, other.id)
 				&& Objects.equals(moment, other.moment) && Objects.equals(orderStatus, other.orderStatus)
