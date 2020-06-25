@@ -21,6 +21,9 @@
           </div>
           <br /><br />
           <div *ngIf="loading"><app-loader></app-loader></div>
+          <div *ngIf="error">
+            <app-alert-error [content]="error"></app-alert-error>
+          </div>
           <div *ngIf="diets.length > 0 && !loading">
             <div class="btn-group">
               <button
@@ -40,15 +43,55 @@
         </div>
       </div>
       <br />
-      <app-current-weeks></app-current-weeks>
-      <br />
-      <div class="row">
-        <div class="col text-right">
-          <button type="button" class="btn btn-primary">
-            Télecharger les coupons
-          </button>
+      <div *ngIf="!error && !loading" class="row">
+        <div *ngIf="filter && filter.length > 0" class="col">
+          <div class="form-group">
+            <label>
+              <h5>
+                Menu(s)
+                <code>{{ selectedTexture }}-{{ selectedDiet }}</code>
+              </h5>
+            </label>
+            <ng-select
+              [items]="filter"
+              #select
+              bindLabel="name"
+              dropdownPosition="auto"
+              placeholder="Entrez le régime, la texture, la date du début ou la date de fin..."
+              notFoundText="Aucun menu trouvé"
+              [virtualScroll]="true"
+              [(ngModel)]="selectedMenu"
+            >
+            </ng-select>
+          </div>
+          <div *ngIf="selectedMenu">
+            <h4>
+              <span class="badge badge-secondary">
+                {{ selectedMenu.texture }}
+              </span>
+            </h4>
+            <h4>
+              <span
+                *ngFor="let diet of selectedMenu.diets"
+                class="spaced-badge"
+              >
+                <span class="badge badge-info">
+                  {{ diet }}
+                </span>
+              </span>
+            </h4>
+            <app-menu-weeks-lock [menu]="selectedMenu"> </app-menu-weeks-lock>
+          </div>
+        </div>
+        <div *ngIf="!filter || filter.length === 0" class="col">
+          <div class="alert alert-primary" role="alert">
+            Il n'y a aucun menu
+            <code>{{ selectedTexture }}-{{ selectedDiet }}</code>
+            sur la période actuelle.
+          </div>
         </div>
       </div>
+      <br />
     </div>
   </div>
 </div>

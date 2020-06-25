@@ -133,6 +133,16 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne tout les menus de la clinique dans la périod en cours
+   * @returns les menus de la période en cours
+   */
+  getCurrentsMenus(): Observable<Menu[]> {
+    return this.http
+      .get<Menu[]>(MENUS_URL + `/current`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Sauvegarde en local un menu afin de le réutiliser plus tard
    * @param menu
    */
