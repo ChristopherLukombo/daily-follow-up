@@ -2,6 +2,7 @@ package fr.almavivahealth.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.almavivahealth.exception.DailyFollowUpException;
@@ -27,6 +31,7 @@ import fr.almavivahealth.service.OrderService;
 import fr.almavivahealth.service.dto.OrderDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -109,13 +114,13 @@ public class OrderResource {
 	}
 
 	/**
-	 * GET /orders : Get all the orders.
+	 * GET /orders : Get all the orders for week.
 	 *
 	 * @return the ResponseEntity with status 200 (Ok) and the list of orders in body
 	 * or with status 204 (No Content) if there is no order.
 	 *
 	 */
-	@ApiOperation("Get all the orders.")
+	@ApiOperation("Get all the orders for week.")
 	@ApiResponses({
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 204, message = "No Content"),
@@ -124,10 +129,11 @@ public class OrderResource {
         @ApiResponse(code = 403, message = "Forbidden")
         })
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
-	@GetMapping("/orders")
-	public ResponseEntity<List<OrderDTO>> getAllOrders() {
-		LOGGER.debug("REST request to get All Orders");
-		final List<OrderDTO> orders = orderService.findAll();
+	@GetMapping(value = "/orders", params = { "selectedDate" })
+	public ResponseEntity<List<OrderDTO>> getAllOrdersForWeek(
+			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate selectedDate) {
+		LOGGER.debug("REST request to get All Orders for week");
+		final List<OrderDTO> orders = orderService.findAllForWeek(selectedDate);
 		if (orders.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}

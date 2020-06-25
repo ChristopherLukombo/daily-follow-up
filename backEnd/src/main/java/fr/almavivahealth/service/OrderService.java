@@ -1,5 +1,6 @@
 package fr.almavivahealth.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,7 @@ import fr.almavivahealth.service.dto.OrderDTO;
  * The Interface OrderService.
  */
 public interface OrderService {
-	
+
 	/**
 	 * Save a order.
 	 *
@@ -29,9 +30,10 @@ public interface OrderService {
 	/**
 	 * Get all the orders.
 	 *
+	 * @param selectedDate the selected date
 	 * @return the list of entities
 	 */
-	List<OrderDTO> findAll();
+	List<OrderDTO> findAllForWeek(LocalDate date);
 
 	/**
 	 * Get the "id" order.

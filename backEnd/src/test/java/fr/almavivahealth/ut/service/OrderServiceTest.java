@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -45,13 +46,14 @@ public class OrderServiceTest {
 		return Order.builder()
 				.id(ID)
 				.patient(null)
+				.dairyProducts(null)
 				.build();
 	}
 
 	private static OrderDTO createOrderDTO() {
 		return OrderDTO.builder()
 				.id(ID)
-				.date(LocalDate.now())
+				.deliveryDate(LocalDate.of(2020, Month.JANUARY, 1))
 				.patientId(null)
 				.build();
 	}
@@ -116,12 +118,13 @@ public class OrderServiceTest {
 	public void shouldGetAllOrdersWhenIsOk() {
 		// Given
 		final List<Order> orders = Arrays.asList(createOrder());
+		final LocalDate date = LocalDate.of(2020, Month.JANUARY, 1);
 
 		// Then
-		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
+		when(orderRepository.findAllForWeekBetween((LocalDate) any(), (LocalDate) any())).thenReturn(orders);
 
 		// Then
-		assertThat(orderServiceImpl.findAll()).isNotEmpty();
+		assertThat(orderServiceImpl.findAllForWeek(date)).isNotEmpty();
 	}
 
 	@Test
@@ -130,10 +133,10 @@ public class OrderServiceTest {
 		final List<Order> orders = Collections.emptyList();
 
 		// Then
-		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
+		when(orderRepository.findAllForWeekBetween((LocalDate) any(), (LocalDate) any())).thenReturn(orders);
 
 		// Then
-		assertThat(orderServiceImpl.findAll()).isEmpty();
+		assertThat(orderServiceImpl.findAllForWeek(LocalDate.now())).isEmpty();
 	}
 
 	@Test
@@ -142,10 +145,10 @@ public class OrderServiceTest {
 		final List<Order> orders = null;
 
 		// Then
-		when(orderRepository.findAllByOrderByIdDesc()).thenReturn(orders);
+		when(orderRepository.findAllForWeekBetween((LocalDate) any(), (LocalDate) any())).thenReturn(orders);
 
 		// Then
-		assertThatThrownBy(() -> orderServiceImpl.findAll())
+		assertThatThrownBy(() -> orderServiceImpl.findAllForWeek(LocalDate.now()))
 		.isInstanceOf(NullPointerException.class);
 	}
 

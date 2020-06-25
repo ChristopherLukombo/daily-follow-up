@@ -19,7 +19,7 @@ import fr.almavivahealth.service.dto.OrderDTO;
 public interface OrderMapper {
 
 	@Mapping(source = "id", target = "id")
-	@Mapping(source = "date", target = "date")
+	@Mapping(source = "deliveryDate", target = "deliveryDate")
 	@Mapping(source = "orderStatus", target = "orderStatus", qualifiedByName = "toOrderStatus")
 	@Mapping(source = "patient.id", target = "patientId")
 	@Mapping(source = "entries", target = "entries")
