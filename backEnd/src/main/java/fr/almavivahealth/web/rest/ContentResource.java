@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -277,5 +278,26 @@ public class ContentResource {
 		LOGGER.debug("REST request to get picture");
 		final byte[] picture = contentService.findPicture(contentId);
 		return ResponseEntity.ok().body(picture);
+	}
+
+	/**
+	 * DELETE /contents : Delete the contents by ids.
+	 *
+	 * @param ids the ids
+	 * @return the ResponseEntity with status 204 (OK)
+	 */
+	@ApiOperation("Delete the contents by ids.")
+	@ApiResponses({
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@DeleteMapping(value = "/contents" , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> deleteByIds(@RequestBody final List<Long> ids) {
+		LOGGER.debug("REST request to delete Contents : {}", ids);
+		contentService.deleteByIds(ids);
+		return ResponseEntity.noContent().build();
 	}
 }

@@ -231,4 +231,16 @@ public class ContentServiceImpl implements ContentService {
 				.append(imageUrl)
 				.toString();
 	}
+
+	/**
+	 * Delete by ids.
+	 *
+	 * @param ids the ids
+	 */
+	@Override
+	public void deleteByIds(final List<Long> ids) {
+		for (final Long id : ids) {
+			contentRepository.deleteById(id);
+		}
+	}
 }
