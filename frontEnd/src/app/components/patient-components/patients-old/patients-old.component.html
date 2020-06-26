@@ -4,23 +4,23 @@
       <app-patient-navbar></app-patient-navbar>
     </div>
     <div class="col">
-      <div class="row">
-        <div class="col">
-          <h2>Anciens patients de la clinique</h2>
-          <br />
-          <app-list-patients
-            (selectedPatient)="setPatient($event)"
-            [patients]="patients"
-          ></app-list-patients>
-          <div *ngIf="loading"><app-loader></app-loader></div>
-          <div *ngIf="error">
-            <app-alert-error [content]="error"></app-alert-error>
+      <h2>Anciens patients de la clinique</h2>
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="!loading && !error">
+        <div class="row">
+          <div class="col">
+            <app-list-patients
+              (selectedPatient)="setPatient($event)"
+              [patients]="patients"
+            ></app-list-patients>
           </div>
-        </div>
-        <div *ngIf="patient" class="col">
-          <h4>Détail du patient</h4>
-          <br />
-          <app-detail-patient [patient]="patient"></app-detail-patient>
+          <div *ngIf="patient" class="col-4">
+            <app-detail-patient [patient]="patient"></app-detail-patient>
+          </div>
         </div>
       </div>
     </div>

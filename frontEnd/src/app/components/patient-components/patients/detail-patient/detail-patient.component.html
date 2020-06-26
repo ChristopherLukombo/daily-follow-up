@@ -1,82 +1,60 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <table class="infos-patient">
-        <tbody>
-          <tr>
-            <th>Nom</th>
-            <td>{{ patient?.lastName | uppercase }}</td>
-          </tr>
-          <tr>
-            <th>Prénom</th>
-            <td>{{ patient?.firstName | titlecase }}</td>
-          </tr>
-          <tr>
-            <th>Sexe</th>
-            <td>{{ patient?.sex | titlecase }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col">
-      <table class="infos-patient">
-        <tbody>
-          <tr>
-            <th>Âge</th>
-            <td>{{ patient?.dateOfBirth | age }}</td>
-          </tr>
-          <tr>
-            <th>Date de naissance</th>
-            <td>{{ patient?.dateOfBirth | date: "dd/MM/yyyy" }}</td>
-          </tr>
-          <tr>
-            <th>Groupe sanguin</th>
-            <td>{{ patient?.bloodGroup }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col">
-      <h5>Alimentation(s)</h5>
-      <table class="table table-bordered">
-        <tbody>
-          <tr *ngFor="let diet of patient?.diets">
-            <td>{{ diet.name | titlecase }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <h5>Texture</h5>
-      <table class="table table-bordered">
-        <tbody>
-          <tr *ngIf="patient?.texture">
-            <td>{{ patient.texture.name | titlecase }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="col">
-      <h5>Allergie(s)</h5>
-      <table class="table table-bordered">
-        <tbody>
-          <tr *ngFor="let allergy of patient?.allergies">
-            <td>{{ allergy.name | titlecase }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <br />
-  <div class="row">
-    <div class="col-md-5 offset-md-7 text-right">
-      <a
-        class="nav-link"
-        routerLink="/patient/details"
-        [queryParams]="{ id: patient?.id }"
-        ><fa-icon [icon]="moreDetailsLogo"></fa-icon> Plus de detail</a
-      >
+      <h4>
+        {{ patient?.lastName | uppercase }} {{ patient?.firstName | titlecase }}
+        &nbsp;
+        <span *ngIf="patient.sex == 'Homme'" [ngStyle]="{ color: '#0652DD' }">
+          <fa-icon [icon]="marsLogo"></fa-icon>
+        </span>
+        <span *ngIf="patient.sex == 'Femme'" [ngStyle]="{ color: '#FC427B' }">
+          <fa-icon [icon]="venusLogo"></fa-icon>
+        </span>
+      </h4>
+      <hr />
+      <div class="row">
+        <div class="col">
+          <h5>Régime(s)</h5>
+          <table class="table table-bordered">
+            <tbody>
+              <tr *ngFor="let diet of patient?.diets">
+                <td>{{ diet.name | titlecase }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col">
+          <h5>Texture</h5>
+          <table class="table table-bordered">
+            <tbody>
+              <tr *ngIf="patient?.texture">
+                <td>{{ patient.texture.name | titlecase }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <br />
+      <div class="row">
+        <div class="col">
+          <h5>Allergie(s)</h5>
+          <table class="table table-bordered">
+            <tbody>
+              <tr *ngFor="let allergy of patient?.allergies">
+                <td>{{ allergy.name | titlecase }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col text-right">
+          <a
+            class="nav-link"
+            routerLink="/patient/details"
+            [queryParams]="{ id: patient?.id }"
+            ><fa-icon [icon]="moreDetailsLogo"></fa-icon> Plus de detail</a
+          >
+        </div>
+      </div>
     </div>
   </div>
 </div>
