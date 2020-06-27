@@ -23,29 +23,85 @@ CREATE TRIGGER verify_capacity_room
 	BEFORE INSERT OR UPDATE ON public.patient 
 	FOR EACH ROW EXECUTE PROCEDURE verify_capacity_room();
 	
+
 CREATE OR REPLACE FUNCTION verify_content() RETURNS TRIGGER AS $$
 	DECLARE 
-	   count_menu INTEGER;
-	   count_order INTEGER;
-    begin
-	   select into count_menu count(*) from menu m inner join menu_weeks mw on m.id = mw.menu_id inner join week w on w.id = mw.weeks_id inner join week_days wd on wd.week_id = w.id
-	   inner join "day" d on d.id = wd.days_id inner join day_moment_days dm on d.id = dm.day_id inner join moment_day md on md.id = dm.moment_days_id 
-	   where m.end_date >= current_date and (md.dairy_product_id = old.id or md.dessert_id = old.id or md.dish_id = old.id or md.entry_id = old.id or md.garnish_id = old.id);
-		
-	   select into count_order COUNT(*) from "order" o inner join order_dairy_products odp on o.id = odp.order_id 
-	   inner join order_desserts od on od.order_id = o.id 
-	   inner join order_entries oe on oe.order_id = o.id 
-	   inner join order_starchy_foods osf on osf.order_id = o.id 
-	   inner join order_vegetables ov on ov.order_id = o.id where o.delivery_date >= current_date
-	   and (odp.dairy_products_id = old.id or  od.desserts_id = old.id or oe.entries_id = old.id or osf.starchy_foods_id  = old.id or ov.vegetables_id = old.id);
-	   
-	   IF (count_menu > 0 OR count_order > 0) THEN 
+	   count_menu INTEGER = 0;
+	   count_order INTEGER = 0;
+    BEGIN
+		SELECT
+			INTO count_menu COUNT(*)
+		FROM
+			menu m
+		INNER JOIN menu_weeks mw ON
+			m.id = mw.menu_id
+		INNER JOIN week w ON
+			w.id = mw.weeks_id
+		INNER JOIN week_days wd ON
+			wd.week_id = w.id
+		INNER JOIN "day" d ON
+			d.id = wd.days_id
+		INNER JOIN day_moment_days dm ON
+			d.id = dm.day_id
+		INNER JOIN moment_day md ON
+			md.id = dm.moment_days_id
+		INNER JOIN replacement r ON
+			r.id = m.replacement_id
+		INNER JOIN replacement_dairy_products rdp ON
+			rdp.replacement_id = r.id
+		INNER JOIN replacement_desserts rd ON
+			rd.replacement_id = r.id
+		INNER JOIN replacement_dishes rdi ON
+			rdi.replacement_id = r.id
+		INNER JOIN replacement_starchy_foods rsf ON
+			rsf.replacement_id = r.id
+		INNER JOIN replacement_vegetables rv ON
+			rv.replacement_id = r.id
+		INNER JOIN replacement_entries re ON
+			re.replacement_id = r.id
+		WHERE
+			m.end_date >= CURRENT_DATE
+			AND (md.dairy_product_id = OLD.id
+			OR md.dessert_id = OLD.id
+			OR md.dish_id = OLD.id
+			OR md.entry_id = OLD.id
+			OR md.garnish_id = OLD.id
+			OR rdp.dairy_products_id = OLD.id
+			OR rd.desserts_id = OLD.id
+			OR rdi.dishes_id = OLD.id
+			OR rsf.starchy_foods_id = OLD.id
+			OR rv.vegetables_id = OLD.id
+			OR re.entries_id = OLD.id);
+
+		SELECT
+			INTO count_order COUNT(*)
+		FROM
+			"order" o
+		INNER JOIN order_dairy_products odp ON
+			o.id = odp.order_id
+		INNER JOIN order_desserts od ON
+			od.order_id = o.id
+		INNER JOIN order_entries oe ON
+			oe.order_id = o.id
+		INNER JOIN order_starchy_foods osf ON
+			osf.order_id = o.id
+		INNER JOIN order_vegetables ov ON
+			ov.order_id = o.id
+		WHERE
+			o.delivery_date >= CURRENT_DATE
+			AND (odp.dairy_products_id = OLD.id
+			OR od.desserts_id = OLD.id
+			OR oe.entries_id = OLD.id
+			OR osf.starchy_foods_id = OLD.id
+			OR ov.vegetables_id = OLD.id);
+
+	  IF (count_menu > 0 OR count_order > 0) THEN 
 	       RAISE EXCEPTION 'Le plat ne peut être supprimé, car il sera utilisé dans une prochaine commande ou un menu';
 	   END IF;
-	   RETURN NEW;
+	   RETURN OLD;
     END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER verify_content
-	BEFORE DELETE ON content
+	BEFORE DELETE ON "content"
 	FOR EACH ROW EXECUTE PROCEDURE verify_content();
