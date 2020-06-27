@@ -1,10 +1,16 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpEvent } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHeaders,
+} from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import { throwError, Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
 
 const PATIENTS_URL = environment.appRootUrl + "/api/patients";
+const CONTENTS_URL = environment.appRootUrl + "/api/contents";
 
 @Injectable({
   providedIn: "root",
@@ -24,6 +30,36 @@ export class FileService {
       .post<HttpEvent<any>>(PATIENTS_URL + "/import", data, {
         reportProgress: true,
         observe: "events",
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne la photo d'un plat
+   * @param id
+   * @returns le Blob de la photo
+   */
+  getContentPicture(id: number): Observable<Blob> {
+    let headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http
+      .get(CONTENTS_URL + `/picture/${id}`, { headers, responseType: "blob" })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Permet d'upload la photo d'un plat
+   * @param picture la photo du plat
+   * @param id l'id du Content
+   * @returns le résultat
+   */
+  uploadContentPicture(picture: File, id: number): Observable<string> {
+    let data: FormData = new FormData();
+    data.append("file", picture);
+    return this.http
+      .post(CONTENTS_URL + `/picture/${id}`, data, {
+        responseType: "text",
       })
       .pipe(catchError(this.handleError));
   }
