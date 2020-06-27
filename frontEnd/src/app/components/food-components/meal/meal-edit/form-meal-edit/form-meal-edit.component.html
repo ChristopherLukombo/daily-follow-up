@@ -1,16 +1,6 @@
 <div *ngIf="content && form">
-  <img
-    *ngIf="!content.imageUrl"
-    src="../../../../../../assets/food.svg"
-    class="rounded mx-auto"
-    width="150"
-    height="150"
-  />
+  <app-picture-meal-edit [content]="content"></app-picture-meal-edit>
   <br />
-  <button type="button" class="btn btn-outline-primary" disabled>
-    Modifier photo du plat
-  </button>
-  <br /><br />
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <h5>
