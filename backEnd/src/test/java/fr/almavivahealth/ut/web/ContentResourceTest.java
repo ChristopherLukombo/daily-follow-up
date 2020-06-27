@@ -300,4 +300,34 @@ public class ContentResourceTest {
 		.andExpect(status().isBadRequest());
 		verify(contentService, times(0)).findPicture(anyLong());
 	}
+
+	@Test
+	public void shouldDeleteByIds() throws Exception {
+		// Given
+		final List<Long> ids = Arrays.asList(ID);
+
+		// When
+		doNothing().when(contentService).deleteByIds(ids);
+
+		// Then
+		mockMvc.perform(delete("/api/contents")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(ids)))
+		        .andExpect(status().isNoContent());
+		verify(contentService, times(1)).deleteByIds(ids);
+	}
+
+
+	@Test
+	public void shouldThrowBadRequestWhenThereIsNoId() throws Exception {
+		// Given
+		final List<Long> ids = null;
+
+		// Then
+		mockMvc.perform(delete("/api/contents")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(ids)))
+		        .andExpect(status().isBadRequest());
+		verify(contentService, times(0)).deleteByIds(ids);
+	}
 }

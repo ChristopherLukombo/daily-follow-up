@@ -80,4 +80,11 @@ public interface ContentService {
 	 * @return the byte[]
 	 */
 	byte[] findPicture(Long contentId);
+
+	/**
+	 * Delete by ids.
+	 *
+	 * @param ids the ids
+	 */
+	void deleteByIds(List<Long> ids);
 }
