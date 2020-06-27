@@ -32,10 +32,52 @@
               Nouvelle livraison
             </button>
           </div>
-          <div class="col text-right">
-            <button type="button" class="btn btn-danger">
-              Supprimer tout les plats
+          <div *ngIf="!modeDelete" class="col text-right">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="setModeDelete(true)"
+            >
+              Supprimer des plats
             </button>
+          </div>
+          <div *ngIf="modeDelete" class="col text-right">
+            <div class="form-group">
+              <ng-select
+                [multiple]="true"
+                [items]="contents"
+                #select
+                bindLabel="name"
+                dropdownPosition="auto"
+                placeholder="Entrez le (ou les) plat(s) à supprimer..."
+                notFoundText="Aucun plat trouvé"
+                [virtualScroll]="true"
+                [(ngModel)]="contentsToDelete"
+              >
+              </ng-select>
+            </div>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="setModeDelete(false)"
+              [disabled]="deleting"
+            >
+              Annuler
+            </button>
+            &nbsp;
+            <span *ngIf="!deleting">
+              <app-modal-danger
+                [btnTitle]="btnDelete"
+                [text]="confirmDelete"
+                (confirmation)="onDelete()"
+              ></app-modal-danger>
+            </span>
+            <span *ngIf="deleting">
+              <button class="btn btn-danger" type="button" disabled>
+                <span class="spinner-border spinner-border-sm"></span
+                >Suppression...
+              </button>
+            </span>
           </div>
         </div>
         <br />

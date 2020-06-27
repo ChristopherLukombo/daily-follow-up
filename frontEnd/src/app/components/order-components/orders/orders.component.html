@@ -8,32 +8,35 @@
       <br />
       <div class="row">
         <div class="col">
-          <div class="btn-group">
-            <button
-              *ngFor="let day of daysOfTheWeek"
-              type="button"
-              class="btn btn-outline-dark"
-              (click)="selectDay(day)"
-              [class.active]="day == selectedDay"
-            >
-              {{ day }}
-            </button>
-          </div>
-          <br /><br />
+          <table class="table table-bordered week">
+            <tbody class="week-style">
+              <tr>
+                <td
+                  *ngFor="let d of daysOfTheWeek | keyvalue: notOrdered"
+                  class="text-center"
+                  (click)="selectDay(d.value)"
+                  [class.active]="d.value == selectedDay"
+                >
+                  <strong>{{ d.key }}</strong>
+                  <br />
+                  <span class="date-style">
+                    {{ d.value }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <div class="btn-group">
             <button
               *ngFor="let moment of moments"
               type="button"
-              class="btn btn-primary"
+              class="btn btn-lg btn-primary"
               (click)="selectMoment(moment)"
               [class.active]="moment == selectedMoment"
             >
               {{ moment }}
             </button>
           </div>
-        </div>
-        <div class="col-2 text-right">
-          <h4>{{ dateOfTheDay }}</h4>
         </div>
       </div>
     </div>

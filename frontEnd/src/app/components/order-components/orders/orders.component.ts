@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Order } from "src/app/models/patient/order";
 import * as moment from "moment";
+import { stringify } from "querystring";
 
 @Component({
   selector: "app-orders",
@@ -10,16 +11,15 @@ import * as moment from "moment";
 export class OrdersComponent implements OnInit {
   orders: Order[] = [];
 
-  dateOfTheDay: string;
-  daysOfTheWeek: string[] = [
-    "22/06",
-    "23/06",
-    "24/06",
-    "25/06",
-    "26/06",
-    "27/06",
-    "28/06",
-  ];
+  daysOfTheWeek: Map<string, string> = new Map([
+    ["Lundi", null],
+    ["Mardi", null],
+    ["Mercredi", null],
+    ["Jeudi", null],
+    ["Vendredi", null],
+    ["Samedi", null],
+    ["Dimanche", null],
+  ]);
   moments: string[] = ["Déjeuner", "Dîner"];
 
   selectedDay: string;
@@ -32,8 +32,28 @@ export class OrdersComponent implements OnInit {
 
   // TODO : récup orders correctement + gérer loader + error dans html
   ngOnInit(): void {
-    moment.locale();
-    this.dateOfTheDay = moment().locale("fr").format("dddd Do MMMM YYYY");
+    this.initActualWeek();
+    this.selectDayOfToday();
+    this.selectMoment(this.moments[0]);
+  }
+
+  initActualWeek(): void {
+    let startOfTheWeek = moment().startOf("isoWeek");
+    let days: string[] = Array.from(this.daysOfTheWeek.keys());
+    for (let i = 0; i < 7; i++) {
+      this.daysOfTheWeek.set(
+        days[i],
+        moment(startOfTheWeek).add(i, "days").format("DD/MM")
+      );
+    }
+  }
+
+  selectDayOfToday(): void {
+    let dateOfTheDay: string = moment().locale("fr").format("dddd");
+    // Première lettre en majuscule pour récupèrer la date
+    let index: string =
+      dateOfTheDay.charAt(0).toUpperCase() + dateOfTheDay.slice(1);
+    this.selectDay(this.daysOfTheWeek.get(index));
   }
 
   selectDay(day: string): void {
@@ -43,4 +63,12 @@ export class OrdersComponent implements OnInit {
   selectMoment(moment: string): void {
     this.selectedMoment = moment;
   }
+
+  /**
+   * Obligatoire pour pas que la pipe
+   * keyvalue casse l'ordre des clés
+   */
+  notOrdered = () => {
+    return 0;
+  };
 }

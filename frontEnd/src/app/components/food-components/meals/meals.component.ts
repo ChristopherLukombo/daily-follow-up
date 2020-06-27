@@ -1,6 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Content } from "src/app/models/food/content";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
+import { ToastrService } from "ngx-toastr";
+import { HttpErrorResponse } from "@angular/common/http";
+import { mergeMap } from "rxjs/operators";
 
 @Component({
   selector: "app-meals",
@@ -12,20 +15,29 @@ export class MealsComponent implements OnInit {
   content: Content;
 
   error: string;
-  loading: Boolean = false;
+  loading: boolean = false;
 
-  constructor(private alimentationService: AlimentationService) {}
+  modeDelete: boolean = false;
+  contentsToDelete: Content[] = [];
+  btnDelete: string = "Confirmer la suppression";
+  confirmDelete: string =
+    "Les plats seront supprimés de la clinique. Veuillez confirmer pour continuer.";
+  deleting: boolean = false;
+
+  constructor(
+    private alimentationService: AlimentationService,
+    private toastrService: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
     this.alimentationService.getAllContents().subscribe(
       (data) => {
         this.contents = data;
+        this.loading = false;
       },
       (error) => {
-        this.catchError(error);
-      },
-      () => {
+        this.error = this.getCustomError(error);
         this.loading = false;
       }
     );
@@ -35,16 +47,60 @@ export class MealsComponent implements OnInit {
     this.content = content;
   }
 
+  setModeDelete(value: boolean): void {
+    this.contentsToDelete = [];
+    if (value) {
+      this.modeDelete = true;
+    } else {
+      this.modeDelete = false;
+    }
+  }
+
+  onDelete(): void {
+    if (this.contentsToDelete.length === 0) {
+      this.toastrService.error("Il n'y a aucun plat à supprimer", "Oops !");
+      return;
+    }
+    this.deleting = true;
+    this.alimentationService
+      .deleteManyContents(this.contentsToDelete)
+      .pipe(mergeMap(() => this.alimentationService.getAllContents()))
+      .subscribe(
+        (data) => {
+          this.contents = data;
+          this.toastrService.success(
+            "Les plats ont bien été supprimés",
+            "Suppression réussie !"
+          );
+          this.deleting = false;
+        },
+        (error) => {
+          this.deleting = false;
+          this.toastrService.error(this.getCustomError(error), "Oops !");
+        }
+      );
+  }
+
   /**
    * Récupération du code erreur et ajout du message à afficher
    * @param error
+   * @returns le msg d'erreur
    */
-  catchError(error: number): void {
-    if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
+      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else if (error && error.status === 409) {
+      return this.removeTriggerTrace(error.error.message);
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
     }
+  }
+
+  /**
+   * Retire les notions techniques et les messages provenant directement de la base
+   * @param message
+   */
+  removeTriggerTrace(message: string): string {
+    return message.split("Où")[0].replace("ERREUR:", "");
   }
 }

@@ -222,9 +222,18 @@
         </button>
       </div>
       <div class="col text-right">
-        <button type="button" class="btn btn-danger">
-          Supprimer le plat
-        </button>
+        <div *ngIf="!deleting" class="text-right">
+          <app-modal-danger
+            [btnTitle]="btnDelete"
+            [text]="confirmDelete"
+            (confirmation)="onDelete()"
+          ></app-modal-danger>
+        </div>
+        <div *ngIf="deleting" class="text-right">
+          <button class="btn btn-danger" type="button" disabled>
+            <span class="spinner-border spinner-border-sm"></span>Suppression...
+          </button>
+        </div>
       </div>
     </div>
   </form>
