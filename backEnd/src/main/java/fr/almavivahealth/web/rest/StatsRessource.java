@@ -1,6 +1,7 @@
 package fr.almavivahealth.web.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,13 +109,13 @@ public class StatsRessource {
         })
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/patientsByStatus")
-	public ResponseEntity<List<PatientsByStatusDTO>> getNumberOfPatientsByStatus() {
+	public ResponseEntity<PatientsByStatusDTO> getNumberOfPatientsByStatus() {
 		LOGGER.debug("REST request to get number of patients by status");
-		final List<PatientsByStatusDTO> patientsByStatus = statsService.findNumberOfPatientsByStatus();
-		if (patientsByStatus.isEmpty()) {
-			return ResponseEntity.noContent().build();
+		final Optional<PatientsByStatusDTO> patientsByStatus = statsService.findNumberOfPatientsByStatus();
+		if (patientsByStatus.isPresent()) {
+			return ResponseEntity.ok().body(patientsByStatus.get());
 		}
-		return ResponseEntity.ok().body(patientsByStatus);
+		return ResponseEntity.noContent().build();
 	}
 
 }

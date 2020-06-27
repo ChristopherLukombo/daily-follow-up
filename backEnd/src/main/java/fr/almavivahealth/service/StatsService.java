@@ -1,6 +1,7 @@
 package fr.almavivahealth.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
@@ -17,19 +18,19 @@ public interface StatsService {
 	 * @return the list
 	 */
 	List<PatientsPerAllergyDTO> findNumberOfPatientsPerAllergy();
-	
+
 	/**
 	 * Find number of patients per diet.
 	 *
 	 * @return the list
 	 */
 	List<PatientsPerDietDTO> findNumberOfPatientsPerDiet();
-	
+
 	/**
 	 * Find number of patients by status.
 	 *
-	 * @return the list
+	 * @return the optional
 	 */
-	List<PatientsByStatusDTO> findNumberOfPatientsByStatus();
+	Optional<PatientsByStatusDTO> findNumberOfPatientsByStatus();
 
 }

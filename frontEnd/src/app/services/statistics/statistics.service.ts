@@ -4,6 +4,9 @@ import { Observable, throwError } from 'rxjs';
 import { Patient } from 'src/app/models/patient/patient';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { PatientsByStatus } from 'src/app/models/statistics/patients-by-status';
+import { PatientsPerAllergy } from 'src/app/models/statistics/patients-per-allergy';
+import { PatientsPerDiet } from 'src/app/models/statistics/patients-per-diet';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -20,13 +23,32 @@ export class StatisticsService {
 
   constructor(private http: HttpClient) { }
 
-    /**
-   * Retourne tout les patients de la clinique
-   * @returns une liste de patients
-   */
-  getAllPatients(): Observable<Patient[]> {
+  /**
+ * Retourne le nombre de patients par allergies.
+ * @returns le nombre de patients par allergies
+ */
+  getNumberOfPatientsPerAllergy(): Observable<PatientsPerAllergy[]> {
     return this.http
-      .get<Patient[]>(PATIENTS_URL, httpOptions)
+      .get<PatientsPerAllergy[]>(`${PATIENTS_URL}/patientsPerAllergy`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+/**
+ *Retourne le nombre de patientes par diet.
+ * @returns une liste de patients par diet
+ */
+  getNumberOfPatientsPerDiet(): Observable<PatientsPerDiet[]> {
+    return this.http
+      .get<PatientsPerDiet[]>(`${PATIENTS_URL}/patientsPerDiet`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+ /**
+  * Retourne le nombre de patients par statut.
+ * @returns le nombre de patient par statut
+ */
+  getNumberOfPatientsByStatus(): Observable< PatientsByStatus> {
+    return this.http
+      .get<PatientsByStatus>(`${PATIENTS_URL}/patientsByStatus`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 

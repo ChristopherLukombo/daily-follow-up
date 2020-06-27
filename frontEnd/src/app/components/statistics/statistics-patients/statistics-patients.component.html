@@ -1,11 +1,23 @@
 <h1>Statistiques des patients</h1>
+          <div class="container">
 
+            <div class="row">
+              <div class="col-md-5">
+                <app-patients-per-allergy
+        [patientsPerAllergy]="patientsPerAllergy"
+        ></app-patients-per-allergy>
+              </div>
 
-<canvas
-          baseChart
-          [data]="doughnutChartData"
-          [labels]="doughnutChartLabels"
-          [options]="doughnutChartoptions"
-          [chartType]="doughnutChartType"
-        >
-        </canvas>
+              <div class="col-md-4">
+                <app-patients-per-diet
+                [patientsPerDiet]="patientsPerDiet"
+                ></app-patients-per-diet>
+              </div>
+
+              <div class="col-md-3">
+                <app-patients-by-status
+        [patientsByStatus]="patientsByStatus"
+        ></app-patients-by-status>
+              </div>
+            </div>
+          </div>

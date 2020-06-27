@@ -1,6 +1,7 @@
 package fr.almavivahealth.service.impl.stats;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -22,13 +23,14 @@ import fr.almavivahealth.service.mapper.StatsMapper;
 @Service
 @Transactional
 public class StatsServiceImpl implements StatsService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatsServiceImpl.class);
-	
+
 	private final PatientRepository patientRepository;
-	
+
 	private final StatsMapper statsMapper;
-	
+
+
     @Autowired
 	public StatsServiceImpl(final PatientRepository patientRepository, final StatsMapper allergyPerPatientMapper) {
 		this.patientRepository = patientRepository;
@@ -66,15 +68,14 @@ public class StatsServiceImpl implements StatsService {
 	/**
 	 * Find number of patients by status.
 	 *
-	 * @return the list
+	 * @return the optional
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<PatientsByStatusDTO> findNumberOfPatientsByStatus() {
+	public Optional<PatientsByStatusDTO> findNumberOfPatientsByStatus() {
 		LOGGER.debug("Request to get number of patients by status");
-		return patientRepository.findNumberOfPatientsByStatus().stream()
-				.map(statsMapper::patientsByStatusToPatientsByStatusDTO)
-				.collect(Collectors.toList());
+		return patientRepository.findNumberOfPatientsByStatus()
+				.map(statsMapper::patientsByStatusToPatientsByStatusDTO);
 	}
-	
+
 }
