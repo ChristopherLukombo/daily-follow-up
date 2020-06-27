@@ -28,6 +28,7 @@ CREATE OR REPLACE FUNCTION verify_content() RETURNS TRIGGER AS $$
 	DECLARE 
 	   count_menu INTEGER = 0;
 	   count_order INTEGER = 0;
+	   
     BEGIN
 		SELECT
 			INTO count_menu COUNT(*)
@@ -96,7 +97,7 @@ CREATE OR REPLACE FUNCTION verify_content() RETURNS TRIGGER AS $$
 			OR ov.vegetables_id = OLD.id);
 
 	  IF (count_menu > 0 OR count_order > 0) THEN 
-	       RAISE EXCEPTION 'Le plat ne peut être supprimé, car il sera utilisé dans une prochaine commande ou un menu';
+	       RAISE EXCEPTION 'Le plat ''%'' ne peut être supprimé, car il sera utilisé dans une prochaine commande ou un menu', OLD.name;
 	   END IF;
 	   RETURN OLD;
     END;
