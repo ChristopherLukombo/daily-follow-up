@@ -4,6 +4,7 @@ import {
   HttpHeaders,
   HttpClient,
   HttpErrorResponse,
+  HttpResponse,
 } from "@angular/common/http";
 import { Observable, throwError, BehaviorSubject } from "rxjs";
 import { Diet } from "src/app/models/patient/diet";
@@ -119,6 +120,35 @@ export class AlimentationService {
   updateContent(contentDTO: ContentDTO): Observable<Content> {
     return this.http
       .put<Content>(CONTENTS_URL, JSON.stringify(contentDTO), httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Supprime un plat en fonction de son id
+   * @param id
+   * @returns HttpResponse<Object>
+   */
+  deleteContent(id: number): Observable<HttpResponse<Object>> {
+    return this.http
+      .delete<HttpResponse<Object>>(CONTENTS_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Supprime plusieurs plats
+   * @param contents les plats à supprimer
+   * @returns HttpResponse<Object>
+   */
+  deleteManyContents(contents: Content[]): Observable<HttpResponse<Object>> {
+    let ids: number[] = contents.map((content) => content.id);
+    const options = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      }),
+      body: ids,
+    };
+    return this.http
+      .delete<HttpResponse<Object>>(CONTENTS_URL, options)
       .pipe(catchError(this.handleCustomError));
   }
 

@@ -50,6 +50,11 @@ export class FormMealEditComponent implements OnInit {
   submitted: boolean = false;
   updating: boolean = false;
 
+  btnDelete: string = "Supprimer le plat";
+  confirmDelete: string =
+    "Le plat sera supprimé de la clinique. Veuillez confirmer pour continuer.";
+  deleting: boolean = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private alimentationService: AlimentationService,
@@ -228,6 +233,24 @@ export class FormMealEditComponent implements OnInit {
     );
   }
 
+  onDelete(): void {
+    this.deleting = true;
+    this.alimentationService.deleteContent(this.content.id).subscribe(
+      (data) => {
+        this.deleting = false;
+        this.toastrService.success(
+          "Le plat a bien été supprimé",
+          "Suppression réussie !"
+        );
+        this.router.navigate(["/food/meal/all"]);
+      },
+      (error) => {
+        this.deleting = false;
+        this.toastrService.error(this.getCustomError(error), "Oops !");
+      }
+    );
+  }
+
   /**
    * Récupération du code erreur et ajout du message à afficher
    * @param error
@@ -237,9 +260,17 @@ export class FormMealEditComponent implements OnInit {
     if (error && error.status === 401) {
       return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
     } else if (error && error.status === 409) {
-      return error.error.message;
+      return this.removeTriggerTrace(error.error.message);
     } else {
       return "Une erreur s'est produite. Veuillez réessayer plus tard.";
     }
+  }
+
+  /**
+   * Retire les notions techniques et les messages provenant directement de la base
+   * @param message
+   */
+  removeTriggerTrace(message: string): string {
+    return message.split("Où")[0].replace("ERREUR:", "");
   }
 }
