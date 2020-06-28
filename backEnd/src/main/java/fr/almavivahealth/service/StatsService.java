@@ -1,5 +1,6 @@
 package fr.almavivahealth.service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -8,6 +9,7 @@ import fr.almavivahealth.service.dto.OrdersPerDay;
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
+import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
 
 /**
  * The Interface StatsService.
@@ -41,4 +43,18 @@ public interface StatsService {
 	 * @return the map
 	 */
 	Map<String, List<OrdersPerDay>> findAllForNextDays();
+
+	/**
+	 * Find trendy diets.
+	 *
+	 * @return the list
+	 */
+	List<TopTrendyMenuDTO> findTrendyDiets();
+
+	/**
+	 * Find all trendy contents.
+	 *
+	 * @return the linked hash map
+	 */
+	LinkedHashMap<String, Long> findAllTrendyContents();
 }

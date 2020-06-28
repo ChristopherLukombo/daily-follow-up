@@ -1,5 +1,6 @@
 package fr.almavivahealth.web.rest;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import fr.almavivahealth.service.dto.OrdersPerDay;
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
+import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -144,5 +146,57 @@ public class StatsRessource {
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.ok().body(orderPerStatus);
+	}
+
+	/**
+	 * GET /stats/trendyDiets : Get trendy diets.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list in body
+	 * or with status 204 (No Content) if there is no TopTrendyMenu.
+	 *
+	 */
+	@ApiOperation("Get trendy diets.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/stats/trendyDiets")
+	public ResponseEntity<List<TopTrendyMenuDTO>> getTrendyDiets() {
+		LOGGER.debug("REST request to get trendy diets");
+		final List<TopTrendyMenuDTO> trendyDiets = statsService.findTrendyDiets();
+		if (trendyDiets.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(trendyDiets);
+	}
+
+	/**
+	 * GET /stats/trendyContents : Get trendy contents.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the linkedHashMap in body
+	 * or with status 204 (No Content) if there is no TopTrendyMenu.
+	 *
+	 */
+	@ApiOperation("Get trendy contents.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/stats/trendyContents")
+	public ResponseEntity<LinkedHashMap<String, Long>> findAllTrendyContents() {
+		LOGGER.debug("REST request to get trendy contents");
+		final LinkedHashMap<String, Long> trendyContents = statsService.findAllTrendyContents();
+		if (trendyContents.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(trendyContents);
 	}
 }

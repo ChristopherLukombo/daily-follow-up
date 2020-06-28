@@ -8,6 +8,7 @@ import { PatientsByStatus } from 'src/app/models/statistics/patients-by-status';
 import { PatientsPerAllergy } from 'src/app/models/statistics/patients-per-allergy';
 import { PatientsPerDiet } from 'src/app/models/statistics/patients-per-diet';
 import { OrdersPerDay } from 'src/app/models/statistics/orders-per-day';
+import { TopTrendyMenu } from 'src/app/models/statistics/top-trendy-menu';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -15,7 +16,7 @@ const httpOptions = {
   }),
 };
 
-const PATIENTS_URL = environment.appRootUrl + "/api/stats";
+const STATS_URL = environment.appRootUrl + "/api/stats";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class StatisticsService {
  */
   getNumberOfPatientsPerAllergy(): Observable<PatientsPerAllergy[]> {
     return this.http
-      .get<PatientsPerAllergy[]>(`${PATIENTS_URL}/patientsPerAllergy`, httpOptions)
+      .get<PatientsPerAllergy[]>(`${STATS_URL}/patientsPerAllergy`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 /**
@@ -39,7 +40,7 @@ export class StatisticsService {
  */
   getNumberOfPatientsPerDiet(): Observable<PatientsPerDiet[]> {
     return this.http
-      .get<PatientsPerDiet[]>(`${PATIENTS_URL}/patientsPerDiet`, httpOptions)
+      .get<PatientsPerDiet[]>(`${STATS_URL}/patientsPerDiet`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -49,7 +50,7 @@ export class StatisticsService {
  */
   getNumberOfPatientsByStatus(): Observable<PatientsByStatus> {
     return this.http
-      .get<PatientsByStatus>(`${PATIENTS_URL}/patientsByStatus`, httpOptions)
+      .get<PatientsByStatus>(`${STATS_URL}/patientsByStatus`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -58,7 +59,7 @@ export class StatisticsService {
    */
   getNumberOfOrdersPerDay(): Observable<Map<string, Array<OrdersPerDay>>> {
     return this.http
-      .get<unknown>(`${PATIENTS_URL}/ordersPerDay`, httpOptions)
+      .get<unknown>(`${STATS_URL}/ordersPerDay`, httpOptions)
       .pipe(map(this.convertPropertyElementsToMap))
       .pipe(catchError(this.handleError));
   }
@@ -66,6 +67,31 @@ export class StatisticsService {
   convertPropertyElementsToMap(orderPerStatus: unknown): Map<string, Array<OrdersPerDay>> {
     return new Map(Object.entries(orderPerStatus));
   }
+
+  /**
+  * Retourne le nombre de regimé qui renviennent souvent
+ * @returns le nombre de régime revenant souvent
+ */
+getTrendyDiets(): Observable<TopTrendyMenu[]> {
+  return this.http
+    .get<TopTrendyMenu[]>(`${STATS_URL}/trendyDiets`, httpOptions)
+    .pipe(catchError(this.handleError));
+}
+
+ /**
+  * Retourne le nombre de plats qui renviennent le plus souvent
+ * @returns le nombre de plats qui renvienent le plus souvent
+ */
+getTrendyContents(): Observable<Map<string, number>> {
+  return this.http
+    .get<Map<string, number>>(`${STATS_URL}/trendyContents`, httpOptions)
+    .pipe(map(this.convertPropertyContentsToMap))
+    .pipe(catchError(this.handleError));
+}
+
+convertPropertyContentsToMap(trendyContents: unknown): Map<string, number> {
+  return new Map(Object.entries(trendyContents));
+}
 
   /**
    * Gestion des erreurs du backend
