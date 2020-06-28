@@ -1,0 +1,47 @@
+<h1>Statistiques</h1>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <app-patients-per-allergy
+                [patientsPerAllergy]="patientsPerAllergy">
+            </app-patients-per-allergy>
+        </div>
+
+        <div class="col-6">
+            <app-patients-per-diet
+                [patientsPerDiet]="patientsPerDiet">
+            </app-patients-per-diet>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <app-patients-by-status
+                [patientsByStatus]="patientsByStatus">
+            </app-patients-by-status>
+        </div>
+
+        <div class="col-6">
+            <app-order-per-day
+                [orderPerStatus]="orderPerStatus">
+            </app-order-per-day>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <app-top-trendy-diets
+                [topTrendyMenus]="topTrendyMenus">
+            </app-top-trendy-diets>
+        </div>
+
+        <div class="col-6">
+          <app-top-trendy-contents
+              [topTrendyContents]="topTrendyContents">
+          </app-top-trendy-contents>
+      </div>
+    </div>
+
+</div>
