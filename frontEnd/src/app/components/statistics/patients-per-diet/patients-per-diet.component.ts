@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
-import { PatientsPerAllergy } from 'src/app/models/statistics/patients-per-allergy';
 import { PatientsPerDiet } from 'src/app/models/statistics/patients-per-diet';
 
 @Component({
