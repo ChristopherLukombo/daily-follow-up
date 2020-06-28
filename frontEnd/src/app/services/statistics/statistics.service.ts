@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { Patient } from 'src/app/models/patient/patient';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { PatientsByStatus } from 'src/app/models/statistics/patients-by-status';
 import { PatientsPerAllergy } from 'src/app/models/statistics/patients-per-allergy';
 import { PatientsPerDiet } from 'src/app/models/statistics/patients-per-diet';
+import { OrdersPerDay } from 'src/app/models/statistics/orders-per-day';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -46,10 +47,24 @@ export class StatisticsService {
   * Retourne le nombre de patients par statut.
  * @returns le nombre de patient par statut
  */
-  getNumberOfPatientsByStatus(): Observable< PatientsByStatus> {
+  getNumberOfPatientsByStatus(): Observable<PatientsByStatus> {
     return this.http
       .get<PatientsByStatus>(`${PATIENTS_URL}/patientsByStatus`, httpOptions)
       .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne le nombre de commandes par jour
+   */
+  getNumberOfOrdersPerDay(): Observable<Map<string, Array<OrdersPerDay>>> {
+    return this.http
+      .get<unknown>(`${PATIENTS_URL}/ordersPerDay`, httpOptions)
+      .pipe(map(this.convertPropertyElementsToMap))
+      .pipe(catchError(this.handleError));
+  }
+
+  convertPropertyElementsToMap(orderPerStatus: unknown): Map<string, Array<OrdersPerDay>> {
+    return new Map(Object.entries(orderPerStatus));
   }
 
   /**

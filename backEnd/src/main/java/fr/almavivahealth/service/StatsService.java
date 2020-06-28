@@ -1,8 +1,10 @@
 package fr.almavivahealth.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import fr.almavivahealth.service.dto.OrdersPerDay;
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
@@ -33,4 +35,10 @@ public interface StatsService {
 	 */
 	Optional<PatientsByStatusDTO> findNumberOfPatientsByStatus();
 
+	/**
+	 * Find all for next days.
+	 *
+	 * @return the map
+	 */
+	Map<String, List<OrdersPerDay>> findAllForNextDays();
 }

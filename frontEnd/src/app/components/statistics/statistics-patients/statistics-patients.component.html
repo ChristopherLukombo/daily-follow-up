@@ -1,7 +1,8 @@
 <h1>Statistiques des patients</h1>
-          <div class="container">
 
-            <div class="row">
+<div class="container">
+
+    <div class="row">
               <div class="col-md-5">
                 <app-patients-per-allergy
         [patientsPerAllergy]="patientsPerAllergy"
@@ -19,5 +20,16 @@
         [patientsByStatus]="patientsByStatus"
         ></app-patients-by-status>
               </div>
+
             </div>
-          </div>
+
+
+            <div class="row">
+               <div class="col-md-5">
+                  <app-order-per-day
+                  [orderPerStatus]="orderPerStatus">
+                  </app-order-per-day>
+               </div>
+            </div>
+
+</div>

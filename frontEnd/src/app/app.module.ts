@@ -111,6 +111,7 @@ import { StatisticsPatientsComponent } from './components/statistics/statistics-
 import { PatientsPerAllergyComponent } from './components/statistics/patients-per-allergy/patients-per-allergy.component';
 import { PatientsPerDietComponent } from './components/statistics/patients-per-diet/patients-per-diet.component';
 import { PatientsByStatusComponent } from './components/statistics/patients-by-status/patients-by-status.component';
+import { OrderPerDayComponent } from './components/statistics/order-per-day/order-per-day.component';
 
 @NgModule({
   declarations: [
@@ -201,6 +202,7 @@ import { PatientsByStatusComponent } from './components/statistics/patients-by-s
     PatientsPerAllergyComponent,
     PatientsPerDietComponent,
     PatientsByStatusComponent,
+    OrderPerDayComponent,
   ],
   imports: [
     BrowserModule,

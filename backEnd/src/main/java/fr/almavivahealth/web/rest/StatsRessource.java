@@ -1,6 +1,7 @@
 package fr.almavivahealth.web.rest;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.almavivahealth.service.StatsService;
+import fr.almavivahealth.service.dto.OrdersPerDay;
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
@@ -118,4 +120,29 @@ public class StatsRessource {
 		return ResponseEntity.noContent().build();
 	}
 
+	/**
+	 * GET /stats/ordersPerDay : Get number of orders per day.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the map of list in body
+	 * or with status 204 (No Content) if there is no PatientsByStatus.
+	 *
+	 */
+	@ApiOperation("Get number of orders per day.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/stats/ordersPerDay")
+	public ResponseEntity<Map<String, List<OrdersPerDay>>> getNumberOfOrdersPerDay() {
+		LOGGER.debug("REST request to get number of orders per day");
+		final Map<String, List<OrdersPerDay>> orderPerStatus = statsService.findAllForNextDays();
+		if (orderPerStatus.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(orderPerStatus);
+	}
 }

@@ -10,21 +10,21 @@ import { PatientsPerAllergy } from 'src/app/models/statistics/patients-per-aller
 })
 export class PatientsPerAllergyComponent {
 
- public barChartOptions: ChartOptions = {
+  public barChartOptions: ChartOptions = {
     responsive: true,
     title: {
       display: true,
       fontSize: 13,
-      text: "Composition nutritionnelle (100g)",
+      text: "Nombre de patients pour chaque allergie",
     },
     legend: { position: "right" },
     scales: { xAxes: [{}], yAxes: [{}] },
   };
-public barChartLabels: Label[] = [];
-   public barChartType: ChartType = 'bar';
-   public barChartLegend = true;
+  public barChartLabels: Label[] = [];
+  public barChartType: ChartType = 'bar';
+  public barChartLegend = true;
 
-public barChartData: ChartDataSets[] = [];
+  public barChartData: ChartDataSets[] = [];
 
   @Input() public patientsPerAllergy: Array<PatientsPerAllergy>
 
@@ -32,18 +32,17 @@ public barChartData: ChartDataSets[] = [];
   constructor() { }
 
   ngOnChanges(): void {
-    this.barChartData = this.patientsPerAllergy ? this.generateChartData(this.patientsPerAllergy) :[ { data: [0, 0, 0, 0, 0, 0, 0], label: '' }];
+    this.barChartData = this.patientsPerAllergy ?
+      this.generateChartData(this.patientsPerAllergy) :
+      [{ data: [0, 0, 0, 0, 0, 0, 0], label: '' }];
   }
 
   generateChartData(data: Array<PatientsPerAllergy>): { data: number[]; label: string; }[] {
-    const di = data.map(d => d.numberPatients)
-
-   this.barChartLabels = data.map(d => d.allergyName);
+    this.barChartLabels = data.map(d => d.allergyName);
 
     return [
-      {data: di, label: 'Nombre de patients'},
-      {data: data.map(d => d.percentage), label: 'Patients en pourcentage'}
+      { data: data.map(d => d.numberPatients), label: 'Nombre de patients' },
+      { data: data.map(d => d.percentage), label: 'Patients en pourcentage' }
     ];
   }
-
 }

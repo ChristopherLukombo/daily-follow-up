@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { OrdersPerDay } from 'src/app/models/statistics/orders-per-day';
 import { PatientsByStatus } from 'src/app/models/statistics/patients-by-status';
 import { PatientsPerAllergy } from 'src/app/models/statistics/patients-per-allergy';
 import { PatientsPerDiet } from 'src/app/models/statistics/patients-per-diet';
 import { StatisticsService } from 'src/app/services/statistics/statistics.service';
-
-export interface Ti {
-  data: number[];
-  label: string;
-}
 
 @Component({
   selector: 'app-statistics-patients',
@@ -16,46 +12,12 @@ export interface Ti {
 })
 export class StatisticsPatientsComponent implements OnInit {
 
-
-  // public barChartOptions: ChartOptions = {
-  //   responsive: true,
-  //   title: {
-  //     display: true,
-  //     fontSize: 13,
-  //     text: "Composition nutritionnelle (100g)",
-  //   },
-  //   legend: { position: "right" },
-  //   scales: { xAxes: [{}], yAxes: [{}] },
-  // };
-  // public barChartLabels: Label[] = [];
-  // public barChartType: ChartType = 'bar';
-  // public barChartLegend = true;
-
-  // public barChartData: ChartDataSets[] = [];
-
   error: string;
 
   patientsPerAllergy: Array<PatientsPerAllergy>;
   patientsPerDiet: Array<PatientsPerDiet>;
   patientsByStatus: PatientsByStatus;
-
-
-  // public barChartOptions2: ChartOptions = {
-  //   responsive: true,
-  //   title: {
-  //     display: true,
-  //     fontSize: 13,
-  //     text: "Composition nutritionnelle (100g)",
-  //   },
-  //   legend: { position: "right" },
-  //   scales: { xAxes: [{}], yAxes: [{}] },
-  // };
-  // public barChartLabels2: Label[] = [];
-  // public barChartType2: ChartType = 'bar';
-  // public barChartLegend2 = true;
-
-  // public barChartData2: ChartDataSets[] = [
-  // ];
+  orderPerStatus: Map<string, Array<OrdersPerDay>>;
 
   constructor(
     private statisticsService: StatisticsService) { }
@@ -64,6 +26,7 @@ export class StatisticsPatientsComponent implements OnInit {
     this.getPatientsPerAllergy();
     this.getPatientsPerDiet();
     this.getPatientsByStatus();
+    this.getNumberOfOrdersPerDay();
   }
 
   private getPatientsPerAllergy(): void {
@@ -88,6 +51,15 @@ export class StatisticsPatientsComponent implements OnInit {
     this.statisticsService.getNumberOfPatientsByStatus()
       .subscribe(data => {
         this.patientsByStatus = data;
+      }, error => {
+        this.catchError(error);
+      });
+  }
+
+  private getNumberOfOrdersPerDay(): void {
+    this.statisticsService.getNumberOfOrdersPerDay()
+      .subscribe(data => {
+        this.orderPerStatus = data;
       }, error => {
         this.catchError(error);
       });

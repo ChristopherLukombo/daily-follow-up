@@ -15,7 +15,7 @@ export class PatientsPerDietComponent {
     title: {
       display: true,
       fontSize: 13,
-      text: "Composition nutritionnelle (100g)",
+      text: "Nombre de patients pour chaque alimentation",
     },
     legend: { position: "right" },
     scales: { xAxes: [{}], yAxes: [{}] },
@@ -32,16 +32,16 @@ export class PatientsPerDietComponent {
   constructor() { }
 
   ngOnChanges(): void {
-    this.barChartData = this.patientsPerDiet ? this.generateChartData(this.patientsPerDiet) : [{ data: [0, 0, 0, 0, 0, 0, 0], label: '' }];
+    this.barChartData = this.patientsPerDiet ?
+      this.generateChartData(this.patientsPerDiet) :
+      [{ data: [0, 0, 0, 0, 0, 0, 0], label: '' }];
   }
 
   generateChartData(data: Array<PatientsPerDiet>): { data: number[]; label: string; }[] {
-    const di = data.map(d => d.numberPatients)
-
     this.barChartLabels = data.map(d => d.dietName);
 
     return [
-      { data: di, label: 'Nombre de patients' },
+      { data: data.map(d => d.numberPatients), label: 'Nombre de patients' },
       { data: data.map(d => d.percentage), label: 'Patients en pourcentage' }
     ];
   }
