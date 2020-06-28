@@ -1,0 +1,29 @@
+$white: #fff;
+$muted: #6c757d;
+
+.week-style {
+  .date-style {
+    color: $muted;
+  }
+  tr {
+    td {
+      &:hover {
+        color: $white;
+        background-color: #007bff;
+        border-color: #007bff;
+        cursor: pointer;
+        .date-style {
+          color: $white;
+        }
+      }
+    }
+    td.active {
+      color: $white;
+      background-color: #0062cc;
+      border-color: #0062cc;
+      .date-style {
+        color: $white;
+      }
+    }
+  }
+}

@@ -1,0 +1,195 @@
+<div *ngIf="modal && form" class="meals-of-the-day">
+  <ul class="list-group list-group-flush">
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('Entrée')?.name }}"
+      [class.invalid-case]="!contentsOfTheMoment.get('Entrée')"
+    >
+      {{ contentsOfTheMoment.get("Entrée")?.name | truncate: 30 }}
+    </li>
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('Plat')?.name }}"
+      [class.invalid-case]="!contentsOfTheMoment.get('Plat')"
+    >
+      {{ contentsOfTheMoment.get("Plat")?.name | truncate: 30 }}
+    </li>
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('Garniture')?.name }}"
+      [class.invalid-case]="!contentsOfTheMoment.get('Garniture')"
+    >
+      {{ contentsOfTheMoment.get("Garniture")?.name | truncate: 30 }}
+    </li>
+    <li
+      *ngIf="f.dairyProduct"
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('P.L')?.name }}"
+      [class.invalid-case]="!contentsOfTheMoment.get('P.L')"
+    >
+      {{ contentsOfTheMoment.get("P.L")?.name | truncate: 30 }}
+    </li>
+    <li
+      class="list-group-item"
+      title="{{ contentsOfTheMoment.get('Dessert')?.name }}"
+      [class.invalid-case]="!contentsOfTheMoment.get('Dessert')"
+    >
+      {{ contentsOfTheMoment.get("Dessert")?.name | truncate: 30 }}
+    </li>
+  </ul>
+  <button
+    class="btn btn-outline-info btn-sm btn-block"
+    data-toggle="modal"
+    [attr.data-target]="modal.target"
+  >
+    <fa-icon [icon]="editLogo"></fa-icon>
+  </button>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  [attr.id]="modal.id"
+  tabindex="-1"
+  role="dialog"
+  [attr.aria-labelledby]="modal.label"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <form [formGroup]="form">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" [attr.id]="modal.label">
+            {{ moment }} du {{ day?.name }} - Semaine {{ week }}
+          </h4>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- FORMULAIRE-->
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Entrée</label>
+            <div class="col-sm-10">
+              <ng-select
+                [items]="suggestions.get('Entrée')"
+                #select
+                bindLabel="name"
+                dropdownPosition="auto"
+                placeholder="Choisissez..."
+                notFoundText="Aucune entrée trouvée"
+                [virtualScroll]="true"
+                formControlName="entry"
+              >
+              </ng-select>
+              <small *ngIf="submitted && f.entry.errors" class="text-danger">
+                Veuillez choisir une entrée
+              </small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Plat</label>
+            <div class="col-sm-10">
+              <ng-select
+                [items]="suggestions.get('Plat')"
+                #select
+                bindLabel="name"
+                dropdownPosition="auto"
+                placeholder="Choisissez..."
+                notFoundText="Aucun plat trouvé"
+                [virtualScroll]="true"
+                formControlName="dish"
+              >
+              </ng-select>
+              <small *ngIf="submitted && f.dish.errors" class="text-danger">
+                Veuillez choisir un plat
+              </small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Garniture</label>
+            <div class="col-sm-10">
+              <ng-select
+                [items]="suggestions.get('Garniture')"
+                #select
+                bindLabel="name"
+                dropdownPosition="auto"
+                placeholder="Choisissez..."
+                notFoundText="Aucune garniture trouvée"
+                [virtualScroll]="true"
+                formControlName="garnish"
+              >
+              </ng-select>
+              <small *ngIf="submitted && f.garnish.errors" class="text-danger">
+                Veuillez choisir une garniture de plat
+              </small>
+            </div>
+          </div>
+          <div *ngIf="moment != 'Dîner'" class="form-group row">
+            <label class="col-sm-2 col-form-label">P.L</label>
+            <div class="col-sm-10">
+              <ng-select
+                [items]="suggestions.get('P.L')"
+                #select
+                bindLabel="name"
+                dropdownPosition="auto"
+                placeholder="Choisissez..."
+                notFoundText="Aucun produit laitier trouvé"
+                [virtualScroll]="true"
+                formControlName="dairyProduct"
+              >
+              </ng-select>
+              <small
+                *ngIf="submitted && f.dairyProduct.errors"
+                class="text-danger"
+              >
+                Veuillez choisir un produit laitier
+              </small>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Dessert</label>
+            <div class="col-sm-10">
+              <ng-select
+                [items]="suggestions.get('Dessert')"
+                #select
+                bindLabel="name"
+                dropdownPosition="auto"
+                placeholder="Choisissez..."
+                notFoundText="Aucun dessert trouvé"
+                [virtualScroll]="true"
+                formControlName="dessert"
+              >
+              </ng-select>
+              <small *ngIf="submitted && f.dessert.errors" class="text-danger">
+                Veuillez choisir un dessert
+              </small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            data-dismiss="modal"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [attr.data-dismiss]="submitted && form.valid ? 'modal' : null"
+            (click)="onSubmit()"
+          >
+            Enregistrer
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

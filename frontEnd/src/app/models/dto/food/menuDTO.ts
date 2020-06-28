@@ -3,7 +3,7 @@ import { ReplacementDTO } from "./replacementDTO";
 
 export class MenuDTO {
   /***/
-  diet: string;
+  diets: Array<string>;
   /***/
   endDate: string;
   /***/
@@ -12,6 +12,10 @@ export class MenuDTO {
   lastModificationDateBy: Date;
   /***/
   lastModifiedBy: string;
+  /***/
+  name: string;
+  /***/
+  repetition: number;
   /***/
   replacement: ReplacementDTO;
   /***/
@@ -25,7 +29,8 @@ export class MenuDTO {
     id: number,
     startDate: string,
     endDate: string,
-    diet: string,
+    repetition: number,
+    diets: Array<string>,
     texture: string,
     replacement: ReplacementDTO,
     lastModificationDateBy: Date,
@@ -33,9 +38,12 @@ export class MenuDTO {
     weeks: Array<WeekDTO>
   ) {
     (this.id = id),
+      (this.name =
+        diets.toString() + " - " + texture + " - " + startDate + "_" + endDate),
       (this.startDate = startDate),
       (this.endDate = endDate),
-      (this.diet = diet),
+      (this.repetition = repetition),
+      (this.diets = diets),
       (this.texture = texture),
       (this.replacement = replacement),
       (this.lastModificationDateBy = lastModificationDateBy),

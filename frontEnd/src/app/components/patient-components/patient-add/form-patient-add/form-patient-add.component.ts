@@ -224,7 +224,11 @@ export class FormPatientAddComponent implements OnInit {
       (diet: FormControl, i: number) => {
         if (diet.value === true && this.dietsAvailable[i]) {
           diets.push(
-            new DietDTO(this.dietsAvailable[i].id, this.dietsAvailable[i].name)
+            new DietDTO(
+              this.dietsAvailable[i].id,
+              this.dietsAvailable[i].name,
+              this.dietsAvailable[i].elementsToCheck
+            )
           );
         }
       }
@@ -262,7 +266,7 @@ export class FormPatientAddComponent implements OnInit {
         const id = data.id;
         this.creating = false;
         this.toastrService.success(
-          "Le patient a bien été crée",
+          "Le patient a bien été créé",
           "Création terminée !"
         );
         this.router.navigate(["/patient/details"], { queryParams: { id: id } });

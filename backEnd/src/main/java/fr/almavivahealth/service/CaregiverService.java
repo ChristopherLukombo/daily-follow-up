@@ -3,6 +3,7 @@ package fr.almavivahealth.service;
 import java.util.List;
 import java.util.Optional;
 
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.CaregiverDTO;
 
 /**
@@ -15,16 +16,18 @@ public interface CaregiverService {
 	 *
 	 * @param caregiverDTO the entity to save
 	 * @return the persisted entity
+	 * @throws DailyFollowUpException
 	 */
-	CaregiverDTO save(CaregiverDTO caregiverDTO);
+	CaregiverDTO save(CaregiverDTO caregiverDTO) throws DailyFollowUpException;
 
 	/**
 	 * Update a caregiver.
 	 *
 	 * @param caregiverDTO the caregiver DTO
 	 * @return the persisted entity
+	 * @throws DailyFollowUpException
 	 */
-	CaregiverDTO update(CaregiverDTO caregiverDTO);
+	CaregiverDTO update(CaregiverDTO caregiverDTO) throws DailyFollowUpException;
 
 	/**
 	 * Get all the caregivers.
@@ -47,4 +50,20 @@ public interface CaregiverService {
 	 * @param id the id of the entity
 	 */
 	void delete(Long id);
+
+	/**
+	 * Find all by floor number.
+	 *
+	 * @param number the number
+	 * @return the list of entities
+	 */
+	List<CaregiverDTO> findAllByFloorNumber(Integer number);
+
+	/**
+	 * Get the "userId" caregiver.
+	 *
+	 * @param userId the user id
+	 * @return the entity
+	 */
+	Optional<CaregiverDTO> findByUserId(Long userId);
 }

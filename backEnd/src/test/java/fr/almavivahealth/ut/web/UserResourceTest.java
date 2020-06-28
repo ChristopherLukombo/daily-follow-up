@@ -16,18 +16,22 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import fr.almavivahealth.security.jwt.TokenProvider;
+import fr.almavivahealth.service.UserService;
 import fr.almavivahealth.web.Login;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.UserResource;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserResourceTest {
-	
+
 	private static final String PASSWORD = "test";
 
 	private static final String USERNAME = "Ben";
 
 	private MockMvc mockMvc;
+
+	@Mock
+	private UserService userService;
 
 	@Mock
 	private TokenProvider tokenProvider;
@@ -55,7 +59,7 @@ public class UserResourceTest {
 	public void shouldAuthenticateWhenIsOk() throws IOException, Exception {
 		// Given
 		final Login login = createLogin();
-		
+
 		// Then
 		mockMvc.perform(post("/api/authenticate")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)

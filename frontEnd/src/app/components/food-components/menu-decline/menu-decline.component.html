@@ -1,0 +1,97 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-food-navbar></app-food-navbar>
+    </div>
+    <div class="col">
+      <h2>Décliner un menu</h2>
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="menus && menus.length > 0 && !error">
+        <div class="form-group">
+          <label><h5>Recherchez le menu à décliner</h5></label>
+          <ng-select
+            [items]="menus"
+            #select
+            bindLabel="name"
+            dropdownPosition="auto"
+            placeholder="Entrez le régime, la texture, la date du début ou la date de fin..."
+            notFoundText="Aucun menu trouvé"
+            [virtualScroll]="true"
+            [(ngModel)]="selectedMenu"
+            (ngModelChange)="getDeclinableDiets($event)"
+          >
+          </ng-select>
+        </div>
+        <br />
+        <div *ngIf="selectedMenu && diets && diets.length > 0">
+          <app-menu-weeks-lock [menu]="selectedMenu"> </app-menu-weeks-lock>
+          <br />
+          <div class="form-group">
+            <label><h5>Sélectionnez la (ou les) déclinaison(s)</h5></label>
+            <br />
+            <div class="btn-group">
+              <button
+                *ngFor="let d of diets"
+                type="button"
+                class="btn btn-info"
+                (click)="selectOrDeselectDiet(d)"
+                [class.active]="containsDiet(d)"
+              >
+                {{ d.name }}
+              </button>
+            </div>
+          </div>
+          <br />
+          <button
+            *ngIf="!declining"
+            type="button"
+            class="btn btn-primary"
+            [disabled]="!selectedDiets.length"
+            (click)="onDecline()"
+          >
+            Décliner le menu
+          </button>
+          <button
+            *ngIf="declining"
+            type="button"
+            class="btn btn-primary"
+            disabled
+          >
+            <span class="spinner-border spinner-border-sm"></span>
+            Recherche d'un menu adapté en cours...
+          </button>
+          &nbsp;
+          <button
+            *ngIf="!declining"
+            type="button"
+            class="btn btn-outline-info"
+            [disabled]="!selectedDiets.length"
+            (click)="onEdit()"
+          >
+            Déclinaison manuelle
+          </button>
+          <br /><br />
+          <div *ngIf="cannotDecline">
+            <app-alert-warning [content]="cannotDecline"></app-alert-warning>
+          </div>
+          <div *ngIf="newMenu">
+            <div class="alert alert-primary" role="alert">
+              Voici ci-dessous une proposition de déclinaison du menu
+              <strong>{{ selectedMenu?.name }}</strong> en
+              <code *ngFor="let diet of newMenu?.diets">{{ diet }}&nbsp;</code>
+            </div>
+            <app-declined-menu-template
+              [menu]="newMenu"
+              [from]="selectedMenu"
+            ></app-declined-menu-template>
+          </div>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>

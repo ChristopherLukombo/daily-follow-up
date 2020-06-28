@@ -1,0 +1,27 @@
+<div class="meals-of-the-day">
+  <ul
+    *ngFor="let content of newContents; let index = index"
+    class="list-group list-group-flush"
+  >
+    <li *ngIf="content" class="list-group-item" title="{{ content?.name }}">
+      <span
+        *ngIf="baseContents[index] && baseContents[index].name === content.name"
+      >
+        {{ content?.name | truncate: 30 }}
+      </span>
+      <span
+        *ngIf="
+          !baseContents[index] || baseContents[index].name !== content.name
+        "
+        class="diff-plus"
+      >
+        {{ content?.name | truncate: 30 }}
+      </span>
+    </li>
+    <li *ngIf="!content" class="list-group-item" title="{{ content?.name }}">
+      <span class="diff-minus">
+        {{ baseContents[index]?.name | truncate: 30 }}
+      </span>
+    </li>
+  </ul>
+</div>

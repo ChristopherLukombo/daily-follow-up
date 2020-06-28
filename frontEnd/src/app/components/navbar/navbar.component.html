@@ -1,6 +1,6 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#">
-    <img src="../../../assets/food.svg" width="40" height="40" />
+    <img src="../../../assets/food.svg" width="50" height="50" />
     <span class="navbar-brand mb-0 h1">&nbsp;Daily follow-up</span>
   </a>
   <button
@@ -18,17 +18,22 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul *ngIf="connected()" class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/food/meal/add"
+        <a class="nav-link" routerLink="/food/menu/currents"
           ><fa-icon [icon]="foodLogo"></fa-icon> Alimentation</a
         >
       </li>
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/patient/all"
-          ><fa-icon [icon]="patientLogo"></fa-icon> Patient</a
+        <a class="nav-link" routerLink="/order/all"
+          ><fa-icon [icon]="orderLogo"></fa-icon> Commandes</a
         >
       </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#"
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/patient/all"
+          ><fa-icon [icon]="patientLogo"></fa-icon> Patients</a
+        >
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/clinic/floor/all"
           ><fa-icon [icon]="clinicLogo"></fa-icon> Clinique</a
         >
       </li>

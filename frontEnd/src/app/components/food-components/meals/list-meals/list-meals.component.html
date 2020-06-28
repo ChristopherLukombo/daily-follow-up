@@ -1,10 +1,17 @@
 <div class="form-group">
   <h5>
-    <label>Filtres</label>
+    <label>Types</label>
   </h5>
   <div class="types-form-checkboxes">
-    <label *ngFor="let type of typeMeals" class="checkbox-inline">
-      <input type="checkbox" />
+    <label
+      *ngFor="let type of typeMeals; let i = index"
+      class="checkbox-inline"
+    >
+      <input
+        type="checkbox"
+        [(ngModel)]="filter[i]"
+        (ngModelChange)="filterChange()"
+      />
       {{ type }}
     </label>
   </div>
@@ -23,14 +30,13 @@
     <tr>
       <th scope="col">Nom</th>
       <th scope="col">Types</th>
-      <th scope="col">Mixé</th>
-      <th scope="col"></th>
+      <th scope="col">Disponible texture mixé</th>
     </tr>
   </thead>
   <tbody class="tbody-dfu">
     <tr
       *ngFor="
-        let content of contents
+        let content of filteredContents
           | orderBy: 'name'
           | search: 'name':name
           | paginate: pagination;
@@ -51,7 +57,6 @@
       <td *ngIf="!content.mixed" [ngStyle]="{ color: '#dc3545' }">
         <fa-icon [icon]="falseLogo"></fa-icon>
       </td>
-      <td></td>
     </tr>
   </tbody>
 </table>

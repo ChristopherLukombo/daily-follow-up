@@ -9,6 +9,7 @@ import { catchError } from "rxjs/operators";
 import { LoginDTO } from "src/app/models/dto/loginDTO";
 import { environment } from "src/environments/environment";
 import * as jwt_decode from "jwt-decode";
+import { JwtToken } from "src/app/models/user/jwt-token";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -29,9 +30,9 @@ export class LoginService {
    * @param loginDTO
    * @return le token
    */
-  login(loginDTO: LoginDTO): Observable<any> {
+  login(loginDTO: LoginDTO): Observable<JwtToken> {
     return this.http
-      .post(LOGIN_URL, JSON.stringify(loginDTO), httpOptions)
+      .post<JwtToken>(LOGIN_URL, JSON.stringify(loginDTO), httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -49,8 +50,24 @@ export class LoginService {
    * Check si l'utilisateur est authentifié
    * @return true ou false
    */
-  isAuthenticated(): Boolean {
+  isAuthenticated(): boolean {
     return localStorage.getItem("token") ? true : false;
+  }
+
+  setJwtToken(token: JwtToken): void {
+    this.setToken(token.id_token);
+    this.changedPassword(token.has_changed_password);
+  }
+
+  hasChangedPassword(): boolean {
+    let hasChanged: boolean = JSON.parse(
+      localStorage.getItem("has_changed_password")
+    );
+    return hasChanged === true;
+  }
+
+  changedPassword(value: boolean): void {
+    localStorage.setItem("has_changed_password", JSON.stringify(value));
   }
 
   getToken(): string {
@@ -73,6 +90,13 @@ export class LoginService {
     const token = this.getToken();
     const decoded = jwt_decode(token);
     return decoded.auth == undefined ? null : decoded.auth;
+  }
+
+  getTokenId(): number {
+    if (this.isAuthenticated() == false) return null;
+    const token = this.getToken();
+    const decoded = jwt_decode(token);
+    return decoded.user_id == undefined ? null : parseInt(decoded.user_id);
   }
 
   getTokenExpirationDate(): Date {

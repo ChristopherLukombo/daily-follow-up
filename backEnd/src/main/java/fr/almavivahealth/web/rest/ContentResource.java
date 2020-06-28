@@ -1,7 +1,6 @@
 package fr.almavivahealth.web.rest;
 
 import static fr.almavivahealth.constants.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_UPLOAD_THE_PICTURE_CONTENT;
-import static fr.almavivahealth.constants.ErrorMessage.ERROR_CONTENT_UNIQUE_NAME;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.domain.entity.Content;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.ContentService;
 import fr.almavivahealth.service.dto.ContentDTO;
@@ -91,11 +90,6 @@ public class ContentResource {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A new content cannot already have an ID idexists " + contentDTO.getId());
 		}
-		final Optional<Content> content = contentService.findContentByName(contentDTO.getName());
-		if (content.isPresent()) {
-			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), messageSource
-					.getMessage(ERROR_CONTENT_UNIQUE_NAME, null, locale));
-		}
 		final ContentDTO result = contentService.save(contentDTO);
 		return ResponseEntity.created(new URI("/api/contents/" + result.getId())).body(result);
 	}
@@ -127,11 +121,6 @@ public class ContentResource {
 		if (contentDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A content must have an ID idexists " + contentDTO.getId());
-		}
-		final Optional<Content> content = contentService.findContentByName(contentDTO.getName());
-		if (content.isPresent()) {
-			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(), messageSource
-					.getMessage(ERROR_CONTENT_UNIQUE_NAME, null, locale));
 		}
 		final ContentDTO result = contentService.update(contentDTO);
 		return ResponseEntity.ok().body(result);
@@ -289,5 +278,26 @@ public class ContentResource {
 		LOGGER.debug("REST request to get picture");
 		final byte[] picture = contentService.findPicture(contentId);
 		return ResponseEntity.ok().body(picture);
+	}
+
+	/**
+	 * DELETE /contents : Delete the contents by ids.
+	 *
+	 * @param ids the ids
+	 * @return the ResponseEntity with status 204 (OK)
+	 */
+	@ApiOperation("Delete the contents by ids.")
+	@ApiResponses({
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@DeleteMapping(value = "/contents" , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> deleteByIds(@RequestBody final List<Long> ids) {
+		LOGGER.debug("REST request to delete Contents : {}", ids);
+		contentService.deleteByIds(ids);
+		return ResponseEntity.noContent().build();
 	}
 }

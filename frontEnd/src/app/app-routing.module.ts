@@ -15,9 +15,18 @@ import { UsersComponent } from "./components/user-components/users/users.compone
 import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
 import { MealsComponent } from "./components/food-components/meals/meals.component";
 import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
+import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
+import { ResetUserPasswordComponent } from "./components/user-components/reset-user-password/reset-user-password.component";
+import { FloorAddComponent } from "./components/clinic-components/floor-add/floor-add.component";
+import { DietAddComponent } from "./components/food-components/diet-add/diet-add.component";
+import { MenuDeclineComponent } from "./components/food-components/menu-decline/menu-decline.component";
+import { MenuDeclinedEditComponent } from "./components/food-components/menu-declined-edit/menu-declined-edit.component";
+import { MealEditComponent } from "./components/food-components/meal/meal-edit/meal-edit.component";
+import { OrdersComponent } from "./components/order-components/orders/orders.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
+  { path: "reset/password", component: ResetUserPasswordComponent },
   {
     path: "patient/all",
     component: PatientsComponent,
@@ -69,8 +78,38 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: "food/meal/details/edit",
+    component: MealEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: "food/menu/add",
     component: MenuAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/menu/decline",
+    component: MenuDeclineComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/menu/decline/edit",
+    component: MenuDeclinedEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/diet/add",
+    component: DietAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "clinic/floor/all",
+    component: FloorsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "clinic/floor/add",
+    component: FloorAddComponent,
     canActivate: [AuthGuard],
   },
   {
@@ -81,6 +120,11 @@ const routes: Routes = [
   {
     path: "user/add",
     component: UserAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "order/all",
+    component: OrdersComponent,
     canActivate: [AuthGuard],
   },
   {

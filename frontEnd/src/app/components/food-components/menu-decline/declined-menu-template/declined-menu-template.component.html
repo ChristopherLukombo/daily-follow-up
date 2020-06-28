@@ -1,0 +1,166 @@
+<div class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">Entrée(s)</th>
+            <th scope="col">Plat(s)</th>
+            <th scope="col">Féculent(s)</th>
+            <th scope="col">Légume(s)</th>
+            <th scope="col">Produit(s) laitier(s)</th>
+            <th scope="col">Dessert(s)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let entr of menu?.replacement?.entries"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ entr?.name }}">
+                    {{ entr?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let dish of menu?.replacement?.dishes"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ dish?.name }}">
+                    {{ dish?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let starch of menu?.replacement?.starchyFoods"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ starch?.name }}">
+                    {{ starch?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let veget of menu?.replacement?.vegetables"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ veget?.name }}">
+                    {{ veget?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let dp of menu?.replacement?.dairyProducts"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ dp?.name }}">
+                    {{ dp?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <div class="meals-of-the-day">
+                <ul
+                  *ngFor="let dessert of menu?.replacement?.desserts"
+                  class="list-group list-group-flush"
+                >
+                  <li class="list-group-item" title="{{ dessert?.name }}">
+                    {{ dessert?.name | truncate: 30 }}
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<br />
+<div class="row">
+  <div class="col">
+    <div class="btn-group">
+      <button
+        *ngFor="let n of menu?.weeks"
+        type="button"
+        class="btn btn-primary"
+        (click)="selectWeek(n?.number)"
+        [class.active]="n?.number == selectedWeek"
+      >
+        Semaine {{ n?.number }}
+      </button>
+    </div>
+  </div>
+</div>
+<br />
+<div *ngFor="let n of menu?.weeks; let i = index" class="row">
+  <div class="col">
+    <div class="table-responsive">
+      <table [hidden]="selectedWeek !== n?.number" class="table table-bordered">
+        <thead>
+          <tr class="text-center">
+            <th></th>
+            <th *ngFor="let day of n?.days" scope="col">
+              {{ day?.name }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let moment of moments; let j = index">
+            <th scope="row" class="moment-day">{{ moment }}</th>
+            <td *ngFor="let day of n?.days; let k = index">
+              <app-diff-declined-content-day
+                [from]="(((from?.weeks)[i]?.days)[k]?.momentDays)[j]"
+                [to]="(((menu?.weeks)[i]?.days)[k]?.momentDays)[j]"
+              ></app-diff-declined-content-day>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<br />
+<div *ngIf="error" class="text-danger">
+  <app-alert-error [content]="error"></app-alert-error>
+</div>
+<div class="row">
+  <div class="col text-right">
+    <button
+      type="button"
+      class="btn btn-outline-info"
+      [disabled]="creating"
+      (click)="onEdit()"
+    >
+      Modifier la proposition
+    </button>
+    &nbsp;
+    <button
+      *ngIf="!creating"
+      type="button"
+      class="btn btn-primary"
+      (click)="onConfirm()"
+    >
+      Confirmer
+    </button>
+    <button *ngIf="creating" type="button" class="btn btn-primary" disabled>
+      <span class="spinner-border spinner-border-sm"></span>Création ...
+    </button>
+  </div>
+</div>

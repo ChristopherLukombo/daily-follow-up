@@ -233,15 +233,14 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	/**
-	 * Find content by name.
+	 * Delete by ids.
 	 *
-	 * @param name the name
-	 * @return the optional
+	 * @param ids the ids
 	 */
 	@Override
-	@Transactional(readOnly = true)
-	public Optional<Content> findContentByName(final String name) {
-	    LOGGER.debug("Request to find Content by name");
-		return contentRepository.findByNameIgnoreCase(name.trim());
+	public void deleteByIds(final List<Long> ids) {
+		for (final Long id : ids) {
+			contentRepository.deleteById(id);
+		}
 	}
 }

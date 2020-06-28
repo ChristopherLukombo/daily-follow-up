@@ -11,7 +11,76 @@
         <app-alert-error [content]="error"></app-alert-error>
       </div>
       <div *ngIf="!loading && !error">
-        <app-list-meals [contents]="contents"></app-list-meals>
+        <div class="row">
+          <div class="col">
+            <app-list-meals
+              [contents]="contents"
+              (selectedContent)="setContent($event)"
+            ></app-list-meals>
+          </div>
+          <div *ngIf="content" class="col-4">
+            <app-detail-meal [content]="content"></app-detail-meal>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-left">
+            <button
+              type="button"
+              class="btn btn-primary"
+              routerLink="/food/meal/add"
+            >
+              Nouvelle livraison
+            </button>
+          </div>
+          <div *ngIf="!modeDelete" class="col text-right">
+            <button
+              type="button"
+              class="btn btn-danger"
+              (click)="setModeDelete(true)"
+            >
+              Supprimer des plats
+            </button>
+          </div>
+          <div *ngIf="modeDelete" class="col text-right">
+            <div class="form-group">
+              <ng-select
+                [multiple]="true"
+                [items]="contents"
+                #select
+                bindLabel="name"
+                dropdownPosition="auto"
+                placeholder="Entrez le (ou les) plat(s) à supprimer..."
+                notFoundText="Aucun plat trouvé"
+                [virtualScroll]="true"
+                [(ngModel)]="contentsToDelete"
+              >
+              </ng-select>
+            </div>
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="setModeDelete(false)"
+              [disabled]="deleting"
+            >
+              Annuler
+            </button>
+            &nbsp;
+            <span *ngIf="!deleting">
+              <app-modal-danger
+                [btnTitle]="btnDelete"
+                [text]="confirmDelete"
+                (confirmation)="onDelete()"
+              ></app-modal-danger>
+            </span>
+            <span *ngIf="deleting">
+              <button class="btn btn-danger" type="button" disabled>
+                <span class="spinner-border spinner-border-sm"></span
+                >Suppression...
+              </button>
+            </span>
+          </div>
+        </div>
+        <br />
       </div>
     </div>
   </div>

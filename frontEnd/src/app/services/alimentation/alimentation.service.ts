@@ -4,10 +4,11 @@ import {
   HttpHeaders,
   HttpClient,
   HttpErrorResponse,
+  HttpResponse,
 } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
+import { Observable, throwError, BehaviorSubject } from "rxjs";
 import { Diet } from "src/app/models/patient/diet";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { Texture } from "src/app/models/food/texture";
 import { ContentDTO } from "src/app/models/dto/food/contentDTO";
 import { Content } from "src/app/models/food/content";
@@ -38,7 +39,30 @@ export class AlimentationService {
   getAllDiets(): Observable<Diet[]> {
     return this.http
       .get<Diet[]>(DIETS_URL, httpOptions)
+      .pipe(map((diets) => this.convertElementsToMap(diets)))
       .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Convertit les ingrédients caractéristiques des régimes en Map
+   * @param diets
+   * @returns la liste de régime avec la Map des <ingrédients, (riche en/pauvre en)>
+   */
+  convertElementsToMap(diets: Diet[]): Diet[] {
+    diets.forEach((diet) => {
+      diet = this.convertPropertyElementsToMap(diet);
+    });
+    return diets;
+  }
+
+  /**
+   * Convertit les ingrédients caractéristiques d'un régime en Map
+   * @param diet
+   * @returns le régime avec la Map des <ingrédients, (riche en/pauvre en)>
+   */
+  convertPropertyElementsToMap(diet: Diet): Diet {
+    diet.elementsToCheck = new Map(Object.entries(diet.elementsToCheck));
+    return diet;
   }
 
   /**
@@ -62,6 +86,17 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne un plat en fonction de son id
+   * @param id
+   * @returns un Content
+   */
+  getContent(id: number): Observable<Content> {
+    return this.http
+      .get<Content>(CONTENTS_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Créer plusieurs plats
    * @param listContentsDTO la liste de plat
    * @returns les plats ayant étés crées
@@ -74,7 +109,92 @@ export class AlimentationService {
         JSON.stringify(body),
         httpOptions
       )
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Met à jour un plat
+   * @param contentDTO
+   * @returns le Content mis à jour
+   */
+  updateContent(contentDTO: ContentDTO): Observable<Content> {
+    return this.http
+      .put<Content>(CONTENTS_URL, JSON.stringify(contentDTO), httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Supprime un plat en fonction de son id
+   * @param id
+   * @returns HttpResponse<Object>
+   */
+  deleteContent(id: number): Observable<HttpResponse<Object>> {
+    return this.http
+      .delete<HttpResponse<Object>>(CONTENTS_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Supprime plusieurs plats
+   * @param contents les plats à supprimer
+   * @returns HttpResponse<Object>
+   */
+  deleteManyContents(contents: Content[]): Observable<HttpResponse<Object>> {
+    let ids: number[] = contents.map((content) => content.id);
+    const options = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+      }),
+      body: ids,
+    };
+    return this.http
+      .delete<HttpResponse<Object>>(CONTENTS_URL, options)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Retourne tout les menus de la clinique
+   * @returns tout les menus
+   */
+  getAllMenus(): Observable<Menu[]> {
+    return this.http
+      .get<Menu[]>(MENUS_URL, httpOptions)
       .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne tout les menus de la clinique dans la périod en cours
+   * @returns les menus de la période en cours
+   */
+  getCurrentsMenus(): Observable<Menu[]> {
+    return this.http
+      .get<Menu[]>(MENUS_URL + `/current`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Sauvegarde en local un menu afin de le réutiliser plus tard
+   * @param menu
+   */
+  storeMenuToLocal(menu: Menu): void {
+    let replace = (key, value) => (typeof value === "undefined" ? null : value);
+    localStorage.setItem("menu", JSON.stringify(menu, replace));
+  }
+
+  /**
+   * Supprime le menu sauvegardé en local
+   */
+  removeMenuFromLocal(): void {
+    localStorage.removeItem("menu");
+  }
+
+  /**
+   * Retourne le menu sauvegardé en local
+   * @returns le menu
+   */
+  getMenuFromLocal(): Menu {
+    let item = localStorage.getItem("menu");
+    return <Menu>JSON.parse(item);
   }
 
   /**
@@ -85,7 +205,7 @@ export class AlimentationService {
   createMenu(menuDTO: MenuDTO): Observable<Menu> {
     return this.http
       .post<Menu>(MENUS_URL, JSON.stringify(menuDTO), httpOptions)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleCustomError));
   }
 
   /**
@@ -101,5 +221,20 @@ export class AlimentationService {
       );
     }
     return throwError(error.status);
+  }
+
+  /**
+   * Gestion des erreurs du backend
+   * @param error
+   */
+  private handleCustomError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error("An error occurred:", error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, body was : ${error.error.message}`
+      );
+    }
+    return throwError(error);
   }
 }

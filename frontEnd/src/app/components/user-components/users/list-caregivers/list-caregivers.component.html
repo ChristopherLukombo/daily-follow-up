@@ -16,28 +16,36 @@
     />
   </div>
 </div>
-<br />
-<table *ngIf="caregivers" class="table">
+<div class="form-group">
+  <div class="floors-form-checkboxes">
+    <label *ngFor="let f of floors; let i = index" class="checkbox-inline">
+      <input
+        type="checkbox"
+        [(ngModel)]="filter[i]"
+        (ngModelChange)="filterChange()"
+      />
+      {{ f?.number | floorName }}
+    </label>
+  </div>
+</div>
+<table *ngIf="filteredCaregivers.length > 0" class="table">
   <thead>
     <tr>
       <th scope="col">Nom</th>
       <th scope="col">Prénom</th>
+      <th scope="col"></th>
     </tr>
   </thead>
-  <tbody class="tbody-dfu">
+  <tbody>
     <tr
       *ngFor="
-        let caregiver of caregivers
+        let caregiver of filteredCaregivers
           | orderByInside: 'user':'lastName'
           | searchInside: 'user':'lastName':lastName
           | searchInside: 'user':'firstName':firstName
-          | paginate: pagination;
-        let i = index
+          | paginate: pagination
       "
-      (click)="selectCaregiver(caregiver, i)"
-      [class.active]="i == selectedRow"
-      data-toggle="modal"
-      data-target="#exampleModalLong"
+      (click)="selectCaregiver(caregiver)"
     >
       <th
         scope="row"
@@ -50,6 +58,16 @@
           caregiver.user.firstName | titlecase | highlight: firstName
         }}"
       ></td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-light btn-sm"
+          data-toggle="modal"
+          data-target=".bd-example-modal-lg"
+        >
+          <fa-icon [icon]="detailLogo"></fa-icon>
+        </button>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -64,20 +82,19 @@
 
 <!-- Modal -->
 <div
-  class="modal fade"
-  id="exampleModalLong"
+  class="modal fade bd-example-modal-lg"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="exampleModalLongTitle"
+  aria-labelledby="myLargeModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">
+        <h4 class="modal-title" id="exampleModalLabel">
           {{ selectedCaregiver?.user?.lastName | uppercase }}
           {{ selectedCaregiver?.user?.firstName | titlecase }}
-        </h5>
+        </h4>
         <button
           type="button"
           class="close"
@@ -88,17 +105,12 @@
         </button>
       </div>
       <div class="modal-body">
-        composant modifier aide-soignant
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-outline-secondary"
-          data-dismiss="modal"
-        >
-          Annuler
-        </button>
-        <button type="button" class="btn btn-primary">Enregistrer</button>
+        <div *ngIf="selectedCaregiver">
+          <app-detail-caregiver
+            (hasDeleteCaregiver)="removeFromList($event)"
+            [caregiver]="selectedCaregiver"
+          ></app-detail-caregiver>
+        </div>
       </div>
     </div>
   </div>

@@ -1,0 +1,19 @@
+.meals-of-the-day {
+  .diff-plus {
+    background-color: #c3e6cb;
+    color: #155724;
+  }
+  .diff-minus {
+    background-color: #f8d7da;
+    text-decoration-line: line-through;
+    color: #721c24;
+  }
+  ul {
+    max-width: 100%;
+    padding-bottom: 0.25rem;
+    li {
+      font-size: 70%;
+      padding: 0.25rem 0.75rem;
+    }
+  }
+}

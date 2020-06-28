@@ -18,7 +18,11 @@ public interface MomentDayMapper {
 
 	@Mapping(source = "id", target = "id")
 	@Mapping(source = "name", target = "name")
-	@Mapping(source = "contents", target = "contents")
+	@Mapping(source = "entry", target = "entry")
+	@Mapping(source = "dish", target = "dish")
+	@Mapping(source = "garnish", target = "garnish")
+	@Mapping(source = "dairyProduct", target = "dairyProduct")
+	@Mapping(source = "dessert", target = "dessert")
 	MomentDayDTO momentDayToMomentDayDTO(MomentDay momentDay);
 
 	@InheritInverseConfiguration

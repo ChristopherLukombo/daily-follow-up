@@ -5,6 +5,7 @@ import { User } from "src/app/models/user/user";
 import { ClinicService } from "src/app/services/clinic/clinic.service";
 import { Floor } from "src/app/models/clinic/floor";
 import { forkJoin } from "rxjs";
+import { Role } from "src/app/models/user/role-enum";
 
 @Component({
   selector: "app-users",
@@ -14,6 +15,7 @@ import { forkJoin } from "rxjs";
 export class UsersComponent implements OnInit {
   caregivers: Caregiver[] = [];
   floors: Floor[] = [];
+  nutritionists: User[] = [];
 
   error: string;
   loading: Boolean = false;
@@ -27,10 +29,14 @@ export class UsersComponent implements OnInit {
     this.loading = true;
     let allCaregivers = this.userService.getAllCaregivers();
     let allFloors = this.clinicService.getAllFloors();
-    forkJoin([allCaregivers, allFloors]).subscribe(
+    let allUsers = this.userService.getAllUsers();
+    forkJoin([allCaregivers, allFloors, allUsers]).subscribe(
       (datas) => {
         this.caregivers = datas[0];
         this.floors = datas[1];
+        this.nutritionists = datas[2].filter(
+          (user) => user.roleName === Role.ROLE_NUTRITIONIST
+        );
         this.loading = false;
       },
       (error) => {

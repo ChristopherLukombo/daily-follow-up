@@ -1,6 +1,7 @@
 package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
+import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -22,6 +23,8 @@ public class DietDTO implements Serializable {
 
 	private String name;
 
+	private Map<String, Integer> elementsToCheck;
+
 	public DietDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -40,6 +43,14 @@ public class DietDTO implements Serializable {
 
 	public void setName(final String name) {
 		this.name = name;
+	}
+
+	public Map<String, Integer> getElementsToCheck() {
+		return elementsToCheck;
+	}
+
+	public void setElementsToCheck(final Map<String, Integer> elementsToCheck) {
+		this.elementsToCheck = elementsToCheck;
 	}
 
 	@Override
@@ -63,4 +74,5 @@ public class DietDTO implements Serializable {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
+
 }

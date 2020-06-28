@@ -1,0 +1,67 @@
+<div *ngIf="loading"><app-loader></app-loader></div>
+<div *ngIf="error">
+  <app-alert-error [content]="error"></app-alert-error>
+</div>
+<div *ngIf="!loading && !error">
+  <table class="infos-patient">
+    <tbody>
+      <tr>
+        <th>Nombre de chambres</th>
+        <td>{{ floor?.rooms?.length }}</td>
+      </tr>
+      <tr>
+        <th>Aides-soignants</th>
+        <td>
+          <span *ngFor="let c of caregivers" class="badge badge-primary">
+            {{ c.user.pseudo }}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <th>Patients</th>
+        <td>{{ patients?.length }}</td>
+      </tr>
+      <tr>
+        <th>Places restantes</th>
+        <td>{{ freePlaces }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <div class="card-columns">
+    <div
+      *ngFor="let room of roomsOfPatients | keyvalue"
+      class="card bg-light mb-4 rooms-of-floor"
+    >
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            <h5>{{ room?.key?.number }}</h5>
+          </div>
+          <div class="col text-right">
+            <fa-icon [icon]="roomLogo"></fa-icon>
+            <span
+              *ngIf="!room?.key?.isFull"
+              class="badge badge-pill badge-success"
+            >
+              {{ room?.key?.maxCapacity - room?.key?.numberOfPatients }}
+            </span>
+            <span
+              *ngIf="room?.key?.isFull"
+              class="badge badge-pill badge-danger"
+            >
+              0
+            </span>
+          </div>
+        </div>
+      </div>
+      <ul *ngFor="let p of room?.value" class="list-group list-group-flush">
+        <li class="list-group-item">
+          <a routerLink="/patient/details" [queryParams]="{ id: p.id }"
+            >{{ p.lastName }} {{ p.firstName }}</a
+          >
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

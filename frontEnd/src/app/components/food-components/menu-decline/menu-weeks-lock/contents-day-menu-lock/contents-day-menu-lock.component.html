@@ -1,0 +1,7 @@
+<div *ngIf="contents.length > 0" class="meals-of-the-day">
+  <ul *ngFor="let content of contents" class="list-group list-group-flush">
+    <li class="list-group-item" title="{{ content?.name }}">
+      {{ content?.name | truncate: 30 }}
+    </li>
+  </ul>
+</div>

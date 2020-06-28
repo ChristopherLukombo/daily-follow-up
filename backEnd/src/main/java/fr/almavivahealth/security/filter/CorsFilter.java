@@ -19,7 +19,7 @@ import fr.almavivahealth.config.ConfigurationProperties;
 
 /**
  * Cors filter allowing cross-domain requests
- * 
+ *
  * @author christopher
  *
  */
@@ -41,7 +41,7 @@ public class CorsFilter implements Filter {
 
 		final String origin = request.getHeader(HttpHeaders.ORIGIN);
 
-		if (configurationProperties.getCorsAllowedOrigins().contains(origin)) {
+		if (null == origin|| configurationProperties.getCorsAllowedOrigins().contains(origin)) {
 			response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
 			response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, request.getHeader(HttpHeaders.ACCESS_CONTROL_REQUEST_HEADERS));
 			response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "POST, PUT, PATCH, GET, OPTIONS, DELETE");

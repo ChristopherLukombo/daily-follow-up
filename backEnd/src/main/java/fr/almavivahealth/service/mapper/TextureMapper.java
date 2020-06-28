@@ -10,7 +10,7 @@ import fr.almavivahealth.service.dto.TextureDTO;
 
 /**
  * Mapper for the entity Texture and its DTO called TextureDTO.
- * 
+ *
  * @author christopher
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)

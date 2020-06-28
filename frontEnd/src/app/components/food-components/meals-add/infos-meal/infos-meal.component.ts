@@ -41,20 +41,14 @@ export class InfosMealComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    if (this.content && this.form) {
+    if (this.form) {
+      this.doughnutChartData = this.content
+        ? this.generateChartData(this.content)
+        : [0, 0, 0, 0, 0, 0, 0];
       setTimeout(() => {
         this.generateForm(this.content);
       });
     }
-  }
-
-  ngOnChanges(): void {
-    this.doughnutChartData = this.content
-      ? this.generateChartData(this.content)
-      : [0, 0, 0, 0, 0, 0, 0];
-    setTimeout(() => {
-      this.generateForm(this.content);
-    });
   }
 
   get f() {

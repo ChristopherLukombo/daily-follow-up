@@ -2,7 +2,9 @@ package fr.almavivahealth.ut.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,17 +20,31 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import fr.almavivahealth.dao.CaregiverRepository;
+import fr.almavivahealth.dao.RoleRepository;
 import fr.almavivahealth.domain.entity.Caregiver;
+import fr.almavivahealth.domain.entity.Role;
+import fr.almavivahealth.domain.entity.User;
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.CaregiverDTO;
+import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.service.impl.caregiver.CaregiverServiceImpl;
 import fr.almavivahealth.service.mapper.CaregiverMapper;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CaregiverServiceTest {
 
+	private static final int NUMBER = 1;
+
 	private static final long ID = 1L;
+
+	@Mock
+	private RoleRepository roleRepository;
+
+	@Mock
+	private PasswordEncoder passwordEncoder;
 
 	@Mock
 	private CaregiverRepository caregiverRepository;
@@ -42,22 +58,29 @@ public class CaregiverServiceTest {
 	private static Caregiver createCaregiver() {
 		return Caregiver.builder()
 				.id(ID)
-				.user(null)
+				.user(createUser())
 				.floor(null)
 				.build();
 
 	}
 
+	private static User createUser() {
+		final User user = new User();
+		user.setId(1L);
+		user.setPassword("ddsdsd");
+		return user;
+	}
+
 	private static CaregiverDTO createCaregiverDTO() {
 		return CaregiverDTO.builder()
 				.id(ID)
-				.user(null)
+				.user(new UserDTO())
 				.floorId(null)
 				.build();
 	}
 
     @Test
-    public void shouldSaveCaregiverWhenIsOk() {
+    public void shouldSaveCaregiverWhenIsOk() throws DailyFollowUpException {
     	// Given
     	final Caregiver caregiver = createCaregiver();
     	final CaregiverDTO caregiverDTO = createCaregiverDTO();
@@ -71,7 +94,7 @@ public class CaregiverServiceTest {
     }
 
     @Test
-    public void shouldSaveCaregiverWhenIsKo() {
+    public void shouldSaveCaregiverWhenIsKo() throws DailyFollowUpException {
     	// Given
     	final Caregiver caregiver = null;
     	final CaregiverDTO caregiverDTO = null;
@@ -85,12 +108,15 @@ public class CaregiverServiceTest {
     }
 
     @Test
-    public void shouldUpdateCaregiverWhenIsOk() {
+    public void shouldUpdateCaregiverWhenIsOk() throws DailyFollowUpException {
     	// Given
     	final Caregiver caregiver = createCaregiver();
     	final CaregiverDTO caregiverDTO = createCaregiverDTO();
 
     	// When
+    	when(passwordEncoder.encode(anyString())).thenReturn("testce");
+    	when(roleRepository.findByName(anyString())).thenReturn(Optional.ofNullable(new Role()));
+     	when(caregiverMapper.caregiverDTOToCaregiver(any(CaregiverDTO.class))).thenReturn(caregiver);
     	when(caregiverRepository.saveAndFlush((Caregiver) any())).thenReturn(caregiver);
     	when(caregiverMapper.caregiverToCaregiverDTO((Caregiver) any())).thenReturn(caregiverDTO);
 
@@ -99,7 +125,7 @@ public class CaregiverServiceTest {
     }
 
     @Test
-    public void shouldUpdateCaregiverWhenIsKo() {
+    public void shouldUpdateCaregiverWhenIsKo() throws DailyFollowUpException {
     	// Given
     	final Caregiver caregiver = null;
     	final CaregiverDTO caregiverDTO = null;
@@ -185,5 +211,58 @@ public class CaregiverServiceTest {
 		caregiverServiceImpl.delete(ID);
 
 		verify(caregiverRepository, times(1)).deleteById(anyLong());
+	}
+
+	@Test
+	public void shouldFindAllByFloorNumber() {
+		// Given
+		final List<Caregiver> caregivers = Arrays.asList(createCaregiver());
+		final CaregiverDTO caregiverDTO = createCaregiverDTO();
+
+		// Then
+		when(caregiverRepository.findAllByFloorNumber(anyInt())).thenReturn(caregivers);
+		when(caregiverMapper.caregiverToCaregiverDTO((Caregiver) any())).thenReturn(caregiverDTO);
+
+		// Then
+		assertThat(caregiverServiceImpl.findAllByFloorNumber(NUMBER)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenTryingFindAllByFloorNumber() {
+		// Given
+		final List<Caregiver> caregivers = Collections.emptyList();
+
+		// Then
+		when(caregiverRepository.findAllByFloorNumber(anyInt())).thenReturn(caregivers);
+
+		// Then
+		assertThat(caregiverServiceImpl.findAllByFloorNumber(NUMBER)).isEmpty();
+	}
+
+	@Test
+	public void shouldFindByUserId() {
+		// Given
+		final Caregiver caregiver = createCaregiver();
+		final CaregiverDTO caregiverDTO = createCaregiverDTO();
+
+		// When
+		when(caregiverRepository.findByUserId(anyLong())).thenReturn(Optional.ofNullable(caregiver));
+		when(caregiverMapper.caregiverToCaregiverDTO((Caregiver) any())).thenReturn(caregiverDTO);
+
+		// Then
+		assertThat(caregiverServiceImpl.findByUserId(ID)).isEqualTo(Optional.ofNullable(caregiverDTO));
+	}
+
+	@Test
+	public void shouldFindByUserIdWhenIsNull() {
+		// Given
+		final Caregiver caregiver = null;
+		final CaregiverDTO caregiverDTO = null;
+
+		// When
+		when(caregiverRepository.findByUserId(anyLong())).thenReturn(Optional.ofNullable(caregiver));
+
+		// Then
+		assertThat(caregiverServiceImpl.findByUserId(ID)).isEqualTo(Optional.ofNullable(caregiverDTO));
 	}
 }

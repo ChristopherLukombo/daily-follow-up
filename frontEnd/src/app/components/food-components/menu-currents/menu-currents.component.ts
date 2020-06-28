@@ -1,8 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Texture } from "src/app/models/food/texture";
 import { Diet } from "src/app/models/patient/diet";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import * as moment from "moment";
+import { TypeTexture } from "src/app/models/utils/texture-enum";
+import { forkJoin } from "rxjs";
+import { Menu } from "src/app/models/food/menu";
 
 @Component({
   selector: "app-menu-currents",
@@ -10,10 +12,14 @@ import * as moment from "moment";
   styleUrls: ["./menu-currents.component.scss"],
 })
 export class MenuCurrentsComponent implements OnInit {
-  textures: string[] = ["Normal", "Mixé"];
+  textures: string[] = [TypeTexture.NORMAL, TypeTexture.MIXED];
   selectedTexture: string = this.textures[0];
   diets: Diet[] = [];
   selectedDiet: string;
+
+  currentsMenus: Menu[] = [];
+  filter: Menu[] = [];
+  selectedMenu: Menu;
 
   dateOfTheDay: string;
 
@@ -24,17 +30,19 @@ export class MenuCurrentsComponent implements OnInit {
 
   ngOnInit(): void {
     moment.locale();
-    this.dateOfTheDay = moment().lang("fr").format("dddd Do MMMM YYYY");
+    this.dateOfTheDay = moment().locale("fr").format("dddd Do MMMM YYYY");
     this.loading = true;
-    this.alimentationService.getAllDiets().subscribe(
-      (data) => {
-        this.diets = data;
-        this.selectedDiet = this.diets[0].name;
+    let allDiets = this.alimentationService.getAllDiets();
+    let allCurrentsMenus = this.alimentationService.getCurrentsMenus();
+    forkJoin([allDiets, allCurrentsMenus]).subscribe(
+      (datas) => {
+        this.diets = datas[0];
+        this.currentsMenus = datas[1];
+        this.selectDiet(this.diets[0]);
+        this.loading = false;
       },
       (error) => {
         this.error = this.getError(error);
-      },
-      () => {
         this.loading = false;
       }
     );
@@ -42,13 +50,21 @@ export class MenuCurrentsComponent implements OnInit {
 
   selectTexture(texture: string): void {
     this.selectedTexture = texture;
+    this.getCurrentsMenus(this.selectedTexture, this.selectedDiet);
   }
 
   selectDiet(diet: Diet): void {
     this.selectedDiet = diet.name;
+    this.getCurrentsMenus(this.selectedTexture, this.selectedDiet);
   }
 
-  getCurrentMenu(texture: string, diet: string): void {}
+  getCurrentsMenus(texture: string, diet: string): void {
+    if (!this.currentsMenus) return;
+    this.filter = this.currentsMenus.filter(
+      (menu) => menu.texture === texture && menu.diets.includes(diet)
+    );
+    this.selectedMenu = this.filter[0];
+  }
 
   /**
    * Récupération du code erreur et ajout du message à afficher

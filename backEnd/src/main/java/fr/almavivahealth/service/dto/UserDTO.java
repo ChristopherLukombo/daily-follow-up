@@ -3,7 +3,6 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -44,10 +43,6 @@ public class UserDTO implements Serializable {
 
 	private String password;
 
-	@Email
-	@Size(min = 5, max = 100)
-	private String email;
-
 	@Size(max = 256)
 	private String imageUrl;
 
@@ -55,8 +50,6 @@ public class UserDTO implements Serializable {
 
 	@NotNull
 	private Boolean status;
-
-	private LocalDate birthDay;
 
 	private String roleName;
 
@@ -71,11 +64,9 @@ public class UserDTO implements Serializable {
 		this.pseudo = user.getPseudo();
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
-		this.email = user.getEmail();
 		this.status = user.isStatus();
 		this.createDate = user.getCreateDate();
 		this.imageUrl = user.getImageUrl();
-		this.birthDay = user.getBirthDay();
 		final Role role = user.getRole();
 		if (null != role) {
 			this.roleName = role.getName();
@@ -125,14 +116,6 @@ public class UserDTO implements Serializable {
 		this.password = password;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(final String email) {
-		this.email = email;
-	}
-
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -155,14 +138,6 @@ public class UserDTO implements Serializable {
 
 	public void setStatus(final Boolean status) {
 		this.status = status;
-	}
-
-	public LocalDate getBirthDay() {
-		return birthDay;
-	}
-
-	public void setBirthDay(final LocalDate birthDay) {
-		this.birthDay = birthDay;
 	}
 
 	public String getRoleName() {

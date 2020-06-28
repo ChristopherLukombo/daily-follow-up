@@ -1,0 +1,106 @@
+<div class="form-row">
+  <div class="form-group col">
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="lastName"
+      placeholder="Nom..."
+    />
+  </div>
+  <div class="form-group col">
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="firstName"
+      placeholder="Prénom..."
+    />
+  </div>
+</div>
+<br />
+<table *ngIf="nutritionists.length > 0" class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let nutritionist of nutritionists
+          | orderBy: 'lastName'
+          | search: 'lastName':lastName
+          | search: 'firstName':firstName
+          | paginate: pagination
+      "
+      (click)="selectNutritionist(nutritionist)"
+    >
+      <th
+        scope="row"
+        innerHTML="{{
+          nutritionist?.lastName | uppercase | highlight: lastName
+        }}"
+      ></th>
+      <td
+        innerHTML="{{
+          nutritionist?.firstName | titlecase | highlight: firstName
+        }}"
+      ></td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-light btn-sm"
+          data-toggle="modal"
+          data-target=".bd-example-modal-lg-nutritionist"
+        >
+          <fa-icon [icon]="detailLogo"></fa-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<pagination-controls
+  (pageChange)="pageChanged($event)"
+  (pageBoundsCorrection)="pageChanged($event)"
+  maxSize="6"
+  responsive="true"
+  previousLabel="Précédent"
+  nextLabel="Suivant"
+></pagination-controls>
+
+<!-- Modal Motdepasse!110 -->
+<div
+  class="modal fade bd-example-modal-lg-nutritionist"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabelNutritionist"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="exampleModalLabelNutritionist">
+          {{ selectedNutritionist?.lastName | uppercase }}
+          {{ selectedNutritionist?.firstName | titlecase }}
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedNutritionist">
+          <app-detail-user
+            (hasDeleteUser)="removeFromList($event)"
+            [user]="selectedNutritionist"
+          ></app-detail-user>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

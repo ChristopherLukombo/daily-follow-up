@@ -1,12 +1,12 @@
 package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+import fr.almavivahealth.domain.entity.Content;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 
@@ -23,7 +23,15 @@ public class MomentDayDTO implements Serializable {
 
 	private String name;
 
-	private List<ContentDTO> contents;
+	private Content entry;
+
+	private Content dish;
+
+	private Content garnish;
+
+	private Content dairyProduct;
+
+	private Content dessert;
 
 	public MomentDayDTO() {
 		// Empty constructor needed for Jackson.
@@ -45,17 +53,49 @@ public class MomentDayDTO implements Serializable {
 		this.name = name;
 	}
 
-	public List<ContentDTO> getContents() {
-		return contents;
+	public Content getEntry() {
+		return entry;
 	}
 
-	public void setContents(final List<ContentDTO> contents) {
-		this.contents = contents;
+	public void setEntry(final Content entry) {
+		this.entry = entry;
+	}
+
+	public Content getDish() {
+		return dish;
+	}
+
+	public void setDish(final Content dish) {
+		this.dish = dish;
+	}
+
+	public Content getGarnish() {
+		return garnish;
+	}
+
+	public void setGarnish(final Content garnish) {
+		this.garnish = garnish;
+	}
+
+	public Content getDairyProduct() {
+		return dairyProduct;
+	}
+
+	public void setDairyProduct(final Content dairyProduct) {
+		this.dairyProduct = dairyProduct;
+	}
+
+	public Content getDessert() {
+		return dessert;
+	}
+
+	public void setDessert(final Content dessert) {
+		this.dessert = dessert;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(contents, id, name);
+		return Objects.hash(dairyProduct, dessert, dish, entry, garnish, id, name);
 	}
 
 	@Override
@@ -67,7 +107,9 @@ public class MomentDayDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final MomentDayDTO other = (MomentDayDTO) obj;
-		return Objects.equals(contents, other.contents) && Objects.equals(id, other.id)
+		return Objects.equals(dairyProduct, other.dairyProduct) && Objects.equals(dessert, other.dessert)
+				&& Objects.equals(dish, other.dish) && Objects.equals(entry, other.entry)
+				&& Objects.equals(garnish, other.garnish) && Objects.equals(id, other.id)
 				&& Objects.equals(name, other.name);
 	}
 

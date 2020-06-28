@@ -3,7 +3,7 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <h5>
-          <label>Type(s) <span class="required">*</span></label>
+          <label>1 - Type(s) <span class="required">*</span></label>
         </h5>
         <div class="types-form-checkboxes">
           <label
@@ -20,7 +20,7 @@
       </div>
       <div class="form-group">
         <h5>
-          <label>Nom <span class="required">*</span></label>
+          <label>2 - Nom et ingrédients <span class="required">*</span></label>
         </h5>
         <div class="input-group">
           <input
@@ -28,7 +28,7 @@
             class="form-control"
             formControlName="name"
             [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
-            placeholder="Renseigner le plat à ajouter..."
+            placeholder="Renseignez le nom du plat avant de composer les ingrédients..."
           />
           <div class="input-group-prepend">
             <button

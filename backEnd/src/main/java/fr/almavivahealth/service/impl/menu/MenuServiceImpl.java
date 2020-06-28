@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -207,7 +206,7 @@ public class MenuServiceImpl implements MenuService {
 		table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellLeft(CLINIQUE_BERGER,
 				coupon.getPatient().getLastName(), roomNumber, menuProperties.getImagesPath())));
 
-		final Set<String> dietsName = findDietsName(coupon.getPatient());
+		final List<String> dietsName = findDietsName(coupon.getPatient());
 		final String textureName = findTextureName(coupon.getPatient());
 		final List<Menu> menus = findAllByWeek(coupon.getSelectedDate(), dietsName, textureName);
 		final Menu menu = !menus.isEmpty() ? menus.get(0) : null;
@@ -241,7 +240,7 @@ public class MenuServiceImpl implements MenuService {
 
 	private List<Menu> findAllByWeek(
 			final LocalDate selectedDate,
-			final Set<String> dietsName,
+			final List<String> dietsName,
 			final String textureName) {
 		final LocalDate startDateWeek = findDateFromDay(selectedDate, 1);
 		final LocalDate endDateWeek = findDateFromDay(selectedDate, 7);
@@ -271,7 +270,8 @@ public class MenuServiceImpl implements MenuService {
 
 	private String findDietName(final Menu menu) {
 		return Optional.ofNullable(menu)
-				.map(Menu::getDiet)
+				.map(Menu::getDiets)
+				.map(Collection::toString)
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
@@ -282,25 +282,33 @@ public class MenuServiceImpl implements MenuService {
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
-	// TODO: Set up the AI to manage the contents in coupons
 	private List<String> findContentNames(final Menu menu, final String momentDay, final String dayToSearch) {
-        // Defined order of typeMeals
-		final List<String> definedOrder = Arrays.asList("ENTREE", "PLAT", "GARNITURE", "PRODUIT LAITIER", "DESSERT");
-
-		return menu.getWeeks().stream()
+		final MomentDay md = menu.getWeeks().stream()
 				.map(Week::getDays)
 				.flatMap(Collection::stream)
 				.filter(d -> isDaySelected(d, dayToSearch))
 				.map(Day::getMomentDays)
 				.flatMap(Collection::stream)
 				.filter(m -> isMomentDay(momentDay, m))
-				.map(MomentDay::getContents)
-				.flatMap(Collection::stream)
-				// TODO: sort menus by typeMeal
-//				.sorted((o1, o2) -> Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o1.getTypeMeal())))
-//						.compareTo(Integer.valueOf(definedOrder.indexOf(removeSpecialChar(o2.getTypeMeal())))))
+				.findFirst()
+				.orElse(null);
+
+		if (null == md) {
+			return Collections.emptyList();
+		}
+
+		return Arrays.asList(
+				toName(md.getEntry()),
+				toName(md.getDish()),
+				toName(md.getGarnish()),
+				toName(md.getDairyProduct()),
+				toName(md.getDessert()));
+	}
+
+	private String toName(final Content content) {
+		return Optional.ofNullable(content)
 				.map(Content::getName)
-				.collect(Collectors.toList());
+				.orElse(StringUtils.EMPTY);
 	}
 
 	private boolean isDaySelected(final Day day, final String dayToSearch) {
@@ -315,10 +323,10 @@ public class MenuServiceImpl implements MenuService {
 		return StringUtils.stripAccents(text.trim());
 	}
 
-	private Set<String> findDietsName(final Patient patient) {
+	private List<String> findDietsName(final Patient patient) {
 		return patient.getDiets().stream()
 				.map(Diet::getName)
-				.collect(Collectors.toSet());
+				.collect(Collectors.toList());
 	}
 
 	private String findTextureName(final Patient patient) {
@@ -341,13 +349,45 @@ public class MenuServiceImpl implements MenuService {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Check specifications.
+	 *
+	 * @param menuDTO the menu DTO
+	 * @return true, if successful
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public boolean checkSpecifications(final MenuDTO menuDTO) {
-		final List<Menu> currentMenus = menuRepository.findCurrentMenus(LocalDate.now());
-		return currentMenus.stream()
-				.anyMatch(menu -> findString(menu.getDiet()).equalsIgnoreCase(menuDTO.getDiet())
-						&& findString(menu.getTexture()).equalsIgnoreCase(menuDTO.getTexture()));
+		return menuRepository.findAll().stream()
+				.filter(menu -> isOverlapped(menuDTO, menu))
+				.anyMatch(menu -> isTheSameCharacteristics(menuDTO, menu));
+	}
+
+	private boolean isOverlapped(final MenuDTO menuDTO, final Menu menu) {
+		if (null == menu.getStartDate() || null == menu.getEndDate()) {
+			return false;
+		}
+
+		boolean overlapped = false;
+		if ((menuDTO.getStartDate().compareTo(menu.getStartDate()) < 0)
+				&& (menuDTO.getEndDate().compareTo(menu.getStartDate()) < 0)) {
+			overlapped = false;
+		} else if ((menu.getStartDate().compareTo(menuDTO.getStartDate()) < 0)
+				&& (menu.getEndDate().compareTo(menuDTO.getStartDate()) < 0)) {
+			overlapped = false;
+		} else {
+			overlapped = true;
+		}
+		return overlapped;
+	}
+
+	private boolean isTheSameCharacteristics(final MenuDTO menuDTO, final Menu menu) {
+		if (menuDTO.getId() != null && menuDTO.getId().equals(menu.getId())) {
+			return false;
+		}
+
+		return menu.getDiets().containsAll(menuDTO.getDiets())
+				&& findString(menu.getTexture()).equalsIgnoreCase(menuDTO.getTexture());
 	}
 
 	private String findString(final String value) {

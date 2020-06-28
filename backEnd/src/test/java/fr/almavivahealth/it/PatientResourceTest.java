@@ -8,7 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
+import org.apache.commons.httpclient.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,7 +38,6 @@ import fr.almavivahealth.utils.TestUtils;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class PatientResourceTest {
-
 	private static final String APPLICATION_JSON = "application/json";
 
 	private static final String CONTENT_TYPE = "Content-Type";
@@ -203,5 +202,4 @@ public class PatientResourceTest {
 		// Then
 		assertThat(response.getStatusCodeValue()).isEqualTo(HttpStatus.SC_INTERNAL_SERVER_ERROR);
 	}
-
 }

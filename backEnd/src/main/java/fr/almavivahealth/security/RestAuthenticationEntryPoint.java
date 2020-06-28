@@ -27,7 +27,6 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 			final AuthenticationException authException) throws IOException, ServletException {
 		LOGGER.debug("Pre-authenticated entry rejecting access");
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");
-
 	}
 
 	@ExceptionHandler(value = { AccessDeniedException.class })

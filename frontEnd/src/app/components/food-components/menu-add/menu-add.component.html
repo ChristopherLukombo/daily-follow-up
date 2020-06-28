@@ -4,7 +4,7 @@
       <app-food-navbar></app-food-navbar>
     </div>
     <div class="col">
-      <h2>Composer un menu</h2>
+      <h2>Composer un menu de base</h2>
       <br />
       <div class="row">
         <div class="col">
@@ -22,7 +22,7 @@
         </div>
         <div class="col">
           <div class="form-row">
-            <div class="col-8">
+            <div class="col-7">
               <div class="form-group row">
                 <label class="col-sm-5 col-form-label text-right">Début</label>
                 <div class="col-sm-7">
@@ -47,7 +47,11 @@
                   <input
                     type="number"
                     [(ngModel)]="repeat"
-                    [ngClass]="{ 'is-invalid': submitted && !repeat }"
+                    [ngClass]="{
+                      'is-invalid': submitted && !repetitionsAreValids()
+                    }"
+                    min="1"
+                    max="6"
                     class="form-control"
                   />
                 </div>
@@ -57,22 +61,37 @@
         </div>
       </div>
       <br />
-      <span *ngIf="submitted && error" class="text-danger">
-        <app-alert-error [content]="error"></app-alert-error>
-      </span>
       <app-menu-weeks
+        [texture]="selectedTexture"
         (submitMoment)="setMoment($event)"
         (submitReplacement)="setReplacement($event)"
         (addOrRemoveWeek)="addOrRemoveWeek($event)"
       ></app-menu-weeks>
+      <div *ngIf="submitted && error" class="text-danger">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
       <br />
       <div class="row">
         <div class="col text-right">
-          <button type="button" class="btn btn-primary" (click)="onCreate()">
+          <button
+            *ngIf="!creating"
+            type="button"
+            class="btn btn-primary"
+            (click)="onCreate()"
+          >
             Confirmer la création
+          </button>
+          <button
+            *ngIf="creating"
+            type="submit"
+            class="btn btn-primary"
+            disabled
+          >
+            <span class="spinner-border spinner-border-sm"></span>Création...
           </button>
         </div>
       </div>
+      <br />
     </div>
   </div>
 </div>

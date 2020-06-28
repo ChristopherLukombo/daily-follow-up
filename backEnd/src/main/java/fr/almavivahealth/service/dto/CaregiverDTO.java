@@ -3,6 +3,8 @@ package fr.almavivahealth.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.validation.constraints.NotNull;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -20,6 +22,7 @@ public class CaregiverDTO implements Serializable {
 
 	private Long id;
 
+	@NotNull
 	private UserDTO user;
 
 	private Long floorId;

@@ -1,5 +1,6 @@
 package fr.almavivahealth.service;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -79,8 +80,22 @@ public interface UserService {
 	/**
 	 * Checks for changed password.
 	 *
-	 * @param userId the user id
+	 * @param pseudo the pseudo
 	 * @return true, if successful
 	 */
-	boolean hasChangedPassword(Long userId);
+	boolean hasChangedPassword(String pseudo);
+
+	/**
+	 * Find all active users.
+	 *
+	 * @return the list of entities.
+	 */
+	List<UserDTO> findAllActiveUsers();
+
+	/**
+     * Users must reset their password after being inactive after a period of time after 31 days.
+     *
+     * This is scheduled to get fired everyday, at 01:00 (am).
+     */
+	void forceUsersToResetPasswordAfterBeingInactive();
 }

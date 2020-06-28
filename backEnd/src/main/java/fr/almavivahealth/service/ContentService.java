@@ -6,7 +6,6 @@ import java.util.Optional;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.almavivahealth.domain.entity.Content;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.ContentDTO;
 import fr.almavivahealth.service.dto.ContentList;
@@ -82,12 +81,10 @@ public interface ContentService {
 	 */
 	byte[] findPicture(Long contentId);
 
-
 	/**
-	 * Find content by name.
+	 * Delete by ids.
 	 *
-	 * @param name the name
-	 * @return the optional
+	 * @param ids the ids
 	 */
-	Optional<Content> findContentByName(String name);
+	void deleteByIds(List<Long> ids);
 }

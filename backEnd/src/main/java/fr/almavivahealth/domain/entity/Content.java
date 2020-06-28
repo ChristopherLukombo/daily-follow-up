@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
@@ -29,6 +31,8 @@ import lombok.ToString;
 @Data
 @Builder
 @ToString
+@Table(name = "content", uniqueConstraints = {
+		@UniqueConstraint(name = "content_unique_name_idx", columnNames = { "name" }) })
 public class Content implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -42,7 +46,7 @@ public class Content implements Serializable {
 	private Integer code;
 
 	// Example: Jus d'ananas pour ananas appertisé au jus
-	@Column(name = "name", unique = true)
+	@Column(name = "name")
 	@NotEmpty(message = "{error.content.RequiredName}")
 	private String name;
 

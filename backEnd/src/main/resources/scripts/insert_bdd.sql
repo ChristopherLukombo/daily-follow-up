@@ -12,14 +12,14 @@ INSERT INTO role (name) VALUES
 ('ROLE_NUTRITIONIST');
 
 /******************** LES UTILISATEURS DE L'APPLICATION ********************/
-INSERT INTO "user" (first_name, last_name, email, birth_day, pseudo, password_hash, role_id, image_url, create_date, status) VALUES
-('Angelo', 'DELIESSCHE', 'angelo.d@gmail.com', '1996-12-23', 'deliessche_a', '$2a$10$5yxgKe6eIYfraHbAORTDFOgaWNNCpiIPzLZM29tT9Mz9ZctDXP3GW', '1', null, '2020-03-21', 'true'),
-('Christopher', 'LUKOMBO', 'christopher.l@gmail.com', '1996-08-31', 'lukombo_c', '$2a$10$RqauY9WksnugiHDSi2/4reDLJe2V1dubG5mNtkP6Y2bQNdu0FE3IG', '1', null, '2020-03-21', 'true'),
-('Neal', 'KEMISSI', 'neal.k@gmail.com', '1997-05-23', 'kemissi_n', '$2a$10$RQTz5GoOW5nsLxR13jS/RehkxUh04CQ/WI7uh9K0iRy4kt0zrTQJi', '1', null, '2020-03-21', 'true'),
+INSERT INTO "user" (first_name, last_name, pseudo, password_hash, role_id, image_url, create_date, status) VALUES
+('Angelo', 'DELIESSCHE', 'deliessche_a', '$2a$10$5yxgKe6eIYfraHbAORTDFOgaWNNCpiIPzLZM29tT9Mz9ZctDXP3GW', '1', null, '2020-03-21', 'true'),
+('Christopher', 'LUKOMBO', 'lukombo_c', '$2a$10$RqauY9WksnugiHDSi2/4reDLJe2V1dubG5mNtkP6Y2bQNdu0FE3IG', '1', null, '2020-03-21', 'true'),
+('Neal', 'KEMISSI', 'kemissi_n', '$2a$10$RQTz5GoOW5nsLxR13jS/RehkxUh04CQ/WI7uh9K0iRy4kt0zrTQJi', '1', null, '2020-03-21', 'true'),
 /** les aides soignants **/
-('Olivier', 'GOULET', 'goulet.o@gmail.com', '1995-06-17', 'goulet_o', '$2a$10$X7vMrgZptyHyxwMmEhnw4e8PdwHxMj0eNWa4NmgOjW18AKXv4Poqi', '3', null, '2020-03-21', 'true'),
-('Marie', 'BISAILLON', 'bisaillon.m@gmail.com', '1994-10-27', 'bisaillon_m', '$2a$10$YbaouKyB8r38OEyln.00tO2F0v0f9.OH0Yf3L5jVwAFgVQwrhoU3S', '3', null, '2020-03-21', 'true'),
-('Laetitia', 'BEAUCHEMIN', 'beauchemin.l@gmail.com', '1994-02-08', 'beauchemin_l', '$2a$10$tTLoZWpck0crX0QiC7Pyz.7cl7p4CZRwGDe9BhlCtHULDvEZcvWX.', '3', null, '2020-03-21', 'true');
+('Olivier', 'GOULET', 'goulet_o', '$2a$10$X7vMrgZptyHyxwMmEhnw4e8PdwHxMj0eNWa4NmgOjW18AKXv4Poqi', '3', null, '2020-03-21', 'true'),
+('Marie', 'BISAILLON', 'bisaillon_m', '$2a$10$YbaouKyB8r38OEyln.00tO2F0v0f9.OH0Yf3L5jVwAFgVQwrhoU3S', '3', null, '2020-03-21', 'true'),
+('Laetitia', 'BEAUCHEMIN', 'beauchemin_l', '$2a$10$tTLoZWpck0crX0QiC7Pyz.7cl7p4CZRwGDe9BhlCtHULDvEZcvWX.', '3', null, '2020-03-21', 'true');
 
 /******************** ETAGES DE LA CLINIQUE ********************/
 INSERT INTO floor (number, state) VALUES
@@ -109,24 +109,29 @@ INSERT INTO caregiver (floor_id, user_id) VALUES
 ('1','4'),
 ('2', '5'),
 ('3', '6');
-/** les etages ayant un ou plusieurs aides soignants **/
-INSERT INTO floor_caregivers (floor_id, caregivers_id) VALUES
-('1', '1'),
-('2', '2'),
-('3', '3');
 
 /******************** ALIMENTATIONS DES PATIENTS ********************/
 INSERT INTO diet (name) VALUES
-('Normale'),
+('Normal'),
 ('Hyperprotéiné'),
 ('Diabétique'),
 ('Sans porc'),
 ('Sans sel'),
 ('Sans résidu');
 
+/******************** ELEMENTS A VERIFIER POUR LA DECLINAISON DES MENUS ********************/
+INSERT INTO elements_to_check (diet_id, elements_to_check, elements_to_check_key) VALUES
+(1, null, ''),
+(2, 1, 'calories'), (2, 1, 'protein'),
+(3, 0, 'sugars'), (3, 0, 'carbohydrate'),
+(4, null, ''),
+(5, 0, 'salt'),
+(6, null, '');
+
+
 /******************** TEXTURES DES PLATS ********************/
 INSERT INTO texture (name) VALUES
-('Normale'),
+('Normal'),
 ('Haché'),
 ('Mixé');
 
@@ -441,6 +446,87 @@ INSERT INTO patient_allergies (patient_id, allergies_id) VALUES
 ('65', '1'), ('65', '2'),
 ('66', '3'), ('66', '4'),
 ('67', '3'), ('67', '13');
+
+/******************** PLATS DE LA CLINIQUE (38) ********************/
+INSERT INTO content (ag_saturates, calories, carbohydrate, code, food_fibres, group_name, image_url, lipides, mixed, name, protein, salt, sub_group_name, sub_sub_group_name, sucres) VALUES
+('0.027', '24.6', '3', null, '3.2', null, null, '0.2', 'false', 'Poireau vinaigrette', '1.1', '0.015', null, null, '2.11'),
+('0.13', '35.3', '4.03', null, '2.32', null, null, '0.5', 'true', 'Salade coeur de palmier', '2.53', '0.97', null, null, '1.5'),
+('6.77', '242', '1.91', null, '0.33', null, null, '17.3', 'true', 'Charcuterie', '19.6', '2.52', null, null, '0.89'),
+('0.078', '11.4', '1.5', null, '0.7', null, null, '0.19', 'false', 'Concombre vinaigrette', '0.58', '0.016', null, null, '1.38'),
+('0.6', '0', '22.2', null, '2.27', null, null, '5.65', 'true', 'Salade de blé', '4.29', '0.91', null, null, '3.82'),
+('0.037', '0', '6.55', null, '0.33', null, null, '0.1', 'true', 'Carotte rappé', '0.4', '0.1', null, null, '5.95'),
+('2.84', '219', '31.4', null, '1.75', null, null, '5.76', 'true', 'Oeuf mimosa', '9.63', '1.43', null, null, '1.82'),
+('0.11', '34.1', '4.69', null, '2.86', null, null, '0.44', 'true', 'Potage', '1.44', '0.052', null, null, '2.5'),
+('3.1', '151', '15.8', null, '1.87', null, null, '6.6', 'true', 'Lasagne bolognaise', '6.1', '0.99', null, null, '3.5'),
+('0', '233', '0', null, '1', null, null, '21.3', 'false', 'Saucisse', '10.3', '0', null, null, '0'),
+('8.63', '274', '21', null, '1.29', null, null, '16.8', 'false', 'Quiche aux légumes', '8.96', '1.28', null, null, '2.67'),
+('4.44', '213', '2', null, '0', null, null, '11.3', 'false', 'Poulet rôtie', '25.9', '0.23', null, null, '0'),
+('3.24', '123', '2', null, '2.1', null, null, '9.67', 'false', 'Tomate farcie', '5.84', '0.7', null, null, '0.88'),
+('1.31', '120', '5.64', null, '0', null, null, '3.4', 'false', 'Veau', '15.5', '0.16', null, null, '0'),
+('0.028', '13.5', '1.5', null, '1.3', null, null, '0.1', 'false', 'Salade verte', '1.01', '0.046', null, null, '0.83'),
+('0.45', '53.2', '6.6', null, '1.8', null, null, '1.12', 'false', 'Lentilles au jus', '3.28', '0.36', null, null, '0.7'),
+('0.56', '0', '7.74', null, '2.7', null, null, '4.7', 'false', 'Salade de tomates', '9.15', '1.11', null, null, '3.08'),
+('1.74', '254', '34', null, '3.83', null, null, '10.8', 'true', 'Frites', '3.5', '0.27', null, null, '0.23'),
+('0.049', '101', '19.7', null, '1.8', null, null, '0.34', 'true', 'Riz', '3.8', '0.0075', null, null, '0.73'),
+('1.9', '56.3', '4.2', null, '3.3', null, null, '2.9', 'true', 'Haricots verts, purée', '1.7', '0.36', null, null, '1.5'),
+('20.3', '376', '0', null, '0', null, null, '31.5', 'false', 'Gouda', '23.2', '2', null, null, '0.25'),
+('1.77', '54.8', '3.71', null, '0.0027', null, null, '2.74', 'true', 'Yaourt aromatisé', '4.15', '0.13', null, null, '3.66'),
+('14.2', '281', '0', null, '0', null, null, '21.8', 'false', 'Camembert', '21', '1.54', null, null, '0'),
+('1.77', '54.8', '3.71', null, '0.0027', null, null, '2.74', 'true', 'Yaourt nature', '4.15', '0.13', null, null, '3.66'),
+('22.5', '420', '0', null, '0', null, null, '34.6', 'false', 'Comté', '27.2', '0.8', null, null, '0'),
+('16.9', '331', '0', null, '0', null, null, '25.5', 'false', 'Edam', '25.5', '2.22', null, null, '0.25'),
+('0.15', '39.1', '3.1', null, '1.2', null, null, '0.7', 'false', 'Fruit de saison', '0.84', '0.003', null, null, '2.85'),
+('2.28', '119', '18.8', null, '0.55', null, null, '3.23', 'true', 'Semoule au lait', '3.46', '0.095', null, null, '13.5'),
+('8.37', '313', '38.7', null, '2.5', null, null, '15', 'false', 'Pomme cuite caramel', '4.44', '0.23', null, null, '25.8'),
+('8.41', '420', '45.9', null, '2.6', null, null, '22.5', 'false', 'Beignet au chocolat', '7.31', '0.7', null, null, '18.6'),
+('1.76', '137', '22.3', null, '0', null, null, '3.6', 'true', 'Crème dessert', '3.79', '0.2', null, null, '16.7'),
+('8.37', '313', '38.7', null, '2.5', null, null, '15', 'false', 'Tarte aux pommes', '4.44', '0.23', null, null, '25.8'),
+('0.009', '0', '14.5', null, '1.18', null, null, '0.061', 'false', 'Cocktail de fruits', '0.5', '0.0026', null, null, '12.3'),
+('0.65', '247', '8.7', null, '8.8', null, null, '14.7', 'false', 'Steak à base de soja', '15.5', '1.75', null, null, '2.3'),
+('0.94', '125', '0', null, '0', null, null, '3.61', 'false', 'Merlan frit', '23.1', '0.43', null, null, '0'),
+('0.29', '109', '0.51', null, '0', null, null, '1.22', 'false', 'Escalope de dinde', '24.1', '0.2', null, null, '0.32'),
+('4.92', '263', '26.7', null, '1.5', null, null, '11.5', 'false', 'Burger au poisson', '12.2', '1.1', null, null, '3.9'),
+('2.5', '210', '0', null, '0', null, null, '13.5', 'false', 'Saumon cuit au four', '22.1', '0.15', null, null, '0');
+/** les types de chaque plats (entrée, plat, dessert) **/
+INSERT INTO type_meals (content_id, type_meals) VALUES
+('1', 'Entrée'),
+('2', 'Entrée'),
+('3', 'Entrée'),
+('4', 'Entrée'),
+('5', 'Entrée'),
+('6', 'Entrée'),
+('7', 'Entrée'),
+('8', 'Entrée'),
+('9', 'Plat'), ('9', 'Garniture'),
+('10', 'Plat'),
+('11', 'Plat'), ('11', 'Garniture'),
+('12', 'Plat'),
+('13', 'Plat'),
+('14', 'Plat'),
+('15', 'Garniture'),
+('16', 'Garniture'),
+('17', 'Garniture'),
+('18', 'Garniture'),
+('19', 'Garniture'),
+('20', 'Garniture'),
+('21', 'P.L'),
+('22', 'P.L'), ('22', 'Dessert'),
+('23', 'P.L'),
+('24', 'P.L'), ('24', 'Dessert'),
+('25', 'P.L'),
+('26', 'P.L'),
+('27', 'Dessert'),
+('28', 'Dessert'),
+('29', 'Dessert'),
+('30', 'Dessert'),
+('31', 'Dessert'),
+('32', 'Dessert'),
+('33', 'Dessert'),
+('34', 'Plat'),
+('35', 'Plat'),
+('36', 'Plat'),
+('37', 'Plat'), ('37', 'Garniture'),
+('38', 'Plat');
 
 /** les menus **/
 /** sont commentés pour éviter d'avoir des menus avec juste samedi et sans contents dans la bdd **/

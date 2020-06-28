@@ -16,7 +16,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -328,10 +330,10 @@ public class UserServiceTest {
 		user.setHasChangedPassword(true);
 
 		// When
-		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+		when(userRepository.findOneByPseudoIgnoreCase(anyString())).thenReturn(Optional.ofNullable(user));
 
 		// Then
-		assertThat(userServiceImpl.hasChangedPassword(1L)).isTrue();
+		assertThat(userServiceImpl.hasChangedPassword("hhdzs")).isTrue();
 	}
 
 	@Test
@@ -341,10 +343,47 @@ public class UserServiceTest {
 		user.setHasChangedPassword(false);
 
 		// When
-		when(userRepository.findById(anyLong())).thenReturn(Optional.ofNullable(user));
+		when(userRepository.findOneByPseudoIgnoreCase(anyString())).thenReturn(Optional.ofNullable(user));
 
 		// Then
-		assertThat(userServiceImpl.hasChangedPassword(1L)).isFalse();
+		assertThat(userServiceImpl.hasChangedPassword("hhdzs")).isFalse();
+	}
+
+	@Test
+	public void shouldFindAllActiveUsers() {
+		// Given
+		final List<User> users = Arrays.asList(createUser());
+
+		// When
+		when(userRepository.findAllByStatusTrueOrderByIdDesc()).thenReturn(users);
+
+		// Then
+		assertThat(userServiceImpl.findAllActiveUsers()).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnsEmptyListWhenTryingToFindAllActiveUsers() {
+		// Given
+		final List<User> users = Collections.emptyList();
+
+		// When
+		when(userRepository.findAllByStatusTrueOrderByIdDesc()).thenReturn(users);
+
+		// Then
+		assertThat(userServiceImpl.findAllActiveUsers()).isEmpty();
+	}
+
+	@Test
+	public void shouldforceUsersToResetPasswordAfterBeingInactive() {
+		// Given
+		final List<User> users = Arrays.asList(createUser());
+
+		// When
+		when(userRepository.findAllByStatusIsTrueAndLastLoginDateBefore(any(LocalDateTime.class))).thenReturn(users);
+
+		// Then
+		userServiceImpl.forceUsersToResetPasswordAfterBeingInactive();
+		verify(userRepository, times(1)).findAllByStatusIsTrueAndLastLoginDateBefore(any(LocalDateTime.class));
 	}
 
 	private void createFoldersAndFile() throws IOException {

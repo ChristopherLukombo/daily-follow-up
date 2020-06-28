@@ -117,7 +117,7 @@ public class Patient implements Serializable {
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Allergy> allergies;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
 	private List<Order> orders;
 
 	@OneToOne(cascade = CascadeType.ALL)

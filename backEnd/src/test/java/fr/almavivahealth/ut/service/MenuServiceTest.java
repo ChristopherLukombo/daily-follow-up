@@ -2,8 +2,8 @@ package fr.almavivahealth.ut.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -78,7 +78,7 @@ public class MenuServiceTest {
 		return MomentDay.builder()
 				.id(ID)
 				.name("DEJEUNER")
-				.contents(Arrays.asList(createContent()))
+				.entry(createContent())
 				.build();
 	}
 
@@ -279,7 +279,7 @@ public class MenuServiceTest {
 
 		// When
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
-		when(menuRepository.findAllByWeek(anyString(), anySet(), (LocalDate) any(), (LocalDate) any()))
+		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any(), (LocalDate) any()))
 				.thenReturn(menus);
 		when(menuProperties.getImagesPath()).thenReturn(path.toString());
 
@@ -296,7 +296,7 @@ public class MenuServiceTest {
 
 		// When
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
-		when(menuRepository.findAllByWeek(anyString(), anySet(), (LocalDate) any(), (LocalDate) any()))
+		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any(), (LocalDate) any()))
 				.thenReturn(menus);
 		when(menuProperties.getImagesPath()).thenReturn(path.toString());
 
@@ -313,7 +313,7 @@ public class MenuServiceTest {
 
 		// When
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
-		when(menuRepository.findAllByWeek(anyString(), anySet(), (LocalDate) any(), (LocalDate) any()))
+		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any(), (LocalDate) any()))
 				.thenReturn(menus);
 		when(menuProperties.getImagesPath()).thenReturn(path.toString());
 
@@ -368,7 +368,7 @@ public class MenuServiceTest {
 		final MenuDTO menu = createMenuDTO();
 
 		// When
-		when(menuRepository.findCurrentMenus(any(LocalDate.class))).thenReturn(menus);
+		when(menuRepository.findAll()).thenReturn(menus);
 
 		// Then
 
@@ -376,22 +376,52 @@ public class MenuServiceTest {
 	}
 
 	@Test
-	public void shouldCheckSpecificationsOfMenu() {
+	public void shouldReturnFalseWhenCheckSpecificationsOfMenuDateIsNotValid() {
 		// Given
 		final Menu firstMenu = new Menu();
-		firstMenu.setDiet("test");
-		firstMenu.setTexture("test");
+		firstMenu.setDiets(Arrays.asList("test"));
+		firstMenu.setTexture("jfjd");
 		final Menu secondMenu = new Menu();
-		secondMenu.setDiet("test");
+		secondMenu.setDiets(Arrays.asList("bibi"));
 		secondMenu.setTexture("test");
 
 		final List<Menu> menus = Arrays.asList(firstMenu, secondMenu);
 		final MenuDTO menuDTO = createMenuDTO();
-		menuDTO.setDiet("test");
+		menuDTO.setDiets(Arrays.asList("bibi"));
 		menuDTO.setTexture("test");
 
 		// When
-		when(menuRepository.findCurrentMenus(any(LocalDate.class))).thenReturn(menus);
+		when(menuRepository.findAll()).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.checkSpecifications(menuDTO)).isFalse();
+	}
+
+	@Test
+	public void shouldCheckSpecificationsOfMenu() {
+		// Given
+		final Menu firstMenu = new Menu();
+		firstMenu.setDiets(Arrays.asList("Normal"));
+		firstMenu.setTexture("Normal");
+		firstMenu.setStartDate(LocalDate.of(2019, Month.AUGUST, 1));
+		firstMenu.setEndDate(LocalDate.of(2019, Month.AUGUST, 20));
+		final Menu secondMenu = new Menu();
+		secondMenu.setDiets(Arrays.asList("Normal"));
+		secondMenu.setTexture("Mixe");
+		secondMenu.setStartDate(LocalDate.of(2019, Month.SEPTEMBER, 1));
+		secondMenu.setEndDate(LocalDate.of(2019, Month.OCTOBER, 1));
+
+		final List<Menu> menus = Arrays.asList(firstMenu, secondMenu);
+		final MenuDTO menuDTO = createMenuDTO();
+		menuDTO.setDiets(Arrays.asList("bibi"));
+		menuDTO.setTexture("test");
+		menuDTO.setDiets(Arrays.asList("Normal"));
+		menuDTO.setTexture("Mixe");
+		menuDTO.setStartDate(LocalDate.of(2019, Month.SEPTEMBER, 1));
+		menuDTO.setEndDate(LocalDate.of(2019, Month.NOVEMBER, 12));
+
+		// When
+		when(menuRepository.findAll()).thenReturn(menus);
 
 		// Then
 		assertThat(menuServiceImpl.checkSpecifications(menuDTO)).isTrue();

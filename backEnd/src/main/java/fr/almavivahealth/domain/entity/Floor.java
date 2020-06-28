@@ -34,15 +34,15 @@ public class Floor implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private Integer number;
-	
+
 	private boolean state;
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<Room> rooms;
-	
-	@OneToMany(fetch = FetchType.LAZY)
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "floor")
 	private List<Caregiver> caregivers;
 
 }

@@ -1,0 +1,64 @@
+<div *ngIf="menu" class="row">
+  <div class="col">
+    <div class="btn-group">
+      <button
+        *ngFor="let n of menu?.weeks"
+        type="button"
+        class="btn btn-primary"
+        (click)="selectWeek(n)"
+        [class.active]="n.number == selectedWeek"
+      >
+        Semaine {{ n?.number }}
+      </button>
+    </div>
+  </div>
+  <div
+    *ngIf="allContents?.length > 0 && !loading && menu"
+    class="col text-right"
+  >
+    <app-replacements-card-edit
+      [menu]="menu"
+      [allContents]="allContents"
+    ></app-replacements-card-edit>
+  </div>
+</div>
+<br />
+<div *ngIf="loading"><app-loader></app-loader></div>
+<div *ngIf="allContents?.length === 0 && !loading && noContents" class="col">
+  <app-alert-warning [content]="noContents"></app-alert-warning>
+</div>
+<div *ngIf="allContents?.length > 0 && !loading && menu">
+  <div *ngFor="let n of menu?.weeks" class="row">
+    <div class="col">
+      <div class="table-responsive">
+        <table
+          [hidden]="selectedWeek !== n?.number"
+          class="table table-bordered"
+        >
+          <thead>
+            <tr class="text-center">
+              <th></th>
+              <th *ngFor="let day of n?.days" scope="col">
+                {{ day?.name }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let moment of moments">
+              <th scope="row" class="moment-day">{{ moment }}</th>
+              <td *ngFor="let day of n?.days">
+                <app-contents-day-menu-edit
+                  [menu]="menu"
+                  [week]="n?.number"
+                  [day]="day"
+                  [moment]="moment"
+                  [allContents]="allContents"
+                ></app-contents-day-menu-edit>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,231 @@
+<div *ngIf="content && form">
+  <app-picture-meal-edit [content]="content"></app-picture-meal-edit>
+  <br />
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <h5>
+        <label>Type(s) <span class="required">*</span></label>
+      </h5>
+      <div class="types-form-checkboxes">
+        <label
+          *ngFor="let type of types; let i = index"
+          class="checkbox-inline"
+        >
+          <input type="checkbox" [formControl]="type" />
+          {{ typeMeals[i] }}
+        </label>
+      </div>
+      <small *ngIf="submitted && f.types.errors" class="text-danger">
+        Veuillez préciser le type du plat
+      </small>
+    </div>
+    <div class="form-group">
+      <h5>
+        <label>Nom <span class="required">*</span></label>
+      </h5>
+      <input
+        type="text"
+        formControlName="name"
+        [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+        class="form-control"
+      />
+      <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+        Veuillez renseigner le nom du plat
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <h5>
+            <label
+              >Composition nutrionnelle (100g)
+              <span class="required">*</span>
+            </label>
+          </h5>
+          <table class="table composition">
+            <thead>
+              <tr>
+                <th class="table-light" colspan="3">
+                  <label>
+                    Calories du plat (kcal)<span class="required">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [ngClass]="{ 'is-invalid': submitted && f.calories.errors }"
+                    min="000"
+                    max="900"
+                    formControlName="calories"
+                    (keyup)="updateValues($event, 'calories')"
+                  />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="table-danger" colspan="3">
+                  <label class="col-form-label-sm"
+                    >Protéines (g) <span class="required">*</span></label
+                  >
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [ngClass]="{ 'is-invalid': submitted && f.protein.errors }"
+                    min="00"
+                    max="100"
+                    formControlName="protein"
+                    (keyup)="updateValues($event, 'protein', 0)"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td class="table-primary">
+                  <label class="col-form-label-sm"
+                    >Glucides (g) <span class="required">*</span></label
+                  >
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.carbohydrate.errors
+                    }"
+                    min="00"
+                    max="100"
+                    formControlName="carbohydrate"
+                    (keyup)="updateValues($event, 'carbohydrate', 1)"
+                  />
+                </td>
+                <td class="table-warning">
+                  <label class="col-form-label-sm"
+                    >Lipides (g) <span class="required">*</span></label
+                  >
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [ngClass]="{ 'is-invalid': submitted && f.lipids.errors }"
+                    min="00"
+                    max="100"
+                    formControlName="lipids"
+                    (keyup)="updateValues($event, 'lipids', 2)"
+                  />
+                </td>
+                <td class="table-default">
+                  <label class="col-form-label-sm"
+                    >Sucres (g) <span class="required">*</span></label
+                  >
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [ngClass]="{ 'is-invalid': submitted && f.sugars.errors }"
+                    min="00"
+                    max="100"
+                    formControlName="sugars"
+                    (keyup)="updateValues($event, 'sugars', 3)"
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td class="table-info">
+                  <label class="col-form-label-sm"
+                    >Fibres (g) <span class="required">*</span></label
+                  >
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.foodFibres.errors
+                    }"
+                    min="00"
+                    max="100"
+                    formControlName="foodFibres"
+                    (keyup)="updateValues($event, 'foodFibres', 0)"
+                  />
+                </td>
+                <td class="table-secondary">
+                  <label class="col-form-label-sm"
+                    >AG saturés (g) <span class="required">*</span></label
+                  >
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [ngClass]="{
+                      'is-invalid': submitted && f.agSaturates.errors
+                    }"
+                    min="00"
+                    max="100"
+                    formControlName="agSaturates"
+                    (keyup)="updateValues($event, 'agSaturates', 4)"
+                  />
+                </td>
+                <td class="table-active">
+                  <label class="col-form-label-sm"
+                    >Sel (g) <span class="required">*</span></label
+                  >
+                  <input
+                    type="number"
+                    class="form-control form-control-sm"
+                    [ngClass]="{ 'is-invalid': submitted && f.salt.errors }"
+                    min="00"
+                    max="100"
+                    formControlName="salt"
+                    (keyup)="updateValues($event, 'salt', 5)"
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-6">
+        <div *ngIf="!chartEmpty()">
+          <canvas
+            baseChart
+            [data]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [options]="doughnutChartoptions"
+            [chartType]="doughnutChartType"
+          >
+          </canvas>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="form-check">
+      <label class="form-check-label">
+        <input
+          class="form-check-input"
+          type="checkbox"
+          formControlName="mixed"
+        />
+        Possibilité d'être mixé
+      </label>
+      <small class="form-text text-muted">
+        Servant à l'élaboration des menus mixés pour la cuisine
+      </small>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col text-left">
+        <button type="submit" class="btn btn-primary">
+          Enregistrer les informations
+        </button>
+      </div>
+      <div class="col text-right">
+        <div *ngIf="!deleting" class="text-right">
+          <app-modal-danger
+            [btnTitle]="btnDelete"
+            [text]="confirmDelete"
+            (confirmation)="onDelete()"
+          ></app-modal-danger>
+        </div>
+        <div *ngIf="deleting" class="text-right">
+          <button class="btn btn-danger" type="button" disabled>
+            <span class="spinner-border spinner-border-sm"></span>Suppression...
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br />
+</div>

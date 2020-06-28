@@ -1,5 +1,9 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { faAngleDoubleRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDoubleRight,
+  faMars,
+  faVenus,
+} from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
 
 @Component({
@@ -8,6 +12,8 @@ import { Patient } from "src/app/models/patient/patient";
   styleUrls: ["./detail-patient.component.scss"],
 })
 export class DetailPatientComponent implements OnInit {
+  marsLogo = faMars;
+  venusLogo = faVenus;
   moreDetailsLogo = faAngleDoubleRight;
 
   @Input() patient: Patient;
