@@ -191,7 +191,7 @@ public class StatsRessource {
         })
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/trendyContents")
-	public ResponseEntity<LinkedHashMap<String, Long>> findAllTrendyContents() {
+	public ResponseEntity<LinkedHashMap<String, Long>> getAllTrendyContents() {
 		LOGGER.debug("REST request to get trendy contents");
 		final LinkedHashMap<String, Long> trendyContents = statsService.findAllTrendyContents();
 		if (trendyContents.isEmpty()) {

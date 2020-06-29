@@ -7,11 +7,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.collections4.map.HashedMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +26,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import fr.almavivahealth.service.StatsService;
+import fr.almavivahealth.service.dto.OrdersPerDay;
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
+import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.StatsRessource;
 
@@ -162,8 +168,6 @@ public class StatsRessourceTest {
 
 	@Test
 	public void shouldGetNumberOfPatientsByStatusWhenIsEmpty() throws Exception {
-		// Given
-
 		// When
 		when(statsService.findNumberOfPatientsByStatus()).thenReturn(Optional.empty());
 
@@ -174,4 +178,99 @@ public class StatsRessourceTest {
     	verify(statsService, times(1)).findNumberOfPatientsByStatus();
 	}
 
+	@Test
+	public void shouldGetNumberOfOrdersPerDay() throws Exception {
+		// Given
+		final Map<String, List<OrdersPerDay>> orderPerStatus = new HashedMap<>();
+		orderPerStatus.put("WAITTING", Arrays.asList(new OrdersPerDay(LocalDate.now(), 1L)));
+
+		// When
+		when(statsService.findAllForNextDays()).thenReturn(orderPerStatus);
+
+		// Then
+		mockMvc.perform(get("/api/stats/ordersPerDay")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isOk());
+    	verify(statsService, times(1)).findAllForNextDays();
+	}
+
+	@Test
+	public void shouldReturns204WhenTryingToGetNumberOfOrdersPerDay() throws Exception {
+		// Given
+		final Map<String, List<OrdersPerDay>> orderPerStatus = new HashedMap<>();
+
+		// When
+		when(statsService.findAllForNextDays()).thenReturn(orderPerStatus);
+
+		// Then
+		mockMvc.perform(get("/api/stats/ordersPerDay")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isNoContent());
+    	verify(statsService, times(1)).findAllForNextDays();
+	}
+
+	@Test
+	public void shouldGetTrendyDiets() throws Exception {
+		// Given
+		final TopTrendyMenuDTO topTrendyMenuDTO = new TopTrendyMenuDTO();
+		topTrendyMenuDTO.setNb(1L);
+		topTrendyMenuDTO.setTexture("Normal");
+		topTrendyMenuDTO.setDiets("Normal");
+		final List<TopTrendyMenuDTO> topTrendyMenuDTOs = Arrays.asList(topTrendyMenuDTO);
+
+		// When
+		when(statsService.findTrendyDiets()).thenReturn(topTrendyMenuDTOs);
+
+		// Then
+		mockMvc.perform(get("/api/stats/trendyDiets")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isOk());
+    	verify(statsService, times(1)).findTrendyDiets();
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetTrendyDiets() throws Exception {
+		// Given
+		final List<TopTrendyMenuDTO> topTrendyMenuDTOs = Collections.emptyList();
+
+		// When
+		when(statsService.findTrendyDiets()).thenReturn(topTrendyMenuDTOs);
+
+		// Then
+		mockMvc.perform(get("/api/stats/trendyDiets")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isNoContent());
+    	verify(statsService, times(1)).findTrendyDiets();
+	}
+
+	@Test
+	public void shouldFindAllTrendyContents() throws Exception {
+		// Given
+		final LinkedHashMap<String, Long> linkedHashMap = new LinkedHashMap<String, Long>();
+		linkedHashMap.put("Poulet", 1L);
+
+		// When
+		when(statsService.findAllTrendyContents()).thenReturn(linkedHashMap);
+
+		// Then
+		mockMvc.perform(get("/api/stats/trendyContents")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isOk());
+    	verify(statsService, times(1)).findAllTrendyContents();
+	}
+
+	@Test
+	public void shouldReturns204WhenTryingToFindTrendyContents() throws Exception {
+		// Given
+		final LinkedHashMap<String, Long> linkedHashMap = new LinkedHashMap<String, Long>();
+
+		// When
+		when(statsService.findAllTrendyContents()).thenReturn(linkedHashMap);
+
+		// Then
+		mockMvc.perform(get("/api/stats/trendyContents")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isNoContent());
+    	verify(statsService, times(1)).findAllTrendyContents();
+	}
 }

@@ -217,7 +217,7 @@ public class StatsServiceImpl implements StatsService {
 
 		final LinkedHashMap<String, Long> contentsPerMomentsDaySort = new LinkedHashMap<>(contentsPerMomentsDay.size());
 
-		for (int i = arrayList.size() - 1, cp = 0; i > 0 && cp != 5; i--, cp++) {
+		for (int i = arrayList.size() - 1, cp = 0; i >= 0 && cp != 5; i--, cp++) {
 			contentsPerMomentsDaySort.put(arrayList.get(i).getKey(), arrayList.get(i).getValue());
 		}
 
