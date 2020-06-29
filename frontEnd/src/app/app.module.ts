@@ -107,6 +107,13 @@ import { FormMealEditComponent } from './components/food-components/meal/meal-ed
 import { OrdersComponent } from './components/order-components/orders/orders.component';
 import { OrderNavbarComponent } from './components/navbar-vertical/order-navbar/order-navbar.component';
 import { PictureMealEditComponent } from './components/food-components/meal/meal-edit/picture-meal-edit/picture-meal-edit.component';
+import { StatisticsComponent } from './components/statistics/statistics/statistics.component';
+import { PatientsPerAllergyComponent } from './components/statistics/patients-per-allergy/patients-per-allergy.component';
+import { PatientsPerDietComponent } from './components/statistics/patients-per-diet/patients-per-diet.component';
+import { PatientsByStatusComponent } from './components/statistics/patients-by-status/patients-by-status.component';
+import { OrderPerDayComponent } from './components/statistics/order-per-day/order-per-day.component';
+import { TopTrendyDietsComponent } from './components/statistics/top-trendy-diets/top-trendy-diets.component';
+import { TopTrendyContentsComponent } from './components/statistics/top-trendy-contents/top-trendy-contents.component';
 
 @NgModule({
   declarations: [
@@ -193,6 +200,13 @@ import { PictureMealEditComponent } from './components/food-components/meal/meal
     OrdersComponent,
     OrderNavbarComponent,
     PictureMealEditComponent,
+    StatisticsComponent,
+    PatientsPerAllergyComponent,
+    PatientsPerDietComponent,
+    PatientsByStatusComponent,
+    OrderPerDayComponent,
+    TopTrendyDietsComponent,
+    TopTrendyContentsComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Menu;
+import fr.almavivahealth.domain.entity.TopTrendyMenu;
 
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
@@ -33,4 +34,12 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 			+ "AND menu.endDate >= :currentDate")
 	List<Menu> findCurrentMenus(
 			@Param("currentDate") LocalDate currentDate);
+
+	@Query(value = "SELECT COUNT(*) as nb, m.texture AS texture, md.diets AS diets "
+			+ "FROM menu m "
+			+ "INNER JOIN menu_diets md "
+			+ "ON m.id = md.menu_id "
+			+ "GROUP BY md.diets, m.texture "
+			+ "ORDER BY nb DESC limit 5", nativeQuery = true)
+	List<TopTrendyMenu> findTrendyDishes();
 }

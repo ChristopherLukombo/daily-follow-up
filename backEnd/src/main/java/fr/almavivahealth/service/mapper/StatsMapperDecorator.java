@@ -2,12 +2,14 @@ package fr.almavivahealth.service.mapper;
 
 import java.math.BigDecimal;
 
+import fr.almavivahealth.domain.entity.TopTrendyMenu;
 import fr.almavivahealth.domain.projection.PatientsByStatus;
 import fr.almavivahealth.domain.projection.PatientsPerAllergy;
 import fr.almavivahealth.domain.projection.PatientsPerDiet;
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
+import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
 
 /**
  * The Class StatsMapperDecorator.
@@ -25,7 +27,7 @@ public abstract class StatsMapperDecorator implements StatsMapper {
 				.percentage(patientsPerAllergy.getPercentage().setScale(2, BigDecimal.ROUND_HALF_UP))
 				.build();
 	}
-	
+
 	@Override
 	public PatientsPerDietDTO patientsPerDietToPatientsPerDietDTO(final PatientsPerDiet patientsPerDiet) {
 		if (patientsPerDiet == null) {
@@ -37,7 +39,7 @@ public abstract class StatsMapperDecorator implements StatsMapper {
 				.percentage(patientsPerDiet.getPercentage().setScale(2, BigDecimal.ROUND_HALF_UP))
 				.build();
 	}
-	
+
 	@Override
 	public PatientsByStatusDTO patientsByStatusToPatientsByStatusDTO(final PatientsByStatus patientByStatus) {
 		if (patientByStatus == null) {
@@ -49,5 +51,17 @@ public abstract class StatsMapperDecorator implements StatsMapper {
 				.totalPatients(patientByStatus.getTotalPatients())
 				.build();
 	}
-	
+
+	@Override
+	public TopTrendyMenuDTO topTrendyMenuToTopTrendyMenuDTO(final TopTrendyMenu topTrendyMenu) {
+		if (topTrendyMenu == null) {
+			return null;
+		}
+		return TopTrendyMenuDTO.builder()
+				.diets(topTrendyMenu.getDiets())
+				.nb(topTrendyMenu.getNb())
+				.texture(topTrendyMenu.getTexture())
+				.build();
+	}
+
 }

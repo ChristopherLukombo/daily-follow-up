@@ -1,28 +1,29 @@
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { AuthGuard } from "./utils/helpers/auth.guard";
-import { PatientsComponent } from "./components/patient-components/patients/patients.component";
-import { PatientComponent } from "./components/patient-components/patient/patient.component";
-import { PatientHistoryComponent } from "./components/patient-components/patient/patient-history/patient-history.component";
-import { PatientAddComponent } from "./components/patient-components/patient-add/patient-add.component";
-import { LoginComponent } from "./components/login/login.component";
-import { PatientsImportComponent } from "./components/patient-components/patients-import/patients-import.component";
-import { PatientsOldComponent } from "./components/patient-components/patients-old/patients-old.component";
-import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
-import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
-import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
-import { UsersComponent } from "./components/user-components/users/users.component";
-import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
-import { MealsComponent } from "./components/food-components/meals/meals.component";
-import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
-import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
-import { ResetUserPasswordComponent } from "./components/user-components/reset-user-password/reset-user-password.component";
+import { RouterModule, Routes } from "@angular/router";
 import { FloorAddComponent } from "./components/clinic-components/floor-add/floor-add.component";
+import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
 import { DietAddComponent } from "./components/food-components/diet-add/diet-add.component";
+import { MealEditComponent } from "./components/food-components/meal/meal-edit/meal-edit.component";
+import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
+import { MealsComponent } from "./components/food-components/meals/meals.component";
+import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
+import { MenuCurrentsComponent } from "./components/food-components/menu-currents/menu-currents.component";
 import { MenuDeclineComponent } from "./components/food-components/menu-decline/menu-decline.component";
 import { MenuDeclinedEditComponent } from "./components/food-components/menu-declined-edit/menu-declined-edit.component";
-import { MealEditComponent } from "./components/food-components/meal/meal-edit/meal-edit.component";
+import { LoginComponent } from "./components/login/login.component";
 import { OrdersComponent } from "./components/order-components/orders/orders.component";
+import { PatientAddComponent } from "./components/patient-components/patient-add/patient-add.component";
+import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
+import { PatientHistoryComponent } from "./components/patient-components/patient/patient-history/patient-history.component";
+import { PatientComponent } from "./components/patient-components/patient/patient.component";
+import { PatientsImportComponent } from "./components/patient-components/patients-import/patients-import.component";
+import { PatientsOldComponent } from "./components/patient-components/patients-old/patients-old.component";
+import { PatientsComponent } from "./components/patient-components/patients/patients.component";
+import { StatisticsComponent } from './components/statistics/statistics/statistics.component';
+import { ResetUserPasswordComponent } from "./components/user-components/reset-user-password/reset-user-password.component";
+import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
+import { UsersComponent } from "./components/user-components/users/users.component";
+import { AuthGuard } from "./utils/helpers/auth.guard";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -125,7 +126,13 @@ const routes: Routes = [
   {
     path: "order/all",
     component: OrdersComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard]
+  },
+  {
+
+    path: "statistics/patients",
+    component: StatisticsComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: "**",

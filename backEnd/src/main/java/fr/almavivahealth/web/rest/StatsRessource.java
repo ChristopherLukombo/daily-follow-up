@@ -1,6 +1,9 @@
 package fr.almavivahealth.web.rest;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.almavivahealth.service.StatsService;
+import fr.almavivahealth.service.dto.OrdersPerDay;
 import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
+import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -108,13 +113,90 @@ public class StatsRessource {
         })
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/patientsByStatus")
-	public ResponseEntity<List<PatientsByStatusDTO>> getNumberOfPatientsByStatus() {
+	public ResponseEntity<PatientsByStatusDTO> getNumberOfPatientsByStatus() {
 		LOGGER.debug("REST request to get number of patients by status");
-		final List<PatientsByStatusDTO> patientsByStatus = statsService.findNumberOfPatientsByStatus();
-		if (patientsByStatus.isEmpty()) {
-			return ResponseEntity.noContent().build();
+		final Optional<PatientsByStatusDTO> patientsByStatus = statsService.findNumberOfPatientsByStatus();
+		if (patientsByStatus.isPresent()) {
+			return ResponseEntity.ok().body(patientsByStatus.get());
 		}
-		return ResponseEntity.ok().body(patientsByStatus);
+		return ResponseEntity.noContent().build();
 	}
 
+	/**
+	 * GET /stats/ordersPerDay : Get number of orders per day.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the map of list in body
+	 * or with status 204 (No Content) if there is no PatientsByStatus.
+	 *
+	 */
+	@ApiOperation("Get number of orders per day.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/stats/ordersPerDay")
+	public ResponseEntity<Map<String, List<OrdersPerDay>>> getNumberOfOrdersPerDay() {
+		LOGGER.debug("REST request to get number of orders per day");
+		final Map<String, List<OrdersPerDay>> orderPerStatus = statsService.findAllForNextDays();
+		if (orderPerStatus.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(orderPerStatus);
+	}
+
+	/**
+	 * GET /stats/trendyDiets : Get trendy diets.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list in body
+	 * or with status 204 (No Content) if there is no TopTrendyMenu.
+	 *
+	 */
+	@ApiOperation("Get trendy diets.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/stats/trendyDiets")
+	public ResponseEntity<List<TopTrendyMenuDTO>> getTrendyDiets() {
+		LOGGER.debug("REST request to get trendy diets");
+		final List<TopTrendyMenuDTO> trendyDiets = statsService.findTrendyDiets();
+		if (trendyDiets.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(trendyDiets);
+	}
+
+	/**
+	 * GET /stats/trendyContents : Get trendy contents.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the linkedHashMap in body
+	 * or with status 204 (No Content) if there is no TopTrendyMenu.
+	 *
+	 */
+	@ApiOperation("Get trendy contents.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/stats/trendyContents")
+	public ResponseEntity<LinkedHashMap<String, Long>> findAllTrendyContents() {
+		LOGGER.debug("REST request to get trendy contents");
+		final LinkedHashMap<String, Long> trendyContents = statsService.findAllTrendyContents();
+		if (trendyContents.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(trendyContents);
+	}
 }

@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,14 +45,14 @@ public class StatsServiceTest {
 	private static final String ALLERGY_NAME = "SOJA";
 
 	@Mock
-    private PatientRepository patientRepository;
-	
+	private PatientRepository patientRepository;
+
 	@Mock
 	private StatsMapper statsMapper;
-	
+
 	@InjectMocks
 	private StatsServiceImpl statsServiceImpl;
-	
+
 	private static PatientsPerAllergyDTO createPatientsPerAllergyDTO() {
 		return PatientsPerAllergyDTO.builder()
 				.allergyName(ALLERGY_NAME)
@@ -59,11 +60,11 @@ public class StatsServiceTest {
 				.percentage(BigDecimal.valueOf(PERCENTAGE))
 				.build();
 	}
-	
+
 	private static PatientsPerAllergy createPatientsPerAllergy() {
 		return null;
 	}
-	
+
 	private static PatientsPerDietDTO createPatientsPerDietDTO() {
 		return PatientsPerDietDTO.builder()
 				.dietName(DIET_NAME)
@@ -71,11 +72,11 @@ public class StatsServiceTest {
 				.percentage(BigDecimal.valueOf(PERCENTAGE))
 				.build();
 	}
-	
+
 	private static PatientsPerDiet createPatientsPerDiet() {
 		return null;
 	}
-	
+
 	private static PatientsByStatusDTO createPatientsByStatusDTO() {
 		return PatientsByStatusDTO.builder()
 				.activePatients(ACTIVE_PATIENTS)
@@ -83,11 +84,11 @@ public class StatsServiceTest {
 				.totalPatients(TOTAL_PATIENTS)
 				.build();
 	}
-	
+
 	private static PatientsByStatus createPatientsByStatus() {
 		return null;
 	}
-	
+
 	@Test
 	public void shouldFindNumberOfPatientsPerAllergyWhenIsOk() {
 		// Given
@@ -98,12 +99,12 @@ public class StatsServiceTest {
 		// When
 		when(patientRepository.findNumberOfPatientsPerAllergy()).thenReturn(patientsPerAllergies);
 		when(statsMapper.patientsPerAllergyToPatientsPerAllergyDTO((PatientsPerAllergy) any()))
-				.thenReturn(patientsPerAllergyDTO);
+		.thenReturn(patientsPerAllergyDTO);
 
 		// Then
 		assertThat(statsServiceImpl.findNumberOfPatientsPerAllergy()).isNotEmpty();
 	}
-	
+
 	@Test
 	public void shouldFindNumberOfPatientsPerAllergyWhenIsNull() {
 		// Given
@@ -116,7 +117,7 @@ public class StatsServiceTest {
 		assertThatThrownBy(() -> statsServiceImpl.findNumberOfPatientsPerAllergy())
 		.isInstanceOf(NullPointerException.class);
 	}
-	
+
 	@Test
 	public void shouldFindNumberOfPatientsPerAllergyWhenIsEmpty() {
 		// Given
@@ -128,7 +129,7 @@ public class StatsServiceTest {
 		// Then
 		assertThat(statsServiceImpl.findNumberOfPatientsPerAllergy()).isEmpty();
 	}
-	
+
 	@Test
 	public void shouldFindNumberOfPatientsPerDietWhenIsOk() {
 		// Given
@@ -143,71 +144,41 @@ public class StatsServiceTest {
 		// Then
 		assertThat(statsServiceImpl.findNumberOfPatientsPerDiet()).isNotEmpty();
 	}
-	
+
 	@Test
 	public void shouldFindNumberOfPatientsPerDietWhenIsNull() {
 		// Given
 		final List<PatientsPerDiet> patientsPerDiets = null;
-		
+
 		// When
 		when(patientRepository.findNumberOfPatientsPerDiet()).thenReturn(patientsPerDiets);
-		
+
 		// Then
 		assertThatThrownBy(() -> statsServiceImpl.findNumberOfPatientsPerDiet())
 		.isInstanceOf(NullPointerException.class);
 	}
-	
+
 	@Test
 	public void shouldFindNumberOfPatientsPerDietWhenIsEmpty() {
 		// Given
 		final List<PatientsPerDiet> patientsPerDiets = Collections.emptyList();
-		
+
 		// When
 		when(patientRepository.findNumberOfPatientsPerDiet()).thenReturn(patientsPerDiets);
-		
+
 		// Then
 		assertThat(statsServiceImpl.findNumberOfPatientsPerDiet()).isEmpty();
 	}
-	
+
 	@Test
 	public void shouldFindNumberOfPatientsByStatusWhenIsOk() {
 		// Given
 		final PatientsByStatus patientsByStatus = createPatientsByStatus();
-		final List<PatientsByStatus> patientsByStatuss = Arrays.asList(patientsByStatus);
-		final PatientsByStatusDTO patientsPerDietDTO = createPatientsByStatusDTO();
 
 		// When
-		when(patientRepository.findNumberOfPatientsByStatus()).thenReturn(patientsByStatuss);
-		when(statsMapper.patientsByStatusToPatientsByStatusDTO((PatientsByStatus) any()))
-				.thenReturn(patientsPerDietDTO);
+		when(patientRepository.findNumberOfPatientsByStatus()).thenReturn(Optional.ofNullable(patientsByStatus));
 
-		// Then
-		assertThat(statsServiceImpl.findNumberOfPatientsByStatus()).isNotEmpty();
-	}
-	
-	@Test
-	public void shouldFindNumberOfPatientsByStatusWhenIsEmpty() {
-		// Given
-		final List<PatientsByStatus> patientsByStatuss = Collections.emptyList();
-		
-		// When
-		when(patientRepository.findNumberOfPatientsByStatus()).thenReturn(patientsByStatuss);
-		
 		// Then
 		assertThat(statsServiceImpl.findNumberOfPatientsByStatus()).isEmpty();
 	}
-	
-	@Test
-	public void shouldFindNumberOfPatientsByStatusWhenIsNull() {
-		// Given
-		final List<PatientsByStatus> patientsByStatuss = null;
-		
-		// When
-		when(patientRepository.findNumberOfPatientsByStatus()).thenReturn(patientsByStatuss);
-		
-		// Then
-		assertThatThrownBy(() -> statsServiceImpl.findNumberOfPatientsByStatus())
-		.isInstanceOf(NullPointerException.class);
-	}
-
 }
