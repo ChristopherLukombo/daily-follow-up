@@ -7,6 +7,11 @@ import {
   FormControl,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
+import { DietDTO } from "src/app/models/dto/patient/dietDTO";
+import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
   selector: "app-diet-add",
@@ -40,8 +45,14 @@ export class DietAddComponent implements OnInit {
 
   form: FormGroup;
   submitted: boolean = false;
+  creating: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private alimentationService: AlimentationService,
+    private toastrService: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
@@ -104,10 +115,50 @@ export class DietAddComponent implements OnInit {
     return elementsToCheck;
   }
 
+  getDietDTO(): DietDTO {
+    return new DietDTO(
+      null,
+      this.f.name.value,
+      this.getContentPropertiesName()
+    );
+  }
+
   onSubmit(): void {
     this.submitted = true;
     if (this.form.invalid) return;
+    this.creating = true;
     console.log("submit");
     console.log(this.getContentPropertiesName());
+    let dto: DietDTO = this.getDietDTO();
+    this.alimentationService.createDiet(dto).subscribe(
+      (data) => {
+        console.log(data);
+        this.toastrService.success(
+          "Le régime a bien été créé",
+          "Création terminée !"
+        );
+        this.creating = false;
+        this.router.navigate(["/food/menu/currents"]);
+      },
+      (error) => {
+        this.toastrService.error(this.getCustomError(error), "Oops !");
+        this.creating = false;
+      }
+    );
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
+      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+    } else if (error && error.status === 409) {
+      return error.error.message;
+    } else {
+      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+    }
   }
 }

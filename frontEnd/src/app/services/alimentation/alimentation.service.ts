@@ -14,6 +14,7 @@ import { ContentDTO } from "src/app/models/dto/food/contentDTO";
 import { Content } from "src/app/models/food/content";
 import { MenuDTO } from "src/app/models/dto/food/menuDTO";
 import { Menu } from "src/app/models/food/menu";
+import { DietDTO } from "src/app/models/dto/patient/dietDTO";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -63,6 +64,32 @@ export class AlimentationService {
   convertPropertyElementsToMap(diet: Diet): Diet {
     diet.elementsToCheck = new Map(Object.entries(diet.elementsToCheck));
     return diet;
+  }
+
+  /**
+   * Convertit la Map d'ingrédients caractéristiques d'un régime en objet
+   * @param dietDTO
+   * @returns le nouvel objet Diet JSONifié
+   */
+  stringifyDiet(dietDTO: DietDTO): string {
+    let jsonObject = {};
+    dietDTO.elementsToCheck.forEach((value, key) => {
+      jsonObject[key] = value;
+    });
+    let mapToObject = (key, value) =>
+      value instanceof Map ? jsonObject : value;
+    return JSON.stringify(dietDTO, mapToObject);
+  }
+
+  /**
+   * Crée un régime à disposition des plats et des patients
+   * @param dietDTO
+   * @returns la Diet crée
+   */
+  createDiet(dietDTO: DietDTO): Observable<Diet> {
+    return this.http
+      .post<Diet>(DIETS_URL, this.stringifyDiet(dietDTO), httpOptions)
+      .pipe(catchError(this.handleCustomError));
   }
 
   /**
