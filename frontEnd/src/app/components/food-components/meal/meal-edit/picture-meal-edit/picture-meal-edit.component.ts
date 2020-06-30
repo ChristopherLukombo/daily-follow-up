@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from "@angular/core";
 import { Content } from "src/app/models/food/content";
 import { FileService } from "src/app/services/file/file.service";
 import { ToastrService } from "ngx-toastr";
+import { ArtificialIntelligenceService } from "src/app/services/artificial-intelligence/artificial-intelligence.service";
 
 @Component({
   selector: "app-picture-meal-edit",
@@ -10,10 +11,13 @@ import { ToastrService } from "ngx-toastr";
 })
 export class PictureMealEditComponent implements OnInit {
   @Input() content: Content;
+  defaultImg: string = "../../../../../../assets/empty_picture.png";
 
   picture: string | ArrayBuffer | null;
-  defaultImg: string = "../../../../../../assets/empty_picture.png";
-  displayImg: string | ArrayBuffer | null;
+  futurePicture: string | ArrayBuffer | null;
+
+  suggestions: (string | ArrayBuffer | null)[] = [];
+  searching: boolean = false;
 
   validFile: string[] = [
     "image/jpg",
@@ -31,6 +35,7 @@ export class PictureMealEditComponent implements OnInit {
 
   constructor(
     private fileService: FileService,
+    private artificialIntelligenceService: ArtificialIntelligenceService,
     private toastrService: ToastrService
   ) {}
 
@@ -39,11 +44,11 @@ export class PictureMealEditComponent implements OnInit {
       this.loading = true;
       this.fileService.getContentPicture(this.content.id).subscribe(
         (data) => {
-          this.generatePicture(data);
+          this.loadPicture(data);
+          this.getSuggestions();
           this.loading = false;
         },
         (error) => {
-          console.log(error);
           this.error = this.getError(error);
           this.loading = false;
         }
@@ -51,22 +56,28 @@ export class PictureMealEditComponent implements OnInit {
     }
   }
 
-  generatePicture(image: Blob) {
-    if (!image.size) {
+  loadPicture(blob: Blob) {
+    if (!blob.size) {
       this.picture = this.defaultImg;
       return;
     }
     const reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        this.picture = reader.result;
-      },
-      false
-    );
-    if (image) {
-      reader.readAsDataURL(image);
+    reader.onload = (e) => {
+      this.picture = reader.result;
+    };
+    if (blob) reader.readAsDataURL(blob);
+  }
+
+  loadFuturePicture(blob: Blob) {
+    if (!blob.size) {
+      this.futurePicture = this.defaultImg;
+      return;
     }
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.futurePicture = reader.result;
+    };
+    if (blob) reader.readAsDataURL(blob);
   }
 
   handleFile(files: FileList) {
@@ -82,25 +93,7 @@ export class PictureMealEditComponent implements OnInit {
       return;
     }
     this.file = input;
-    this.generateDisplay(this.file);
-  }
-
-  generateDisplay(image: Blob) {
-    if (!image.size) {
-      this.displayImg = this.defaultImg;
-      return;
-    }
-    const reader = new FileReader();
-    reader.addEventListener(
-      "load",
-      () => {
-        this.displayImg = reader.result;
-      },
-      false
-    );
-    if (image) {
-      reader.readAsDataURL(image);
-    }
+    this.loadFuturePicture(this.file);
   }
 
   onUpload(): void {
@@ -113,8 +106,8 @@ export class PictureMealEditComponent implements OnInit {
           "Mise à jour terminée !"
         );
         this.uploading = false;
-        this.generatePicture(this.file);
-        this.displayImg = null;
+        this.loadPicture(this.file);
+        this.futurePicture = null;
       },
       (error) => {
         console.log(error);
@@ -127,6 +120,36 @@ export class PictureMealEditComponent implements OnInit {
   validExtension(file: File): boolean {
     const type = file.type.toLowerCase();
     return this.validFile.indexOf(type) !== -1;
+  }
+
+  getSuggestions(): void {
+    this.searching = true;
+    let name: string = this.content.name.split(" ")[0];
+    this.artificialIntelligenceService
+      .getOutputPicturesFromModel(name)
+      .subscribe(
+        (data) => {
+          this.loadSuggestions(data);
+          this.searching = false;
+        },
+        (error) => {
+          console.log(error);
+          this.searching = false;
+        }
+      );
+  }
+
+  loadSuggestions(blobs: Blob[]) {
+    for (let i = 0; i < blobs.length; i++) {
+      if (!blobs[i]) {
+        continue;
+      }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.suggestions[i] = reader.result;
+      };
+      reader.readAsDataURL(blobs[i]);
+    }
   }
 
   /**
