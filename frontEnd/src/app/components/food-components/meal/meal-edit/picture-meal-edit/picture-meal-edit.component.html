@@ -3,7 +3,7 @@
   <app-alert-error [content]="error"></app-alert-error>
 </div>
 <div *ngIf="!loading && !error && picture">
-  <div class="editable-img">
+  <div class="clickable-img">
     <img
       [src]="picture"
       class="rounded"
@@ -36,28 +36,54 @@
           </button>
         </div>
         <div class="modal-body">
+          <div class="alert alert-primary" role="alert">
+            <strong>Note : </strong>Les seuls formats autorisés sont le
+            <code>.jpg</code>, le <code>.png</code>, <code>.jpeg</code>, le
+            <code>.gif</code>, et le <code>.tif</code>.
+          </div>
+          <div class="row">
+            <div *ngIf="searching" class="col">
+              Recherche de photos correspondants au plat...
+            </div>
+          </div>
+          <div
+            class="row"
+            *ngIf="!searching && (!suggestions || suggestions.length === 0)"
+          >
+            <div class="col">
+              <div class="alert alert-primary" role="alert">
+                Pas de photo disponible pour ce plat
+              </div>
+            </div>
+          </div>
+          <h5 *ngIf="suggestions && suggestions.length > 0">
+            <label>Suggestions</label>
+          </h5>
+          <div class="row" *ngIf="suggestions && suggestions.length > 0">
+            <div
+              *ngFor="let img of suggestions"
+              class="col text-center clickable-img"
+            >
+              <img [src]="img" class="rounded" width="100" height="100" />
+            </div>
+          </div>
+          <br />
           <div class="row">
             <div class="col">
+              <h5>
+                <label>Photo actuelle</label>
+              </h5>
               <img [src]="picture" class="rounded" width="150" height="150" />
               <br /><br />
               <div class="form-group">
-                <h5>
-                  <label>Nouvelle photo</label>
-                </h5>
                 <input
                   type="file"
                   accept="image/png, image/jpeg"
                   class="form-control-file"
                   (change)="handleFile($event.target.files)"
                 />
-                <div *ngIf="inputError">
-                  <small class="text-danger">
-                    {{ inputError }}
-                  </small>
-                </div>
-                <small class="text-muted">
-                  Les seuls formats autorisés sont le
-                  <code>.jpg</code> et le <code>.png</code>.
+                <small *ngIf="inputError" class="text-danger">
+                  {{ inputError }}
                 </small>
               </div>
               <button
@@ -79,9 +105,12 @@
                 jour...
               </button>
             </div>
-            <div *ngIf="displayImg" class="col">
+            <div *ngIf="futurePicture" class="col">
+              <h5>
+                <label>Nouvelle photo</label>
+              </h5>
               <img
-                [src]="displayImg"
+                [src]="futurePicture"
                 class="rounded"
                 width="150"
                 height="150"
