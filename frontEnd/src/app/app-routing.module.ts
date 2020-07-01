@@ -19,11 +19,12 @@ import { PatientComponent } from "./components/patient-components/patient/patien
 import { PatientsImportComponent } from "./components/patient-components/patients-import/patients-import.component";
 import { PatientsOldComponent } from "./components/patient-components/patients-old/patients-old.component";
 import { PatientsComponent } from "./components/patient-components/patients/patients.component";
-import { StatisticsComponent } from './components/statistics/statistics/statistics.component';
+import { StatisticsComponent } from "./components/statistics/statistics/statistics.component";
 import { ResetUserPasswordComponent } from "./components/user-components/reset-user-password/reset-user-password.component";
 import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
 import { UsersComponent } from "./components/user-components/users/users.component";
 import { AuthGuard } from "./utils/helpers/auth.guard";
+import { StatisticsFoodComponent } from "./components/statistics/statistics-food/statistics-food.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -126,13 +127,17 @@ const routes: Routes = [
   {
     path: "order/all",
     component: OrdersComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
-
     path: "statistics/patients",
     component: StatisticsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "statistics/food",
+    component: StatisticsFoodComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: "**",
