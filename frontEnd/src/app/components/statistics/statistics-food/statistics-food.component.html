@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-statistics-navbar></app-statistics-navbar>
+    </div>
+    <div class="col">
+      <h2>Statistiques - Alimentation</h2>
+      <br />
+      <div class="row">
+        <div class="col-6">
+          <app-order-per-day [orderPerStatus]="orderPerStatus">
+          </app-order-per-day>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-6">
+          <app-top-trendy-diets [topTrendyMenus]="topTrendyMenus">
+          </app-top-trendy-diets>
+        </div>
+        <div class="col-6">
+          <app-top-trendy-contents [topTrendyContents]="topTrendyContents">
+          </app-top-trendy-contents>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>
