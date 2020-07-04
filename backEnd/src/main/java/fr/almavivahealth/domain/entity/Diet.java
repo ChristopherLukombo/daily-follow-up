@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +30,8 @@ import lombok.ToString;
 @Data
 @Builder
 @ToString
+@Table(name = "diet", uniqueConstraints = {
+		@UniqueConstraint(name = "diet_unique_name_idx", columnNames = { "name" }) })
 public class Diet implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -36,6 +40,7 @@ public class Diet implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column(name = "name")
 	private String name;
 
 	@ElementCollection
