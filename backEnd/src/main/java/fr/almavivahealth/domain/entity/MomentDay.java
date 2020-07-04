@@ -2,7 +2,6 @@ package fr.almavivahealth.domain.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -35,19 +34,20 @@ public class MomentDay implements Serializable {
 
 	private String name;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Content entry;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Content dish;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Content garnish;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Content dairyProduct;
 
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	private Content dessert;
+
 
 }

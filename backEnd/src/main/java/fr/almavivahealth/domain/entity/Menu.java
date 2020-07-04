@@ -70,7 +70,7 @@ public class Menu implements Serializable {
 	@CollectionTable(name = "menu_diets")
 	private List<String> diets;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST })
+	@ManyToMany(cascade = { CascadeType.PERSIST,  CascadeType.MERGE, CascadeType.REFRESH })
 	private List<Week> weeks;
 
 	@LastModifiedBy

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,10 +18,10 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* A day.
-*/
+ *
+ * @author christopher
+ * A day.
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -37,6 +38,6 @@ public class Day implements Serializable {
 
 	private String name;
 
-	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.REFRESH })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<MomentDay> momentDays;
 }
