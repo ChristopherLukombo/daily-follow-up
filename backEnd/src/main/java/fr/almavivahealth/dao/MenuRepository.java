@@ -50,7 +50,7 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 
 	@Query("SELECT menu "
 			+ "FROM Menu menu "
-			+ "WHERE menu.startDate < :date")
+			+ "WHERE menu.endDate < :date")
 	List<Menu> findPastMenus(@Param("date") LocalDate date);
 
 }
