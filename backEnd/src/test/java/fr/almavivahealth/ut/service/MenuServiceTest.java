@@ -474,4 +474,29 @@ public class MenuServiceTest {
 		// Then
 		assertThat(menuServiceImpl.findPastMenus()).isEmpty();
 	}
+
+	@Test
+	public void shouldDeleteByIds() {
+		// Given
+		final List<Long> ids = Arrays.asList(1L, 2L);
+
+		// When
+		doNothing().when(menuRepository).deleteById(anyLong());
+
+		// Then
+		menuServiceImpl.deleteByIds(ids);
+
+		verify(menuRepository, times(2)).deleteById(anyLong());
+	}
+
+	@Test
+	public void shouldNotDeleteWhenThereIsNoIds() {
+		// Given
+		final List<Long> ids = Collections.emptyList();
+
+		// Then
+		menuServiceImpl.deleteByIds(ids);
+
+		verify(menuRepository, times(0)).deleteById(anyLong());
+	}
 }

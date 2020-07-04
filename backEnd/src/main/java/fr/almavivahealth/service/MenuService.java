@@ -89,4 +89,11 @@ public interface MenuService {
 	 * @return the list of entities.
 	 */
 	List<MenuDTO> findPastMenus();
+
+	/**
+	 * Delete by ids.
+	 *
+	 * @param ids the ids
+	 */
+	void deleteByIds(List<Long> ids);
 }

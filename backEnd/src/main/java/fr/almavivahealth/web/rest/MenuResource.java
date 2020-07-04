@@ -319,4 +319,25 @@ public class MenuResource {
 		}
 		return ResponseEntity.ok().body(menus);
 	}
+
+	/**
+	 * DELETE /menus : Delete the menus by ids.
+	 *
+	 * @param ids the ids
+	 * @return the ResponseEntity with status 204 (OK)
+	 */
+	@ApiOperation("Delete the menus by ids.")
+	@ApiResponses({
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@DeleteMapping(value = "/menus" , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Void> deleteByIds(@RequestBody final List<Long> ids) {
+		LOGGER.debug("REST request to delete Menus : {}", ids);
+		menuService.deleteByIds(ids);
+		return ResponseEntity.noContent().build();
+	}
 }

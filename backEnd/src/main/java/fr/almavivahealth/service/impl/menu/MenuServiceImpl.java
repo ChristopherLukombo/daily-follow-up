@@ -421,4 +421,16 @@ public class MenuServiceImpl implements MenuService {
 				.map(menuMapper::menuToMenuDTO)
 				.collect(Collectors.toList());
 	}
+
+	/**
+	 * Delete by ids.
+	 *
+	 * @param ids the ids
+	 */
+	@Override
+	public void deleteByIds(final List<Long> ids) {
+		for (final Long id : ids) {
+			menuRepository.deleteById(id);
+		}
+	}
 }

@@ -332,4 +332,34 @@ public class MenuResourceTest {
 		.andExpect(status().isNoContent());
 		verify(menuService, times(1)).findPastMenus();
 	}
+
+	@Test
+	public void shouldDeleteByIds() throws Exception {
+		// Given
+		final List<Long> ids = Arrays.asList(ID);
+
+		// When
+		doNothing().when(menuService).deleteByIds(ids);
+
+		// Then
+		mockMvc.perform(delete("/api/menus")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(ids)))
+		        .andExpect(status().isNoContent());
+		verify(menuService, times(1)).deleteByIds(ids);
+	}
+
+
+	@Test
+	public void shouldThrowBadRequestWhenThereIsNoId() throws Exception {
+		// Given
+		final List<Long> ids = null;
+
+		// Then
+		mockMvc.perform(delete("/api/menus")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(ids)))
+		        .andExpect(status().isBadRequest());
+		verify(menuService, times(0)).deleteByIds(ids);
+	}
 }
