@@ -272,4 +272,64 @@ public class MenuResourceTest {
 		.andExpect(status().isNoContent());
 		verify(menuService, times(1)).findCurrentMenus();
 	}
+
+	@Test
+	public void shouldGetFuturMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Arrays.asList(createMenuDTO());
+
+		// When
+		when(menuService.findFutureMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/future")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(menuService, times(1)).findFutureMenus();
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetFuturMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Collections.emptyList();
+
+		// When
+		when(menuService.findFutureMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/future")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(menuService, times(1)).findFutureMenus();
+	}
+
+	@Test
+	public void shouldGetPastMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Arrays.asList(createMenuDTO());
+
+		// When
+		when(menuService.findPastMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/past")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(menuService, times(1)).findPastMenus();
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetPastMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Collections.emptyList();
+
+		// When
+		when(menuService.findPastMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/past")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(menuService, times(1)).findPastMenus();
+	}
 }

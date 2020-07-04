@@ -426,4 +426,52 @@ public class MenuServiceTest {
 		// Then
 		assertThat(menuServiceImpl.checkSpecifications(menuDTO)).isTrue();
 	}
+
+	@Test
+	public void shouldFindFutureMenus() {
+		// Given
+		final List<Menu> menus = Arrays.asList(createMenu());
+
+		// When
+		when(menuRepository.findFutureMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findFutureMenus()).isNotEmpty();
+	}
+
+	@Test
+	public void shoulReturnsEmptyListWhenTryingToFindFutureMenus() {
+		// Given
+		final List<Menu> menus = Collections.emptyList();
+
+		// When
+		when(menuRepository.findFutureMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findFutureMenus()).isEmpty();
+	}
+
+	@Test
+	public void shouldFindPastMenus() {
+		// Given
+		final List<Menu> menus = Arrays.asList(createMenu());
+
+		// When
+		when(menuRepository.findPastMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findPastMenus()).isNotEmpty();
+	}
+
+	@Test
+	public void shoulReturnsEmptyListWhenTryingToFindPastMenus() {
+		// Given
+		final List<Menu> menus = Collections.emptyList();
+
+		// When
+		when(menuRepository.findPastMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findPastMenus()).isEmpty();
+	}
 }

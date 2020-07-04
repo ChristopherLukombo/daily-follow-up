@@ -75,4 +75,18 @@ public interface MenuService {
 	 * @return true, if successful
 	 */
 	boolean checkSpecifications(MenuDTO menuDTO);
+
+	/**
+	 * Find Future menus.
+	 *
+	 * @return the list of entities.
+	 */
+	List<MenuDTO> findFutureMenus();
+
+	/**
+	 * Find Past menus.
+	 *
+	 * @return the list of entities.
+	 */
+	List<MenuDTO> findPastMenus();
 }
