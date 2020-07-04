@@ -42,4 +42,15 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
 			+ "GROUP BY md.diets, m.texture "
 			+ "ORDER BY nb DESC limit 5", nativeQuery = true)
 	List<TopTrendyMenu> findTrendyDishes();
+
+	@Query("SELECT menu "
+			+ "FROM Menu menu "
+			+ "WHERE menu.startDate > :date")
+	List<Menu> findFutureMenus(@Param("date") LocalDate date);
+
+	@Query("SELECT menu "
+			+ "FROM Menu menu "
+			+ "WHERE menu.startDate < :date")
+	List<Menu> findPastMenus(@Param("date") LocalDate date);
+
 }

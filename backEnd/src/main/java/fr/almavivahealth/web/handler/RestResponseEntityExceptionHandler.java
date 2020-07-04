@@ -1,6 +1,7 @@
 package fr.almavivahealth.web.handler;
 
 import static fr.almavivahealth.constants.ErrorMessage.ERROR_CONTENT_UNIQUE_NAME;
+import static fr.almavivahealth.constants.ErrorMessage.ERROR_DIET_UNIQUE_NAME;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -52,6 +53,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
 	static {
 		constraintCodeMap.put("content_unique_name_idx", ERROR_CONTENT_UNIQUE_NAME);
+		constraintCodeMap.put("diet_unique_name_idx", ERROR_DIET_UNIQUE_NAME);
 	}
 
 	@Autowired

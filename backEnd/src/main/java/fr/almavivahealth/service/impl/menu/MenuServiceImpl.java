@@ -395,4 +395,42 @@ public class MenuServiceImpl implements MenuService {
 				.map(String::trim)
 				.orElse(StringUtils.EMPTY);
 	}
+
+	/**
+	 * Find Future menus.
+	 *
+	 * @return the list of entities.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<MenuDTO> findFutureMenus() {
+		return menuRepository.findFutureMenus(LocalDate.now()).stream()
+				.map(menuMapper::menuToMenuDTO)
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Find Past menus.
+	 *
+	 * @return the list of entities.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<MenuDTO> findPastMenus() {
+		return menuRepository.findPastMenus(LocalDate.now()).stream()
+				.map(menuMapper::menuToMenuDTO)
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Delete by ids.
+	 *
+	 * @param ids the ids
+	 */
+	@Override
+	public void deleteByIds(final List<Long> ids) {
+		for (final Long id : ids) {
+			menuRepository.deleteById(id);
+		}
+	}
 }
