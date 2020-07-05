@@ -1,0 +1,80 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-food-navbar></app-food-navbar>
+    </div>
+    <div class="col">
+      <h2>Modifier un menu</h2>
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="warning">
+        <app-alert-warning [content]="warning"></app-alert-warning>
+      </div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="!loading && !warning && !error && menu">
+        <div class="row">
+          <div class="col">
+            <h4>
+              <span class="badge badge-secondary">{{ menu.texture }}</span>
+            </h4>
+            <h4>
+              <span *ngFor="let diet of menu.diets" class="spaced-badge">
+                <span class="badge badge-info">
+                  {{ diet }}
+                </span>
+              </span>
+            </h4>
+          </div>
+          <div class="col text-right">
+            Période allant du <strong>{{ menu?.startDate }}</strong> au
+            <strong>{{ menu?.endDate }}</strong
+            >.
+            <br />
+            <span *ngIf="menu?.repetition > 1">
+              Le menu se répète <strong>{{ menu?.repetition }}</strong>
+              fois.
+            </span>
+            <span *ngIf="menu?.repetition === 1">
+              Le menu ne se répète pas.
+            </span>
+          </div>
+        </div>
+        <br />
+        <app-menu-weeks-edit [menu]="menu"></app-menu-weeks-edit>
+        <div *ngIf="invalid">
+          <app-alert-error [content]="invalid"></app-alert-error>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col text-left">
+            <button
+              *ngIf="!updating"
+              type="button"
+              class="btn btn-primary"
+              (click)="onSubmit()"
+            >
+              Enregistrer les informations
+            </button>
+            <button
+              *ngIf="updating"
+              type="button"
+              class="btn btn-primary"
+              disabled
+            >
+              <span class="spinner-border spinner-border-sm"></span>
+              Mise à jour...
+            </button>
+          </div>
+          <div class="col text-right">
+            <button type="button" class="btn btn-danger">
+              Supprimer le menu
+            </button>
+          </div>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>
