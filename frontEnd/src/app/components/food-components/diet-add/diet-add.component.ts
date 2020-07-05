@@ -12,6 +12,9 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
+import { TypeMessage } from "src/app/models/utils/message-enum";
+import { Diet } from "src/app/models/patient/diet";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-diet-add",
@@ -43,6 +46,11 @@ export class DietAddComponent implements OnInit {
   HIGH_QUANTITY: number = 1;
   LOW_QUANTITY: number = 0;
 
+  diets: Diet[] = [];
+  loading: boolean = false;
+  error: string;
+  editLogo = faEdit;
+
   form: FormGroup;
   submitted: boolean = false;
   creating: boolean = false;
@@ -56,6 +64,14 @@ export class DietAddComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.alimentationService.getAllDiets().subscribe(
+      (data) => {
+        this.diets = data;
+      },
+      (error) => {
+        this.error = this.getError(error);
+      }
+    );
   }
 
   createForm(): void {
@@ -90,6 +106,10 @@ export class DietAddComponent implements OnInit {
     return this.form.controls.lowElements["controls"];
   }
 
+  onEdit(diet: Diet): void {
+    this.router.navigate(["/food/diet/edit"], { queryParams: { id: diet.id } });
+  }
+
   getContentPropertiesName(): Map<string, number> {
     let elementsToCheck: Map<string, number> = new Map();
     this.form.controls.highElements["controls"].forEach(
@@ -118,7 +138,7 @@ export class DietAddComponent implements OnInit {
   getDietDTO(): DietDTO {
     return new DietDTO(
       null,
-      this.f.name.value,
+      this.f.name.value.charAt(0).toUpperCase() + this.f.name.value.slice(1),
       this.getContentPropertiesName()
     );
   }
@@ -127,12 +147,9 @@ export class DietAddComponent implements OnInit {
     this.submitted = true;
     if (this.form.invalid) return;
     this.creating = true;
-    console.log("submit");
-    console.log(this.getContentPropertiesName());
     let dto: DietDTO = this.getDietDTO();
     this.alimentationService.createDiet(dto).subscribe(
       (data) => {
-        console.log(data);
         this.toastrService.success(
           "Le régime a bien été créé",
           "Création terminée !"
@@ -152,13 +169,26 @@ export class DietAddComponent implements OnInit {
    * @param error
    * @returns le msg d'erreur
    */
+  getError(error: number): string {
+    if (error && error === 401) {
+      return TypeMessage.NOT_AUTHENTICATED;
+    } else {
+      return TypeMessage.AN_ERROR_OCCURED;
+    }
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
   getCustomError(error: HttpErrorResponse): string {
     if (error && error.status === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else if (error && error.status === 409) {
       return error.error.message;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }
