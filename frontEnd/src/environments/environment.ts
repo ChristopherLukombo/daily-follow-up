@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   appRootUrl: "http://localhost:8081",
-  version: 15.2,
+  version: 16,
   appAIUrl: "http://delissch.freeboxos.fr:5000",
 };
 
