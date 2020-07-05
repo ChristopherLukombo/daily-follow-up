@@ -45,6 +45,18 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne un régime en fonction de son id
+   * @param id
+   * @returns Le Regime
+   */
+  getDiet(id: number): Observable<Diet> {
+    return this.http
+      .get<Diet>(DIETS_URL + `/${id}`, httpOptions)
+      .pipe(map((diet) => this.convertPropertyElementsToMap(diet)))
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Convertit les ingrédients caractéristiques des régimes en Map
    * @param diets
    * @returns la liste de régime avec la Map des <ingrédients, (riche en/pauvre en)>
@@ -62,6 +74,7 @@ export class AlimentationService {
    * @returns le régime avec la Map des <ingrédients, (riche en/pauvre en)>
    */
   convertPropertyElementsToMap(diet: Diet): Diet {
+    if (!diet) return null;
     diet.elementsToCheck = new Map(Object.entries(diet.elementsToCheck));
     return diet;
   }
@@ -89,6 +102,28 @@ export class AlimentationService {
   createDiet(dietDTO: DietDTO): Observable<Diet> {
     return this.http
       .post<Diet>(DIETS_URL, this.stringifyDiet(dietDTO), httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Modifie un régime
+   * @param dietDTO
+   * @returns la Diet modifié
+   */
+  updateDiet(dietDTO: DietDTO): Observable<Diet> {
+    return this.http
+      .put<Diet>(DIETS_URL, this.stringifyDiet(dietDTO), httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Supprime un régime en fonction de son id
+   * @param id
+   * @returns HttpResponse<Object>
+   */
+  deleteDiet(id: number): Observable<HttpResponse<Object>> {
+    return this.http
+      .delete<HttpResponse<Object>>(DIETS_URL + `/${id}`, httpOptions)
       .pipe(catchError(this.handleCustomError));
   }
 
@@ -190,6 +225,17 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne un menu en fonction de son Id
+   * @param id
+   * @returns Le menu
+   */
+  getMenu(id: number): Observable<Menu> {
+    return this.http
+      .get<Menu>(MENUS_URL + `/${id}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Retourne tout les menus de la clinique dans la périod en cours
    * @returns les menus de la période en cours
    */
@@ -232,6 +278,17 @@ export class AlimentationService {
   createMenu(menuDTO: MenuDTO): Observable<Menu> {
     return this.http
       .post<Menu>(MENUS_URL, JSON.stringify(menuDTO), httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Met à jour un menu
+   * @param menuDTO le menu à mettre à jour
+   * @returns le menu mis à jour
+   */
+  updateMenu(menuDTO: MenuDTO): Observable<Menu> {
+    return this.http
+      .put<Menu>(MENUS_URL, JSON.stringify(menuDTO), httpOptions)
       .pipe(catchError(this.handleCustomError));
   }
 

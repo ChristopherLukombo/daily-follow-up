@@ -4,6 +4,29 @@
       <app-food-navbar></app-food-navbar>
     </div>
     <div class="col">
+      <h2>Régimes alimentaires</h2>
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="diets?.length > 0" class="form-group">
+        <label><h5>Régimes présents dans la clinique</h5></label>
+        <br />
+        <div class="btn-group">
+          <button
+            *ngFor="let d of diets"
+            type="button"
+            class="btn btn-outline-info"
+            (click)="onEdit(d)"
+          >
+            {{ d.name }}
+            <br />
+            <small><fa-icon [icon]="editLogo"></fa-icon></small>
+          </button>
+        </div>
+      </div>
+      <br />
       <h2>Nouveau régime</h2>
       <br />
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -37,7 +60,7 @@
           </div>
           <h6>
             <label
-              >Élément(s) devant être présent en
+              >Élément(s) présents en
               <span class="text-success">grande quantité</span> :</label
             >
           </h6>
@@ -53,7 +76,7 @@
           <br />
           <h6>
             <label
-              >Élément(s) devant être présent en
+              >Élément(s) présents en
               <span class="text-danger">faible quantité</span> :</label
             >
           </h6>
@@ -72,6 +95,7 @@
           Ajouter le régime à la clinique
         </button>
       </form>
+      <br />
     </div>
   </div>
 </div>

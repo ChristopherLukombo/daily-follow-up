@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  faStream,
+  faCalendarAlt,
   faClipboard,
   faHamburger,
   faClock,
   faPlus,
+  faCapsules,
   faCopy,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -14,12 +15,13 @@ import {
   styleUrls: ["./food-navbar.component.scss"],
 })
 export class FoodNavbarComponent implements OnInit {
-  menuPeriodLogo = faStream;
+  menuPeriodLogo = faCalendarAlt;
   mealAllLogo = faClipboard;
   mealAddLogo = faPlus;
   menuAddLogo = faHamburger;
   menuDeclineLogo = faCopy;
-  menuOldLogo = faClock;
+  dietsLogo = faCapsules;
+  menuAllLogo = faClock;
 
   constructor() {}
 

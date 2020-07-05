@@ -1,27 +1,26 @@
 import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
+import { Diet } from "src/app/models/patient/diet";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 import {
   FormGroup,
-  FormBuilder,
   Validators,
+  FormBuilder,
   FormArray,
   FormControl,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
-import { DietDTO } from "src/app/models/dto/patient/dietDTO";
-import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
-import { ToastrService } from "ngx-toastr";
-import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
-import { TypeMessage } from "src/app/models/utils/message-enum";
-import { Diet } from "src/app/models/patient/diet";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { DietDTO } from "src/app/models/dto/patient/dietDTO";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
-  selector: "app-diet-add",
-  templateUrl: "./diet-add.component.html",
-  styleUrls: ["./diet-add.component.scss"],
+  selector: "app-diet-edit",
+  templateUrl: "./diet-edit.component.html",
+  styleUrls: ["./diet-edit.component.scss"],
 })
-export class DietAddComponent implements OnInit {
+export class DietEditComponent implements OnInit {
   caracteristics: string[] = [
     "Calories",
     "Proteines",
@@ -46,52 +45,82 @@ export class DietAddComponent implements OnInit {
   HIGH_QUANTITY: number = 1;
   LOW_QUANTITY: number = 0;
 
-  diets: Diet[] = [];
+  diet: Diet;
+
   loading: boolean = false;
+  warning: string;
   error: string;
-  editLogo = faEdit;
 
   form: FormGroup;
   submitted: boolean = false;
-  creating: boolean = false;
+  updating: boolean = false;
+
+  btnDelete: string = "Supprimer le régime";
+  confirmDelete: string =
+    "Le régime alimentaire sera supprimé de la clinique. \
+    Il ne sera donc plus disponible ni lors des futurs déclinaisons de menu, \
+    ni lors des enregistrements des régimes de patients. Veuillez confirmer pour continuer.";
+  deleting: boolean = false;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private alimentationService: AlimentationService,
+    private formBuilder: FormBuilder,
     private toastrService: ToastrService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.createForm();
-    this.alimentationService.getAllDiets().subscribe(
-      (data) => {
-        this.diets = data;
-      },
-      (error) => {
-        this.error = this.getError(error);
-      }
-    );
+    this.loading = true;
+    this.route.queryParams.subscribe((params) => {
+      this.alimentationService.getDiet(parseInt(params["id"])).subscribe(
+        (data) => {
+          if (data) {
+            this.diet = data;
+            this.createForm();
+          } else {
+            this.dietDoesNotExist();
+          }
+          this.loading = false;
+        },
+        (error) => {
+          this.error = this.getError(error);
+          this.loading = false;
+        }
+      );
+    });
+  }
+
+  dietDoesNotExist(): void {
+    this.warning = TypeMessage.DIET_DOES_NOT_EXIST;
   }
 
   createForm(): void {
     const target = {
-      name: [null, Validators.required],
-      highElements: this.buildCheckboxes(),
-      lowElements: this.buildCheckboxes(),
+      name: [this.diet.name, Validators.required],
+      highElements: this.buildCheckboxes(this.HIGH_QUANTITY),
+      lowElements: this.buildCheckboxes(this.LOW_QUANTITY),
     };
     this.form = this.formBuilder.group(target);
   }
 
-  buildCheckboxes(): FormArray {
+  buildCheckboxes(quantity: number): FormArray {
     let checkboxes: FormCheckbox[] = [];
     this.caracteristics.forEach((c) => {
       checkboxes.push(new FormCheckbox(c));
     });
     const list = checkboxes.map((c) => {
-      return new FormControl(c.selected);
+      return new FormControl(this.isChecked(c, quantity));
     });
     return this.formBuilder.array(list);
+  }
+
+  isChecked(checkbox: FormCheckbox, quantity: number): boolean {
+    let element: string = this.propertyNamesOfContent.get(checkbox.name);
+    return this.diet.elementsToCheck.has(element) &&
+      this.diet.elementsToCheck.get(element) === quantity
+      ? true
+      : false;
   }
 
   get f() {
@@ -104,10 +133,6 @@ export class DietAddComponent implements OnInit {
 
   get lowElements() {
     return this.form.controls.lowElements["controls"];
-  }
-
-  onEdit(diet: Diet): void {
-    this.router.navigate(["/food/diet/edit"], { queryParams: { id: diet.id } });
   }
 
   getContentPropertiesName(): Map<string, number> {
@@ -137,7 +162,7 @@ export class DietAddComponent implements OnInit {
 
   getDietDTO(): DietDTO {
     return new DietDTO(
-      null,
+      this.diet.id,
       this.f.name.value.charAt(0).toUpperCase() + this.f.name.value.slice(1),
       this.getContentPropertiesName()
     );
@@ -146,20 +171,38 @@ export class DietAddComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true;
     if (this.form.invalid) return;
-    this.creating = true;
+    this.updating = true;
     let dto: DietDTO = this.getDietDTO();
-    this.alimentationService.createDiet(dto).subscribe(
+    this.alimentationService.updateDiet(dto).subscribe(
       (data) => {
         this.toastrService.success(
-          "Le régime a bien été créé",
-          "Création terminée !"
+          "Le régime a bien été mis à jour",
+          "Mise à jour terminée !"
         );
-        this.creating = false;
-        this.router.navigate(["/food/menu/currents"]);
+        this.updating = false;
+        this.router.navigate(["/food/diet/add"]);
       },
       (error) => {
         this.toastrService.error(this.getCustomError(error), "Oops !");
-        this.creating = false;
+        this.updating = false;
+      }
+    );
+  }
+
+  onDelete(): void {
+    this.deleting = true;
+    this.alimentationService.deleteDiet(this.diet.id).subscribe(
+      (data) => {
+        this.deleting = false;
+        this.toastrService.success(
+          "Le régime a bien été supprimé",
+          "Suppression réussie !"
+        );
+        this.router.navigate(["/food/diet/add"]);
+      },
+      (error) => {
+        this.deleting = false;
+        this.toastrService.error(this.getCustomError(error), "Oops !");
       }
     );
   }
