@@ -10,13 +10,20 @@
         <div class="col">
           <div class="btn-group">
             <button
-              *ngFor="let t of times"
               type="button"
               class="btn btn-primary"
-              (click)="selectTime(t)"
-              [class.active]="t == selectedTime"
+              (click)="getOldMenus()"
+              [class.active]="selectedButton === 0"
             >
-              {{ t }}
+              Anciens menus
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="getFutureMenus()"
+              [class.active]="selectedButton === 1"
+            >
+              Menus à venir
             </button>
           </div>
           <br /><br />

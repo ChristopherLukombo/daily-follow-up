@@ -3,6 +3,7 @@ import { TypeTexture } from "src/app/models/utils/texture-enum";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { Menu } from "src/app/models/food/menu";
 import * as moment from "moment";
+import { Action } from "src/app/models/utils/actions-enum";
 
 @Component({
   selector: "app-menu-all",
@@ -10,8 +11,7 @@ import * as moment from "moment";
   styleUrls: ["./menu-all.component.scss"],
 })
 export class MenuAllComponent implements OnInit {
-  times: string[] = ["Anciens menus", "Menus à venir"];
-  selectedTime: string = this.times[0];
+  selectedButton: number;
 
   timeSlots: string[] = [];
   selectedTimeSlot: string;
@@ -29,15 +29,31 @@ export class MenuAllComponent implements OnInit {
   constructor(private alimentationService: AlimentationService) {}
 
   ngOnInit(): void {
-    this.selectTime(this.times[0]);
+    this.getOldMenus();
   }
 
-  // TODO : appellez les anciens menus / futurs menus
-  selectTime(time: string): void {
-    this.selectedTime = time;
+  getOldMenus(): void {
+    this.selectedButton = 0;
     this.resetDatas();
     this.loading = true;
-    this.alimentationService.getAllMenus().subscribe(
+    this.alimentationService.getOldMenus().subscribe(
+      (data) => {
+        this.menus = data;
+        this.generateTimeSlot(data);
+        this.loading = false;
+      },
+      (error) => {
+        this.error = this.getError(error);
+        this.loading = false;
+      }
+    );
+  }
+
+  getFutureMenus(): void {
+    this.selectedButton = 1;
+    this.resetDatas();
+    this.loading = true;
+    this.alimentationService.getFutureMenus().subscribe(
       (data) => {
         this.menus = data;
         this.generateTimeSlot(data);
@@ -51,6 +67,7 @@ export class MenuAllComponent implements OnInit {
   }
 
   generateTimeSlot(menus: Menu[]): void {
+    if (!menus) return;
     this.timeSlots = menus
       .map((menu) => this.getTimeSlot(menu.startDate, menu.endDate))
       .filter(function (element, index, items) {
@@ -77,7 +94,6 @@ export class MenuAllComponent implements OnInit {
     );
   }
 
-  // TODO : filter tout les menus en fonction de la datebegin-date-end choisit
   selectTimeSlot(timeSlot: string): void {
     this.resetDatas();
     this.selectedTimeSlot = timeSlot;
@@ -107,7 +123,7 @@ export class MenuAllComponent implements OnInit {
   }
 
   isInPast(): boolean {
-    return moment().isAfter(moment(this.selectedMenu.endDate));
+    return moment().isAfter(moment(this.selectedMenu.startDate));
   }
 
   /**

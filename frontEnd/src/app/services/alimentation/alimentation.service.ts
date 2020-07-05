@@ -236,12 +236,32 @@ export class AlimentationService {
   }
 
   /**
+   * Retourne tout les futurs menus de la clinique
+   * @returns les futurs menus
+   */
+  getFutureMenus(): Observable<Menu[]> {
+    return this.http
+      .get<Menu[]>(MENUS_URL + `/future`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Retourne tout les menus de la clinique dans la périod en cours
    * @returns les menus de la période en cours
    */
   getCurrentsMenus(): Observable<Menu[]> {
     return this.http
       .get<Menu[]>(MENUS_URL + `/current`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne tout les  anciens menus de la clinique
+   * @returns les anciens menus
+   */
+  getOldMenus(): Observable<Menu[]> {
+    return this.http
+      .get<Menu[]>(MENUS_URL + `/past`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -289,6 +309,17 @@ export class AlimentationService {
   updateMenu(menuDTO: MenuDTO): Observable<Menu> {
     return this.http
       .put<Menu>(MENUS_URL, JSON.stringify(menuDTO), httpOptions)
+      .pipe(catchError(this.handleCustomError));
+  }
+
+  /**
+   * Supprime un menu de la clinique
+   * @param id
+   * @returns HttpResponse<Object>
+   */
+  deleteMenu(id: number): Observable<HttpResponse<Object>> {
+    return this.http
+      .delete<HttpResponse<Object>>(MENUS_URL + `/${id}`, httpOptions)
       .pipe(catchError(this.handleCustomError));
   }
 
