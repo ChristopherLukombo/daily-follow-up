@@ -50,7 +50,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 			+ "(SELECT COUNT(*) AS inactivePatients FROM patient p WHERE state = false) AS b, "
 			+ "(SELECT COUNT(*) AS totalPatients FROM patient p) AS c",
 			nativeQuery = true)
-	List<PatientsByStatus> findNumberOfPatientsByStatus();
+	Optional<PatientsByStatus> findNumberOfPatientsByStatus();
 
 	@Query("SELECT p "
 			+ "FROM Floor f, Patient p "

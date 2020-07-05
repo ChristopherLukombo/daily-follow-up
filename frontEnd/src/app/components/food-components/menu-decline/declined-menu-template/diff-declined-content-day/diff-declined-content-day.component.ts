@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { MomentDay } from "src/app/models/food/moment-day";
 import { Content } from "src/app/models/food/content";
+import { Day } from "src/app/models/food/day";
 
 @Component({
   selector: "app-diff-declined-content-day",
@@ -8,8 +9,9 @@ import { Content } from "src/app/models/food/content";
   styleUrls: ["./diff-declined-content-day.component.scss"],
 })
 export class DiffDeclinedContentDayComponent implements OnInit {
-  @Input() from: MomentDay;
-  @Input() to: MomentDay;
+  @Input() from: Day;
+  @Input() to: Day;
+  @Input() moment: string;
 
   baseContents: Content[];
   newContents: Content[];
@@ -19,7 +21,7 @@ export class DiffDeclinedContentDayComponent implements OnInit {
   ngOnInit(): void {}
 
   ngOnChanges(): void {
-    if (this.from && this.to) {
+    if (this.from && this.to && this.moment) {
       this.baseContents = this.getContents(this.from);
       this.newContents = this.getContents(this.to);
     }
@@ -30,15 +32,18 @@ export class DiffDeclinedContentDayComponent implements OnInit {
    * @param moment
    * @returns la liste de Content
    */
-  getContents(moment: MomentDay): Content[] {
+  getContents(day: Day): Content[] {
+    let momentDay: MomentDay = day.momentDays.find(
+      (m) => m.name == this.moment
+    );
     let contents: Content[] = [];
-    contents.push(moment.entry);
-    contents.push(moment.dish);
-    contents.push(moment.garnish);
-    if (moment.name !== "Dîner") {
-      contents.push(moment.dairyProduct);
+    contents.push(momentDay.entry);
+    contents.push(momentDay.dish);
+    contents.push(momentDay.garnish);
+    if (momentDay.name !== "Dîner") {
+      contents.push(momentDay.dairyProduct);
     }
-    contents.push(moment.dessert);
+    contents.push(momentDay.dessert);
     return contents;
   }
 }

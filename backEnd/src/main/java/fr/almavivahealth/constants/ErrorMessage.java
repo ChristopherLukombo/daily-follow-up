@@ -36,6 +36,8 @@ public final class ErrorMessage {
 	// Menu
 	public static final String A_MENU_ALREADY_EXISTS_WITH_THE_SAME_CHARACTERISTICS = "error.menu.theSameCharacteristics";
 
+    // Diet
+	public static final String ERROR_DIET_UNIQUE_NAME = "error.diet.uniqueName";
 
 	// Private constructor to prevent instantiation
 	private ErrorMessage() {

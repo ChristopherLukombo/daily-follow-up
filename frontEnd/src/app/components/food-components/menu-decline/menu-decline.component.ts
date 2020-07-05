@@ -33,7 +33,7 @@ export class MenuDeclineComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.alimentationService.getAllMenus().subscribe(
+    this.alimentationService.getFutureMenus().subscribe(
       (data) => {
         this.menus = data;
         this.loading = false;

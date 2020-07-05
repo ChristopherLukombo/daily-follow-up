@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-statistics-navbar></app-statistics-navbar>
+    </div>
+    <div class="col">
+      <h2>Statistiques - Patients</h2>
+      <br />
+      <div class="row">
+        <div class="col-6">
+          <app-patients-per-allergy [patientsPerAllergy]="patientsPerAllergy">
+          </app-patients-per-allergy>
+        </div>
+        <div class="col-6">
+          <app-patients-per-diet [patientsPerDiet]="patientsPerDiet">
+          </app-patients-per-diet>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-6">
+          <app-patients-by-status [patientsByStatus]="patientsByStatus">
+          </app-patients-by-status>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>

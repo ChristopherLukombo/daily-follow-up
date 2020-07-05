@@ -7,6 +7,14 @@ import {
   FormControl,
 } from "@angular/forms";
 import { FormCheckbox } from "src/app/models/utils/form-checkbox";
+import { DietDTO } from "src/app/models/dto/patient/dietDTO";
+import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
+import { ToastrService } from "ngx-toastr";
+import { Router } from "@angular/router";
+import { HttpErrorResponse } from "@angular/common/http";
+import { TypeMessage } from "src/app/models/utils/message-enum";
+import { Diet } from "src/app/models/patient/diet";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-diet-add",
@@ -38,13 +46,32 @@ export class DietAddComponent implements OnInit {
   HIGH_QUANTITY: number = 1;
   LOW_QUANTITY: number = 0;
 
+  diets: Diet[] = [];
+  loading: boolean = false;
+  error: string;
+  editLogo = faEdit;
+
   form: FormGroup;
   submitted: boolean = false;
+  creating: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private alimentationService: AlimentationService,
+    private toastrService: ToastrService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.createForm();
+    this.alimentationService.getAllDiets().subscribe(
+      (data) => {
+        this.diets = data;
+      },
+      (error) => {
+        this.error = this.getError(error);
+      }
+    );
   }
 
   createForm(): void {
@@ -79,6 +106,10 @@ export class DietAddComponent implements OnInit {
     return this.form.controls.lowElements["controls"];
   }
 
+  onEdit(diet: Diet): void {
+    this.router.navigate(["/food/diet/edit"], { queryParams: { id: diet.id } });
+  }
+
   getContentPropertiesName(): Map<string, number> {
     let elementsToCheck: Map<string, number> = new Map();
     this.form.controls.highElements["controls"].forEach(
@@ -104,10 +135,60 @@ export class DietAddComponent implements OnInit {
     return elementsToCheck;
   }
 
+  getDietDTO(): DietDTO {
+    return new DietDTO(
+      null,
+      this.f.name.value.charAt(0).toUpperCase() + this.f.name.value.slice(1),
+      this.getContentPropertiesName()
+    );
+  }
+
   onSubmit(): void {
     this.submitted = true;
     if (this.form.invalid) return;
-    console.log("submit");
-    console.log(this.getContentPropertiesName());
+    this.creating = true;
+    let dto: DietDTO = this.getDietDTO();
+    this.alimentationService.createDiet(dto).subscribe(
+      (data) => {
+        this.toastrService.success(
+          "Le régime a bien été créé",
+          "Création terminée !"
+        );
+        this.creating = false;
+        this.router.navigate(["/food/menu/currents"]);
+      },
+      (error) => {
+        this.toastrService.error(this.getCustomError(error), "Oops !");
+        this.creating = false;
+      }
+    );
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
+  getError(error: number): string {
+    if (error && error === 401) {
+      return TypeMessage.NOT_AUTHENTICATED;
+    } else {
+      return TypeMessage.AN_ERROR_OCCURED;
+    }
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
+      return TypeMessage.NOT_AUTHENTICATED;
+    } else if (error && error.status === 409) {
+      return error.error.message;
+    } else {
+      return TypeMessage.AN_ERROR_OCCURED;
+    }
   }
 }

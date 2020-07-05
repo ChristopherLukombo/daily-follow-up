@@ -1,0 +1,145 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-food-navbar></app-food-navbar>
+    </div>
+    <div class="col">
+      <h2>Rechercher un menu</h2>
+      <br />
+      <div class="row">
+        <div class="col">
+          <div class="btn-group">
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="getOldMenus()"
+              [class.active]="selectedButton === 0"
+            >
+              Anciens menus
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="getFutureMenus()"
+              [class.active]="selectedButton === 1"
+            >
+              Menus à venir
+            </button>
+          </div>
+          <br /><br />
+          <div *ngIf="loading"><app-loader></app-loader></div>
+          <div *ngIf="error">
+            <app-alert-error [content]="error"></app-alert-error>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="!loading && !error && timeSlots?.length && menus?.length"
+        class="row"
+      >
+        <div class="col">
+          <div class="form-group">
+            <label>
+              <h5>
+                Sélectionnez la période
+              </h5>
+            </label>
+            <ng-select
+              [items]="timeSlots"
+              #select
+              bindLabel="name"
+              dropdownPosition="auto"
+              placeholder="Entrez la date du début ou la date de fin..."
+              notFoundText="Aucune période trouvé"
+              [virtualScroll]="true"
+              [(ngModel)]="selectedTimeSlot"
+              (ngModelChange)="selectTimeSlot($event)"
+            >
+            </ng-select>
+          </div>
+          <br />
+          <div *ngIf="selectedTimeSlot">
+            <div class="btn-group">
+              <button
+                *ngFor="let t of textures"
+                type="button"
+                class="btn btn-primary"
+                (click)="selectTexture(t)"
+                [class.active]="t == selectedTexture"
+              >
+                {{ t }}
+              </button>
+            </div>
+            <br /><br />
+            <div
+              *ngIf="!menusByPeriod?.length"
+              class="alert alert-warning"
+              role="alert"
+            >
+              Aucun menu de type <code>{{ selectedTexture }}</code> sur la
+              période choisit.
+            </div>
+            <div *ngIf="menusByPeriod?.length" class="form-group">
+              <label>
+                <h5>
+                  Menu(s) <code>{{ selectedTexture }}</code> de la période
+                  <code>{{ selectedTimeSlot }}</code>
+                </h5>
+              </label>
+              <ng-select
+                [items]="menusByPeriod"
+                #select
+                bindLabel="name"
+                dropdownPosition="auto"
+                placeholder="Entrez le régime, la texture, la date du début ou la date de fin..."
+                notFoundText="Aucune menu trouvé"
+                [virtualScroll]="true"
+                [(ngModel)]="selectedMenu"
+              >
+              </ng-select>
+            </div>
+            <div class="alert alert-primary" role="alert">
+              <strong>Note : </strong> Les <code>Anciens menus</code> ne peuvent
+              plus être modifié, ils sont néanmoins historisés pour vous
+              permettre de recréer un menu à partir d'un ancien menu. Les
+              <code>Menus à venir</code> peuvent être encore modifié, tant
+              qu'ils ne passent pas dans la période en cours.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="selectedMenu && selectedTimeSlot && menusByPeriod?.length"
+        class="row"
+      >
+        <div class="col">
+          <h4>
+            <span class="badge badge-secondary">
+              {{ selectedMenu.texture }}
+            </span>
+          </h4>
+          <h4>
+            <span *ngFor="let diet of selectedMenu.diets" class="spaced-badge">
+              <span class="badge badge-info">
+                {{ diet }}
+              </span>
+            </span>
+          </h4>
+          <app-menu-weeks-lock [menu]="selectedMenu"> </app-menu-weeks-lock>
+          <br />
+          <div *ngIf="!isInPast()">
+            <button
+              type="button"
+              routerLink="/food/menu/edit"
+              [queryParams]="{ id: selectedMenu.id }"
+              class="btn btn-primary"
+            >
+              Modifier le menu
+            </button>
+          </div>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>

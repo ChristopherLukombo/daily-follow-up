@@ -4,6 +4,7 @@ import { Diet } from "src/app/models/patient/diet";
 import { Content } from "src/app/models/food/content";
 import { Replacement } from "src/app/models/food/replacement";
 import { Week } from "src/app/models/food/week";
+import { TypeTexture } from "src/app/models/utils/texture-enum";
 
 const QUANTITY_MAX_AUTHORIZED: number = 10;
 const QUANTITY_MIN_AUTHORIZED: number = 20;
@@ -28,9 +29,13 @@ export class DeclinatorService {
    * @returns le nouveau Menu
    */
   declineMenuForDiets(base: Menu, diets: Diet[], allContents: Content[]): Menu {
+    let filterByMixed: boolean = base.texture === TypeTexture.MIXED;
     let declinedMenu: Menu = <Menu>JSON.parse(JSON.stringify(base));
     let dietsToRespect: Diet[] = Object.assign([], diets);
-    let contents: Content[] = Object.assign([], allContents);
+    let contents: Content[] = this.filterByTexture(
+      Object.assign([], allContents),
+      filterByMixed
+    );
     let ingredientsToRespect: Map<
       string,
       number
@@ -51,6 +56,16 @@ export class DeclinatorService {
     declinedMenu.diets = this.getDietsOfTheDeclinedMenu(dietsToRespect);
 
     return declinedMenu;
+  }
+
+  /**
+   * Récupère tout les plats de la clinique en fonction de la capacité à etre mixé ou non
+   * @param contents
+   * @param filterByMixed
+   * Un liste de content
+   */
+  filterByTexture(contents: Content[], filterByMixed: boolean): Content[] {
+    return filterByMixed ? contents.filter((c) => c.mixed) : contents;
   }
 
   /**
@@ -134,6 +149,15 @@ export class DeclinatorService {
     return baseMenuWeeks;
   }
 
+  /**
+   * Remplace un plat par un plat mieux adéquat au régime donné si celui ci
+   * ne correspond pas
+   * @param baseContent
+   * @param type
+   * @param ingredientsToRespect
+   * @param contents
+   * Le Plat alternatif ou non
+   */
   replaceIfNotAuthorizedContent(
     baseContent: Content,
     type: string,
@@ -152,38 +176,6 @@ export class DeclinatorService {
       ).find((newContent) => newContent.typeMeals.find((t) => t === type));
       result = alternativeContent;
     }
-    return result;
-  }
-
-  /**
-   * Remplace dans une liste de plat, les plats ne respectant pas
-   * un régime donné
-   * @param baseContents
-   * @param ingredientsToRespect
-   * @param contents
-   * @returns une liste de plat conforme au régime
-   */
-  // A SUPPRIMER
-  replaceNotAuthorizedContents(
-    baseContents: Content[],
-    ingredientsToRespect: Map<string, number>,
-    contents: Content[]
-  ): Content[] {
-    let authorizedContents: Content[] = this.getAuthorizedContents(
-      ingredientsToRespect,
-      contents
-    );
-    let result: Content[] = [];
-    baseContents.forEach((content) => {
-      if (!authorizedContents.find((c) => c.name === content.name)) {
-        let alternativeContent = authorizedContents.find((newContent) =>
-          newContent.typeMeals.find((t) => t === content.typeMeals[0])
-        );
-        result.push(alternativeContent);
-      } else {
-        result.push(content);
-      }
-    });
     return result;
   }
 

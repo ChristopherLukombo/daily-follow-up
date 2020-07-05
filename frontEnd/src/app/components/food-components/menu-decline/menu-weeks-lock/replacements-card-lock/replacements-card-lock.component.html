@@ -2,24 +2,23 @@
   type="button"
   class="btn btn-outline-info"
   data-toggle="modal"
-  data-target="#exampleModal"
+  data-target=".bd-example-modal-lg"
 >
   <strong>Carte de remplacement</strong>
 </button>
 
 <!-- MODAL -->
 <div
-  class="modal fade"
-  id="exampleModal"
+  class="modal fade bd-example-modal-lg"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="exampleModalLabel"
+  aria-labelledby="myLargeModalLabel"
   aria-hidden="true"
 >
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg">
     <div *ngIf="replacement" class="modal-content text-left">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">
+        <h4 class="modal-title">
           Carte de remplacement
         </h4>
         <button
@@ -42,9 +41,13 @@
             </h6>
           </label>
           <br />
-          <ul *ngFor="let content of item.value">
-            <li>{{ content?.name }}</li>
-          </ul>
+          <h6>
+            <span *ngFor="let content of item.value" class="spaced-badge">
+              <span class="badge badge-primary">
+                {{ content?.name }}
+              </span>
+            </span>
+          </h6>
           <hr />
         </div>
       </div>

@@ -11,6 +11,8 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { ToastrService } from "ngx-toastr";
 import { HttpErrorResponse } from "@angular/common/http";
 import { TypeTexture } from "src/app/models/utils/texture-enum";
+import { Router } from "@angular/router";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
 @Component({
   selector: "app-menu-add",
@@ -46,7 +48,8 @@ export class MenuAddComponent implements OnInit {
 
   constructor(
     private alimentationService: AlimentationService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -205,14 +208,12 @@ export class MenuAddComponent implements OnInit {
       !this.replacementDTO ||
       !this.weeksAreValid()
     ) {
-      this.error =
-        "Le menu est incomplet. Veuillez vérifier la carte de remplacement ainsi que vos insertions pour chaque jour.";
+      this.error = TypeMessage.MENU_FORM_INVALID;
       return;
     }
     let week: number = parseInt(this.beginWeek.split("-")[1].replace("W", ""));
     if (!this.dateIsInTheFuture(week)) {
-      this.error =
-        "Le menu doit débuter au moins partir de la semaine prochaine.";
+      this.error = TypeMessage.MENU_HAS_TO_BEGIN_AT_LEAST_NEXT_WEEK;
       return;
     }
     this.creating = true;
@@ -224,6 +225,7 @@ export class MenuAddComponent implements OnInit {
           "Création terminée !"
         );
         this.creating = false;
+        this.router.navigate(["/food/menu/currents"]);
       },
       (error) => {
         this.toastrService.error(this.getCustomError(error), "Oops !");
@@ -239,11 +241,11 @@ export class MenuAddComponent implements OnInit {
    */
   getCustomError(error: HttpErrorResponse): string {
     if (error && error.status === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else if (error && error.status === 500) {
       return error.error.message;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

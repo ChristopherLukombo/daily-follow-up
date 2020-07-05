@@ -272,4 +272,94 @@ public class MenuResourceTest {
 		.andExpect(status().isNoContent());
 		verify(menuService, times(1)).findCurrentMenus();
 	}
+
+	@Test
+	public void shouldGetFuturMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Arrays.asList(createMenuDTO());
+
+		// When
+		when(menuService.findFutureMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/future")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(menuService, times(1)).findFutureMenus();
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetFuturMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Collections.emptyList();
+
+		// When
+		when(menuService.findFutureMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/future")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(menuService, times(1)).findFutureMenus();
+	}
+
+	@Test
+	public void shouldGetPastMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Arrays.asList(createMenuDTO());
+
+		// When
+		when(menuService.findPastMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/past")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(menuService, times(1)).findPastMenus();
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetPastMenus() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Collections.emptyList();
+
+		// When
+		when(menuService.findPastMenus()).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/past")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(menuService, times(1)).findPastMenus();
+	}
+
+	@Test
+	public void shouldDeleteByIds() throws Exception {
+		// Given
+		final List<Long> ids = Arrays.asList(ID);
+
+		// When
+		doNothing().when(menuService).deleteByIds(ids);
+
+		// Then
+		mockMvc.perform(delete("/api/menus")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(ids)))
+		        .andExpect(status().isNoContent());
+		verify(menuService, times(1)).deleteByIds(ids);
+	}
+
+
+	@Test
+	public void shouldThrowBadRequestWhenThereIsNoId() throws Exception {
+		// Given
+		final List<Long> ids = null;
+
+		// Then
+		mockMvc.perform(delete("/api/menus")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(ids)))
+		        .andExpect(status().isBadRequest());
+		verify(menuService, times(0)).deleteByIds(ids);
+	}
 }
