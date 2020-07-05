@@ -80,23 +80,21 @@
       role="tab"
       aria-controls="diet-add-tab"
       aria-selected="false"
-      ><fa-icon [icon]="mealAddLogo"></fa-icon> Nouveau régime</a
+      ><fa-icon [icon]="dietsLogo"></fa-icon> Régimes alimentaires</a
     >
   </li>
   <li class="nav-item">
     <a
       class="nav-link"
-      id="menu-old-tab"
+      id="menu-all-tab"
       data-toggle="tab"
-      routerLink="/food/menu/old"
+      routerLink="/food/menu/all"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
       role="tab"
-      aria-controls="menu-old-tab"
+      aria-controls="menu-all-tab"
       aria-selected="false"
-      [class.disabled]="true"
-      ><fa-icon [icon]="menuOldLogo"></fa-icon> Historique des menus</a
+      ><fa-icon [icon]="menuAllLogo"></fa-icon> Rechercher un menu</a
     >
   </li>
-  <!-- nouveau menu | gérer diet/texture-->
 </ul>
