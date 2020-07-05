@@ -18,7 +18,10 @@ public class DataCellRight extends DataCell {
 
 	private final String date;
 
-	public DataCellRight(final String dietName, final String textureName, final String date) {
+	public DataCellRight(
+			final String dietName,
+			final String textureName,
+			final String date) {
 		this.dietName = dietName;
 		this.textureName = textureName;
 		this.date = date;
@@ -40,8 +43,8 @@ public class DataCellRight extends DataCell {
 		cellDate.setHeight(140);
 		final Cell cell = new Cell();
 		cell.setKeepTogether(true);
-		cell.add(getCell(dietName, TextAlignment.RIGHT, false, -1));
-		cell.add(getCell(textureName, TextAlignment.RIGHT, false, -1));
+		cell.add(getCell(dietName, TextAlignment.RIGHT, false, 7));
+		cell.add(getCell(textureName, TextAlignment.RIGHT, false, 7));
 		cell.setBorderRight(Border.NO_BORDER);
 		cell.setBorderLeft(Border.NO_BORDER);
 		cell.setHeight(180);
