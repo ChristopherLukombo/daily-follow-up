@@ -25,6 +25,11 @@ export class MenuEditComponent implements OnInit {
   invalid: string;
   updating: boolean = false;
 
+  btnDelete: string = "Supprimer le menu";
+  confirmDelete: string =
+    "Le menu sera supprimé de la clinique, et effacé de l'historique des menus. Veuillez confirmer pour continuer.";
+  deleting: boolean = false;
+
   constructor(
     private alimentationService: AlimentationService,
     private toastrService: ToastrService,
@@ -41,7 +46,6 @@ export class MenuEditComponent implements OnInit {
             this.isInPast(data)
               ? (this.warning = TypeMessage.OLD_MENU_ARE_NOT_EDITABLE)
               : (this.menu = data);
-            console.log(this.menu);
           } else {
             this.warning = TypeMessage.MENU_DOES_NOT_EXIST;
           }
@@ -56,7 +60,7 @@ export class MenuEditComponent implements OnInit {
   }
 
   isInPast(menu: Menu): boolean {
-    return moment().isAfter(moment(menu.endDate));
+    return moment().isAfter(moment(menu.startDate));
   }
 
   /**
@@ -141,7 +145,6 @@ export class MenuEditComponent implements OnInit {
       return;
     }
     let dto = this.getMenuDTO();
-    console.log(dto);
     this.updating = true;
     this.alimentationService.updateMenu(dto).subscribe(
       (data) => {
@@ -155,6 +158,24 @@ export class MenuEditComponent implements OnInit {
       (error) => {
         this.toastrService.error(this.getCustomError(error), "Oops !");
         this.updating = false;
+      }
+    );
+  }
+
+  onDelete(): void {
+    this.deleting = true;
+    this.alimentationService.deleteMenu(this.menu.id).subscribe(
+      (data) => {
+        this.deleting = false;
+        this.toastrService.success(
+          "Le menu a bien été supprimé",
+          "Suppression réussie !"
+        );
+        this.router.navigate(["/food/menu/all"]);
+      },
+      (error) => {
+        this.deleting = false;
+        this.toastrService.error(this.getCustomError(error), "Oops !");
       }
     );
   }
