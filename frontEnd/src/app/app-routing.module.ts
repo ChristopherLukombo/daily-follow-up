@@ -25,6 +25,9 @@ import { UserAddComponent } from "./components/user-components/user-add/user-add
 import { UsersComponent } from "./components/user-components/users/users.component";
 import { AuthGuard } from "./utils/helpers/auth.guard";
 import { StatisticsFoodComponent } from "./components/statistics/statistics-food/statistics-food.component";
+import { MenuAllComponent } from "./components/food-components/menu-all/menu-all.component";
+import { MenuEditComponent } from "./components/food-components/menu-edit/menu-edit.component";
+import { DietEditComponent } from "./components/food-components/diet-edit/diet-edit.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -90,6 +93,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: "food/menu/edit",
+    component: MenuEditComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: "food/menu/decline",
     component: MenuDeclineComponent,
     canActivate: [AuthGuard],
@@ -100,8 +108,18 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: "food/menu/all",
+    component: MenuAllComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: "food/diet/add",
     component: DietAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "food/diet/edit",
+    component: DietEditComponent,
     canActivate: [AuthGuard],
   },
   {
