@@ -6,14 +6,11 @@ import static fr.almavivahealth.util.functional.LoopWithIndexAndSizeConsumer.for
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
-import java.time.temporal.TemporalField;
-import java.time.temporal.WeekFields;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -182,7 +179,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	private void addContent(final Document document, final String momentName, final LocalDate selectedDate) {
-		final float[] colWidths = { 2.5f, 2.5f, 2f, 1f };
+		final float[] colWidths = { 2.5f, 2.5f, 1.5f, 1.5f };
 		final Table table = new Table(UnitValue.createPercentArray(colWidths), true);
 		document.add(table);
 
@@ -209,20 +206,17 @@ public class MenuServiceImpl implements MenuService {
 		final List<String> dietsName = findDietsName(coupon.getPatient());
 		final String textureName = findTextureName(coupon.getPatient());
 		final List<Menu> menus = findAllByWeek(coupon.getSelectedDate(), dietsName, textureName);
-		final Menu menu = !menus.isEmpty() ? menus.get(0) : null;
+		final Menu menu = !menus.isEmpty() ? menus.get((int)(Math.random() * menus.size())) : null;
 		if (menu == null) {
 			addDefaultCellMiddle(table, coupon.getDataCellBroker());
 		} else {
-			final String dayToSearch = toDayOfWeek(coupon.getSelectedDate());
-			final List<String> contentNames = findContentNames(menu, coupon.getMomentName(), dayToSearch);
+			final List<String> contentNames = findContentNames(menu, coupon.getMomentName(), coupon.getSelectedDate());
 			table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellMiddleLeft(contentNames)));
 		}
 
 		final String comment = findComment(coupon.getPatient());
 		table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellMiddleRight(comment)));
-
-		final String dietName = findDietName(menu);
-		table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellRight(dietName, textureName,
+		table.addCell(coupon.getDataCellBroker().createDataCell(new DataCellRight(String.join(", ", dietsName), textureName,
 				coupon.getSelectedDate().format(DateTimeFormatter.ofPattern("dd/MM")))));
 
 		addFooter(table, coupon.getDataCellBroker(), coupon.getIndex(), coupon.getSize());
@@ -242,9 +236,7 @@ public class MenuServiceImpl implements MenuService {
 			final LocalDate selectedDate,
 			final List<String> dietsName,
 			final String textureName) {
-		final LocalDate startDateWeek = findDateFromDay(selectedDate, 1);
-		final LocalDate endDateWeek = findDateFromDay(selectedDate, 7);
-		return menuRepository.findAllByWeek(textureName, dietsName, startDateWeek, endDateWeek);
+		return menuRepository.findAllByWeek(textureName, dietsName, selectedDate);
 	}
 
 	private void addDefaultCellMiddle(final Table table, final DataCellBroker dataCellBroker)
@@ -252,26 +244,10 @@ public class MenuServiceImpl implements MenuService {
 		table.addCell(dataCellBroker.createDataCell(new DataCellMiddleLeft(Collections.emptyList())));
 	}
 
-	private LocalDate findDateFromDay(final LocalDate date, final int day) {
-		final TemporalField temporalField = WeekFields.of(Locale.FRANCE).dayOfWeek();
-		return date.with(temporalField, day);
-	}
-
 	private String findComment(final Patient patient) {
 		return Optional.ofNullable(patient)
 				.map(Patient::getComment)
 				.map(Comment::getContent)
-				.orElseGet(() -> StringUtils.EMPTY);
-	}
-
-	private String toDayOfWeek(final LocalDate date) {
-		return date.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.FRANCE);
-	}
-
-	private String findDietName(final Menu menu) {
-		return Optional.ofNullable(menu)
-				.map(Menu::getDiets)
-				.map(Collection::toString)
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
@@ -282,37 +258,59 @@ public class MenuServiceImpl implements MenuService {
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
 
-	private List<String> findContentNames(final Menu menu, final String momentDay, final String dayToSearch) {
-		final MomentDay md = menu.getWeeks().stream()
-				.map(Week::getDays)
-				.flatMap(Collection::stream)
-				.filter(d -> isDaySelected(d, dayToSearch))
-				.map(Day::getMomentDays)
-				.flatMap(Collection::stream)
+	private List<String> findContentNames(final Menu menu, final String momentDay, final LocalDate dateSelected) {
+		final LinkedHashMap<LocalDate, Day> daysPerDate = fillDayPerDate(menu);
+
+		final List<MomentDay> momentDays = findMomentDays(dateSelected, daysPerDate);
+		if (momentDays.isEmpty()) {
+			return Collections.emptyList();
+		}
+
+		final MomentDay momentDayFound = momentDays.stream()
 				.filter(m -> isMomentDay(momentDay, m))
 				.findFirst()
 				.orElse(null);
 
-		if (null == md) {
+		if (null == momentDayFound) {
 			return Collections.emptyList();
 		}
 
 		return Arrays.asList(
-				toName(md.getEntry()),
-				toName(md.getDish()),
-				toName(md.getGarnish()),
-				toName(md.getDairyProduct()),
-				toName(md.getDessert()));
+				toName(momentDayFound.getEntry()),
+				toName(momentDayFound.getDish()),
+				toName(momentDayFound.getGarnish()),
+				toName(momentDayFound.getDairyProduct()),
+				toName(momentDayFound.getDessert()));
+	}
+
+	private LinkedHashMap<LocalDate, Day> fillDayPerDate(final Menu menu) {
+		final LinkedHashMap<LocalDate, Day> daysPerDate = new LinkedHashMap<>();
+
+		final Integer repetition = menu.getRepetition();
+
+		LocalDate dateTemp = menu.getStartDate();
+
+		for (int i = 1; i <= repetition; i++) {
+			for (final Week week :  menu.getWeeks()) {
+				for (final Day day : week.getDays()) {
+					daysPerDate.put(dateTemp, day);
+					dateTemp = dateTemp.plusDays(1L);
+				}
+			}
+		}
+		return daysPerDate;
+	}
+
+	private List<MomentDay> findMomentDays(final LocalDate dateSelected, final Map<LocalDate, Day> days) {
+		return Optional.ofNullable(days.get(dateSelected))
+				.map(Day::getMomentDays)
+				.orElse(Collections.emptyList());
 	}
 
 	private String toName(final Content content) {
 		return Optional.ofNullable(content)
 				.map(Content::getName)
 				.orElse(StringUtils.EMPTY);
-	}
-
-	private boolean isDaySelected(final Day day, final String dayToSearch) {
-		return day.getName().equalsIgnoreCase(dayToSearch);
 	}
 
 	private boolean isMomentDay(final String momentDay, final MomentDay m) {
