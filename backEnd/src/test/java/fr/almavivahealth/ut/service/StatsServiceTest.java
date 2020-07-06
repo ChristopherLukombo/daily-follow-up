@@ -199,7 +199,6 @@ public class StatsServiceTest {
 		return Order.builder()
 				.id(ID)
 				.patient(null)
-				.dairyProducts(null)
 				.build();
 	}
 

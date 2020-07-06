@@ -2,7 +2,6 @@ package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -26,15 +25,15 @@ public class OrderDTO implements Serializable {
 
 	private String orderStatus;
 
-	private List<ContentDTO> entries;
+	private ContentDTO entry;
 
-	private List<ContentDTO> dishes;
+	private ContentDTO dish;
 
-	private List<ContentDTO> desserts;
+	private ContentDTO dessert;
 
-	private List<ContentDTO> dairyProducts;
+	private ContentDTO dairyProduct;
 
-	private List<ContentDTO> garnishes;
+	private ContentDTO garnish;
 
 	private String moment;
 
@@ -68,36 +67,55 @@ public class OrderDTO implements Serializable {
 		this.patientId = patientId;
 	}
 
-	public List<ContentDTO> getEntries() {
-		return entries;
+
+
+
+	public LocalDate getDeliveryDate() {
+		return deliveryDate;
 	}
 
-	public void setEntries(final List<ContentDTO> entries) {
-		this.entries = entries;
+	public void setDeliveryDate(final LocalDate deliveryDate) {
+		this.deliveryDate = deliveryDate;
 	}
 
-	public List<ContentDTO> getDishes() {
-		return dishes;
+	public ContentDTO getEntry() {
+		return entry;
 	}
 
-	public void setDishes(final List<ContentDTO> dishes) {
-		this.dishes = dishes;
+	public void setEntry(final ContentDTO entry) {
+		this.entry = entry;
 	}
 
-	public List<ContentDTO> getDesserts() {
-		return desserts;
+	public ContentDTO getDish() {
+		return dish;
 	}
 
-	public void setDesserts(final List<ContentDTO> desserts) {
-		this.desserts = desserts;
+	public void setDish(final ContentDTO dish) {
+		this.dish = dish;
 	}
 
-	public List<ContentDTO> getDairyProducts() {
-		return dairyProducts;
+	public ContentDTO getDessert() {
+		return dessert;
 	}
 
-	public void setDairyProducts(final List<ContentDTO> dairyProducts) {
-		this.dairyProducts = dairyProducts;
+	public void setDessert(final ContentDTO dessert) {
+		this.dessert = dessert;
+	}
+
+	public ContentDTO getDairyProduct() {
+		return dairyProduct;
+	}
+
+	public void setDairyProduct(final ContentDTO dairyProduct) {
+		this.dairyProduct = dairyProduct;
+	}
+
+	public ContentDTO getGarnish() {
+		return garnish;
+	}
+
+	public void setGarnish(final ContentDTO garnish) {
+		this.garnish = garnish;
 	}
 
 	public String getMoment() {
@@ -108,25 +126,9 @@ public class OrderDTO implements Serializable {
 		this.moment = moment;
 	}
 
-	public LocalDate getDeliveryDate() {
-		return deliveryDate;
-	}
-
-	public void setDeliveryDate(final LocalDate deliveryDate) {
-		this.deliveryDate = deliveryDate;
-	}
-
-	public List<ContentDTO> getGarnishes() {
-		return garnishes;
-	}
-
-	public void setGarnishes(final List<ContentDTO> garnishes) {
-		this.garnishes = garnishes;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(dairyProducts, deliveryDate, desserts, dishes, entries, garnishes, id, moment, orderStatus,
+		return Objects.hash(dairyProduct, deliveryDate, dessert, dish, entry, garnish, id, moment, orderStatus,
 				patientId);
 	}
 
@@ -139,12 +141,13 @@ public class OrderDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final OrderDTO other = (OrderDTO) obj;
-		return Objects.equals(dairyProducts, other.dairyProducts) && Objects.equals(deliveryDate, other.deliveryDate)
-				&& Objects.equals(desserts, other.desserts) && Objects.equals(dishes, other.dishes)
-				&& Objects.equals(entries, other.entries) && Objects.equals(garnishes, other.garnishes)
+		return Objects.equals(dairyProduct, other.dairyProduct) && Objects.equals(deliveryDate, other.deliveryDate)
+				&& Objects.equals(dessert, other.dessert) && Objects.equals(dish, other.dish)
+				&& Objects.equals(entry, other.entry) && Objects.equals(garnish, other.garnish)
 				&& Objects.equals(id, other.id) && Objects.equals(moment, other.moment)
 				&& Objects.equals(orderStatus, other.orderStatus) && Objects.equals(patientId, other.patientId);
 	}
+
 
 	@Override
 	public String toString() {

@@ -2,7 +2,6 @@ package fr.almavivahealth.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,7 +9,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -45,20 +43,20 @@ public class Order implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
 
-	@ManyToMany
-	private List<Content> entries;
+	@ManyToOne
+	private Content entry;
 
-	@ManyToMany
-	private List<Content> dishes;
+	@ManyToOne
+	private Content dish;
 
-	@ManyToMany
-	private List<Content> desserts;
+	@ManyToOne
+	private Content dessert;
 
-	@ManyToMany
-	private List<Content> dairyProducts;
+	@ManyToOne
+	private Content dairyProduct;
 
-	@ManyToMany
-	private List<Content> garnishes;
+	@ManyToOne
+	private Content garnish;
 
 	private String moment;
 
