@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { Order } from "src/app/models/patient/order";
 import * as moment from "moment";
-import { stringify } from "querystring";
+import {
+  faAngleDoubleRight,
+  faAngleDoubleLeft,
+} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: "app-orders",
@@ -9,59 +11,65 @@ import { stringify } from "querystring";
   styleUrls: ["./orders.component.scss"],
 })
 export class OrdersComponent implements OnInit {
-  orders: Order[] = [];
+  nextLogo = faAngleDoubleRight;
+  previousLogo = faAngleDoubleLeft;
 
-  daysOfTheWeek: Map<string, string> = new Map([
-    ["Lundi", null],
-    ["Mardi", null],
-    ["Mercredi", null],
-    ["Jeudi", null],
-    ["Vendredi", null],
-    ["Samedi", null],
-    ["Dimanche", null],
-  ]);
+  actualWeek: number;
+  actualYear: number;
+  specificWeek: string;
+
+  headerTable: string;
+  daysOfTheWeek: Map<string, string> = new Map([]);
   moments: string[] = ["Déjeuner", "Dîner"];
 
-  selectedDay: string;
+  selectedDate: string;
   selectedMoment: string;
-
-  loading: boolean = false;
-  error: string;
 
   constructor() {}
 
-  // TODO : récup orders correctement + gérer loader + error dans html
   ngOnInit(): void {
-    this.initActualWeek();
+    this.goCurrentWeek();
     this.selectDayOfToday();
     this.selectMoment(this.moments[0]);
   }
 
-  initActualWeek(): void {
-    let startOfTheWeek = moment().startOf("isoWeek");
-    let days: string[] = Array.from(this.daysOfTheWeek.keys());
-    for (let i = 0; i < 7; i++) {
-      this.daysOfTheWeek.set(
-        days[i],
-        moment(startOfTheWeek).add(i, "days").format("DD/MM")
-      );
-    }
-  }
-
   selectDayOfToday(): void {
     let dateOfTheDay: string = moment().locale("fr").format("dddd");
-    // Première lettre en majuscule pour récupèrer la date
-    let index: string =
-      dateOfTheDay.charAt(0).toUpperCase() + dateOfTheDay.slice(1);
-    this.selectDay(this.daysOfTheWeek.get(index));
+    this.selectDate(this.daysOfTheWeek.get(dateOfTheDay));
   }
 
-  selectDay(day: string): void {
-    this.selectedDay = day;
+  selectDate(date: string): void {
+    this.selectedDate = date;
   }
 
   selectMoment(moment: string): void {
     this.selectedMoment = moment;
+  }
+
+  goCurrentWeek(): void {
+    this.actualWeek = moment().week();
+    this.actualYear = moment().year();
+    this.generateTableWeek(this.actualWeek, this.actualYear);
+  }
+
+  goWeek(): void {
+    if (!this.specificWeek || this.specificWeek.startsWith("0")) return;
+    this.actualWeek = parseInt(
+      this.specificWeek.split("-")[1].replace("W", "")
+    );
+    this.actualYear = parseInt(this.specificWeek.split("-")[0]);
+    this.generateTableWeek(this.actualWeek, this.actualYear);
+  }
+
+  generateTableWeek(week: number, year): void {
+    let monday = moment().locale("fr").year(year).week(week).startOf("isoWeek");
+    for (let i = 0; i < 7; i++) {
+      let day = moment(monday).add(i, "days");
+      this.daysOfTheWeek.set(
+        day.locale("fr").format("dddd"),
+        day.format("YYYY-MM-DD")
+      );
+    }
   }
 
   /**

@@ -1,0 +1,31 @@
+<div *ngIf="loading"><app-loader></app-loader></div>
+<div *ngIf="error">
+  <app-alert-error [content]="error"></app-alert-error>
+</div>
+<div *ngIf="orders?.length && patients.length && !loading">
+  <div class="card-columns">
+    <div
+      *ngFor="let order of ordersOfPatients | keyvalue"
+      class="card bg-light mb-4 orders-of-patients"
+    >
+      <div class="card-header">
+        <div class="row">
+          <div class="col">
+            <h6>{{ order?.key?.lastName }} {{ order?.key?.firstName }}</h6>
+          </div>
+          <div class="col text-right">
+            <span class="badge badge-pill badge-primary">
+              {{ order?.value?.deliveryDate }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <span class="card-text">content</span>
+      </div>
+      <div class="card-footer text-muted">
+        Détail
+      </div>
+    </div>
+  </div>
+</div>

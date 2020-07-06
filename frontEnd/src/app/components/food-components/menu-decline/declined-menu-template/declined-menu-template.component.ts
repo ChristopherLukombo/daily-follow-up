@@ -7,6 +7,7 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { ToastrService } from "ngx-toastr";
 import { HttpErrorResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
 @Component({
   selector: "app-declined-menu-template",
@@ -68,8 +69,7 @@ export class DeclinedMenuTemplateComponent implements OnInit {
       null,
       this.menu.replacement.entries,
       this.menu.replacement.dishes,
-      this.menu.replacement.starchyFoods,
-      this.menu.replacement.vegetables,
+      this.menu.replacement.garnishes,
       this.menu.replacement.dairyProducts,
       this.menu.replacement.desserts
     );
@@ -121,10 +121,8 @@ export class DeclinedMenuTemplateComponent implements OnInit {
       this.menu.replacement.entries.length > 0 &&
       this.menu.replacement.dishes &&
       this.menu.replacement.dishes.length > 0 &&
-      this.menu.replacement.starchyFoods &&
-      this.menu.replacement.starchyFoods.length > 0 &&
-      this.menu.replacement.vegetables &&
-      this.menu.replacement.vegetables.length > 0 &&
+      this.menu.replacement.garnishes &&
+      this.menu.replacement.garnishes.length > 0 &&
       this.menu.replacement.dairyProducts &&
       this.menu.replacement.dairyProducts.length > 0 &&
       this.menu.replacement.desserts &&
@@ -135,8 +133,7 @@ export class DeclinedMenuTemplateComponent implements OnInit {
   onConfirm(): void {
     this.error = null;
     if (!this.weeksAreValid() || !this.replacementIsValid()) {
-      this.error =
-        "Le menu est incomplet. Veuillez vérifier la carte de remplacement ainsi que vos insertions pour chaque jour.";
+      this.error = TypeMessage.MENU_FORM_INVALID;
       return;
     }
     let dto = this.getMenuDTO();
@@ -169,11 +166,11 @@ export class DeclinedMenuTemplateComponent implements OnInit {
    */
   getCustomError(error: HttpErrorResponse): string {
     if (error && error.status === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else if (error && error.status === 500) {
       return error.error.message;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

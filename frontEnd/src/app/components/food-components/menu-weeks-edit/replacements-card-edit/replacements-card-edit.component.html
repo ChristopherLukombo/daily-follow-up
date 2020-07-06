@@ -69,42 +69,21 @@
             </small>
           </div>
           <div class="form-group">
-            <label>Féculent(s)</label>
+            <label>Garniture(s)</label>
             <ng-select
               [items]="suggestions.get('Garniture')"
               [multiple]="true"
               #select
               bindLabel="name"
               dropdownPosition="auto"
-              placeholder="Renseigner un ou plusieurs féculents..."
-              notFoundText="Aucun féculent trouvé"
+              placeholder="Renseigner une ou plusieurs garnitures..."
+              notFoundText="Aucune garniture trouvé"
               [virtualScroll]="true"
-              formControlName="starchyFoods"
+              formControlName="garnishes"
             >
             </ng-select>
-            <small
-              *ngIf="submitted && f.starchyFoods.errors"
-              class="text-danger"
-            >
-              Veuillez renseigner au moins un féculent
-            </small>
-          </div>
-          <div class="form-group">
-            <label>Légume(s)</label>
-            <ng-select
-              [items]="suggestions.get('Garniture')"
-              [multiple]="true"
-              #select
-              bindLabel="name"
-              dropdownPosition="auto"
-              placeholder="Renseigner un ou plusieurs légumes..."
-              notFoundText="Aucun féculent trouvé"
-              [virtualScroll]="true"
-              formControlName="vegetables"
-            >
-            </ng-select>
-            <small *ngIf="submitted && f.vegetables.errors" class="text-danger">
-              Veuillez renseigner au moins un légume
+            <small *ngIf="submitted && f.garnishes.errors" class="text-danger">
+              Veuillez renseigner au moins une garniture
             </small>
           </div>
           <div class="form-group">
