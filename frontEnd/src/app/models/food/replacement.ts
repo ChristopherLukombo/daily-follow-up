@@ -8,9 +8,7 @@ export class Replacement {
   /***/
   dishes: Array<Content>;
   /***/
-  starchyFoods: Array<Content>;
-  /***/
-  vegetables: Array<Content>;
+  garnishes: Array<Content>;
   /***/
   dairyProducts: Array<Content>;
   /***/
