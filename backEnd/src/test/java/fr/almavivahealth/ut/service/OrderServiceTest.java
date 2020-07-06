@@ -46,7 +46,6 @@ public class OrderServiceTest {
 		return Order.builder()
 				.id(ID)
 				.patient(null)
-				.dairyProducts(null)
 				.build();
 	}
 
