@@ -10,5 +10,6 @@ export enum TypeMessage {
 
   /** Erreurs applicatives */
   NOT_AUTHENTICATED = "Vous n'êtes plus connecté, veuillez rafraichir votre navigateur.",
+  NOT_AUTHORIZED = "Vous n'êtes plus habilité à cette requête.",
   AN_ERROR_OCCURED = "Une erreur s'est produite. Veuillez réessayer plus tard.",
 }
