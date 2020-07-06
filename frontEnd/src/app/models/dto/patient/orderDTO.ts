@@ -1,30 +1,48 @@
-import { PatientDTO } from "./patientDTO";
-import { ContentDTO } from "../food/contentDTO";
-import { MomentDayDTO } from "../food/moment-dayDTO";
+import { Content } from "../../food/content";
 
 export class OrderDTO {
   /***/
   id: number;
   /***/
-  date: Date;
+  moment: string;
   /***/
-  contents: Array<ContentDTO>;
+  entry: Content;
   /***/
-  momentDays: Array<MomentDayDTO>;
+  dish: Content;
   /***/
-  patient: PatientDTO;
+  garnish: Content;
+  /***/
+  dairyProduct: Content;
+  /***/
+  dessert: Content;
+  /***/
+  deliveryDate: string;
+  /***/
+  orderStatus: string;
+  /***/
+  patientId: number;
 
   constructor(
     id: number,
-    date: Date,
-    contents: Array<ContentDTO>,
-    momentDays: Array<MomentDayDTO>,
-    patient: PatientDTO
+    moment: string,
+    entry: Content,
+    dish: Content,
+    garnish: Content,
+    dairyProduct: Content,
+    dessert: Content,
+    deliveryDate: string,
+    orderStatus: string,
+    patientId: number
   ) {
     this.id = id;
-    this.date = date;
-    this.contents = contents;
-    this.momentDays = momentDays;
-    this.patient = patient;
+    (this.moment = moment),
+      (this.entry = entry),
+      (this.dish = dish),
+      (this.garnish = garnish),
+      (this.dairyProduct = dairyProduct),
+      (this.dessert = dessert),
+      (this.deliveryDate = deliveryDate),
+      (this.orderStatus = orderStatus),
+      (this.patientId = patientId);
   }
 }
