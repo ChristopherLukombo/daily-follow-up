@@ -19,9 +19,8 @@ public interface ReplacementMapper {
 	@Mapping(source = "entries", target = "entries")
 	@Mapping(source = "dishes", target = "dishes")
 	@Mapping(source = "desserts", target = "desserts")
-	@Mapping(source = "starchyFoods", target = "starchyFoods")
-	@Mapping(source = "vegetables", target = "vegetables")
 	@Mapping(source = "dairyProducts", target = "dairyProducts")
+	@Mapping(source = "garnishes", target = "garnishes")
 	ReplacementDTO replacementToReplacementDTO(Replacement replacement);
 
 	@InheritInverseConfiguration

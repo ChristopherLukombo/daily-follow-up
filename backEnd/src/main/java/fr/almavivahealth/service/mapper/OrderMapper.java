@@ -25,10 +25,9 @@ public interface OrderMapper {
 	@Mapping(source = "entries", target = "entries")
 	@Mapping(source = "dishes", target = "dishes")
 	@Mapping(source = "desserts", target = "desserts")
-	@Mapping(source = "starchyFoods", target = "starchyFoods")
-	@Mapping(source = "vegetables", target = "vegetables")
 	@Mapping(source = "moment", target = "moment")
 	@Mapping(source = "dairyProducts", target = "dairyProducts")
+	@Mapping(source = "garnishes", target = "garnishes")
 	OrderDTO orderToOrderDTO(Order order);
 
 	@InheritInverseConfiguration
