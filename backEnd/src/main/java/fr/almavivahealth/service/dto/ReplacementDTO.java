@@ -27,10 +27,6 @@ public class ReplacementDTO implements Serializable {
 
 	private List<ContentDTO> desserts;
 
-	private List<ContentDTO> starchyFoods;
-
-	private List<ContentDTO> vegetables;
-
 	private List<ContentDTO> dairyProducts;
 
 	public ReplacementDTO() {
@@ -69,22 +65,6 @@ public class ReplacementDTO implements Serializable {
 		this.desserts = desserts;
 	}
 
-	public List<ContentDTO> getStarchyFoods() {
-		return starchyFoods;
-	}
-
-	public void setStarchyFoods(final List<ContentDTO> starchyFoods) {
-		this.starchyFoods = starchyFoods;
-	}
-
-	public List<ContentDTO> getVegetables() {
-		return vegetables;
-	}
-
-	public void setVegetables(final List<ContentDTO> vegetables) {
-		this.vegetables = vegetables;
-	}
-
 	public List<ContentDTO> getDairyProducts() {
 		return dairyProducts;
 	}
@@ -95,7 +75,7 @@ public class ReplacementDTO implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(dairyProducts, desserts, dishes, entries, id, starchyFoods, vegetables);
+		return Objects.hash(dairyProducts, desserts, dishes, entries, id);
 	}
 
 	@Override
@@ -109,8 +89,7 @@ public class ReplacementDTO implements Serializable {
 		final ReplacementDTO other = (ReplacementDTO) obj;
 		return Objects.equals(dairyProducts, other.dairyProducts) && Objects.equals(desserts, other.desserts)
 				&& Objects.equals(dishes, other.dishes) && Objects.equals(entries, other.entries)
-				&& Objects.equals(id, other.id) && Objects.equals(starchyFoods, other.starchyFoods)
-				&& Objects.equals(vegetables, other.vegetables);
+				&& Objects.equals(id, other.id);
 	}
 
 	@Override

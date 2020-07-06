@@ -55,12 +55,6 @@ public class Order implements Serializable {
 	private List<Content> desserts;
 
 	@ManyToMany
-	private List<Content> starchyFoods;
-
-	@ManyToMany
-	private List<Content> vegetables;
-
-	@ManyToMany
 	private List<Content> dairyProducts;
 
 	private String moment;
