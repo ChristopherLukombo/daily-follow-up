@@ -45,4 +45,7 @@ public class Replacement implements Serializable{
 
 	@ManyToMany
 	private List<Content> dairyProducts;
+
+	@ManyToMany
+	private List<Content> garnishes;
 }

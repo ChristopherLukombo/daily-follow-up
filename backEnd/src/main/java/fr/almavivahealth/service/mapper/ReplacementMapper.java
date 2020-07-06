@@ -20,6 +20,7 @@ public interface ReplacementMapper {
 	@Mapping(source = "dishes", target = "dishes")
 	@Mapping(source = "desserts", target = "desserts")
 	@Mapping(source = "dairyProducts", target = "dairyProducts")
+	@Mapping(source = "garnishes", target = "garnishes")
 	ReplacementDTO replacementToReplacementDTO(Replacement replacement);
 
 	@InheritInverseConfiguration
