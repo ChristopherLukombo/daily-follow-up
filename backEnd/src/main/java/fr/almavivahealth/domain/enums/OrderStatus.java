@@ -5,5 +5,5 @@ package fr.almavivahealth.domain.enums;
  */
 public enum OrderStatus {
 
-	WAITING, VALIDATED, CANCEL
+	WAITING, VALIDATED
 }

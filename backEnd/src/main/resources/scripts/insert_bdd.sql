@@ -532,43 +532,43 @@ INSERT INTO type_meals (content_id, type_meals) VALUES
 INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_product_id,dessert_id,dish_id,entry_id,garnish_id) VALUES 
 ('2020-06-28','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-06-28','dejeuner','VALIDATED',67,NULL,NULL,NULL,NULL,NULL)
-,('2020-06-28','dejeuner','CANCEL',67,NULL,NULL,NULL,NULL,NULL)
+,('2020-06-28','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-06-29','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-06-29','dejeuner','VALIDATED',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-06-30','dejeuner','VALIDATED',67,NULL,NULL,NULL,NULL,NULL)
-,('2020-06-30','dejeuner','CANCEL',67,NULL,NULL,NULL,NULL,NULL)
+,('2020-06-30','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-07-01','dejeuner','VALIDATED',67,NULL,NULL,NULL,NULL,NULL)
-,('2020-07-01','dejeuner','CANCEL',67,NULL,NULL,NULL,NULL,NULL)
+,('2020-07-01','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-07-01','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL);
 
 INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_product_id,dessert_id,dish_id,entry_id,garnish_id) VALUES 
 ('2020-07-02','dejeuner','VALIDATED',67,NULL,NULL,NULL,NULL,NULL)
-,('2020-07-02','dejeuner','CANCEL',67,NULL,NULL,NULL,NULL,NULL)
-,('2020-07-03','dejeuner','CANCEL',67,NULL,NULL,NULL,NULL,NULL)
+,('2020-07-02','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
+,('2020-07-03','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-07-05','dejeuner','VALIDATED',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-07-05','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-07-06','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-07-06','dejeuner','VALIDATED',67,NULL,NULL,NULL,NULL,NULL)
-,('2020-07-06','dejeuner','CANCEL',67,NULL,NULL,NULL,NULL,NULL)
+,('2020-07-06','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-06-28','DEJEUNER','WAITING',1,1,1,1,1,1)
-,('2020-06-28','DEJEUNER','CANCEL',1,1,1,1,1,1);
+,('2020-06-28','DEJEUNER','WAITING',1,1,1,1,1,1);
 
 INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_product_id,dessert_id,dish_id,entry_id,garnish_id) VALUES 
 ('2020-06-28','DEJEUNER','VALIDATED',1,1,1,1,1,1)
 ,('2020-06-28','DINER','VALIDATED',1,1,1,1,1,1)
 ,('2020-06-29','DINER','VALIDATED',1,1,1,1,1,1)
-,('2020-06-29','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-06-30','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-01','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-02','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-03','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-04','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-05','DINER','CANCEL',1,1,1,1,1,1);
+,('2020-06-29','DINER','WAITING',1,1,1,1,1,1)
+,('2020-06-30','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-01','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-02','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-03','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-04','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-05','DINER','WAITING',1,1,1,1,1,1);
 
 INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_product_id,dessert_id,dish_id,entry_id,garnish_id) VALUES 
-('2020-07-06','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-07','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-08','DINER','CANCEL',1,1,1,1,1,1)
+('2020-07-06','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-07','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-08','DINER','WAITING',1,1,1,1,1,1)
 ,('2020-07-08','DINER','VALIDATED',1,1,1,1,1,1)
 ,('2020-07-07','DINER','VALIDATED',1,1,1,1,1,1)
 ,('2020-07-06','DINER','VALIDATED',1,1,1,1,1,1)
@@ -581,24 +581,24 @@ INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_p
 ('2020-07-01','DINER','VALIDATED',1,1,1,1,1,1)
 ,('2020-06-30','DINER','VALIDATED',1,1,1,1,1,1)
 ,('2020-06-29','DINER','VALIDATED',1,1,1,1,1,1)
-,('2020-06-29','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-01','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-02','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-03','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-04','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-05','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-06','DINER','CANCEL',1,1,1,1,1,1);
+,('2020-06-29','DINER','VALIDATED',1,1,1,1,1,1)
+,('2020-07-01','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-02','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-03','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-04','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-05','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-06','DINER','WAITING',1,1,1,1,1,1);
 
 INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_product_id,dessert_id,dish_id,entry_id,garnish_id) VALUES 
-('2020-07-07','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-13','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-12','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-13','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-11','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-10','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-09','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-07-08','DINER','CANCEL',1,1,1,1,1,1)
-,('2020-06-29','dejeuner','CANCEL',67,1,NULL,NULL,NULL,NULL)
+('2020-07-07','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-13','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-12','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-13','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-11','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-10','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-09','DINER','WAITING',1,1,1,1,1,1)
+,('2020-07-08','DINER','WAITING',1,1,1,1,1,1)
+,('2020-06-29','dejeuner','WAITING',67,1,NULL,NULL,NULL,NULL)
 ,('2020-06-30','dejeuner','WAITING',67,1,NULL,NULL,NULL,NULL);
 
 INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_product_id,dessert_id,dish_id,entry_id,garnish_id) VALUES 
@@ -607,8 +607,8 @@ INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_p
 ,('2020-07-03','dejeuner','WAITING',67,1,4,3,6,8)
 ,('2020-07-04','dejeuner','WAITING',67,1,4,2,3,3)
 ,('2020-07-04','dejeuner','VALIDATED',67,1,5,1,2,3)
-,('2020-07-04','dejeuner','CANCEL',67,2,5,2,4,3)
-,('2020-07-05','dejeuner','CANCEL',67,1,NULL,NULL,NULL,NULL);
+,('2020-07-04','dejeuner','WAITING',67,2,5,2,4,3)
+,('2020-07-05','dejeuner','WAITING',67,1,NULL,NULL,NULL,NULL);
 
 /** les menus **/
 /** sont commentés pour éviter d'avoir des menus avec juste samedi et sans contents dans la bdd **/
