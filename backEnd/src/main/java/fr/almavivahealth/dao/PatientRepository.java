@@ -30,6 +30,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 			+ "CAST ((select count(id) FROM patient p2 WHERE state = true) AS numeric)) * 100 AS percentage "
 			+ "FROM patient_allergies pa "
 			+ "INNER JOIN allergy a on a.id = pa.allergies_id "
+
 			+ "INNER JOIN patient p on p.id = pa.patient_id WHERE p.state = true",
 			nativeQuery = true)
 	List<PatientsPerAllergy> findNumberOfPatientsPerAllergy();
@@ -58,4 +59,10 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 			+ "WHERE f.number = :number "
 			+ "AND r.id = p.room.id")
 	List<Patient> findAllByFloorNumber(@Param("number") Integer number);
+
+	@Query("SELECT p FROM "
+			+ "Patient p "
+			+ "JOIN TREAT(p.orders AS Order) o "
+			+ "WHERE o.id = :orderId")
+	Optional<Patient> findPatientByOrderId(@Param("orderId") Long orderId);
 }

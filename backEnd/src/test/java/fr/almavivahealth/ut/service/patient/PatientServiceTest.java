@@ -457,4 +457,31 @@ public class PatientServiceTest {
 		// Then
 		assertThat(patientServiceImpl.changeRooms(1L, 2L)).isFalse();
 	}
+
+	@Test
+	public void shouldGetPatientByOrderId() {
+		// Given
+		final Patient patient = getPatient();
+		final PatientDTO patientDTO = getPatientDTO();
+
+		// When
+		when(patientRepository.findPatientByOrderId((anyLong()))).thenReturn(Optional.ofNullable(patient));
+		when(patientMapper.patientToPatientDTO((Patient) any())).thenReturn(patientDTO);
+
+		// Then
+		assertThat(patientServiceImpl.findPatientByOrderId(ID)).isEqualTo(Optional.ofNullable(patientDTO));
+	}
+
+	@Test
+	public void shouldReturnEmptyPatientByOrderId() {
+		// Given
+		final Patient patient = null;
+
+		// When
+		when(patientRepository.findPatientByOrderId((anyLong()))).thenReturn(Optional.ofNullable(patient));
+
+		// Then
+		assertThat(patientServiceImpl.findPatientByOrderId(ID)).isEqualTo(Optional.empty());
+	}
+
 }

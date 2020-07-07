@@ -447,4 +447,36 @@ public class PatientResourceTest {
 		.andExpect(status().isInternalServerError());
 		verify(patientService, times(1)).changeRooms(anyLong(), anyLong());
 	}
+
+	@Test
+	public void shouldGetPatientByOrderId() throws IOException, Exception {
+		// Given
+		final PatientDTO patientDTO = createPatientDTO();
+
+		// When
+		when(patientService.findPatientByOrderId(anyLong())).thenReturn(Optional.ofNullable(patientDTO));
+
+		// Then
+		mockMvc.perform(get("/api/patients/order/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(patientDTO)))
+		.andExpect(status().isOk());
+		verify(patientService, times(1)).findPatientByOrderId(1L);
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetPatientByOrderId() throws IOException, Exception {
+		// Given
+		final PatientDTO patientDTO = null;
+
+		// When
+		when(patientService.findPatientByOrderId(anyLong())).thenReturn(Optional.ofNullable(patientDTO));
+
+		// Then
+		mockMvc.perform(get("/api/patients/order/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8)
+				.content(TestUtil.convertObjectToJsonBytes(patientDTO)))
+		.andExpect(status().isNoContent());
+		verify(patientService, times(1)).findPatientByOrderId(1L);
+	}
 }
