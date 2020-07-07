@@ -49,4 +49,13 @@ public interface OrderService {
 	 * @param id the id of the entity
 	 */
 	void delete(Long id);
+
+
+	/**
+	 * Find orders by patient id.
+	 *
+	 * @param patientId the patient id
+	 * @return the list of entities
+	 */
+	List<OrderDTO> findOrdersByPatientId(Long patientId);
 }

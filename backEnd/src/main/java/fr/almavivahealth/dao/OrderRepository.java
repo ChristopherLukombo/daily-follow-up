@@ -20,4 +20,6 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 	List<Order> findAllForWeekBetween(
 			@Param("startDate") LocalDate startDate,
 			@Param("endDate") LocalDate endDate);
+
+	List<Order> findAllByPatientId(Long patientId);
 }
