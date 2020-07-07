@@ -196,4 +196,34 @@ public class OrderResourceTest {
 		.andExpect(status().isNoContent());
 		verify(orderService, times(1)).delete(id);
 	}
+
+	@Test
+	public void shouldGetAllOrdersByPatientId() throws IOException, Exception {
+		// Given
+		final List<OrderDTO> ordersDTO = Arrays.asList(createOrderDTO());
+
+		// When
+		when(orderService.findOrdersByPatientId(anyLong())).thenReturn(ordersDTO);
+
+		// Then
+		mockMvc.perform(get("/api/orders/patient/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(orderService, times(1)).findOrdersByPatientId(anyLong());
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetAllOrdersByPatientId() throws IOException, Exception {
+		// Given
+		final List<OrderDTO> ordersDTO = Collections.emptyList();
+
+		// When
+		when(orderService.findOrdersByPatientId(anyLong())).thenReturn(ordersDTO);
+
+		// Then
+		mockMvc.perform(get("/api/orders/patient/1")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(orderService, times(1)).findOrdersByPatientId(anyLong());
+	}
 }

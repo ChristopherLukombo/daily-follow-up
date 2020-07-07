@@ -114,4 +114,19 @@ public class OrderServiceImpl implements OrderService {
 		LOGGER.debug("Request to delete Order : {}", id);
 		orderRepository.deleteById(id);
 	}
+
+	/**
+	 * Find orders by patient id.
+	 *
+	 * @param patientId the patient id
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<OrderDTO> findOrdersByPatientId(final Long patientId) {
+		LOGGER.debug("Request to find Orders by patient id : {}", patientId);
+		return orderRepository.findAllByPatientId(patientId).stream()
+				.map(orderMapper::orderToOrderDTO)
+				.collect(Collectors.toList());
+	}
 }
