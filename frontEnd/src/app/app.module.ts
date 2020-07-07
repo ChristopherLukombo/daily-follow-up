@@ -124,6 +124,11 @@ import { MenuAllComponent } from "./components/food-components/menu-all/menu-all
 import { MenuEditComponent } from "./components/food-components/menu-edit/menu-edit.component";
 import { DietEditComponent } from "./components/food-components/diet-edit/diet-edit.component";
 import { ListOrderByDateComponent } from "./components/order-components/orders/list-order-by-date/list-order-by-date.component";
+import { OrderModalComponent } from './components/order-components/orders/list-order-by-date/order-modal/order-modal.component';
+import { OrderEditComponent } from './components/order-components/order-edit/order-edit.component';
+import { FormOrderEditComponent } from './components/order-components/order-edit/form-order-edit/form-order-edit.component';
+import { OrderAddComponent } from './components/order-components/order-add/order-add.component';
+import { FormOrderAddComponent } from './components/order-components/order-add/form-order-add/form-order-add.component';
 
 @NgModule({
   declarations: [
@@ -224,6 +229,11 @@ import { ListOrderByDateComponent } from "./components/order-components/orders/l
     MenuEditComponent,
     DietEditComponent,
     ListOrderByDateComponent,
+    OrderModalComponent,
+    OrderEditComponent,
+    FormOrderEditComponent,
+    OrderAddComponent,
+    FormOrderAddComponent,
   ],
   imports: [
     BrowserModule,

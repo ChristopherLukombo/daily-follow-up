@@ -28,6 +28,8 @@ import { StatisticsFoodComponent } from "./components/statistics/statistics-food
 import { MenuAllComponent } from "./components/food-components/menu-all/menu-all.component";
 import { MenuEditComponent } from "./components/food-components/menu-edit/menu-edit.component";
 import { DietEditComponent } from "./components/food-components/diet-edit/diet-edit.component";
+import { OrderEditComponent } from "./components/order-components/order-edit/order-edit.component";
+import { OrderAddComponent } from "./components/order-components/order-add/order-add.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -145,6 +147,16 @@ const routes: Routes = [
   {
     path: "order/all",
     component: OrdersComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "order/add",
+    component: OrderAddComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "order/edit",
+    component: OrderEditComponent,
     canActivate: [AuthGuard],
   },
   {
