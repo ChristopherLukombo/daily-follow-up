@@ -2,6 +2,14 @@
 <div *ngIf="error">
   <app-alert-error [content]="error"></app-alert-error>
 </div>
+<div
+  *ngIf="(!orders?.length || !patients.length) && !loading"
+  class="alert alert-warning"
+  role="alert"
+>
+  Il n'y a aucune commande pour le <code>{{ moment }}</code> de la journée du
+  <code>{{ date | dayFormat }}</code>
+</div>
 <div *ngIf="orders?.length && patients.length && !loading">
   <div class="card-columns">
     <div
@@ -13,18 +21,77 @@
           <div class="col">
             <h6>{{ order?.key?.lastName }} {{ order?.key?.firstName }}</h6>
           </div>
-          <div class="col text-right">
-            <span class="badge badge-pill badge-primary">
-              {{ order?.value?.deliveryDate }}
+          <div class="col-3 text-right">
+            <span class="badge badge-secondary small-text">
+              {{ order?.key?.texture?.name }}
+            </span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span *ngFor="let diet of order?.key?.diets" class="spaced-badge">
+              <span class="badge badge-info small-text">
+                {{ diet?.name }}
+              </span>
             </span>
           </div>
         </div>
       </div>
-      <div class="card-body">
-        <span class="card-text">content</span>
+      <div *ngIf="order?.value" class="card-content">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" title="{{ order?.value?.entry?.name }}">
+            {{ order?.value?.entry?.name | truncate: 30 }}
+          </li>
+          <li class="list-group-item" title="{{ order?.value?.dish?.name }}">
+            {{ order?.value?.dish?.name | truncate: 30 }}
+          </li>
+          <li class="list-group-item" title="{{ order?.value?.garnish?.name }}">
+            {{ order?.value?.garnish?.name | truncate: 30 }}
+          </li>
+          <li
+            *ngIf="order?.value?.dairyProduct"
+            class="list-group-item"
+            title="{{ order?.value?.dairyProduct?.name }}"
+          >
+            {{ order?.value?.dairyProduct?.name | truncate: 30 }}
+          </li>
+          <li class="list-group-item" title="{{ order?.value?.dessert?.name }}">
+            {{ order?.value?.dessert?.name | truncate: 30 }}
+          </li>
+        </ul>
+        <app-order-modal
+          [order]="order?.value"
+          [patient]="order?.key"
+        ></app-order-modal>
       </div>
       <div class="card-footer text-muted">
-        Détail
+        <div *ngIf="!order?.value" class="row">
+          <div class="col">
+            <button
+              routerLink="/order/add"
+              class="btn btn-sm btn-light"
+              (click)="onAddOrder(order?.key?.id)"
+            >
+              <fa-icon [icon]="addLogo"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col text-right">
+            <span
+              *ngIf="order?.value?.status === 'WAITING'"
+              class="badge badge-warning"
+            >
+              En attente
+            </span>
+            <span
+              *ngIf="order?.value?.status === 'VALIDATED'"
+              class="badge badge-success"
+            >
+              Validée
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
