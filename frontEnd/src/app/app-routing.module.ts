@@ -30,8 +30,10 @@ import { MenuEditComponent } from "./components/food-components/menu-edit/menu-e
 import { DietEditComponent } from "./components/food-components/diet-edit/diet-edit.component";
 import { OrderEditComponent } from "./components/order-components/order-edit/order-edit.component";
 import { OrderAddComponent } from "./components/order-components/order-add/order-add.component";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
 
 const routes: Routes = [
+  { path: "dashboard", component: DashboardComponent },
   { path: "login", component: LoginComponent },
   { path: "reset/password", component: ResetUserPasswordComponent },
   {
@@ -171,15 +173,8 @@ const routes: Routes = [
   },
   {
     path: "**",
-    // TODO: Si page non trouvé, rediriger vers une page 404
-    redirectTo: "/login",
+    redirectTo: "/dashboard",
   },
-  // TODO: plus tard rediriger vers l'ecran d'accueil des plats
-  // {
-  //   path: '',
-  //   redirectTo: 'login',
-  //   pathMatch: 'full'
-  // },
 ];
 
 @NgModule({

@@ -129,6 +129,7 @@ import { OrderEditComponent } from './components/order-components/order-edit/ord
 import { FormOrderEditComponent } from './components/order-components/order-edit/form-order-edit/form-order-edit.component';
 import { OrderAddComponent } from './components/order-components/order-add/order-add.component';
 import { FormOrderAddComponent } from './components/order-components/order-add/form-order-add/form-order-add.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -234,6 +235,7 @@ import { FormOrderAddComponent } from './components/order-components/order-add/f
     FormOrderEditComponent,
     OrderAddComponent,
     FormOrderAddComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
