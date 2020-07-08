@@ -225,4 +225,30 @@ public class OrderServiceTest {
 		assertThatThrownBy(() -> orderServiceImpl.findOrdersByPatientId(ID))
 		.isInstanceOf(NullPointerException.class);
 	}
+
+	@Test
+	public void shouldGetAllOrdersBetweenDate() {
+		// Given
+		final List<Order> orders = Arrays.asList(createOrder());
+		final LocalDate date = LocalDate.of(2020, Month.JANUARY, 1);
+
+		// Then
+		when(orderRepository.findAllOrdersBetween((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.findAllOrdersBetween(date)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenTryingToGetAllOrdersBetweenDate() {
+		// Given
+		final List<Order> orders = Collections.emptyList();
+		final LocalDate date = LocalDate.of(2020, Month.JANUARY, 1);
+
+		// Then
+		when(orderRepository.findAllOrdersBetween((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.findAllOrdersBetween(date)).isEmpty();
+	}
 }

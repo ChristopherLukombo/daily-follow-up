@@ -129,4 +129,20 @@ public class OrderServiceImpl implements OrderService {
 				.map(orderMapper::orderToOrderDTO)
 				.collect(Collectors.toList());
 	}
+
+	/**
+	 * Find all orders between startDate and endDate.
+	 *
+	 * @param startDate the start date
+	 * @param endDate   the end date
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<OrderDTO> findAllOrdersBetween(final LocalDate date) {
+		LOGGER.debug("Request to get all Orders between {}", date);
+		return orderRepository.findAllOrdersBetween(date).stream()
+				.map(orderMapper::orderToOrderDTO)
+				.collect(Collectors.toList());
+	}
 }

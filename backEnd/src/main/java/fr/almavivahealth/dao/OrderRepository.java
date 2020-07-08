@@ -22,4 +22,11 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 			@Param("endDate") LocalDate endDate);
 
 	List<Order> findAllByPatientId(Long patientId);
+
+	@Query("SELECT order "
+			+ "FROM Order order "
+			+ "WHERE order.deliveryDate <= :date "
+			+ "AND order.deliveryDate >= :date")
+	List<Order> findAllOrdersBetween(
+			@Param("date") LocalDate date);
 }
