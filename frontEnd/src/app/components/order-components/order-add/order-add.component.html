@@ -1,0 +1,70 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-2">
+      <app-order-navbar></app-order-navbar>
+    </div>
+    <div class="col">
+      <h2>Nouvelle commande</h2>
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="warning">
+        <app-alert-warning [content]="warning"></app-alert-warning>
+      </div>
+      <div *ngIf="error">
+        <app-alert-error [content]="error"></app-alert-error>
+      </div>
+      <div *ngIf="patient && !error && !warning">
+        <div class="row">
+          <div class="col">
+            <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="setStrict(true)"
+                [class.active]="strict"
+              >
+                Strict
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                (click)="setStrict(false)"
+                [class.active]="!strict"
+              >
+                Souple
+              </button>
+            </div>
+            <br /><br />
+            <div *ngIf="strict">
+              <h4>
+                <span class="badge badge-secondary">
+                  {{ patient?.texture?.name }}
+                </span>
+              </h4>
+              <h4>
+                <span *ngFor="let diet of patient?.diets" class="spaced-badge">
+                  <span class="badge badge-info">
+                    {{ diet?.name }}
+                  </span>
+                </span>
+              </h4>
+            </div>
+          </div>
+          <div class="col text-right">
+            <h4>{{ patient?.lastName }} {{ patient?.firstName }}</h4>
+            <a routerLink="/patient/details" [queryParams]="{ id: patient?.id }"
+              >Voir les informations du patient</a
+            >
+          </div>
+        </div>
+        <app-form-order-add
+          [patient]="patient"
+          [deliveryDate]="deliveryDate"
+          [moment]="moment"
+          [strict]="strict"
+        >
+        </app-form-order-add>
+      </div>
+    </div>
+  </div>
+</div>

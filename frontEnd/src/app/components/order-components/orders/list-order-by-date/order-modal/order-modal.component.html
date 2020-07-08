@@ -1,0 +1,129 @@
+<div *ngIf="modal && patient && order">
+  <button
+    class="btn btn-outline-info btn-sm btn-block"
+    data-toggle="modal"
+    [attr.data-target]="modal.target"
+  >
+    <fa-icon [icon]="editLogo"></fa-icon>
+  </button>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  [attr.id]="modal.id"
+  tabindex="-1"
+  role="dialog"
+  [attr.aria-labelledby]="modal.label"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" [attr.id]="modal.label">
+          {{ patient?.lastName }} {{ patient?.firstName }} -
+          {{ order?.moment }} du
+          {{ order?.deliveryDate | dayFormat }}
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-5">
+            <h6>
+              <span class="badge badge-secondary">
+                {{ patient?.texture?.name }}
+              </span>
+            </h6>
+            <h6>
+              <span *ngFor="let diet of patient?.diets" class="spaced-badge">
+                <span class="badge badge-info">
+                  {{ diet?.name }}
+                </span>
+              </span>
+            </h6>
+          </div>
+          <div class="col text-right">
+            <a
+              routerLink="/patient/details"
+              [attr.data-dismiss]="'modal'"
+              [queryParams]="{ id: patient?.id }"
+              >Voir les informations du patient</a
+            >
+          </div>
+        </div>
+        <hr />
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>Entrée</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.entry?.name }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>Plat</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.dish?.name }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>Garniture</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.garnish?.name }}
+          </div>
+        </div>
+        <div *ngIf="order?.moment != 'Dîner'" class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>P.L</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.dairyProduct?.name }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>Dessert</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.dessert?.name }}
+          </div>
+        </div>
+        <!-- <div *ngIf="isPast" class="alert alert-warning" role="alert">
+          Il n'est plus possible de modifier une commande du jour ni une
+          commande passée.
+        </div> -->
+      </div>
+      <!--*ngIf="!isPast"-->
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-info"
+          (click)="onEdit()"
+          [attr.data-dismiss]="order ? 'modal' : null"
+        >
+          Modifier la commande
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          [attr.data-dismiss]="order ? 'modal' : null"
+          (click)="onValidate()"
+        >
+          Valider la commande / Annuler
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

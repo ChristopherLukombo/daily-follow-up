@@ -1,0 +1,116 @@
+<div *ngIf="form && patient && moment">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Date de livraison <span class="required">*</span></label>
+        <input
+          type="date"
+          formControlName="deliveryDate"
+          [ngClass]="{ 'is-invalid': submitted && f.deliveryDate.errors }"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Moment <span class="required">*</span></label>
+        <select class="form-control" formControlName="moment">
+          <option [ngValue]="moment">
+            {{ moment }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Entrée <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('Entrée')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner une entrée..."
+        notFoundText="Aucune entrée trouvée"
+        [virtualScroll]="true"
+        formControlName="entry"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.entry.errors" class="text-danger">
+        Veuillez renseigner l'entrée
+      </small>
+    </div>
+    <div class="form-group">
+      <label>Plat <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('Plat')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner un plat..."
+        notFoundText="Aucun plat trouvé"
+        [virtualScroll]="true"
+        formControlName="dish"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.dish.errors" class="text-danger">
+        Veuillez renseigner le plat
+      </small>
+    </div>
+    <div class="form-group">
+      <label>Garniture <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('Garniture')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner une garniture..."
+        notFoundText="Aucune garniture trouvée"
+        [virtualScroll]="true"
+        formControlName="garnish"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.garnish.errors" class="text-danger">
+        Veuillez renseigner la garniture du plat
+      </small>
+    </div>
+    <div *ngIf="moment != 'Dîner'" class="form-group">
+      <label>Produit laitier <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('P.L')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner un produit laitier..."
+        notFoundText="Aucun produit laitier trouvé"
+        [virtualScroll]="true"
+        formControlName="dairyProduct"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.dairyProduct.errors" class="text-danger">
+        Veuillez renseigner un produit laitier
+      </small>
+    </div>
+    <div class="form-group">
+      <label>Dessert <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('Dessert')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner un dessert..."
+        notFoundText="Aucun dessert trouvé"
+        [virtualScroll]="true"
+        formControlName="dessert"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.dessert.errors" class="text-danger">
+        Veuillez renseigner le dessert
+      </small>
+    </div>
+    <br />
+    <button *ngIf="!creating" type="submit" class="btn btn-primary">
+      Valider la commande
+    </button>
+    <button *ngIf="creating" type="button" class="btn btn-primary" disabled>
+      <span class="spinner-border spinner-border-sm"></span>Création...
+    </button>
+  </form>
+  <br />
+</div>
