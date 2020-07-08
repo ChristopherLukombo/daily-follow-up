@@ -68,17 +68,6 @@ export class PatientService {
   }
 
   /**
-   * Retourne un patient en fonction de l'id d'une commande
-   * @param orderId de la commande
-   * @returns un Patient
-   */
-  getPatientByOrder(orderId: number): Observable<Patient> {
-    return this.http
-      .get<Patient>(PATIENTS_URL + `/order/${orderId}`, httpOptions)
-      .pipe(catchError(this.handleError));
-  }
-
-  /**
    * Créer un patient
    * @param patientDTO
    * @returns un Patient

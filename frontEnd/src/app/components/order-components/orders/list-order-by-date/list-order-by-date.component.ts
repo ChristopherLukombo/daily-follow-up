@@ -4,10 +4,9 @@ import { PatientService } from "src/app/services/patient/patient.service";
 import { Patient } from "src/app/models/patient/patient";
 import { Order } from "src/app/models/patient/order";
 import { forkJoin } from "rxjs";
+import { ClinicService } from "src/app/services/clinic/clinic.service";
+import { Floor } from "src/app/models/clinic/floor";
 import { TypeMessage } from "src/app/models/utils/message-enum";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { OrderCustomInfos } from "src/app/models/utils/order-custom-infos";
-import { Router } from "@angular/router";
 
 @Component({
   selector: "app-list-order-by-date",
@@ -15,10 +14,11 @@ import { Router } from "@angular/router";
   styleUrls: ["./list-order-by-date.component.scss"],
 })
 export class ListOrderByDateComponent implements OnInit {
-  addLogo = faPlus;
-
   @Input() date: string;
   @Input() moment: string;
+
+  // floors: Floor[] = [];
+  // selectedFloor: Floor;
 
   patients: Patient[] = [];
   orders: Order[] = [];
@@ -29,23 +29,38 @@ export class ListOrderByDateComponent implements OnInit {
   error: string;
 
   constructor(
+    private clinicService: ClinicService,
     private orderService: OrderService,
-    private patientService: PatientService,
-    private router: Router
+    private patientService: PatientService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log("de");
+    // this.loading = true;
+    // this.clinicService.getAllFloors().subscribe(
+    //   (data) => {
+    //     this.floors = data;
+    //     this.loading = false;
+    //     this.selectFloor(this.floors[0]);
+    //   },
+    //   (error) => {
+    //     this.error = this.getError(error);
+    //     this.loading = false;
+    //   }
+    // );
+  }
 
+  // TODO : recup en fonction de la date
   ngOnChanges(): void {
     if (this.date && this.moment) {
       this.loading = true;
       let patients = this.patientService.getAllPatients();
-      let orders = this.orderService.getOrdersByDate(this.date);
+      let orders = this.orderService.getAllOrders();
       forkJoin([patients, orders]).subscribe(
         (datas) => {
           this.patients = datas[0];
           this.orders = datas[1];
-          this.mapOrderToPatients(this.patients, this.orders, this.moment);
+          this.mapOrderToPatients(this.patients, this.orders);
           this.loading = false;
         },
         (error) => {
@@ -56,28 +71,20 @@ export class ListOrderByDateComponent implements OnInit {
     }
   }
 
-  mapOrderToPatients(
-    patients: Patient[],
-    orders: Order[],
-    moment: string
-  ): void {
-    if (!orders || !orders.length || !patients || !patients.length) return;
+  mapOrderToPatients(patients: Patient[], orders: Order[]): void {
     this.ordersOfPatients.clear();
     patients.forEach((patient) => {
       this.ordersOfPatients.set(
         patient,
-        orders.find(
-          (order) => order.patientId === patient.id && order.moment === moment
-        )
+        orders.find((order) => order.patientId === patient.id)
       );
     });
+    console.log(this.ordersOfPatients);
   }
 
-  onAddOrder(patientId: number): void {
-    let infos: OrderCustomInfos = new OrderCustomInfos(this.date, this.moment);
-    this.orderService.storeOrderInfosToLocal(infos);
-    this.router.navigate(["/order/add"], { queryParams: { id: patientId } });
-  }
+  // selectFloor(floor: Floor): void {
+  //   this.selectedFloor = floor;
+  // }
 
   /**
    * Récupération du code erreur et ajout du message à afficher

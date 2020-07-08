@@ -28,12 +28,8 @@ import { StatisticsFoodComponent } from "./components/statistics/statistics-food
 import { MenuAllComponent } from "./components/food-components/menu-all/menu-all.component";
 import { MenuEditComponent } from "./components/food-components/menu-edit/menu-edit.component";
 import { DietEditComponent } from "./components/food-components/diet-edit/diet-edit.component";
-import { OrderEditComponent } from "./components/order-components/order-edit/order-edit.component";
-import { OrderAddComponent } from "./components/order-components/order-add/order-add.component";
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
 
 const routes: Routes = [
-  { path: "dashboard", component: DashboardComponent },
   { path: "login", component: LoginComponent },
   { path: "reset/password", component: ResetUserPasswordComponent },
   {
@@ -152,16 +148,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: "order/add",
-    component: OrderAddComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: "order/edit",
-    component: OrderEditComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: "statistics/patients",
     component: StatisticsComponent,
     canActivate: [AuthGuard],
@@ -173,8 +159,15 @@ const routes: Routes = [
   },
   {
     path: "**",
-    redirectTo: "/dashboard",
+    // TODO: Si page non trouvé, rediriger vers une page 404
+    redirectTo: "/login",
   },
+  // TODO: plus tard rediriger vers l'ecran d'accueil des plats
+  // {
+  //   path: '',
+  //   redirectTo: 'login',
+  //   pathMatch: 'full'
+  // },
 ];
 
 @NgModule({
