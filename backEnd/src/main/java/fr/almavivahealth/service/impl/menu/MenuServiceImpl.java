@@ -449,7 +449,7 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<MenuDTO> findMenusForDate(final LocalDate date) {
-		return menuRepository.findCurrentMenus(LocalDate.now()).stream()
+		return menuRepository.findCurrentMenus(date).stream()
 				.map(menuMapper::menuToMenuDTO)
 				.collect(Collectors.toList());
 	}
