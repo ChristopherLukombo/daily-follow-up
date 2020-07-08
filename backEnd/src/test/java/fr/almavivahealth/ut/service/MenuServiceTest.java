@@ -500,4 +500,30 @@ public class MenuServiceTest {
 
 		verify(menuRepository, times(0)).deleteById(anyLong());
 	}
+
+	@Test
+	public void shouldGetMenusByDate() {
+		// Given
+		final List<Menu> menus = Arrays.asList(createMenu());
+		final LocalDate date = LocalDate.now();
+
+		// Then
+		when(menuRepository.findCurrentMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findMenusForDate(date)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenTryingToGetMenusByDate() {
+		// Given
+		final List<Menu> menus = Collections.emptyList();
+		final LocalDate date = LocalDate.now();
+
+		// Then
+		when(menuRepository.findCurrentMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findMenusForDate(date)).isEmpty();
+	}
 }

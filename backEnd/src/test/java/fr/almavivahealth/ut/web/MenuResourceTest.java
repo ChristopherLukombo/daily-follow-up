@@ -362,4 +362,43 @@ public class MenuResourceTest {
 		        .andExpect(status().isBadRequest());
 		verify(menuService, times(0)).deleteByIds(ids);
 	}
+
+	@Test
+	public void shouldGetMenusByDate() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Arrays.asList(createMenuDTO());
+
+		// When
+		when(menuService.findMenusForDate((LocalDate) any())).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/byDate?date=2016-12-12")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(menuService, times(1)).findMenusForDate((LocalDate) any());
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetMenusByDate() throws IOException, Exception {
+		// Given
+		final List<MenuDTO> menusDTO = Collections.emptyList();
+
+		// When
+		when(menuService.findMenusForDate((LocalDate) any())).thenReturn(menusDTO);
+
+		// Then
+		mockMvc.perform(get("/api/menus/byDate?date=2016-12-12")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(menuService, times(1)).findMenusForDate((LocalDate) any());
+	}
+
+	@Test
+	public void shouldReturn400WhenParamIsNotValid() throws IOException, Exception {
+		// Then
+		mockMvc.perform(get("/api/menus/byDate")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isBadRequest());
+		verify(menuService, times(0)).findMenusForDate((LocalDate) any());
+	}
 }

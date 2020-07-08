@@ -340,4 +340,31 @@ public class MenuResource {
 		menuService.deleteByIds(ids);
 		return ResponseEntity.noContent().build();
 	}
+
+	/**
+	 * GET /menus/byDate : Get menus by date.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of menus in body
+	 * or with status 204 (No Content) if there is no menu.
+	 *
+	 */
+	@ApiOperation("Get menus by date.")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping(value = "/menus/byDate", params = {"date"})
+	public ResponseEntity<List<MenuDTO>> getMenusForDate(
+			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate date) {
+		LOGGER.debug("REST request to get Menus for date: {}", date);
+		final List<MenuDTO> menus = menuService.findMenusForDate(date);
+		if (menus.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(menus);
+	}
 }
