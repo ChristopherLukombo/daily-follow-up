@@ -1,6 +1,8 @@
 package fr.almavivahealth.security;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+
 /**
  * The Class RestAuthenticationEntryPoint to set response after authentication fails.
  */
@@ -22,11 +25,16 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
 
+	private static final List<String> URLS = Arrays.asList("/api/orders");
+
 	@Override
 	public void commence(final HttpServletRequest request, final HttpServletResponse response,
 			final AuthenticationException authException) throws IOException, ServletException {
-		LOGGER.debug("Pre-authenticated entry rejecting access");
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");
+		if (!URLS.contains(request.getRequestURI()) && request.getParameter("selectedDate") != null) {
+			LOGGER.debug("Pre-authenticated entry rejecting access");
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");
+		}
+
 	}
 
 	@ExceptionHandler(value = { AccessDeniedException.class })

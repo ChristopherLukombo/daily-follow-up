@@ -69,6 +69,14 @@ public class MenuServiceImpl implements MenuService {
 
 	private final MenuProperties menuProperties;
 
+	/**
+	 * Instantiates a new menu service impl.
+	 *
+	 * @param menuRepository    the menu repository
+	 * @param menuMapper        the menu mapper
+	 * @param patientRepository the patient repository
+	 * @param menuProperties    the menu properties
+	 */
 	@Autowired
 	public MenuServiceImpl(
 			final MenuRepository menuRepository,
@@ -430,5 +438,19 @@ public class MenuServiceImpl implements MenuService {
 		for (final Long id : ids) {
 			menuRepository.deleteById(id);
 		}
+	}
+
+	/**
+	 * Find menus for date.
+	 *
+	 * @param date the date
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<MenuDTO> findMenusForDate(final LocalDate date) {
+		return menuRepository.findCurrentMenus(LocalDate.now()).stream()
+				.map(menuMapper::menuToMenuDTO)
+				.collect(Collectors.toList());
 	}
 }
