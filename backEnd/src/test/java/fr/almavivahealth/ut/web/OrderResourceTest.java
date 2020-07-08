@@ -226,4 +226,44 @@ public class OrderResourceTest {
 		.andExpect(status().isNoContent());
 		verify(orderService, times(1)).findOrdersByPatientId(anyLong());
 	}
+
+	@Test
+	public void shouldGetAllOrders() throws IOException, Exception {
+		// Given
+		final List<OrderDTO> ordersDTO = Arrays.asList(createOrderDTO());
+
+		// When
+		when(orderService.findAllOrdersBetween((LocalDate) any())).thenReturn(ordersDTO);
+
+		// Then
+		mockMvc.perform(get("/api/orders/between?date=2016-12-12")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isOk());
+		verify(orderService, times(1)).findAllOrdersBetween((LocalDate) any());
+	}
+
+	@Test
+	public void shouldReturn204WhenTryingToGetAllOrders() throws IOException, Exception {
+		// Given
+		final List<OrderDTO> ordersDTO = Collections.emptyList();
+
+		// When
+		when(orderService.findAllOrdersBetween((LocalDate) any())).thenReturn(ordersDTO);
+
+		// Then
+		mockMvc.perform(get("/api/orders/between?date=2016-12-12")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isNoContent());
+		verify(orderService, times(1)).findAllOrdersBetween((LocalDate) any());
+	}
+
+
+	@Test
+	public void shouldReturn400WhenTryingToGetAllOrdersWithNoValidParameter() throws IOException, Exception {
+		// Then
+		mockMvc.perform(get("/api/orders/between?startDate=2016-12-12")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		.andExpect(status().isBadRequest());
+		verify(orderService, times(0)).findAllOrdersBetween((LocalDate) any());
+	}
 }

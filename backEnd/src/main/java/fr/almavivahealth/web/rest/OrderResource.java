@@ -213,4 +213,32 @@ public class OrderResource {
 		}
 		return ResponseEntity.ok().body(orders);
 	}
+
+	/**
+	 * GET /orders/between : Get all orders between date.
+	 *
+	 * @return the ResponseEntity with status 200 (Ok) and the list of orders in body
+	 * or with status 204 (No Content) if there is no order.
+	 *
+	 */
+	@ApiOperation("Get all orders between date.")
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "Ok"),
+        @ApiResponse(code = 204, message = "No Content"),
+        @ApiResponse(code = 400, message = "Bad request"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden")
+        })
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping(value = "/orders/between", params = { "date" })
+	public ResponseEntity<List<OrderDTO>> getAllOrdersBetween(
+			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate date
+			) {
+		LOGGER.debug("REST Request to get all Orders between {}", date);
+		final List<OrderDTO> orders = orderService.findAllOrdersBetween(date);
+		if (orders.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		}
+		return ResponseEntity.ok().body(orders);
+	}
 }

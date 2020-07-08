@@ -58,4 +58,13 @@ public interface OrderService {
 	 * @return the list of entities
 	 */
 	List<OrderDTO> findOrdersByPatientId(Long patientId);
+
+
+	/**
+	 * Find all orders between startDate and endDate.
+	 *
+	 * @param date the date
+	 * @return the list of entities
+	 */
+	List<OrderDTO> findAllOrdersBetween(LocalDate date);
 }
