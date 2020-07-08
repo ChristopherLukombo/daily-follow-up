@@ -9,6 +9,9 @@ import { Router } from "@angular/router";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { OrderService } from "src/app/services/order/order.service";
 import { OrderDTO } from "src/app/models/dto/patient/orderDTO";
+import { MenuUtilsService } from "src/app/services/order/menu-utils.service";
+import { Day } from "src/app/models/food/day";
+import { MomentDay } from "src/app/models/food/moment-day";
 
 @Component({
   selector: "app-form-order-edit",
@@ -42,6 +45,7 @@ export class FormOrderEditComponent implements OnInit {
 
   constructor(
     private alimentationService: AlimentationService,
+    private menuUtilsService: MenuUtilsService,
     private orderService: OrderService,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
@@ -55,7 +59,10 @@ export class FormOrderEditComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    this.getAllContentsAvailable();
+    if (this.patient && this.order) {
+      console.log(this.order.deliveryDate);
+      this.getAllContentsAvailable(this.order.deliveryDate, this.order.moment);
+    }
   }
 
   createForm(order: Order) {
@@ -84,12 +91,19 @@ export class FormOrderEditComponent implements OnInit {
   }
 
   // TODO : Gerer les menus strict ou non
-  getAllContentsAvailable(): void {
+  // TODO : get les menus specifiques à la date, et non les currents menus
+  getAllContentsAvailable(date: string, moment: string): void {
     this.loading = true;
-    this.alimentationService.getAllContents().subscribe(
+    this.alimentationService.getCurrentsMenus().subscribe(
       (data) => {
-        if (data) {
-          this.loadSuggestions(data);
+        if (data && date) {
+          let contents: Content[] = this.menuUtilsService.getAllContentsOfTheDate(
+            date,
+            moment,
+            data
+          );
+          console.log(contents);
+          this.loadSuggestions(contents);
         }
         this.loading = false;
       },
