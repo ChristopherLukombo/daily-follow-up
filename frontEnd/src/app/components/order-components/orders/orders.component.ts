@@ -70,6 +70,7 @@ export class OrdersComponent implements OnInit {
         day.format("YYYY-MM-DD")
       );
     }
+    this.selectDate(this.daysOfTheWeek.get("lundi"));
   }
 
   /**
