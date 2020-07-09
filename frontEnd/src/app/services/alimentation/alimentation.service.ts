@@ -256,12 +256,23 @@ export class AlimentationService {
   }
 
   /**
-   * Retourne tout les  anciens menus de la clinique
+   * Retourne tout les anciens menus de la clinique
    * @returns les anciens menus
    */
   getOldMenus(): Observable<Menu[]> {
     return this.http
       .get<Menu[]>(MENUS_URL + `/past`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne des menus de la clinique en fonction d'une date donnée
+   * @param date
+   * @returns les anciens menus
+   */
+  getMenusByDate(date: string): Observable<Menu[]> {
+    return this.http
+      .get<Menu[]>(MENUS_URL + `/byDate?date=${date}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 

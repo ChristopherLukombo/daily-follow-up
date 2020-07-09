@@ -10,8 +10,7 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { OrderService } from "src/app/services/order/order.service";
 import { OrderDTO } from "src/app/models/dto/patient/orderDTO";
 import { MenuUtilsService } from "src/app/services/order/menu-utils.service";
-import { Day } from "src/app/models/food/day";
-import { MomentDay } from "src/app/models/food/moment-day";
+import { Menu } from "src/app/models/food/menu";
 
 @Component({
   selector: "app-form-order-edit",
@@ -40,7 +39,7 @@ export class FormOrderEditComponent implements OnInit {
 
   btnDelete: string = "Supprimer la commande";
   confirmDelete: string =
-    "La commande sera supprimé des registre, et ne partira donc pas en cuisine. Veuillez confirmer pour continuer.";
+    "La commande sera supprimé des registres, et ne partira donc pas en cuisine. Veuillez confirmer pour continuer.";
   deleting: boolean = false;
 
   constructor(
@@ -60,8 +59,7 @@ export class FormOrderEditComponent implements OnInit {
 
   ngOnChanges(): void {
     if (this.patient && this.order) {
-      console.log(this.order.deliveryDate);
-      this.getAllContentsAvailable(this.order.deliveryDate, this.order.moment);
+      this.getAllContentsOfTheDay(this.order.deliveryDate, this.order.moment);
     }
   }
 
@@ -90,19 +88,16 @@ export class FormOrderEditComponent implements OnInit {
     return this.form.controls;
   }
 
-  // TODO : Gerer les menus strict ou non
-  // TODO : get les menus specifiques à la date, et non les currents menus
-  getAllContentsAvailable(date: string, moment: string): void {
+  getAllContentsOfTheDay(date: string, moment: string): void {
     this.loading = true;
-    this.alimentationService.getCurrentsMenus().subscribe(
+    this.alimentationService.getMenusByDate(date).subscribe(
       (data) => {
         if (data && date) {
           let contents: Content[] = this.menuUtilsService.getAllContentsOfTheDate(
             date,
             moment,
-            data
+            this.filterMenusByStrict(data, this.patient, this.strict)
           );
-          console.log(contents);
           this.loadSuggestions(contents);
         }
         this.loading = false;
@@ -112,6 +107,29 @@ export class FormOrderEditComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  filterMenusByStrict(
+    menus: Menu[],
+    patient: Patient,
+    strict: boolean
+  ): Menu[] {
+    if (strict === false)
+      return this.filterByTexture(menus, this.patient.texture.name);
+    let filtered: Menu[] = [];
+    menus.forEach((menu) => {
+      let found = patient.diets
+        .map((d) => d.name)
+        .some((diet) => menu.diets.includes(diet));
+      if (found) {
+        filtered.push(menu);
+      }
+    });
+    return this.filterByTexture(filtered, this.patient.texture.name);
+  }
+
+  filterByTexture(menus: Menu[], texture: string): Menu[] {
+    return menus.filter((menu) => menu.texture === texture);
   }
 
   loadSuggestions(contents: Content[]): void {

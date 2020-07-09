@@ -9,6 +9,8 @@ import { Router } from "@angular/router";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 import { OrderDTO } from "src/app/models/dto/patient/orderDTO";
 import { Status } from "src/app/models/utils/status-enum";
+import { MenuUtilsService } from "src/app/services/order/menu-utils.service";
+import { Menu } from "src/app/models/food/menu";
 
 @Component({
   selector: "app-form-order-add",
@@ -38,6 +40,7 @@ export class FormOrderAddComponent implements OnInit {
 
   constructor(
     private alimentationService: AlimentationService,
+    private menuUtilsService: MenuUtilsService,
     private orderService: OrderService,
     private formBuilder: FormBuilder,
     private toastrService: ToastrService,
@@ -51,7 +54,9 @@ export class FormOrderAddComponent implements OnInit {
   }
 
   ngOnChanges(): void {
-    this.getAllContentsAvailable();
+    if (this.patient && this.deliveryDate && this.moment) {
+      this.getAllContentsOfTheDay(this.deliveryDate, this.moment);
+    }
   }
 
   createForm() {
@@ -78,13 +83,17 @@ export class FormOrderAddComponent implements OnInit {
     return this.form.controls;
   }
 
-  // TODO : Gerer les menus strict ou non
-  getAllContentsAvailable(): void {
+  getAllContentsOfTheDay(date: string, moment: string): void {
     this.loading = true;
-    this.alimentationService.getAllContents().subscribe(
+    this.alimentationService.getMenusByDate(date).subscribe(
       (data) => {
-        if (data) {
-          this.loadSuggestions(data);
+        if (data && date) {
+          let contents: Content[] = this.menuUtilsService.getAllContentsOfTheDate(
+            date,
+            moment,
+            this.filterMenusByStrict(data, this.patient, this.strict)
+          );
+          this.loadSuggestions(contents);
         }
         this.loading = false;
       },
@@ -93,6 +102,29 @@ export class FormOrderAddComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  filterMenusByStrict(
+    menus: Menu[],
+    patient: Patient,
+    strict: boolean
+  ): Menu[] {
+    if (strict === false)
+      return this.filterByTexture(menus, this.patient.texture.name);
+    let filtered: Menu[] = [];
+    menus.forEach((menu) => {
+      let found = patient.diets
+        .map((d) => d.name)
+        .some((diet) => menu.diets.includes(diet));
+      if (found) {
+        filtered.push(menu);
+      }
+    });
+    return this.filterByTexture(filtered, this.patient.texture.name);
+  }
+
+  filterByTexture(menus: Menu[], texture: string): Menu[] {
+    return menus.filter((menu) => menu.texture === texture);
   }
 
   loadSuggestions(contents: Content[]): void {
