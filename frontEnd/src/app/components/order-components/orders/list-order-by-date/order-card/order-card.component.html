@@ -1,0 +1,91 @@
+<div *ngIf="date && moment && patient">
+  <div class="card bg-light mb-4 orders-of-patients">
+    <div class="card-header">
+      <div class="row">
+        <div class="col">
+          <h6>{{ patient?.lastName }} {{ patient?.firstName }}</h6>
+        </div>
+        <div class="col-3 text-right">
+          <span class="badge badge-secondary small-text">
+            {{ patient?.texture?.name }}
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <span *ngFor="let diet of patient?.diets" class="spaced-badge">
+            <span class="badge badge-info small-text">
+              {{ diet?.name }}
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="order" class="card-content">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" title="{{ order?.entry?.name }}">
+          {{ order?.entry?.name | truncate: 30 }}
+        </li>
+        <li class="list-group-item" title="{{ order?.dish?.name }}">
+          {{ order?.dish?.name | truncate: 30 }}
+        </li>
+        <li class="list-group-item" title="{{ order?.garnish?.name }}">
+          {{ order?.garnish?.name | truncate: 30 }}
+        </li>
+        <li
+          *ngIf="order?.dairyProduct"
+          class="list-group-item"
+          title="{{ order?.dairyProduct?.name }}"
+        >
+          {{ order?.dairyProduct?.name | truncate: 30 }}
+        </li>
+        <li class="list-group-item" title="{{ order?.dessert?.name }}">
+          {{ order?.dessert?.name | truncate: 30 }}
+        </li>
+      </ul>
+      <app-order-modal
+        [order]="order"
+        [patient]="patient"
+        (deletedOrderOfPatient)="removeOrderOfPatient($event)"
+      ></app-order-modal>
+    </div>
+    <div class="card-footer text-muted">
+      <div *ngIf="!order && !periodExpired" class="row">
+        <div class="col">
+          <button
+            routerLink="/order/add"
+            class="btn btn-sm btn-light"
+            (click)="onAddOrder()"
+          >
+            <fa-icon [icon]="addLogo"></fa-icon>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!periodExpired" class="row">
+        <div class="col text-left">
+          <button
+            *ngIf="order?.orderStatus === 'WAITING'"
+            class="btn btn-sm btn-primary"
+            (click)="onValidateOrder()"
+          >
+            Valider
+          </button>
+        </div>
+        <div class="col text-right">
+          <span
+            *ngIf="order?.orderStatus === 'WAITING'"
+            class="badge badge-warning"
+          >
+            En attente
+          </span>
+          <span
+            *ngIf="order?.orderStatus === 'VALIDATED'"
+            class="badge badge-success"
+          >
+            Validée
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

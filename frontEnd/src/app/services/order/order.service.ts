@@ -11,6 +11,7 @@ import { Order } from "src/app/models/patient/order";
 import { catchError } from "rxjs/operators";
 import { OrderDTO } from "src/app/models/dto/patient/orderDTO";
 import { OrderCustomInfos } from "src/app/models/utils/order-custom-infos";
+import { Status } from "src/app/models/utils/status-enum";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -51,7 +52,7 @@ export class OrderService {
   /**
    * Créer une commande
    * @param orderDTO
-   * @returns la commande créé
+   * @returns la commande créée
    */
   createOrder(orderDTO: OrderDTO): Observable<Order> {
     return this.http
@@ -62,9 +63,32 @@ export class OrderService {
   /**
    * Met à jour une commande
    * @param orderDTO
-   * @returns la commande mis à jour
+   * @returns la commande mise à jour
    */
   updateOrder(orderDTO: OrderDTO): Observable<Order> {
+    return this.http
+      .put<Order>(ORDERS_URL, JSON.stringify(orderDTO), httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Passe le status d'une commande à Validée
+   * @param order
+   * @returns la commande mise à jour
+   */
+  validateOrder(order: Order): Observable<Order> {
+    let orderDTO: OrderDTO = new OrderDTO(
+      order.id,
+      order.moment,
+      order.entry,
+      order.dish,
+      order.garnish,
+      order.dairyProduct,
+      order.dessert,
+      order.deliveryDate,
+      Status.VALIDATED,
+      order.patientId
+    );
     return this.http
       .put<Order>(ORDERS_URL, JSON.stringify(orderDTO), httpOptions)
       .pipe(catchError(this.handleError));

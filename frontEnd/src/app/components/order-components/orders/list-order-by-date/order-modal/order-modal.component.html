@@ -100,14 +100,13 @@
             {{ order?.dessert?.name }}
           </div>
         </div>
-        <!-- <div *ngIf="isPast" class="alert alert-warning" role="alert">
-          Il n'est plus possible de modifier une commande du jour ni une
-          commande passée.
-        </div> -->
+        <div *ngIf="isPast" class="alert alert-warning" role="alert">
+          {{ cannotBeUpdated }}
+        </div>
       </div>
-      <!--*ngIf="!isPast"-->
-      <div class="modal-footer">
+      <div *ngIf="!isPast" class="modal-footer">
         <button
+          *ngIf="order?.orderStatus === 'WAITING'"
           type="button"
           class="btn btn-outline-info"
           (click)="onEdit()"
@@ -115,14 +114,21 @@
         >
           Modifier la commande
         </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          [attr.data-dismiss]="order ? 'modal' : null"
-          (click)="onValidate()"
-        >
-          Valider la commande / Annuler
-        </button>
+        <div class="text-right" *ngIf="order?.orderStatus === 'VALIDATED'">
+          <button
+            type="button"
+            class="btn btn-danger"
+            [attr.data-dismiss]="'modal'"
+            (click)="onDelete()"
+          >
+            Supprimer la commande
+          </button>
+          <br />
+          <small class="text-muted">
+            Attention, une commande supprimée signifie qu'elle ne sera pas
+            envoyé en cuisine.
+          </small>
+        </div>
       </div>
     </div>
   </div>

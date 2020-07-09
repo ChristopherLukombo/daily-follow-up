@@ -72,7 +72,6 @@ export class MenuUtilsService {
   ): Content[] {
     let contents: Content[] = [];
     let momentDay: MomentDay = this.getMomentOfMenuByDate(date, moment, menu);
-    console.log(momentDay);
     contents.push(momentDay.entry);
     contents.push(momentDay.dish);
     contents.push(momentDay.garnish);
@@ -91,7 +90,6 @@ export class MenuUtilsService {
   getMomentOfMenuByDate(date: string, moment: string, menu: Menu): MomentDay {
     let day: Day = this.getDayOfMenuByDate(date, menu);
     if (!day || !day.momentDays) return;
-    console.log(day);
     return day.momentDays.find((m) => m.name === moment);
   }
 

@@ -15,6 +15,7 @@ export enum TypeMessage {
   ORDER_DOES_NOT_EXIST = "Cette commande n'éxiste pas. Veuillez réessayer.",
   ORDER_INFOS_DOES_NOT_EXIST = "Les informations concernant la date et le moment de la commande sont maquantes. Veuillez réessayer.",
   ORDER_HAS_NO_PATIENT = "Cette commande n'appartient à aucun patient de la clinique.",
+  OLD_ORDERS_ARE_NOT_EDITABLE = "Il n'est plus possible de modifier une commande du jour ni une commande passée.",
 
   /** Erreurs applicatives **/
   NOT_AUTHENTICATED = "Vous n'êtes plus connecté, veuillez rafraichir votre navigateur.",

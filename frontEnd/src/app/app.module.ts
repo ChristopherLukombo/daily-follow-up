@@ -130,6 +130,7 @@ import { FormOrderEditComponent } from './components/order-components/order-edit
 import { OrderAddComponent } from './components/order-components/order-add/order-add.component';
 import { FormOrderAddComponent } from './components/order-components/order-add/form-order-add/form-order-add.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OrderCardComponent } from './components/order-components/orders/list-order-by-date/order-card/order-card.component';
 
 @NgModule({
   declarations: [
@@ -236,6 +237,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     OrderAddComponent,
     FormOrderAddComponent,
     DashboardComponent,
+    OrderCardComponent,
   ],
   imports: [
     BrowserModule,
