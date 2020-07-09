@@ -3,6 +3,15 @@
     <div class="col">
       <h2>Récapitulatif des repas de la journée</h2>
       <br />
+      <div class="row">
+        <div class="col text-left">
+          <h3>{{ dateOfTheDay }}</h3>
+        </div>
+        <div class="col text-right">
+          <h3>{{ hour | async }}</h3>
+        </div>
+      </div>
+      <br />
       <div class="alert alert-primary" role="alert">
         à venir
       </div>

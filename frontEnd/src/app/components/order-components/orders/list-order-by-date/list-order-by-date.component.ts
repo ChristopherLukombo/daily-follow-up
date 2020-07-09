@@ -5,9 +5,7 @@ import { Patient } from "src/app/models/patient/patient";
 import { Order } from "src/app/models/patient/order";
 import { forkJoin } from "rxjs";
 import { TypeMessage } from "src/app/models/utils/message-enum";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { OrderCustomInfos } from "src/app/models/utils/order-custom-infos";
-import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-list-order-by-date",
@@ -15,8 +13,6 @@ import { Router } from "@angular/router";
   styleUrls: ["./list-order-by-date.component.scss"],
 })
 export class ListOrderByDateComponent implements OnInit {
-  addLogo = faPlus;
-
   @Input() date: string;
   @Input() moment: string;
 
@@ -31,7 +27,7 @@ export class ListOrderByDateComponent implements OnInit {
   constructor(
     private orderService: OrderService,
     private patientService: PatientService,
-    private router: Router
+    private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {}
@@ -44,7 +40,9 @@ export class ListOrderByDateComponent implements OnInit {
       forkJoin([patients, orders]).subscribe(
         (datas) => {
           this.patients = datas[0];
-          this.orders = datas[1];
+          this.orders = datas[1]
+            ? datas[1].filter((order) => order.deliveryDate === this.date)
+            : null;
           this.mapOrderToPatients(this.patients, this.orders, this.moment);
           this.loading = false;
         },
@@ -73,10 +71,31 @@ export class ListOrderByDateComponent implements OnInit {
     });
   }
 
-  onAddOrder(patientId: number): void {
-    let infos: OrderCustomInfos = new OrderCustomInfos(this.date, this.moment);
-    this.orderService.storeOrderInfosToLocal(infos);
-    this.router.navigate(["/order/add"], { queryParams: { id: patientId } });
+  removeOrderOfPatient(patient: Patient): void {
+    let order: Order = this.ordersOfPatients.get(patient);
+    if (!order) return;
+    this.orderService.deleteOrder(order.id).subscribe(
+      (data) => {
+        // pour ne pas retirer la commande alors que la modal est en cours de fermeture
+        setTimeout(() => {
+          this.ordersOfPatients.set(patient, null);
+        }, 200);
+        this.toastrService.success(
+          "La commande de " +
+            patient.lastName +
+            " " +
+            patient.firstName +
+            " a bien été supprimée des registres pour le " +
+            order.moment +
+            " du " +
+            order.deliveryDate,
+          "Suppression réussie !"
+        );
+      },
+      (error) => {
+        this.toastrService.error(this.getError(error), "Oops !");
+      }
+    );
   }
 
   /**

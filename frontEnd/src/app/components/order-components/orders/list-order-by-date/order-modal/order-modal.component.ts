@@ -1,10 +1,11 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { faList } from "@fortawesome/free-solid-svg-icons";
 import { CustomModal } from "src/app/models/utils/custom-modal";
 import { Order } from "src/app/models/patient/order";
 import { Patient } from "src/app/models/patient/patient";
 import * as moment from "moment";
 import { Router } from "@angular/router";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
 @Component({
   selector: "app-order-modal",
@@ -20,6 +21,9 @@ export class OrderModalComponent implements OnInit {
   modal: CustomModal;
 
   isPast: boolean = false;
+  cannotBeUpdated: string = TypeMessage.OLD_ORDERS_ARE_NOT_EDITABLE;
+
+  @Output() deletedOrderOfPatient = new EventEmitter<Patient>();
 
   constructor(private router: Router) {}
 
@@ -46,7 +50,7 @@ export class OrderModalComponent implements OnInit {
     });
   }
 
-  onValidate(): void {}
-
-  onCancel(): void {}
+  onDelete(): void {
+    this.deletedOrderOfPatient.emit(this.patient);
+  }
 }
