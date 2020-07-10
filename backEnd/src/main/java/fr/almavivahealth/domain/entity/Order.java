@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -65,6 +67,12 @@ public class Order implements Serializable {
 
 	@ManyToOne
 	private Patient patient;
+
+	@CreatedBy
+	private String createdBy;
+
+	@CreatedDate
+	private LocalDate createdDate;
 
 	@LastModifiedDate
 	private LocalDate lastModifDate;

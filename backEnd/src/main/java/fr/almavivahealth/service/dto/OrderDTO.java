@@ -39,6 +39,10 @@ public class OrderDTO implements Serializable {
 
 	private Long patientId;
 
+	private String createdBy;
+
+	private LocalDate createdDate;
+
 	private LocalDate lastModifDate;
 
 	private String lastModifBy;
@@ -70,9 +74,6 @@ public class OrderDTO implements Serializable {
 	public void setPatientId(final Long patientId) {
 		this.patientId = patientId;
 	}
-
-
-
 
 	public LocalDate getDeliveryDate() {
 		return deliveryDate;
@@ -146,10 +147,26 @@ public class OrderDTO implements Serializable {
 		this.lastModifBy = lastModifBy;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(final String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public LocalDate getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(final LocalDate createdDate) {
+		this.createdDate = createdDate;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(dairyProduct, deliveryDate, dessert, dish, entry, garnish, id, lastModifBy, lastModifDate,
-				moment, orderStatus, patientId);
+		return Objects.hash(createdBy, createdDate, dairyProduct, deliveryDate, dessert, dish, entry, garnish, id,
+				lastModifBy, lastModifDate, moment, orderStatus, patientId);
 	}
 
 	@Override
@@ -161,7 +178,8 @@ public class OrderDTO implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		final OrderDTO other = (OrderDTO) obj;
-		return Objects.equals(dairyProduct, other.dairyProduct) && Objects.equals(deliveryDate, other.deliveryDate)
+		return Objects.equals(createdBy, other.createdBy) && Objects.equals(createdDate, other.createdDate)
+				&& Objects.equals(dairyProduct, other.dairyProduct) && Objects.equals(deliveryDate, other.deliveryDate)
 				&& Objects.equals(dessert, other.dessert) && Objects.equals(dish, other.dish)
 				&& Objects.equals(entry, other.entry) && Objects.equals(garnish, other.garnish)
 				&& Objects.equals(id, other.id) && Objects.equals(lastModifBy, other.lastModifBy)
