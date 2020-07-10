@@ -38,11 +38,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.dao.DietRepository;
+import fr.almavivahealth.dao.OrderRepository;
 import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.dao.RoomRepository;
 import fr.almavivahealth.dao.TextureRepository;
 import fr.almavivahealth.domain.entity.Allergy;
 import fr.almavivahealth.domain.entity.Diet;
+import fr.almavivahealth.domain.entity.Order;
 import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.domain.entity.Texture;
@@ -73,6 +75,8 @@ public class PatientServiceImpl implements PatientService {
 
 	private final RoomRepository roomRepository;
 
+	private final OrderRepository orderRepository;
+
 	private final PatientImportationAttempts patientImportationAttempts;
 
 	private final MessageSource messageSource;
@@ -84,6 +88,7 @@ public class PatientServiceImpl implements PatientService {
 			final TextureRepository textureRepository,
 			final DietRepository dietRepository,
 			final RoomRepository roomRepository,
+			final OrderRepository orderRepository,
 			final PatientImportationAttempts patientImportationAttempts,
 			final MessageSource messageSource) {
 		this.patientRepository = patientRepository;
@@ -91,6 +96,7 @@ public class PatientServiceImpl implements PatientService {
 		this.textureRepository = textureRepository;
 		this.dietRepository = dietRepository;
 		this.roomRepository = roomRepository;
+		this.orderRepository = orderRepository;
 		this.patientImportationAttempts = patientImportationAttempts;
 		this.messageSource = messageSource;
 	}
@@ -177,6 +183,11 @@ public class PatientServiceImpl implements PatientService {
 			patient.setState(false);
 			// free the room
 			patient.setRoom(null);
+
+			// delete all orders
+			final List<Order> orders = orderRepository.findAllByPatientId(id);
+			orderRepository.deleteAll(orders);
+
 			patientRepository.saveAndFlush(patient);
 		});
 	}
