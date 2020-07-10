@@ -5,9 +5,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyIterable;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anySet;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,6 +31,7 @@ import org.springframework.mock.web.MockMultipartFile;
 
 import fr.almavivahealth.dao.AllergyRepository;
 import fr.almavivahealth.dao.DietRepository;
+import fr.almavivahealth.dao.OrderRepository;
 import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.dao.RoomRepository;
 import fr.almavivahealth.dao.TextureRepository;
@@ -67,6 +70,9 @@ public class PatientServiceTest {
 
 	@Mock
 	private AllergyRepository allergyRepository;
+
+	@Mock
+	private OrderRepository orderRepository;
 
 	@Mock
 	private RoomRepository roomRepository;
@@ -270,6 +276,8 @@ public class PatientServiceTest {
 		// When
 		when(patientRepository.findById(anyLong())).thenReturn(Optional.ofNullable(patient));
 		when(patientRepository.saveAndFlush((Patient) any())).thenReturn(patient);
+
+		doNothing().when(orderRepository).deleteAll(anyList());
 
 		// Then
 		patientServiceImpl.delete(ID);

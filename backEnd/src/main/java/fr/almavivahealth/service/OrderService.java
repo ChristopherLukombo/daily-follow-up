@@ -50,7 +50,6 @@ public interface OrderService {
 	 */
 	void delete(Long id);
 
-
 	/**
 	 * Find orders by patient id.
 	 *
@@ -59,7 +58,6 @@ public interface OrderService {
 	 */
 	List<OrderDTO> findOrdersByPatientId(Long patientId);
 
-
 	/**
 	 * Find all orders between startDate and endDate.
 	 *
@@ -67,4 +65,12 @@ public interface OrderService {
 	 * @return the list of entities
 	 */
 	List<OrderDTO> findAllOrdersBetween(LocalDate date);
+
+	/**
+	 * Find all orders by date.
+	 *
+	 * @param date the date
+	 * @return the list of entities
+	 */
+	List<OrderDTO> findAllOrdersByDate(LocalDate date);
 }

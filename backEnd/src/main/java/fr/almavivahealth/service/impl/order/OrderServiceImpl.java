@@ -140,8 +140,23 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<OrderDTO> findAllOrdersBetween(final LocalDate date) {
-		LOGGER.debug("Request to get all Orders between {}", date);
+		LOGGER.debug("Request to get all Orders between: {}", date);
 		return orderRepository.findAllOrdersBetween(date).stream()
+				.map(orderMapper::orderToOrderDTO)
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Find all orders by date.
+	 *
+	 * @param date the date
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<OrderDTO> findAllOrdersByDate(final LocalDate date) {
+		LOGGER.debug("Request to get all Orders for date: {}", date);
+		return orderRepository.findAllOrdersForDate(date).stream()
 				.map(orderMapper::orderToOrderDTO)
 				.collect(Collectors.toList());
 	}

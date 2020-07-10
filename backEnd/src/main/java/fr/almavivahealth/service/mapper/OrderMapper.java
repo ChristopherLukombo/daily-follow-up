@@ -28,6 +28,10 @@ public interface OrderMapper {
 	@Mapping(source = "moment", target = "moment")
 	@Mapping(source = "dairyProduct", target = "dairyProduct")
 	@Mapping(source = "garnish", target = "garnish")
+	@Mapping(source = "createdBy", target = "createdBy")
+	@Mapping(source = "createdDate", target = "createdDate")
+	@Mapping(source = "lastModifDate", target = "lastModifDate")
+	@Mapping(source = "lastModifBy", target = "lastModifBy")
 	OrderDTO orderToOrderDTO(Order order);
 
 	@InheritInverseConfiguration
