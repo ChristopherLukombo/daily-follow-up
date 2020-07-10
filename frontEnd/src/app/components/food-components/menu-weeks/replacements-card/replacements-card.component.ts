@@ -39,8 +39,7 @@ export class ReplacementsCardComponent implements OnInit {
     const target = {
       entries: [null, Validators.required],
       dishes: [null, Validators.required],
-      starchyFoods: [null, Validators.required],
-      vegetables: [null, Validators.required],
+      garnishes: [null, Validators.required],
       dairyProducts: [null, Validators.required],
       desserts: [null, Validators.required],
     };
@@ -69,8 +68,7 @@ export class ReplacementsCardComponent implements OnInit {
       null,
       this.f.entries.value,
       this.f.dishes.value,
-      this.f.starchyFoods.value,
-      this.f.vegetables.value,
+      this.f.garnishes.value,
       this.f.dairyProducts.value,
       this.f.desserts.value
     );

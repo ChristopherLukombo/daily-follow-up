@@ -46,7 +46,6 @@ public class OrderServiceTest {
 		return Order.builder()
 				.id(ID)
 				.patient(null)
-				.dairyProducts(null)
 				.build();
 	}
 
@@ -188,5 +187,108 @@ public class OrderServiceTest {
 		orderServiceImpl.delete(ID);
 
 		verify(orderRepository, times(1)).deleteById(anyLong());
+	}
+
+	@Test
+	public void shouldFindOrdersByPatientId() {
+		// Given
+		final List<Order> orders = Arrays.asList(createOrder());
+
+		// When
+		when(orderRepository.findAllByPatientId(anyLong())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.findOrdersByPatientId(ID)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenTryingToFindOrdersByPatientId() {
+		// Given
+		final List<Order> orders = Collections.emptyList();
+
+		// When
+		when(orderRepository.findAllByPatientId(anyLong())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.findOrdersByPatientId(ID)).isEmpty();
+	}
+
+	@Test
+	public void shouldThrowWhenOrderRepositoryIsNullInTryingToFindOrdersByPatientId() {
+		// Given
+		final List<Order> orders = null;
+
+		// When
+		when(orderRepository.findAllByPatientId(anyLong())).thenReturn(orders);
+
+		// Then
+		assertThatThrownBy(() -> orderServiceImpl.findOrdersByPatientId(ID))
+		.isInstanceOf(NullPointerException.class);
+	}
+
+	@Test
+	public void shouldGetAllOrdersBetweenDate() {
+		// Given
+		final List<Order> orders = Arrays.asList(createOrder());
+		final LocalDate date = LocalDate.of(2020, Month.JANUARY, 1);
+
+		// Then
+		when(orderRepository.findAllOrdersBetween((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.findAllOrdersBetween(date)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenTryingToGetAllOrdersBetweenDate() {
+		// Given
+		final List<Order> orders = Collections.emptyList();
+		final LocalDate date = LocalDate.of(2020, Month.JANUARY, 1);
+
+		// Then
+		when(orderRepository.findAllOrdersBetween((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.findAllOrdersBetween(date)).isEmpty();
+	}
+
+	@Test
+	public void shouldGetAllOrdersForDate() {
+		// Given
+		final List<Order> orders = Arrays.asList(createOrder());
+		final LocalDate date = LocalDate.of(2020, Month.JANUARY, 1);
+
+		// Then
+		when(orderRepository.findAllOrdersForDate((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.findAllOrdersByDate(date)).isNotEmpty();
+	}
+
+	@Test
+	public void shoulReturnEmptyListAllOrdersForDate() {
+		// Given
+		final List<Order> orders = Collections.emptyList();
+		final LocalDate date = LocalDate.of(2020, Month.JANUARY, 1);
+
+		// Then
+		when(orderRepository.findAllOrdersForDate((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.findAllOrdersByDate(date)).isEmpty();
+	}
+
+	@Test
+	public void shoulReturnNullListAllOrdersForDate() {
+		// Given
+		final List<Order> orders = null;
+		final LocalDate date = LocalDate.of(2020, Month.JANUARY, 1);
+
+		// Then
+		when(orderRepository.findAllOrdersForDate((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThatThrownBy(() -> orderServiceImpl.findAllOrdersByDate(date))
+		.isInstanceOf(NullPointerException.class);
 	}
 }

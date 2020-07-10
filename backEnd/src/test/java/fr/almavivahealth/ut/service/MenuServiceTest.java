@@ -101,6 +101,7 @@ public class MenuServiceTest {
 	private static Menu createMenu() {
 		return Menu.builder()
 				.id(ID)
+				.repetition(1)
 				.startDate(LocalDate.of(2020, Month.APRIL, 6))
 				.endDate(LocalDate.of(2020, Month.APRIL, 12))
 				.weeks(Arrays.asList(createWeek()))
@@ -279,7 +280,7 @@ public class MenuServiceTest {
 
 		// When
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
-		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any(), (LocalDate) any()))
+		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any()))
 				.thenReturn(menus);
 		when(menuProperties.getImagesPath()).thenReturn(path.toString());
 
@@ -296,7 +297,7 @@ public class MenuServiceTest {
 
 		// When
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
-		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any(), (LocalDate) any()))
+		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any()))
 				.thenReturn(menus);
 		when(menuProperties.getImagesPath()).thenReturn(path.toString());
 
@@ -313,7 +314,7 @@ public class MenuServiceTest {
 
 		// When
 		when(patientRepository.findAllByStateTrueOrderByIdDesc()).thenReturn(patients);
-		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any(), (LocalDate) any()))
+		when(menuRepository.findAllByWeek(anyString(), anyList(), (LocalDate) any()))
 				.thenReturn(menus);
 		when(menuProperties.getImagesPath()).thenReturn(path.toString());
 
@@ -498,5 +499,31 @@ public class MenuServiceTest {
 		menuServiceImpl.deleteByIds(ids);
 
 		verify(menuRepository, times(0)).deleteById(anyLong());
+	}
+
+	@Test
+	public void shouldGetMenusByDate() {
+		// Given
+		final List<Menu> menus = Arrays.asList(createMenu());
+		final LocalDate date = LocalDate.now();
+
+		// Then
+		when(menuRepository.findCurrentMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findMenusForDate(date)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldReturnEmptyListWhenTryingToGetMenusByDate() {
+		// Given
+		final List<Menu> menus = Collections.emptyList();
+		final LocalDate date = LocalDate.now();
+
+		// Then
+		when(menuRepository.findCurrentMenus((LocalDate) any())).thenReturn(menus);
+
+		// Then
+		assertThat(menuServiceImpl.findMenusForDate(date)).isEmpty();
 	}
 }

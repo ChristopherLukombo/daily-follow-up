@@ -23,3 +23,15 @@ export class GapPipe implements PipeTransform {
     return Math.abs(first - second);
   }
 }
+
+@Pipe({
+  name: "dayFormat",
+})
+@Injectable()
+export class DayFormatPipe implements PipeTransform {
+  transform(date: string): string {
+    if (!date) return;
+    let infos: string[] = date.split("-");
+    return infos[2] + "/" + infos[1];
+  }
+}

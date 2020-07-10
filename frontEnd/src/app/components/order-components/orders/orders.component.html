@@ -8,36 +8,76 @@
       <br />
       <div class="row">
         <div class="col">
-          <table class="table table-bordered week">
-            <tbody class="week-style">
-              <tr>
-                <td
-                  *ngFor="let d of daysOfTheWeek | keyvalue: notOrdered"
-                  class="text-center"
-                  (click)="selectDay(d.value)"
-                  [class.active]="d.value == selectedDay"
-                >
-                  <strong>{{ d.key }}</strong>
-                  <br />
-                  <span class="date-style">
-                    {{ d.value }}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="btn-group">
-            <button
-              *ngFor="let moment of moments"
-              type="button"
-              class="btn btn-lg btn-primary"
-              (click)="selectMoment(moment)"
-              [class.active]="moment == selectedMoment"
-            >
-              {{ moment }}
-            </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="goCurrentWeek()"
+          >
+            Semaine en cours
+          </button>
+        </div>
+        <div class="col">
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label text-right">
+              Choisir
+            </label>
+            <div class="col-sm-6 text-right">
+              <input
+                type="week"
+                [(ngModel)]="specificWeek"
+                class="form-control"
+              />
+            </div>
+            <div class="col-sm-2">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="goWeek()"
+              >
+                Go
+              </button>
+            </div>
           </div>
         </div>
+      </div>
+      <br />
+      <div class="table-responsive">
+        <table class="table table-bordered week">
+          <tbody class="week-style">
+            <tr>
+              <td
+                *ngFor="let d of daysOfTheWeek | keyvalue: notOrdered"
+                class="text-center"
+                (click)="selectDate(d.value)"
+                [class.active]="d.value == selectedDate"
+              >
+                <strong>{{ d.key }}</strong>
+                <br />
+                <span class="date-style">
+                  {{ d.value | dayFormat }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="btn-group">
+        <button
+          *ngFor="let moment of moments"
+          type="button"
+          class="btn btn btn-primary"
+          (click)="selectMoment(moment)"
+          [class.active]="moment == selectedMoment"
+        >
+          {{ moment }}
+        </button>
+      </div>
+      <br /><br />
+      <div *ngIf="selectedDate">
+        <app-list-order-by-date
+          [date]="selectedDate"
+          [moment]="selectedMoment"
+        ></app-list-order-by-date>
       </div>
     </div>
   </div>

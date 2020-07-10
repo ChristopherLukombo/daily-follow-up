@@ -93,10 +93,8 @@ export class MenuEditComponent implements OnInit {
       this.menu.replacement.entries.length > 0 &&
       this.menu.replacement.dishes &&
       this.menu.replacement.dishes.length > 0 &&
-      this.menu.replacement.starchyFoods &&
-      this.menu.replacement.starchyFoods.length > 0 &&
-      this.menu.replacement.vegetables &&
-      this.menu.replacement.vegetables.length > 0 &&
+      this.menu.replacement.garnishes &&
+      this.menu.replacement.garnishes.length > 0 &&
       this.menu.replacement.dairyProducts &&
       this.menu.replacement.dairyProducts.length > 0 &&
       this.menu.replacement.desserts &&
@@ -124,8 +122,7 @@ export class MenuEditComponent implements OnInit {
       this.menu.replacement.id,
       this.menu.replacement.entries,
       this.menu.replacement.dishes,
-      this.menu.replacement.starchyFoods,
-      this.menu.replacement.vegetables,
+      this.menu.replacement.garnishes,
       this.menu.replacement.dairyProducts,
       this.menu.replacement.desserts
     );

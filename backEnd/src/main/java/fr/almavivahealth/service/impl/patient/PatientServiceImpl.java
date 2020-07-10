@@ -38,11 +38,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import fr.almavivahealth.dao.DietRepository;
+import fr.almavivahealth.dao.OrderRepository;
 import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.dao.RoomRepository;
 import fr.almavivahealth.dao.TextureRepository;
 import fr.almavivahealth.domain.entity.Allergy;
 import fr.almavivahealth.domain.entity.Diet;
+import fr.almavivahealth.domain.entity.Order;
 import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.domain.entity.Texture;
@@ -73,17 +75,20 @@ public class PatientServiceImpl implements PatientService {
 
 	private final RoomRepository roomRepository;
 
+	private final OrderRepository orderRepository;
+
 	private final PatientImportationAttempts patientImportationAttempts;
 
 	private final MessageSource messageSource;
 
-    @Autowired
+	@Autowired
 	public PatientServiceImpl(
 			final PatientRepository patientRepository,
 			final PatientMapper patientMapper,
 			final TextureRepository textureRepository,
 			final DietRepository dietRepository,
 			final RoomRepository roomRepository,
+			final OrderRepository orderRepository,
 			final PatientImportationAttempts patientImportationAttempts,
 			final MessageSource messageSource) {
 		this.patientRepository = patientRepository;
@@ -91,6 +96,7 @@ public class PatientServiceImpl implements PatientService {
 		this.textureRepository = textureRepository;
 		this.dietRepository = dietRepository;
 		this.roomRepository = roomRepository;
+		this.orderRepository = orderRepository;
 		this.patientImportationAttempts = patientImportationAttempts;
 		this.messageSource = messageSource;
 	}
@@ -104,8 +110,8 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public PatientDTO save(final PatientDTO patientDTO) {
 		LOGGER.debug("Request to save Patient : {}", patientDTO);
-        Patient patient = patientMapper.patientDTOToPatient(patientDTO);
-        patient = patientRepository.save(patient);
+		Patient patient = patientMapper.patientDTOToPatient(patientDTO);
+		patient = patientRepository.save(patient);
 		return patientMapper.patientToPatientDTO(patient);
 	}
 
@@ -177,6 +183,11 @@ public class PatientServiceImpl implements PatientService {
 			patient.setState(false);
 			// free the room
 			patient.setRoom(null);
+
+			// delete all orders
+			final List<Order> orders = orderRepository.findAllByPatientId(id);
+			orderRepository.deleteAll(orders);
+
 			patientRepository.saveAndFlush(patient);
 		});
 	}
@@ -247,13 +258,13 @@ public class PatientServiceImpl implements PatientService {
 	private Patient buildPatient(final String line) {
 		final String[] columns = line.split(SEMICOLON);
 
-	    final Set<String> dietNames = stringToSet(columns[4]);
-	    final Set<String> allergyNames = stringToSet(columns[5]);
+		final Set<String> dietNames = stringToSet(columns[4]);
+		final Set<String> allergyNames = stringToSet(columns[5]);
 
-	    // TODO: provoquer une exception si les éléments ne sont pas présents
+		// TODO: provoquer une exception si les éléments ne sont pas présents
 		final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 3)).orElseGet(() -> null);
-	    final List<Diet> diets = dietRepository.findAllByNameIgnoreCaseIn(dietNames);
-	    final List<Allergy> allergies = createAllergies(allergyNames);
+		final List<Diet> diets = dietRepository.findAllByNameIgnoreCaseIn(dietNames);
+		final List<Allergy> allergies = createAllergies(allergyNames);
 		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 6)).orElseGet(() -> null);
 
 		return Patient.builder()
@@ -345,7 +356,7 @@ public class PatientServiceImpl implements PatientService {
 
 	private List<PatientDTO> saveAll(final Set<Patient> patients) {
 		return patientRepository.saveAll(patients).stream()
-		        .map(patientMapper::patientToPatientDTO)
+				.map(patientMapper::patientToPatientDTO)
 				.collect(Collectors.toList());
 	}
 
@@ -373,12 +384,12 @@ public class PatientServiceImpl implements PatientService {
 		LOGGER.debug("Request to reactivate Patient : {}", id);
 		return patientRepository.findById(id)
 				.map(patient -> {
-			// reactivate given patient for the id.
-			patient.setState(true);
-			patientRepository.saveAndFlush(patient);
-			LOGGER.debug("Activated patient : {}", id);
-			return patient;
-		});
+					// reactivate given patient for the id.
+					patient.setState(true);
+					patientRepository.saveAndFlush(patient);
+					LOGGER.debug("Activated patient : {}", id);
+					return patient;
+				});
 	}
 
 	/**
@@ -413,7 +424,7 @@ public class PatientServiceImpl implements PatientService {
 		final Room roomSecondPatient = findRoom(secondPatient);
 
 		if (null == firstPatient || null == secondPatient) {
-             return false;
+			return false;
 		}
 
 		// Free rooms
@@ -437,5 +448,18 @@ public class PatientServiceImpl implements PatientService {
 		return Optional.ofNullable(patient)
 				.map(Patient::getRoom)
 				.orElse(null);
+	}
+
+	/**
+	 * Find patient by order id.
+	 *
+	 * @param orderId the order id
+	 * @return the optional
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<PatientDTO> findPatientByOrderId(final Long orderId) {
+		return patientRepository.findPatientByOrderId(orderId)
+				.map(patientMapper::patientToPatientDTO);
 	}
 }

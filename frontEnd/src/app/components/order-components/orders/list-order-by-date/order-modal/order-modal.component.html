@@ -1,0 +1,135 @@
+<div *ngIf="modal && patient && order">
+  <button
+    class="btn btn-outline-info btn-sm btn-block"
+    data-toggle="modal"
+    [attr.data-target]="modal.target"
+  >
+    <fa-icon [icon]="editLogo"></fa-icon>
+  </button>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  [attr.id]="modal.id"
+  tabindex="-1"
+  role="dialog"
+  [attr.aria-labelledby]="modal.label"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" [attr.id]="modal.label">
+          {{ patient?.lastName }} {{ patient?.firstName }} -
+          {{ order?.moment }} du
+          {{ order?.deliveryDate | dayFormat }}
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-5">
+            <h6>
+              <span class="badge badge-secondary">
+                {{ patient?.texture?.name }}
+              </span>
+            </h6>
+            <h6>
+              <span *ngFor="let diet of patient?.diets" class="spaced-badge">
+                <span class="badge badge-info">
+                  {{ diet?.name }}
+                </span>
+              </span>
+            </h6>
+          </div>
+          <div class="col text-right">
+            <a
+              routerLink="/patient/details"
+              [attr.data-dismiss]="'modal'"
+              [queryParams]="{ id: patient?.id }"
+              >Voir les informations du patient</a
+            >
+          </div>
+        </div>
+        <hr />
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>Entrée</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.entry?.name }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>Plat</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.dish?.name }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>Garniture</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.garnish?.name }}
+          </div>
+        </div>
+        <div *ngIf="order?.moment != 'Dîner'" class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>P.L</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.dairyProduct?.name }}
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">
+            <h6>Dessert</h6>
+          </label>
+          <div class="col-sm-9">
+            {{ order?.dessert?.name }}
+          </div>
+        </div>
+        <div *ngIf="isPast" class="alert alert-warning" role="alert">
+          {{ cannotBeUpdated }}
+        </div>
+      </div>
+      <div *ngIf="!isPast" class="modal-footer">
+        <button
+          *ngIf="order?.orderStatus === 'WAITING'"
+          type="button"
+          class="btn btn-outline-info"
+          (click)="onEdit()"
+          [attr.data-dismiss]="order ? 'modal' : null"
+        >
+          Modifier la commande
+        </button>
+        <div class="text-right" *ngIf="order?.orderStatus === 'VALIDATED'">
+          <button
+            type="button"
+            class="btn btn-danger"
+            [attr.data-dismiss]="'modal'"
+            (click)="onDelete()"
+          >
+            Supprimer la commande
+          </button>
+          <br />
+          <small class="text-muted">
+            Attention, une commande supprimée signifie qu'elle ne sera pas
+            envoyé en cuisine.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

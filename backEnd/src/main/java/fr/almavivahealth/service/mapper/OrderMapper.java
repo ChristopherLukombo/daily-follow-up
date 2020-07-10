@@ -22,13 +22,16 @@ public interface OrderMapper {
 	@Mapping(source = "deliveryDate", target = "deliveryDate")
 	@Mapping(source = "orderStatus", target = "orderStatus", qualifiedByName = "toOrderStatus")
 	@Mapping(source = "patient.id", target = "patientId")
-	@Mapping(source = "entries", target = "entries")
-	@Mapping(source = "dishes", target = "dishes")
-	@Mapping(source = "desserts", target = "desserts")
-	@Mapping(source = "starchyFoods", target = "starchyFoods")
-	@Mapping(source = "vegetables", target = "vegetables")
+	@Mapping(source = "entry", target = "entry")
+	@Mapping(source = "dish", target = "dish")
+	@Mapping(source = "dessert", target = "dessert")
 	@Mapping(source = "moment", target = "moment")
-	@Mapping(source = "dairyProducts", target = "dairyProducts")
+	@Mapping(source = "dairyProduct", target = "dairyProduct")
+	@Mapping(source = "garnish", target = "garnish")
+	@Mapping(source = "createdBy", target = "createdBy")
+	@Mapping(source = "createdDate", target = "createdDate")
+	@Mapping(source = "lastModifDate", target = "lastModifDate")
+	@Mapping(source = "lastModifBy", target = "lastModifBy")
 	OrderDTO orderToOrderDTO(Order order);
 
 	@InheritInverseConfiguration

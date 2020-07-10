@@ -2,7 +2,6 @@ package fr.almavivahealth.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -10,9 +9,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import fr.almavivahealth.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -45,26 +48,35 @@ public class Order implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private OrderStatus orderStatus;
 
-	@ManyToMany
-	private List<Content> entries;
+	@ManyToOne
+	private Content entry;
 
-	@ManyToMany
-	private List<Content> dishes;
+	@ManyToOne
+	private Content dish;
 
-	@ManyToMany
-	private List<Content> desserts;
+	@ManyToOne
+	private Content dessert;
 
-	@ManyToMany
-	private List<Content> starchyFoods;
+	@ManyToOne
+	private Content dairyProduct;
 
-	@ManyToMany
-	private List<Content> vegetables;
-
-	@ManyToMany
-	private List<Content> dairyProducts;
+	@ManyToOne
+	private Content garnish;
 
 	private String moment;
 
 	@ManyToOne
 	private Patient patient;
+
+	@CreatedBy
+	private String createdBy;
+
+	@CreatedDate
+	private LocalDate createdDate;
+
+	@LastModifiedDate
+	private LocalDate lastModifDate;
+
+	@LastModifiedBy
+	private String lastModifBy;
 }

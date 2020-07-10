@@ -1,0 +1,134 @@
+<div *ngIf="form && patient && order">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Date de livraison <span class="required">*</span></label>
+        <input
+          type="date"
+          formControlName="deliveryDate"
+          [ngClass]="{ 'is-invalid': submitted && f.deliveryDate.errors }"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group col-md-6">
+        <label>Moment <span class="required">*</span></label>
+        <select class="form-control" formControlName="moment">
+          <option [ngValue]="order?.moment">
+            {{ order?.moment }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Entrée <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('Entrée')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner une entrée..."
+        notFoundText="Aucune entrée trouvée"
+        [virtualScroll]="true"
+        formControlName="entry"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.entry.errors" class="text-danger">
+        Veuillez renseigner l'entrée
+      </small>
+    </div>
+    <div class="form-group">
+      <label>Plat <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('Plat')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner un plat..."
+        notFoundText="Aucun plat trouvé"
+        [virtualScroll]="true"
+        formControlName="dish"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.dish.errors" class="text-danger">
+        Veuillez renseigner le plat
+      </small>
+    </div>
+    <div class="form-group">
+      <label>Garniture <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('Garniture')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner une garniture..."
+        notFoundText="Aucune garniture trouvée"
+        [virtualScroll]="true"
+        formControlName="garnish"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.garnish.errors" class="text-danger">
+        Veuillez renseigner la garniture du plat
+      </small>
+    </div>
+    <div *ngIf="order?.moment != 'Dîner'" class="form-group">
+      <label>Produit laitier <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('P.L')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner un produit laitier..."
+        notFoundText="Aucun produit laitier trouvé"
+        [virtualScroll]="true"
+        formControlName="dairyProduct"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.dairyProduct.errors" class="text-danger">
+        Veuillez renseigner un produit laitier
+      </small>
+    </div>
+    <div class="form-group">
+      <label>Dessert <span class="required">*</span></label>
+      <ng-select
+        [items]="suggestions.get('Dessert')"
+        #select
+        bindLabel="name"
+        dropdownPosition="auto"
+        placeholder="Renseigner un dessert..."
+        notFoundText="Aucun dessert trouvé"
+        [virtualScroll]="true"
+        formControlName="dessert"
+      >
+      </ng-select>
+      <small *ngIf="submitted && f.dessert.errors" class="text-danger">
+        Veuillez renseigner le dessert
+      </small>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col text-left">
+        <button *ngIf="!updating" type="submit" class="btn btn-primary">
+          Enregistrer les informations
+        </button>
+        <button *ngIf="updating" type="button" class="btn btn-primary" disabled>
+          <span class="spinner-border spinner-border-sm"></span>Mise à jour...
+        </button>
+      </div>
+      <div class="col text-right">
+        <div *ngIf="!deleting" class="text-right">
+          <app-modal-danger
+            [btnTitle]="btnDelete"
+            [text]="confirmDelete"
+            (confirmation)="onDelete()"
+          ></app-modal-danger>
+        </div>
+        <div *ngIf="deleting" class="text-right">
+          <button class="btn btn-danger" type="button" disabled>
+            <span class="spinner-border spinner-border-sm"></span>Suppression...
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <br />
+</div>

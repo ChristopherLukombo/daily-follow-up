@@ -204,14 +204,7 @@ export class DeclinatorService {
         contents
       )
     );
-    declined.starchyFoods = this.selectRandoms(
-      this.getAuthorizedContentsByTypes(
-        GARNISH_TYPE,
-        ingredientsToRespect,
-        contents
-      )
-    );
-    declined.vegetables = this.selectRandoms(
+    declined.garnishes = this.selectRandoms(
       this.getAuthorizedContentsByTypes(
         GARNISH_TYPE,
         ingredientsToRespect,

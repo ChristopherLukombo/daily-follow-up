@@ -1,16 +1,24 @@
-import { Patient } from "./patient";
-import { MomentDay } from "../food/moment-day";
 import { Content } from "../food/content";
 
 export class Order {
   /***/
   id: number;
   /***/
-  date: Date;
+  moment: string;
   /***/
-  contents: Array<Content>;
+  entry: Content;
   /***/
-  momentDays: Array<MomentDay>;
+  dish: Content;
   /***/
-  patient: Patient;
+  garnish: Content;
+  /***/
+  dairyProduct: Content;
+  /***/
+  dessert: Content;
+  /***/
+  deliveryDate: string;
+  /***/
+  orderStatus: string;
+  /***/
+  patientId: number;
 }

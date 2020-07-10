@@ -106,4 +106,12 @@ public interface PatientService {
 	 * @return true, if successful
 	 */
     boolean changeRooms(Long firstPatientId, Long secondPatientId);
+
+    /**
+	 * Find patient by order id.
+	 *
+	 * @param orderId the order id
+	 * @return the optional
+	 */
+    Optional<PatientDTO> findPatientByOrderId(Long orderId);
 }

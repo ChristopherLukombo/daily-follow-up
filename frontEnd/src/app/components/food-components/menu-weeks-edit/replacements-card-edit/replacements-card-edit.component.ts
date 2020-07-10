@@ -41,8 +41,7 @@ export class ReplacementsCardEditComponent implements OnInit {
     const target = {
       entries: [replacement.entries, Validators.required],
       dishes: [replacement.dishes, Validators.required],
-      starchyFoods: [replacement.starchyFoods, Validators.required],
-      vegetables: [replacement.vegetables, Validators.required],
+      garnishes: [replacement.garnishes, Validators.required],
       dairyProducts: [replacement.dairyProducts, Validators.required],
       desserts: [replacement.desserts, Validators.required],
     };
@@ -76,8 +75,7 @@ export class ReplacementsCardEditComponent implements OnInit {
   setReplacementsOfParentMenu(): void {
     this.menu.replacement.entries = this.f.entries.value;
     this.menu.replacement.dishes = this.f.dishes.value;
-    (this.menu.replacement.starchyFoods = this.f.starchyFoods.value),
-      (this.menu.replacement.vegetables = this.f.vegetables.value);
+    this.menu.replacement.garnishes = this.f.garnishes.value;
     this.menu.replacement.dairyProducts = this.f.dairyProducts.value;
     this.menu.replacement.desserts = this.f.desserts.value;
   }

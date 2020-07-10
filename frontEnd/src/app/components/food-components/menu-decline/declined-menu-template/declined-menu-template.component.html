@@ -6,8 +6,7 @@
           <tr class="text-center">
             <th scope="col">Entrée(s)</th>
             <th scope="col">Plat(s)</th>
-            <th scope="col">Féculent(s)</th>
-            <th scope="col">Légume(s)</th>
+            <th scope="col">Garnitures(s)</th>
             <th scope="col">Produit(s) laitier(s)</th>
             <th scope="col">Dessert(s)</th>
           </tr>
@@ -41,23 +40,11 @@
             <td>
               <div class="meals-of-the-day">
                 <ul
-                  *ngFor="let starch of menu?.replacement?.starchyFoods"
+                  *ngFor="let garnish of menu?.replacement?.garnishes"
                   class="list-group list-group-flush"
                 >
-                  <li class="list-group-item" title="{{ starch?.name }}">
-                    {{ starch?.name | truncate: 30 }}
-                  </li>
-                </ul>
-              </div>
-            </td>
-            <td>
-              <div class="meals-of-the-day">
-                <ul
-                  *ngFor="let veget of menu?.replacement?.vegetables"
-                  class="list-group list-group-flush"
-                >
-                  <li class="list-group-item" title="{{ veget?.name }}">
-                    {{ veget?.name | truncate: 30 }}
+                  <li class="list-group-item" title="{{ garnish?.name }}">
+                    {{ garnish?.name | truncate: 30 }}
                   </li>
                 </ul>
               </div>

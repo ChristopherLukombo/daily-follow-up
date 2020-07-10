@@ -81,7 +81,11 @@ import { Typeahead } from "./components/utils-components/typeahead/typeahead.com
 
 import { LoginService } from "./services/login/login.service";
 
-import { DetermineAgePipe, GapPipe } from "./utils/pipes/number-utils.pipe";
+import {
+  DetermineAgePipe,
+  GapPipe,
+  DayFormatPipe,
+} from "./utils/pipes/number-utils.pipe";
 import {
   SearchPipe,
   HighLightPipe,
@@ -116,9 +120,17 @@ import { TopTrendyDietsComponent } from "./components/statistics/statistics-food
 import { TopTrendyContentsComponent } from "./components/statistics/statistics-food/top-trendy-contents/top-trendy-contents.component";
 import { StatisticsNavbarComponent } from "./components/navbar-vertical/statistics-navbar/statistics-navbar.component";
 import { StatisticsFoodComponent } from "./components/statistics/statistics-food/statistics-food.component";
-import { MenuAllComponent } from './components/food-components/menu-all/menu-all.component';
-import { MenuEditComponent } from './components/food-components/menu-edit/menu-edit.component';
-import { DietEditComponent } from './components/food-components/diet-edit/diet-edit.component';
+import { MenuAllComponent } from "./components/food-components/menu-all/menu-all.component";
+import { MenuEditComponent } from "./components/food-components/menu-edit/menu-edit.component";
+import { DietEditComponent } from "./components/food-components/diet-edit/diet-edit.component";
+import { ListOrderByDateComponent } from "./components/order-components/orders/list-order-by-date/list-order-by-date.component";
+import { OrderModalComponent } from './components/order-components/orders/list-order-by-date/order-modal/order-modal.component';
+import { OrderEditComponent } from './components/order-components/order-edit/order-edit.component';
+import { FormOrderEditComponent } from './components/order-components/order-edit/form-order-edit/form-order-edit.component';
+import { OrderAddComponent } from './components/order-components/order-add/order-add.component';
+import { FormOrderAddComponent } from './components/order-components/order-add/form-order-add/form-order-add.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { OrderCardComponent } from './components/order-components/orders/list-order-by-date/order-card/order-card.component';
 
 @NgModule({
   declarations: [
@@ -157,6 +169,7 @@ import { DietEditComponent } from './components/food-components/diet-edit/diet-e
     ModalDangerComponent,
     RoomAvailableSelectorComponent,
     GapPipe,
+    DayFormatPipe,
     ListRoomsAvailableComponent,
     FormPatientAddComponent,
     PatientEditComponent,
@@ -217,6 +230,14 @@ import { DietEditComponent } from './components/food-components/diet-edit/diet-e
     MenuAllComponent,
     MenuEditComponent,
     DietEditComponent,
+    ListOrderByDateComponent,
+    OrderModalComponent,
+    OrderEditComponent,
+    FormOrderEditComponent,
+    OrderAddComponent,
+    FormOrderAddComponent,
+    DashboardComponent,
+    OrderCardComponent,
   ],
   imports: [
     BrowserModule,

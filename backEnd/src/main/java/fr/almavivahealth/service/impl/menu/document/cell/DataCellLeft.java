@@ -1,5 +1,7 @@
 package fr.almavivahealth.service.impl.menu.document.cell;
 
+import static fr.almavivahealth.constants.Constants.BON_APPETIT;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.itextpdf.layout.borders.Border;
@@ -15,14 +17,18 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 public class DataCellLeft extends DataCell {
 
 	private final String cliniqueName;
-	
+
 	private final String patientName;
-	
+
 	private final String roomNumber;
-	
+
 	private final String filename;
 
-	public DataCellLeft(String cliniqueName, String patientName, String roomNumber, String filename) {
+	public DataCellLeft(
+			final String cliniqueName,
+			final String patientName,
+			final String roomNumber,
+			final String filename) {
 		this.cliniqueName = cliniqueName;
 		this.patientName = patientName;
 		this.roomNumber = roomNumber;
@@ -37,7 +43,7 @@ public class DataCellLeft extends DataCell {
 	 */
 	@Override
 	public Cell createDataCell() throws DailyFollowUpException {
-		final Image imageLogo = createImage(filename); 
+		final Image imageLogo = createImage(filename);
 		imageLogo.setHeight(50);
 		imageLogo.setWidth(100);
 		final Cell cell = new Cell();
@@ -48,6 +54,8 @@ public class DataCellLeft extends DataCell {
 		cell.add(getCell(patientName, TextAlignment.LEFT, false, -1));
 		cell.add(getCell(StringUtils.LF, TextAlignment.LEFT, false, -1));
 		cell.add(getCell(roomNumber, TextAlignment.LEFT, false, -1));
+		cell.add(getCell(StringUtils.LF, TextAlignment.LEFT, false, -1));
+		cell.add(getCell(BON_APPETIT, TextAlignment.LEFT, false, -1));
 		cell.setBorderRight(Border.NO_BORDER);
 		cell.setBorderLeft(Border.NO_BORDER);
 		cell.setBorderLeft(Border.NO_BORDER);

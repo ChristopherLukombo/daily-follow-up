@@ -58,7 +58,7 @@ public class PatientResource {
 
 	private final MessageSource messageSource;
 
-    @Autowired
+	@Autowired
 	public PatientResource(final PatientService patientService, final MessageSource messageSource) {
 		this.patientService = patientService;
 		this.messageSource = messageSource;
@@ -76,12 +76,12 @@ public class PatientResource {
 	 */
 	@ApiOperation("Create a new patient.")
 	@ApiResponses({
-        @ApiResponse(code = 201, message = "Created"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 422, message = "Unprocessable entity")
-        })
+		@ApiResponse(code = 201, message = "Created"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden"),
+		@ApiResponse(code = 422, message = "Unprocessable entity")
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/patients")
 	public ResponseEntity<PatientDTO> createPatient(@Valid @RequestBody final PatientDTO patientDTO)
@@ -106,12 +106,12 @@ public class PatientResource {
 	 */
 	@ApiOperation("Update a patient.")
 	@ApiResponses({
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 422, message = "Unprocessable entity")
-        })
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden"),
+		@ApiResponse(code = 422, message = "Unprocessable entity")
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/patients")
 	public ResponseEntity<PatientDTO> updatePatient(@Valid @RequestBody final PatientDTO patientDTO)
@@ -134,12 +134,12 @@ public class PatientResource {
 	 */
 	@ApiOperation("Get all active patients.")
 	@ApiResponses({
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 204, message = "No Content"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden")
-        })
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients")
 	public ResponseEntity<List<PatientDTO>> getAllActivePatients() {
@@ -160,12 +160,12 @@ public class PatientResource {
 	 */
 	@ApiOperation(" Get all former patients.")
 	@ApiResponses({
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 204, message = "No Content"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden")
-        })
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients/former")
 	public ResponseEntity<List<PatientDTO>> getAllFormerPatients() {
@@ -186,12 +186,12 @@ public class PatientResource {
 	 */
 	@ApiOperation("Get the \"id\" patient")
 	@ApiResponses({
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 204, message = "No Content"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden")
-        })
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients/{id}")
 	public ResponseEntity<PatientDTO> getPatient(@PathVariable final Long id) {
@@ -212,11 +212,11 @@ public class PatientResource {
 	 */
 	@ApiOperation("Delete the \"id\" patient.")
 	@ApiResponses({
-        @ApiResponse(code = 204, message = "No Content"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden")
-        })
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@DeleteMapping("/patients/{id}")
 	public ResponseEntity<Void> deletePatient(@PathVariable final Long id) {
@@ -235,13 +235,13 @@ public class PatientResource {
 	 */
 	@ApiOperation("Import patient file.")
 	@ApiResponses({
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 409, message = "Conflict"),
-        @ApiResponse(code = 422, message = "Unprocessable entity"),
-        @ApiResponse(code = 500, message = "Internal Server"),
-        })
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 409, message = "Conflict"),
+		@ApiResponse(code = 422, message = "Unprocessable entity"),
+		@ApiResponse(code = 500, message = "Internal Server"),
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/patients/import")
 	public ResponseEntity<BulkResult> importPatientFile(
@@ -270,12 +270,12 @@ public class PatientResource {
 	 */
 	@ApiOperation("Reactivate patient.")
 	@ApiResponses({
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
-        @ApiResponse(code = 500, message = "Internal Server")
-        })
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden"),
+		@ApiResponse(code = 500, message = "Internal Server")
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients/reactivate/{id}")
 	public ResponseEntity<Void> reactivatePatient(@PathVariable final Long id) throws DailyFollowUpException {
@@ -297,12 +297,12 @@ public class PatientResource {
 	 */
 	@ApiOperation("Get all by floor number.")
 	@ApiResponses({
-        @ApiResponse(code = 200, message = "Ok"),
-        @ApiResponse(code = 204, message = "No Content"),
-        @ApiResponse(code = 400, message = "Bad request"),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden")
-        })
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/patients/floor/{number}")
 	public ResponseEntity<List<PatientDTO>> getAllByFloorNumber(@PathVariable final Integer number) {
@@ -324,22 +324,49 @@ public class PatientResource {
 	 */
 	@ApiOperation("Change rooms of patients.")
 	@ApiResponses({
+		@ApiResponse(code = 200, message = "Ok"),
+		@ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 400, message = "Bad request"),
+		@ApiResponse(code = 401, message = "Unauthorized"),
+		@ApiResponse(code = 403, message = "Forbidden")
+	})
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PostMapping("/patients/changesRoom/{firstPatientId}/{secondPatientId}")
+	public ResponseEntity<HttpStatus> changeRooms(@PathVariable final Long firstPatientId,
+			@PathVariable final Long secondPatientId, @ApiIgnore final Locale locale) throws DailyFollowUpException {
+		LOGGER.debug("REST request to get all Patients for floor: {} {}", firstPatientId, secondPatientId);
+		final boolean changeRooms = patientService.changeRooms(firstPatientId, secondPatientId);
+		if (!changeRooms) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					messageSource.getMessage(ERROR_PATIENT_ROOM_CHANGE, null, locale));
+		}
+		return ResponseEntity.ok().build();
+	}
+
+	/**
+	 * GET /patients/order/:id : Get the patient by order id
+	 *
+	 * @param order id the order id
+	 * @return the ResponseEntity with status 200 (Ok)
+	 * or with status 204 (No Content) if the patient does not exist.
+	 */
+	@ApiOperation("Get the \"id\" patient")
+	@ApiResponses({
         @ApiResponse(code = 200, message = "Ok"),
         @ApiResponse(code = 204, message = "No Content"),
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-		@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
-		@PostMapping("/patients/changesRoom/{firstPatientId}/{secondPatientId}")
-		public ResponseEntity<HttpStatus> changeRooms(@PathVariable final Long firstPatientId,
-				@PathVariable final Long secondPatientId, @ApiIgnore final Locale locale) throws DailyFollowUpException {
-			LOGGER.debug("REST request to get all Patients for floor: {} {}", firstPatientId, secondPatientId);
-			final boolean changeRooms = patientService.changeRooms(firstPatientId, secondPatientId);
-			if (!changeRooms) {
-				throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-					messageSource.getMessage(ERROR_PATIENT_ROOM_CHANGE, null, locale));
-			}
-			return ResponseEntity.ok().build();
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@GetMapping("/patients/order/{orderId}")
+	public ResponseEntity<PatientDTO> getPatientByOrderId(@PathVariable final Long orderId) {
+		LOGGER.debug("REST request to get Patient by order Id : {}", orderId);
+		final Optional<PatientDTO> result = patientService.findPatientByOrderId(orderId);
+		if (result.isPresent()) {
+			return ResponseEntity.ok().body(result.get());
+		} else {
+			return ResponseEntity.noContent().build();
 		}
+	}
 }

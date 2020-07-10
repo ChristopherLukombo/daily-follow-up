@@ -96,4 +96,12 @@ public interface MenuService {
 	 * @param ids the ids
 	 */
 	void deleteByIds(List<Long> ids);
+
+	/**
+	 * Find menus for date.
+	 *
+	 * @param date the date
+	 * @return the list of entities
+	 */
+	List<MenuDTO> findMenusForDate(LocalDate date);
 }

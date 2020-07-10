@@ -23,8 +23,7 @@ export class ReplacementsCardLockComponent implements OnInit {
   loadCardReplacements(): void {
     this.card.set("Entrée(s)", this.replacement.entries);
     this.card.set("Plat(s)", this.replacement.dishes);
-    this.card.set("Féculent(s)", this.replacement.starchyFoods);
-    this.card.set("Légume(s)", this.replacement.vegetables);
+    this.card.set("Garniture(s)", this.replacement.garnishes);
     this.card.set("Produit(s) laitier(s)", this.replacement.dairyProducts);
     this.card.set("Dessert(s)", this.replacement.desserts);
   }

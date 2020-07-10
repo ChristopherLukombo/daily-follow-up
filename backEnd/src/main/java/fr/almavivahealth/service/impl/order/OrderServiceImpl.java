@@ -114,4 +114,50 @@ public class OrderServiceImpl implements OrderService {
 		LOGGER.debug("Request to delete Order : {}", id);
 		orderRepository.deleteById(id);
 	}
+
+	/**
+	 * Find orders by patient id.
+	 *
+	 * @param patientId the patient id
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<OrderDTO> findOrdersByPatientId(final Long patientId) {
+		LOGGER.debug("Request to find Orders by patient id : {}", patientId);
+		return orderRepository.findAllByPatientId(patientId).stream()
+				.map(orderMapper::orderToOrderDTO)
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Find all orders between startDate and endDate.
+	 *
+	 * @param startDate the start date
+	 * @param endDate   the end date
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<OrderDTO> findAllOrdersBetween(final LocalDate date) {
+		LOGGER.debug("Request to get all Orders between: {}", date);
+		return orderRepository.findAllOrdersBetween(date).stream()
+				.map(orderMapper::orderToOrderDTO)
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Find all orders by date.
+	 *
+	 * @param date the date
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<OrderDTO> findAllOrdersByDate(final LocalDate date) {
+		LOGGER.debug("Request to get all Orders for date: {}", date);
+		return orderRepository.findAllOrdersForDate(date).stream()
+				.map(orderMapper::orderToOrderDTO)
+				.collect(Collectors.toList());
+	}
 }
