@@ -39,6 +39,10 @@ public class OrderDTO implements Serializable {
 
 	private Long patientId;
 
+	private LocalDate lastModifDate;
+
+	private String lastModifBy;
+
 	public OrderDTO() {
 		// Empty constructor needed for Jackson.
 	}
@@ -126,10 +130,26 @@ public class OrderDTO implements Serializable {
 		this.moment = moment;
 	}
 
+	public LocalDate getLastModifDate() {
+		return lastModifDate;
+	}
+
+	public void setLastModifDate(final LocalDate lastModifDate) {
+		this.lastModifDate = lastModifDate;
+	}
+
+	public String getLastModifBy() {
+		return lastModifBy;
+	}
+
+	public void setLastModifBy(final String lastModifBy) {
+		this.lastModifBy = lastModifBy;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(dairyProduct, deliveryDate, dessert, dish, entry, garnish, id, moment, orderStatus,
-				patientId);
+		return Objects.hash(dairyProduct, deliveryDate, dessert, dish, entry, garnish, id, lastModifBy, lastModifDate,
+				moment, orderStatus, patientId);
 	}
 
 	@Override
@@ -144,14 +164,13 @@ public class OrderDTO implements Serializable {
 		return Objects.equals(dairyProduct, other.dairyProduct) && Objects.equals(deliveryDate, other.deliveryDate)
 				&& Objects.equals(dessert, other.dessert) && Objects.equals(dish, other.dish)
 				&& Objects.equals(entry, other.entry) && Objects.equals(garnish, other.garnish)
-				&& Objects.equals(id, other.id) && Objects.equals(moment, other.moment)
+				&& Objects.equals(id, other.id) && Objects.equals(lastModifBy, other.lastModifBy)
+				&& Objects.equals(lastModifDate, other.lastModifDate) && Objects.equals(moment, other.moment)
 				&& Objects.equals(orderStatus, other.orderStatus) && Objects.equals(patientId, other.patientId);
 	}
-
 
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
-
 }

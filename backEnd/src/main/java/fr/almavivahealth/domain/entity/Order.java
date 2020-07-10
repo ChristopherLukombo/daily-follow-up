@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import fr.almavivahealth.domain.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,4 +65,10 @@ public class Order implements Serializable {
 
 	@ManyToOne
 	private Patient patient;
+
+	@LastModifiedDate
+	private LocalDate lastModifDate;
+
+	@LastModifiedBy
+	private String lastModifBy;
 }
