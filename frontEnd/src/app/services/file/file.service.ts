@@ -11,6 +11,7 @@ import { catchError } from "rxjs/operators";
 
 const PATIENTS_URL = environment.appRootUrl + "/api/patients";
 const CONTENTS_URL = environment.appRootUrl + "/api/contents";
+const ORDERS_URL = environment.appRootUrl + "/api/orders";
 
 @Injectable({
   providedIn: "root",
@@ -60,6 +61,24 @@ export class FileService {
     return this.http
       .post(CONTENTS_URL + `/picture/${id}`, data, {
         responseType: "text",
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Récupères les coupons pdf du récapitulatif des commandes d'un jour-moment donnée
+   * @param date
+   * @param moment
+   * @returns le Blob du pdf
+   */
+  getCouponsOfTheDate(date: string, moment: string): Observable<Blob> {
+    let headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http
+      .get(ORDERS_URL + `/coupons?momentName=${moment}&selectedDate=${date}`, {
+        headers,
+        responseType: "blob",
       })
       .pipe(catchError(this.handleError));
   }

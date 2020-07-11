@@ -34,4 +34,8 @@ export class InfosPatientComponent implements OnInit {
       );
     }
   }
+
+  changesRoom(room: Room): void {
+    this.room = room;
+  }
 }

@@ -132,6 +132,7 @@ import { FormOrderAddComponent } from './components/order-components/order-add/f
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { OrderCardComponent } from './components/order-components/orders/list-order-by-date/order-card/order-card.component';
 import { ContentsOfTodayComponent } from './components/dashboard/contents-of-today/contents-of-today.component';
+import { SwitchRoomsPatientsComponent } from './components/patient-components/patient/infos-patient/switch-rooms-patients/switch-rooms-patients.component';
 
 @NgModule({
   declarations: [
@@ -240,6 +241,7 @@ import { ContentsOfTodayComponent } from './components/dashboard/contents-of-tod
     DashboardComponent,
     OrderCardComponent,
     ContentsOfTodayComponent,
+    SwitchRoomsPatientsComponent,
   ],
   imports: [
     BrowserModule,

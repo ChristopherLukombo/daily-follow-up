@@ -19,11 +19,21 @@
         </div>
         <div class="col text-right">
           <button
+            *ngIf="!downloading"
             type="button"
             class="btn btn-primary"
             (click)="onDownloadCoupons()"
           >
-            Télecharger les coupons repas
+            Télecharger les coupons repas du {{ actualMoment }}
+          </button>
+          <button
+            *ngIf="downloading"
+            type="button"
+            class="btn btn-primary"
+            disabled
+          >
+            <span class="spinner-border spinner-border-sm"></span>
+            Télechargement...
           </button>
         </div>
       </div>
