@@ -294,7 +294,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	private List<String> findContentNames(final Order order, final String momentDay) {
-		if (!momentDay.equalsIgnoreCase(removeSpecialChar(order.getMoment() != null ? order.getMoment() : StringUtils.EMPTY))) {
+		if (!removeSpecialChar(momentDay != null ? momentDay : StringUtils.EMPTY)
+				.equalsIgnoreCase(removeSpecialChar(order.getMoment() != null ? order.getMoment() : StringUtils.EMPTY))) {
 			return Collections.emptyList();
 		}
 
