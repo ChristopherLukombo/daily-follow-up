@@ -2,7 +2,9 @@ package fr.almavivahealth.ut.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,11 +30,18 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.OrderService;
 import fr.almavivahealth.service.dto.OrderDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.OrderResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class OrderResourceTest {
 
@@ -305,4 +314,41 @@ public class OrderResourceTest {
 		.andExpect(status().isBadRequest());
 		verify(orderService, times(0)).findAllOrdersByDate((LocalDate) any());
 	}
+
+	@Test
+    public void shouldGenerateCouponsWhenIsOk() throws Exception {
+    	// Given
+    	final byte[] profilePicture = new byte[] {0};
+
+    	// When
+    	when(orderService.generateCoupons(anyString(), (LocalDate) any())).thenReturn(profilePicture);
+
+    	// Then
+    	mockMvc.perform(get("/api/orders/coupons?momentName=momentName&selectedDate=2012-12-12")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isOk());
+		verify(orderService, times(1)).generateCoupons(anyString(), (LocalDate) any());
+    }
+
+    @Test
+    public void shouldGenerateCouponsWhenIsInternalServerError() throws Exception {
+    	// When
+    	doThrow(DailyFollowUpException.class).when(orderService).generateCoupons(anyString(), (LocalDate) any());
+
+    	// Then
+    	mockMvc.perform(get("/api/orders/coupons?momentName=momentName&selectedDate=2012-12-12")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isInternalServerError());
+		verify(orderService, times(1)).generateCoupons(anyString(), (LocalDate) any());
+    }
+
+	@Test
+    public void shouldGenerateCouponsWhenIsBadRequest() throws Exception {
+    	// Then
+    	mockMvc.perform(get("/api/orders/coupons")
+				.contentType(TestUtil.APPLICATION_JSON_UTF8))
+		        .andExpect(status().isBadRequest());
+		verify(orderService, times(0)).generateCoupons(anyString(), (LocalDate) any());
+    }
+
 }

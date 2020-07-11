@@ -20,6 +20,14 @@ export class OrderDTO {
   /***/
   orderStatus: string;
   /***/
+  createdBy: string;
+  /***/
+  createdDate: string;
+  /***/
+  lastModifBy: string;
+  /***/
+  lastModifDate: string;
+  /***/
   patientId: number;
 
   constructor(
@@ -32,6 +40,10 @@ export class OrderDTO {
     dessert: Content,
     deliveryDate: string,
     orderStatus: string,
+    createdBy: string,
+    createdDate: string,
+    lastModifBy: string,
+    lastModifDate: string,
     patientId: number
   ) {
     this.id = id;
@@ -43,6 +55,10 @@ export class OrderDTO {
       (this.dessert = dessert),
       (this.deliveryDate = deliveryDate),
       (this.orderStatus = orderStatus),
+      (this.createdBy = createdBy),
+      (this.createdDate = createdDate),
+      (this.lastModifBy = lastModifBy),
+      (this.lastModifDate = lastModifDate),
       (this.patientId = patientId);
   }
 }

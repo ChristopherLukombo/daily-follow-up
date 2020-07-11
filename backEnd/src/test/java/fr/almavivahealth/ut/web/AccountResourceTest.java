@@ -45,13 +45,18 @@ import fr.almavivahealth.service.dto.UserPassDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.AccountResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AccountResourceTest {
 
 	private static final long ID = 1L;
 
 	private static final String PSEUDO = "Ben";
-	private static final String EMAIL = "ben.montreuil@gmail.com";
 	private static final String PASSWORD = "benenede";
 
 	private MockMvc mockMvc;

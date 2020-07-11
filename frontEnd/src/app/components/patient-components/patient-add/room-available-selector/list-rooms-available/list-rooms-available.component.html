@@ -1,13 +1,13 @@
 <div class="form-row">
-  <div class="btn-group floor-selector">
+  <div class="btn-group">
     <button
       *ngFor="let floor of floors; let f = index"
       type="button"
-      class="btn btn-secondary"
+      class="btn btn-primary"
       (click)="selectFloor(floor, f)"
       [class.active]="f == selectedButton"
     >
-      Étage {{ floor?.number }}
+      {{ floor?.number | floorName }}
     </button>
   </div>
 </div>

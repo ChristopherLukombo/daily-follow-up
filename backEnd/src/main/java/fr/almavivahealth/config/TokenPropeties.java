@@ -3,6 +3,12 @@ package fr.almavivahealth.config;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Configuration
 @ConfigurationProperties(prefix = "token")
 public class TokenPropeties {

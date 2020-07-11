@@ -18,17 +18,20 @@ import fr.almavivahealth.service.mapper.TextureMapper;
 
 /**
  * Service Implementation for managing Texture.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional
 public class TextureServiceImpl implements TextureService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(TextureServiceImpl.class);
 
 	private final TextureRepository textureRepository;
 
 	private final TextureMapper textureMapper;
-	
+
     @Autowired
 	public TextureServiceImpl(final TextureRepository textureRepository, final TextureMapper textureMapper) {
 		this.textureRepository = textureRepository;

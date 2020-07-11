@@ -1,15 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ChartType } from 'chart.js';
-import { Label, SingleDataSet } from 'ng2-charts';
-import { TopTrendyMenu } from 'src/app/models/statistics/top-trendy-menu';
+import { Component, Input, OnInit } from "@angular/core";
+import { ChartType } from "chart.js";
+import { Label, SingleDataSet } from "ng2-charts";
+import { TopTrendyMenu } from "src/app/models/statistics/top-trendy-menu";
 
 @Component({
-  selector: 'app-top-trendy-diets',
-  templateUrl: './top-trendy-diets.component.html',
-  styleUrls: ['./top-trendy-diets.component.scss']
+  selector: "app-top-trendy-diets",
+  templateUrl: "./top-trendy-diets.component.html",
+  styleUrls: ["./top-trendy-diets.component.scss"],
 })
 export class TopTrendyDietsComponent implements OnInit {
-
   @Input() public topTrendyMenus: Array<TopTrendyMenu>;
 
   doughnutChartLabels: Label[] = [];
@@ -17,17 +16,16 @@ export class TopTrendyDietsComponent implements OnInit {
     title: {
       display: true,
       fontSize: 13,
-      text: "Les 5 régimes les plus tendances (Menu)",
+      text: "Les 5 régimes les plus présents (Menu)",
     },
     legend: { position: "right" },
   };
   doughnutChartData: SingleDataSet = new Array<number>(2);
   doughnutChartType: ChartType = "pie";
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(): void {
     this.doughnutChartData = this.topTrendyMenus
@@ -41,6 +39,6 @@ export class TopTrendyDietsComponent implements OnInit {
       labels.push(`${data[i].texture} - ${data[i].diets}`);
     }
     this.doughnutChartLabels = labels;
-    return data.map(d => d.nb);
+    return data.map((d) => d.nb);
   }
 }

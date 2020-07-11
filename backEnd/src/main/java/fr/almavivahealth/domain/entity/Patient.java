@@ -39,7 +39,10 @@ import lombok.ToString;
 
 /**
  *
- * @author christopher A patient.
+ * A patient.
+ *
+ * @author christopher
+ * @version 16
  */
 @Entity
 @NoArgsConstructor

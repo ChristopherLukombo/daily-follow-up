@@ -10,6 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Room;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
@@ -19,8 +25,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
 	Optional<Room> findByPatientId(@Param("patientId") Long patientId);
 
 	List<Room> findAllByOrderByIdDesc();
-	
+
 	@Query("SELECT room FROM Room room WHERE size(room.patients) < room.maxCapacity")
 	List<Room> findAllVacantRooms();
-	
+
 }

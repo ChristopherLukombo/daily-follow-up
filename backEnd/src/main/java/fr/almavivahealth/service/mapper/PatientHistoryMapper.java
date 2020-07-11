@@ -13,6 +13,7 @@ import fr.almavivahealth.service.dto.PatientHistoryDTO;
  * Mapper for the entity PatientHistory and its DTO called PatientHistoryDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PatientHistoryMapper {

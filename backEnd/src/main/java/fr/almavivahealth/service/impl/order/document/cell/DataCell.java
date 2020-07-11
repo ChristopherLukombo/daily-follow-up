@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl.menu.document.cell;
+package fr.almavivahealth.service.impl.order.document.cell;
 
 import java.net.MalformedURLException;
 
@@ -17,6 +17,9 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 
 /**
  * The Class DataCell.
+ *
+ * @author christopher
+ * @version 16
  */
 public abstract class DataCell {
 

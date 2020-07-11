@@ -22,7 +22,10 @@ import lombok.ToString;
 
 /**
  *
- * @author christopher A diet.
+ * A diet.
+ *
+ * @author christopher
+ * @version 16
  */
 @Entity
 @NoArgsConstructor

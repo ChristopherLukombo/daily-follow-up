@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.OrderDTO;
 
 /**
  * The Interface OrderService.
+ * @author christopher
+ * @version 16
  */
 public interface OrderService {
 
@@ -30,7 +33,7 @@ public interface OrderService {
 	/**
 	 * Get all the orders.
 	 *
-	 * @param selectedDate the selected date
+	 * @param date the date
 	 * @return the list of entities
 	 */
 	List<OrderDTO> findAllForWeek(LocalDate date);
@@ -73,4 +76,22 @@ public interface OrderService {
 	 * @return the list of entities
 	 */
 	List<OrderDTO> findAllOrdersByDate(LocalDate date);
+
+	/**
+	 * Generate coupons.
+	 *
+	 * @param momentName the moment name
+	 * @param selectedDate the selected date
+	 * @return the byte[]
+	 * @throws DailyFollowUpException the daily follow up exception
+	 */
+	byte[] generateCoupons(final String momentName, final LocalDate selectedDate) throws DailyFollowUpException;
+
+	/**
+	 * Checks if is created.
+	 *
+	 * @param orderDTO the order DTO
+	 * @return true, if is created
+	 */
+	boolean isCreated(OrderDTO orderDTO);
 }

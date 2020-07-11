@@ -7,6 +7,8 @@ import fr.almavivahealth.service.dto.FloorDTO;
 
 /**
  * The Interface FloorService.
+ * @author christopher
+ * @version 16
  */
 public interface FloorService {
 

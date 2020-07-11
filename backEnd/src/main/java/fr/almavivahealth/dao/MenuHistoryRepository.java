@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.MenuHistory;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface MenuHistoryRepository extends JpaRepository<MenuHistory, Long> {
 

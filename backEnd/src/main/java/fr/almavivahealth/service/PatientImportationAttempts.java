@@ -2,6 +2,8 @@ package fr.almavivahealth.service;
 
 /**
  * The Interface PatientImportationAttempts.
+ * @author christopher
+ * @version 16
  */
 public interface PatientImportationAttempts {
 

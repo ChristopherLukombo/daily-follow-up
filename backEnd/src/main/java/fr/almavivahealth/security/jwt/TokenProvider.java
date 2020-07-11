@@ -29,7 +29,9 @@ import io.jsonwebtoken.UnsupportedJwtException;
 
 /**
  * TokenProvider for managing configuration validity of token.
+ *
  * @author christopher
+ * @version 16
  */
 @Component
 public class TokenProvider {

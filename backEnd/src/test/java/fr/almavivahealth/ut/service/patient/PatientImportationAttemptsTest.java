@@ -9,6 +9,12 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.service.impl.patient.PatientImportationAttemptsImpl;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class PatientImportationAttemptsTest {
 

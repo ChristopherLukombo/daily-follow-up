@@ -43,6 +43,9 @@ import fr.almavivahealth.service.propeties.UserProperties;
 
 /**
  * Service Implementation for managing User.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional

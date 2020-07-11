@@ -25,6 +25,12 @@ import fr.almavivahealth.service.dto.MomentDayDTO;
 import fr.almavivahealth.service.impl.momentDay.MomentDayServiceImpl;
 import fr.almavivahealth.service.mapper.MomentDayMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MomentDayServiceTest {
 

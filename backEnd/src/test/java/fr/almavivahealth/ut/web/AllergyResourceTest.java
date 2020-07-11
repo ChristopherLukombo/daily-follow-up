@@ -31,6 +31,12 @@ import fr.almavivahealth.service.dto.AllergyDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.AllergyResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AllergyResourceTest {
 
@@ -51,23 +57,23 @@ public class AllergyResourceTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(allergyResource)
 				.setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
 	}
-	
+
 	private AllergyDTO createAllergyDTO() {
 		return AllergyDTO.builder()
 				.id(ID)
 				.name(NAME)
 				.build();
 	}
-	
+
 	@Test
     public void shouldCreateAllergyWhenIsOk() throws IOException, Exception {
     	// Given
     	final AllergyDTO allergyDTO = createAllergyDTO();
     	allergyDTO.setId(null);
-    	
+
     	// When
 		when(allergyService.save((AllergyDTO) any())).thenReturn(allergyDTO);
-    	
+
     	// Then
     	mockMvc.perform(post("/api/allergys")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -75,12 +81,12 @@ public class AllergyResourceTest {
 		        .andExpect(status().isCreated());
     	verify(allergyService, times(1)).save(allergyDTO);
     }
-	
+
 	@Test
     public void shouldCreateAllergyWhenIdIsNotEmpty() throws IOException, Exception {
     	// Given
     	final AllergyDTO allergyDTO = createAllergyDTO();
-    	
+
     	// Then
     	mockMvc.perform(post("/api/allergys")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -88,13 +94,13 @@ public class AllergyResourceTest {
 		        .andExpect(status().isBadRequest());
     	verify(allergyService, times(0)).save(allergyDTO);
     }
-	
+
 	@Test
     public void shouldCreateAllergyWhenIdIsNotValid() throws IOException, Exception {
     	// Given
     	final AllergyDTO allergyDTO = createAllergyDTO();
     	allergyDTO.setName(null);
-    	
+
     	// Then
     	mockMvc.perform(post("/api/allergys")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -102,12 +108,12 @@ public class AllergyResourceTest {
 		        .andExpect(status().isUnprocessableEntity());
     	verify(allergyService, times(0)).save(allergyDTO);
     }
-    
+
     @Test
     public void shouldCreateAllergyWhenIsKo() throws IOException, Exception {
     	// Given
     	final AllergyDTO allergyDTO = null;
-    	
+
     	// Then
     	mockMvc.perform(post("/api/allergys")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -115,15 +121,15 @@ public class AllergyResourceTest {
 		        .andExpect(status().isBadRequest());
     	verify(allergyService, times(0)).save(allergyDTO);
     }
-    
+
     @Test
     public void shouldUpdateAllergyWhenIsOk() throws IOException, Exception {
     	// Given
     	final AllergyDTO allergyDTO = createAllergyDTO();
-    	
+
     	// When
 		when(allergyService.update((AllergyDTO) any())).thenReturn(allergyDTO);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/allergys")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -131,12 +137,12 @@ public class AllergyResourceTest {
 		        .andExpect(status().isOk());
     	verify(allergyService, times(1)).update(allergyDTO);
     }
-    
+
     @Test
     public void shouldUpdateAllergyWhenIsKo() throws IOException, Exception {
     	// Given
     	final AllergyDTO allergyDTO = null;
-    	
+
     	// Then
     	mockMvc.perform(put("/api/allergys")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -144,13 +150,13 @@ public class AllergyResourceTest {
 		        .andExpect(status().isBadRequest());
        	verify(allergyService, times(0)).update(allergyDTO);
     }
-    
+
 	@Test
     public void shouldCreateAllergyWhenIdIsEmpty() throws IOException, Exception {
     	// Given
     	final AllergyDTO allergyDTO = createAllergyDTO();
     	allergyDTO.setId(null);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/allergys")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -158,14 +164,14 @@ public class AllergyResourceTest {
 		        .andExpect(status().isBadRequest());
     	verify(allergyService, times(0)).update(allergyDTO);
     }
-	
+
 	@Test
     public void shouldUpdateAllergyWhenIdIsNotValid() throws IOException, Exception {
     	// Given
     	final AllergyDTO allergyDTO = createAllergyDTO();
     	allergyDTO.setId(null);
     	allergyDTO.setName(null);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/allergys")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -188,7 +194,7 @@ public class AllergyResourceTest {
 		        .andExpect(status().isOk());
 		verify(allergyService, times(1)).findAll();
 	}
-	
+
 	@Test
 	public void shouldGetAllAllergysWhenIsEmpty() throws Exception {
 		// Given
@@ -203,7 +209,7 @@ public class AllergyResourceTest {
 		        .andExpect(status().isNoContent());
 		verify(allergyService, times(1)).findAll();
 	}
-	
+
 	@Test
 	public void shouldGetAllergyWhenIsOk() throws Exception {
 		// Given
@@ -218,7 +224,7 @@ public class AllergyResourceTest {
 		        .andExpect(status().isOk());
 		verify(allergyService, times(1)).findOne(ID);
 	}
-	
+
 	@Test
 	public void shouldGetAllergyWhenIsNotFound() throws Exception {
 		// Given
@@ -233,7 +239,7 @@ public class AllergyResourceTest {
 		        .andExpect(status().isNoContent());
 		verify(allergyService, times(1)).findOne(2L);
 	}
-	
+
 	@Test
 	public void shouldDeleteAllergyWhenIsOk() throws Exception {
 		// Given

@@ -13,6 +13,8 @@ import fr.almavivahealth.service.dto.UserPassDTO;
 
 /**
  * Service Interface for managing User.
+ * @author christopher
+ * @version 16
  */
 public interface UserService {
 

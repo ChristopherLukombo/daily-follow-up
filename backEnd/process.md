@@ -1,5 +1,12 @@
 - Ce fichier détaille les manipulations à faire pour que le projet soit fonctionnel pour la prochaine personne.
 
+11/07/2020------------------------------------TAG GIT----------------------------------------------------------------------------------
+
+renommner la variable de conf menu.imagesPath en order.imagesPath
+
+puis remplacer l'image se trouvant dans src/main/resources/images, dans le chemin de la variable de configuration.
+
+
 15/05/2020------------------------------------TAG GIT----------------------------------------------------------------------------------
 
 Ajouter ces variables de configuration dans le fichier de configuration afin d'exposer HEALTH ENDPOINT sur http://localhost:9000/actuator/health

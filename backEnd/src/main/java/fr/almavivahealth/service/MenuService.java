@@ -4,11 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.MenuDTO;
 
 /**
  * The Interface MenuService.
+ * @author christopher
+ * @version 16
  */
 public interface MenuService {
 
@@ -49,17 +50,6 @@ public interface MenuService {
 	 * @param id the id of the entity
 	 */
 	void delete(Long id);
-
-
-	/**
-	 * Generate coupons.
-	 *
-	 * @param momentName the moment name
-	 * @param selectedDate the selected date
-	 * @return the byte[]
-	 * @throws DailyFollowUpException the daily follow up exception
-	 */
-	byte[] generateCoupons(final String momentName, final LocalDate selectedDate) throws DailyFollowUpException;
 
 	/**
 	 * Find current menus.

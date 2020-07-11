@@ -10,8 +10,9 @@ import fr.almavivahealth.service.dto.AllergyDTO;
 
 /**
  * Mapper for the entity Allergy and its DTO called AllergyDTO.
- * 
+ *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AllergyMapper {

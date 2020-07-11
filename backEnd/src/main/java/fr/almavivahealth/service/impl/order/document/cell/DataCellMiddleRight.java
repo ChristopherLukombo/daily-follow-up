@@ -1,6 +1,4 @@
-package fr.almavivahealth.service.impl.menu.document.cell;
-
-import java.util.List;
+package fr.almavivahealth.service.impl.order.document.cell;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -11,14 +9,17 @@ import com.itextpdf.layout.property.TextAlignment;
 import fr.almavivahealth.exception.DailyFollowUpException;
 
 /**
- * The Class DataCellMiddleLeft.
+ * The Class DataCellMiddleRight.
+ *
+ * @author christopher
+ * @version 16
  */
-public class DataCellMiddleLeft extends DataCell {
+public class DataCellMiddleRight extends DataCell {
 
-	private final List<String> elements;
+	private final String comment;
 
-	public DataCellMiddleLeft(final List<String> elements) {
-		this.elements = elements;
+	public DataCellMiddleRight(final String comment) {
+		this.comment = comment;
 	}
 
 	/**
@@ -30,13 +31,12 @@ public class DataCellMiddleLeft extends DataCell {
 	@Override
 	public Cell createDataCell() throws DailyFollowUpException {
 		final Cell cell = new Cell();
-		cell.setKeepTogether(true);
-		cell.add(getCell(StringUtils.LF, TextAlignment.JUSTIFIED, true, -1));
-		for (final String element : elements) {
-			cell.add(getCell(element.toUpperCase(), TextAlignment.JUSTIFIED, true, -1));
-		}
+		cell.setPadding(0);
+		cell.add(getCell(StringUtils.LF, TextAlignment.CENTER, false, -1));
+		cell.add(getCell(StringUtils.LF, TextAlignment.CENTER, false, -1));
 		cell.setBorderLeft(Border.NO_BORDER);
 		cell.setBorderRight(Border.NO_BORDER);
+		cell.add(getCell(comment, TextAlignment.JUSTIFIED, false, -1));
 		cell.setBorderLeft(Border.NO_BORDER);
 		cell.setBorderBottom(Border.NO_BORDER);
 		return cell;

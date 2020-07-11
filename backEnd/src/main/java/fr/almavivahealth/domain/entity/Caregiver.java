@@ -23,7 +23,10 @@ import lombok.ToString;
 
 /**
  *
- * @author christopher A caregiver.
+ * A caregiver.
+ *
+ * @author christopher
+ * @version 16
  */
 @Entity
 @NoArgsConstructor

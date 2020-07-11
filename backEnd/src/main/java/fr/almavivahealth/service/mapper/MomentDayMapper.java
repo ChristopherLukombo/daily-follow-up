@@ -12,6 +12,7 @@ import fr.almavivahealth.service.dto.MomentDayDTO;
  * Mapper for the entity MomentDay and its DTO called MomentDayDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", uses = ContentMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MomentDayMapper {

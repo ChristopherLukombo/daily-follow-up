@@ -3,8 +3,10 @@ package fr.almavivahealth.domain.projection;
 import java.math.BigDecimal;
 
 /**
- * @author christopher
  * A projection PatientsPerAllergy.
+ *
+ * @author christopher
+ * @version 16
  */
 public interface PatientsPerAllergy {
 

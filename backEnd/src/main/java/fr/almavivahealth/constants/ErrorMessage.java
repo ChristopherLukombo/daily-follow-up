@@ -4,6 +4,7 @@ package fr.almavivahealth.constants;
  * Application constants for managing Errors Message.
  *
  * @author christopher
+ * @version 16
  *
  */
 public final class ErrorMessage {
@@ -38,6 +39,9 @@ public final class ErrorMessage {
 
     // Diet
 	public static final String ERROR_DIET_UNIQUE_NAME = "error.diet.uniqueName";
+
+	// Order
+	public static final String ERROR_PATIENT_HAS_AN_ORDER = "error.patient.has_an_order";
 
 	// Private constructor to prevent instantiation
 	private ErrorMessage() {

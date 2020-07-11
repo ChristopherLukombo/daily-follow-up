@@ -8,8 +8,7 @@ CREATE EXTENSION unaccent;
 INSERT INTO role (name) VALUES
 ('ROLE_ADMIN'),
 ('ROLE_DIET'),
-('ROLE_CAREGIVER'),
-('ROLE_NUTRITIONIST');
+('ROLE_CAREGIVER');
 
 /******************** LES UTILISATEURS DE L'APPLICATION ********************/
 INSERT INTO "user" (first_name, last_name, pseudo, password_hash, role_id, image_url, create_date, status) VALUES
@@ -529,6 +528,7 @@ INSERT INTO type_meals (content_id, type_meals) VALUES
 ('38', 'Plat');
 
 /** les commandes des patients **/
+/*
 INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_product_id,dessert_id,dish_id,entry_id,garnish_id) VALUES 
 ('2020-06-28','dejeuner','WAITING',67,NULL,NULL,NULL,NULL,NULL)
 ,('2020-06-28','dejeuner','VALIDATED',67,NULL,NULL,NULL,NULL,NULL)
@@ -609,6 +609,7 @@ INSERT INTO public."order" (delivery_date,moment,order_status,patient_id,dairy_p
 ,('2020-07-04','dejeuner','VALIDATED',67,1,5,1,2,3)
 ,('2020-07-04','dejeuner','WAITING',67,2,5,2,4,3)
 ,('2020-07-05','dejeuner','WAITING',67,1,NULL,NULL,NULL,NULL);
+*/
 
 /** les menus **/
 /** sont commentés pour éviter d'avoir des menus avec juste samedi et sans contents dans la bdd **/

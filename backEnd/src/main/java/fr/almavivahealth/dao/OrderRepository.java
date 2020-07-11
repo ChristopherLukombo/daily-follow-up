@@ -10,6 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Order;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long>{
 
@@ -35,4 +41,12 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 			+ "WHERE order.deliveryDate = :date")
 	List<Order> findAllOrdersForDate(
 			@Param("date") LocalDate date);
+
+	@Query("SELECT order "
+			+ "FROM Order order "
+			+ "WHERE order.patient.id = :patientId "
+			+ "AND order.deliveryDate = :deliveryDate")
+	List<Order> findAllByPatientIdAndMoment(
+			@Param("patientId") Long patientId,
+			@Param("deliveryDate") LocalDate deliveryDate);
 }

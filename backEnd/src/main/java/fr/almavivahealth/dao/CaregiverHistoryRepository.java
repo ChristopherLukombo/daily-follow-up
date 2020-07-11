@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.CaregiverHistory;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface CaregiverHistoryRepository extends JpaRepository<CaregiverHistory, Long> {
 

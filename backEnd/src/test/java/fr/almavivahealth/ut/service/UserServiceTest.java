@@ -47,6 +47,12 @@ import fr.almavivahealth.service.impl.user.UserServiceImpl;
 import fr.almavivahealth.service.mapper.UserMapper;
 import fr.almavivahealth.service.propeties.UserProperties;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceTest {
 

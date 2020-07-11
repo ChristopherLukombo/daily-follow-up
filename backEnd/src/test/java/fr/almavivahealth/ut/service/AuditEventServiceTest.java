@@ -32,6 +32,12 @@ import fr.almavivahealth.service.mapper.CaregiverHistoryMapper;
 import fr.almavivahealth.service.mapper.MenuHistoryMapper;
 import fr.almavivahealth.service.mapper.PatientHistoryMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AuditEventServiceTest {
 

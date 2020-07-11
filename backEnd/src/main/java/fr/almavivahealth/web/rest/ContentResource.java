@@ -43,6 +43,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * REST controller for managing Content.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Content")
 @RestController
@@ -79,7 +80,7 @@ public class ContentResource {
 		@ApiResponse(code = 403, message = "Forbidden"),
 		@ApiResponse(code = 422, message = "Unprocessable entity")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PostMapping("/contents")
 	public ResponseEntity<ContentDTO> createContent(
 			@Valid @RequestBody final ContentDTO contentDTO,
@@ -111,7 +112,7 @@ public class ContentResource {
 		@ApiResponse(code = 403, message = "Forbidden"),
 		@ApiResponse(code = 422, message = "Unprocessable entity")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PutMapping("/contents")
 	public ResponseEntity<ContentDTO> updateContent(
 			@Valid @RequestBody final ContentDTO contentDTO,
@@ -141,7 +142,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/contents")
 	public ResponseEntity<List<ContentDTO>> getAllContents() {
 		LOGGER.debug("REST request to get All Contents");
@@ -167,7 +168,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/contents/{id}")
 	public ResponseEntity<ContentDTO> getContent(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Content : {}", id);
@@ -192,7 +193,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/contents/{id}")
 	public ResponseEntity<Void> deleteContent(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Content : {}", id);
@@ -215,7 +216,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PostMapping("/contents/contentList")
 	public ResponseEntity<List<ContentDTO>> saveAll(
 			@RequestBody @Valid final ContentList contentList,
@@ -241,7 +242,7 @@ public class ContentResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server"),
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
     @PostMapping("/contents/picture/{contentId}")
 	public ResponseEntity<String> uploadPicture(
 			@RequestPart final MultipartFile file,
@@ -270,7 +271,7 @@ public class ContentResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(
 			value = "/contents/picture/{contentId}",
 			produces = { "image/jpg", "image/jpeg", "image/gif", "image/png", "image/tif" })
@@ -293,7 +294,7 @@ public class ContentResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@DeleteMapping(value = "/contents" , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> deleteByIds(@RequestBody final List<Long> ids) {
 		LOGGER.debug("REST request to delete Contents : {}", ids);

@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  * The Class MimeTypes.
+ * @author christopher
+ * @version 16
  */
 public final class MimeTypes {
 

@@ -34,6 +34,12 @@ import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.CaregiverResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class CaregiverResourceTest {
 

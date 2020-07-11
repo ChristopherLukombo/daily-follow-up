@@ -8,6 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Content;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface ContentRepository extends JpaRepository<Content, Long> {
 

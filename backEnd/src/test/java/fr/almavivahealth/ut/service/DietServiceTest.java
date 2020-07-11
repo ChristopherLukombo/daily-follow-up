@@ -26,6 +26,12 @@ import fr.almavivahealth.service.dto.DietDTO;
 import fr.almavivahealth.service.impl.diet.DietServiceImpl;
 import fr.almavivahealth.service.mapper.DietMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DietServiceTest {
 

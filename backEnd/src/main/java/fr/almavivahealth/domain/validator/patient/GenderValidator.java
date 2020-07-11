@@ -10,11 +10,14 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Class GenderValidator.
+ *
+ * @author christopher
+ * @version 16
  */
 public class GenderValidator implements ConstraintValidator<ValidGender, String> {
 
 	private static final List<String> GENDERS = Arrays.asList("Homme", "Femme");
-	
+
 	/**
 	 * Check the patient's gender is valid.
 	 *

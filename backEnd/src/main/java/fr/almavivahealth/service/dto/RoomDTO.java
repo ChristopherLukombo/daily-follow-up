@@ -15,6 +15,9 @@ import lombok.Builder;
 
 /**
  * A DTO for the Room entity.
+ *
+ * @author christopher
+ * @version 16
  */
 @AllArgsConstructor
 @Builder

@@ -68,7 +68,7 @@ export class ResetUserPasswordComponent implements OnInit {
             "Votre mot de passe a bien été mis à jour",
             "Bienvenue !"
           );
-          this.router.navigate(["/patient/all"]);
+          this.router.navigate(["/food/menu/currents"]);
         },
         (error) => {
           this.error = this.getCustomError(error);

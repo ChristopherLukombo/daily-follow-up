@@ -28,6 +28,9 @@ import fr.almavivahealth.service.DishImportationService;
 
 /**
  * Service Implementation for managing importation Dish.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional

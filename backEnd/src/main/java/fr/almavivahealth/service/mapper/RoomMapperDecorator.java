@@ -3,6 +3,12 @@ package fr.almavivahealth.service.mapper;
 import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.service.dto.RoomDTO;
 
+/**
+ * The Class RoomMapperDecorator
+ *
+ * @author christopher
+ * @version 16
+ */
 public abstract class RoomMapperDecorator implements RoomMapper {
 
 	@Override
@@ -28,7 +34,7 @@ public abstract class RoomMapperDecorator implements RoomMapper {
 		}
 		return room.getPatients().size();
 	}
-	
+
 	private boolean checkIsFull(final Integer numberOfPatients, final Room room) {
 		if (room.getMaxCapacity() == null) {
 			return false;

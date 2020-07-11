@@ -8,11 +8,17 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Diet;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface DietRepository extends JpaRepository<Diet, Long>{
-	
+
 	List<Diet> findAllByNameIgnoreCaseIn(Set<String> names);
-	
+
 	List<Diet> findAllByOrderByIdAsc();
-	
+
 }

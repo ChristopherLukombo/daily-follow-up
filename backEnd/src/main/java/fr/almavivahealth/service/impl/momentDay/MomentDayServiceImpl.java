@@ -18,6 +18,9 @@ import fr.almavivahealth.service.mapper.MomentDayMapper;
 
 /**
  * Service Implementation for managing MomentDay.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional

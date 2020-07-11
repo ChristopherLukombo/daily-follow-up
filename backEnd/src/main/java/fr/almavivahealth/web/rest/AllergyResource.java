@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Allergy.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Allergy")
 @RestController

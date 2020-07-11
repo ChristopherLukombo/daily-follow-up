@@ -1,5 +1,11 @@
 package fr.almavivahealth.exception;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 public class DailyFollowUpException extends Exception {
 
 	private static final long serialVersionUID = 1L;
@@ -10,7 +16,7 @@ public class DailyFollowUpException extends Exception {
 	public DailyFollowUpException(final String message) {
 		super(message);
 	}
-	
+
 	public DailyFollowUpException(final Throwable cause) {
 		super(cause);
 	}

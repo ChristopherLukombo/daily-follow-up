@@ -12,6 +12,7 @@ import fr.almavivahealth.service.dto.DishDTO;
  * Mapper for the entity Dish and its DTO called DishDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DishMapper {

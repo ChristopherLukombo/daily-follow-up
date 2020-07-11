@@ -14,6 +14,9 @@ import lombok.Builder;
 
 /**
  * ContentList for managing contents.
+ *
+ * @author christopher
+ * @version 16
  */
 @AllArgsConstructor
 @Builder

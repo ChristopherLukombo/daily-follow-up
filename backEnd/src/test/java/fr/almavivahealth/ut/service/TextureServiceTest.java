@@ -26,6 +26,12 @@ import fr.almavivahealth.service.dto.TextureDTO;
 import fr.almavivahealth.service.impl.texture.TextureServiceImpl;
 import fr.almavivahealth.service.mapper.TextureMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class TextureServiceTest {
 

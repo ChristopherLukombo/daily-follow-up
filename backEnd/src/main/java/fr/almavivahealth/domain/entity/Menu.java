@@ -36,7 +36,10 @@ import lombok.ToString;
 
 /**
  *
- * @author christopher A menu.
+ * A menu.
+ *
+ * @author christopher
+ * @version 16
  */
 @Entity
 @NoArgsConstructor

@@ -20,8 +20,10 @@ import lombok.ToString;
 
 /**
  *
- * @author christopher
  * A day.
+ *
+ * @author christopher
+ * @version 16
  */
 @Entity
 @NoArgsConstructor
@@ -34,8 +36,8 @@ public class Day implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+	@SequenceGenerator(name = "sequenceGenerator")
 	private Long id;
 
 	private String name;

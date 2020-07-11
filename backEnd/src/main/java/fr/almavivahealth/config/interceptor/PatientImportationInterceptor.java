@@ -19,6 +19,12 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientImportationAttempts;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Component
 public class PatientImportationInterceptor implements HandlerInterceptor  {
 

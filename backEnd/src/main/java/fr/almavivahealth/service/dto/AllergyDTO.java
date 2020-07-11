@@ -13,6 +13,9 @@ import lombok.Builder;
 
 /**
  * A DTO for the Allergy entity.
+ *
+ * @author christopher
+ * @version 16
  */
 @AllArgsConstructor
 @Builder

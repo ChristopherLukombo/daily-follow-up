@@ -7,9 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.MomentDay;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface MomentDayRepository extends JpaRepository<MomentDay, Long>{
 
 	List<MomentDay> findAllByOrderByIdDesc();
-	
+
 }

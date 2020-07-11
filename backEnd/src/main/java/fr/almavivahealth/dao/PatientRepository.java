@@ -13,6 +13,12 @@ import fr.almavivahealth.domain.projection.PatientsByStatus;
 import fr.almavivahealth.domain.projection.PatientsPerAllergy;
 import fr.almavivahealth.domain.projection.PatientsPerDiet;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 

@@ -18,17 +18,20 @@ import fr.almavivahealth.service.mapper.DietMapper;
 
 /**
  * Service Implementation for managing Diet.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional
 public class DietServiceImpl implements DietService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DietServiceImpl.class);
-	
+
 	private final DietRepository dietRepository;
-	
+
 	private final DietMapper dietMapper;
-	
+
 	@Autowired
 	public DietServiceImpl(final DietRepository dietRepository, final DietMapper dietMapper) {
 		this.dietRepository = dietRepository;

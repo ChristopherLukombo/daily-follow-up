@@ -1,19 +1,105 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col">
-      <h2>Récapitulatif des repas de la journée</h2>
-      <br />
       <div class="row">
         <div class="col text-left">
-          <h3>{{ dateOfTheDay }}</h3>
+          <h1>
+            <img src="../../../assets/diet.png" />
+            {{ dateOfTheDay | titlecase }}
+          </h1>
         </div>
         <div class="col text-right">
-          <h3>{{ hour | async }}</h3>
+          <h1>{{ hour | async }}</h1>
         </div>
       </div>
       <br />
-      <div class="alert alert-primary" role="alert">
-        à venir
+      <div class="row">
+        <div class="col text-left">
+          <h3>Récapitulatif des repas de la journée</h3>
+        </div>
+        <div class="col text-right">
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="onDownloadCoupons()"
+          >
+            Télecharger les coupons repas
+          </button>
+        </div>
+      </div>
+      <hr />
+      <br />
+      <div *ngIf="loading"><app-loader></app-loader></div>
+      <div *ngIf="warning">
+        <app-alert-warning
+          [content]="warning"
+          [close]="false"
+        ></app-alert-warning>
+      </div>
+      <div *ngIf="!loading && !warning && orders?.length">
+        <div class="row">
+          <div class="col-6">
+            <div class="row">
+              <div *ngFor="let moment of moments" class="col">
+                <app-contents-of-today
+                  [moment]="moment"
+                  [orders]="orders"
+                ></app-contents-of-today>
+              </div>
+            </div>
+          </div>
+          <div class="col custom-overflow">
+            <div class="row">
+              <div class="col">
+                <h5>Entrée(s)</h5>
+                <ul *ngFor="let entry of entries" class="list-group">
+                  <li class="list-group-item d-flex">
+                    <small>{{ entry }}</small>
+                  </li>
+                </ul>
+              </div>
+              <div class="col">
+                <h5>Plat(s)</h5>
+                <ul *ngFor="let dish of dishes" class="list-group">
+                  <li class="list-group-item d-flex">
+                    <small>{{ dish }}</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col">
+                <h5>Garnitures(s)</h5>
+                <ul *ngFor="let garnish of garnishes" class="list-group">
+                  <li class="list-group-item d-flex">
+                    <small>{{ garnish }}</small>
+                  </li>
+                </ul>
+              </div>
+              <div class="col">
+                <h5>Dessert(s)</h5>
+                <ul *ngFor="let dessert of desserts" class="list-group">
+                  <li class="list-group-item d-flex">
+                    <small>{{ dessert }}</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <br />
+            <div class="row">
+              <div class="col">
+                <h5>Produit(s) laitier(s)</h5>
+                <ul *ngFor="let dairy of dairyProducts" class="list-group">
+                  <li class="list-group-item d-flex">
+                    <small>{{ dairy }}</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
       </div>
     </div>
   </div>

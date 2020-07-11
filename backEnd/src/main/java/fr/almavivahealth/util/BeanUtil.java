@@ -4,6 +4,8 @@ import org.springframework.context.ApplicationContext;
 
 /**
  * The Class BeanUtil.
+ * @author christopher
+ * @version 16
  */
 public final class BeanUtil {
 

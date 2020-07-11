@@ -25,6 +25,12 @@ import fr.almavivahealth.service.dto.FloorDTO;
 import fr.almavivahealth.service.impl.floor.FloorServiceImpl;
 import fr.almavivahealth.service.mapper.FloorMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class FloorServiceTest {
 

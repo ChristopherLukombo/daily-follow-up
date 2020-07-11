@@ -6,6 +6,7 @@ import { Patient } from "src/app/models/patient/patient";
 import { ActivatedRoute } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { TypeMessage } from "src/app/models/utils/message-enum";
+import * as moment from "moment";
 
 @Component({
   selector: "app-order-edit",
@@ -29,7 +30,6 @@ export class OrderEditComponent implements OnInit {
     private orderService: OrderService
   ) {}
 
-  // TODO : récupérer les bonnes suggestions en fonction du menus actuel + carte de remplacement + filtre ou non en fonction du régime (strict/allegé)
   ngOnInit(): void {
     this.loading = true;
     this.route.queryParams.subscribe((params) => {
@@ -40,12 +40,12 @@ export class OrderEditComponent implements OnInit {
       forkJoin([actualOrder, actualPatient]).subscribe(
         (datas) => {
           this.loading = false;
-          if (!datas[0]) {
-            this.warning = TypeMessage.ORDER_DOES_NOT_EXIST;
+          if (!datas[0] || !datas[1]) {
+            this.warning = TypeMessage.ORDER_OF_PATIENT_NOT_FOUND;
             return;
           }
-          if (!datas[1]) {
-            this.warning = TypeMessage.ORDER_HAS_NO_PATIENT;
+          if (!datas[0].deliveryDate || this.isInPast(datas[0].deliveryDate)) {
+            this.warning = TypeMessage.OLD_ORDERS_ARE_NOT_EDITABLE;
             return;
           }
           this.order = datas[0];
@@ -61,6 +61,10 @@ export class OrderEditComponent implements OnInit {
 
   setStrict(value: boolean) {
     this.strict = value;
+  }
+
+  isInPast(date: string): boolean {
+    return moment().isAfter(moment(date));
   }
 
   /**

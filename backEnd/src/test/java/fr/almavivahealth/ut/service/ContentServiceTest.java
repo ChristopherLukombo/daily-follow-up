@@ -41,6 +41,12 @@ import fr.almavivahealth.service.impl.content.ContentServiceImpl;
 import fr.almavivahealth.service.mapper.ContentMapper;
 import fr.almavivahealth.service.propeties.ContentProperties;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class ContentServiceTest {
 

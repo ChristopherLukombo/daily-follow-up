@@ -17,7 +17,10 @@ import lombok.ToString;
 
 /**
  *
- * @author christopher A momentday.
+ * A momentday.
+ *
+ * @author christopher
+ * @version 16
  */
 @Entity
 @NoArgsConstructor

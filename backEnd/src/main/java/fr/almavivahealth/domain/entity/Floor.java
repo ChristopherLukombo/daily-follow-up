@@ -18,8 +18,10 @@ import lombok.ToString;
 
 /**
 *
-* @author christopher
 * A floor.
+*
+ * @author christopher
+ * @version 16
 */
 @Entity
 @NoArgsConstructor

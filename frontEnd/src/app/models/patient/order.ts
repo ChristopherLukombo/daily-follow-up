@@ -20,5 +20,13 @@ export class Order {
   /***/
   orderStatus: string;
   /***/
+  createdBy: string;
+  /***/
+  createdDate: string;
+  /***/
+  lastModifBy: string;
+  /***/
+  lastModifDate: string;
+  /***/
   patientId: number;
 }

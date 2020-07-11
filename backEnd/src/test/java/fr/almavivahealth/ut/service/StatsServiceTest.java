@@ -44,6 +44,12 @@ import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
 import fr.almavivahealth.service.impl.stats.StatsServiceImpl;
 import fr.almavivahealth.service.mapper.StatsMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class StatsServiceTest {
 

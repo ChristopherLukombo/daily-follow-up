@@ -43,6 +43,12 @@ import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.impl.patient.PatientServiceImpl;
 import fr.almavivahealth.service.mapper.PatientMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class PatientServiceTest {
 

@@ -14,6 +14,11 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import fr.almavivahealth.config.DefaultProfileUtil;
 import fr.almavivahealth.config.PropertiesConfig;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ */
 @EnableConfigurationProperties({PropertiesConfig.class})
 @EnableScheduling
 @SpringBootApplication

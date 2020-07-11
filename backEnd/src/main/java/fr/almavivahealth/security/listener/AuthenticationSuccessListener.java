@@ -1,3 +1,6 @@
+/*
+ *
+ */
 package fr.almavivahealth.security.listener;
 
 import java.time.LocalDateTime;
@@ -10,6 +13,12 @@ import org.springframework.stereotype.Component;
 
 import fr.almavivahealth.dao.UserRepository;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Component
 public class AuthenticationSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
 

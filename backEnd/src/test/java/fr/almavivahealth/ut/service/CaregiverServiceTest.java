@@ -33,6 +33,12 @@ import fr.almavivahealth.service.dto.UserDTO;
 import fr.almavivahealth.service.impl.caregiver.CaregiverServiceImpl;
 import fr.almavivahealth.service.mapper.CaregiverMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class CaregiverServiceTest {
 

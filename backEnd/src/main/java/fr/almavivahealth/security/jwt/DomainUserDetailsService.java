@@ -23,7 +23,9 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 
 /**
  * Authenticate a user from the database.
+ *
  * @author christopher
+ * @version 16
  */
 @Component("userDetailsService")
 public class DomainUserDetailsService implements UserDetailsService {

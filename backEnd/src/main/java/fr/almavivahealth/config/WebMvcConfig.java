@@ -11,6 +11,12 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import fr.almavivahealth.config.interceptor.PatientImportationInterceptor;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 

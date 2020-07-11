@@ -42,6 +42,9 @@ import fr.almavivahealth.service.mapper.StatsMapper;
 
 /**
  * Service Implementation for managing Stats.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional

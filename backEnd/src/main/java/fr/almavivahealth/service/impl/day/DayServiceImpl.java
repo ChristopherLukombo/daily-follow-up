@@ -18,17 +18,20 @@ import fr.almavivahealth.service.mapper.DayMapper;
 
 /**
  * Service Implementation for managing Day.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional
 public class DayServiceImpl implements DayService {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(DayServiceImpl.class);
-	
+
 	private final DayRepository dayRepository;
-	
+
 	private final DayMapper dayMapper;
-	
+
     @Autowired
 	public DayServiceImpl(final DayRepository dayRepository, final DayMapper dayMapper) {
 		this.dayRepository = dayRepository;

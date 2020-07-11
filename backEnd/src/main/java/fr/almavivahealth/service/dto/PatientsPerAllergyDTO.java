@@ -12,6 +12,9 @@ import lombok.Builder;
 
 /**
  * A DTO for the PatientsPerAllergy projection.
+ *
+ * @author christopher
+ * @version 16
  */
 @AllArgsConstructor
 @Builder

@@ -131,6 +131,7 @@ import { OrderAddComponent } from './components/order-components/order-add/order
 import { FormOrderAddComponent } from './components/order-components/order-add/form-order-add/form-order-add.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { OrderCardComponent } from './components/order-components/orders/list-order-by-date/order-card/order-card.component';
+import { ContentsOfTodayComponent } from './components/dashboard/contents-of-today/contents-of-today.component';
 
 @NgModule({
   declarations: [
@@ -238,6 +239,7 @@ import { OrderCardComponent } from './components/order-components/orders/list-or
     FormOrderAddComponent,
     DashboardComponent,
     OrderCardComponent,
+    ContentsOfTodayComponent,
   ],
   imports: [
     BrowserModule,

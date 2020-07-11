@@ -32,6 +32,12 @@ import fr.almavivahealth.service.dto.MomentDayDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.MomentDayResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MomentDayResourceTest {
 

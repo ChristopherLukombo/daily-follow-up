@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl.menu.document.cell;
+package fr.almavivahealth.service.impl.order.document.cell;
 
 import com.itextpdf.layout.element.Cell;
 
@@ -6,6 +6,9 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 
 /**
  * The Class DataCellBroker.
+ *
+ * @author christopher
+ * @version 16
  */
 public class DataCellBroker {
 

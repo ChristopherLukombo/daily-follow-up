@@ -3,6 +3,7 @@ import { Content } from "src/app/models/food/content";
 import { FileService } from "src/app/services/file/file.service";
 import { ToastrService } from "ngx-toastr";
 import { ArtificialIntelligenceService } from "src/app/services/artificial-intelligence/artificial-intelligence.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
 @Component({
   selector: "app-picture-meal-edit",
@@ -152,17 +153,28 @@ export class PictureMealEditComponent implements OnInit {
     }
   }
 
+  selectSuggestion(base64Image: string): void {
+    let blob = this.artificialIntelligenceService.convertBase64ToBlob(
+      base64Image.split(",")[1]
+    );
+    this.file = new File([blob], "content_" + this.content.id + ".png", {
+      type: "image/png",
+      lastModified: Date.now(),
+    });
+    this.loadFuturePicture(blob);
+  }
+
   /**
    * Récupération du code erreur et ajout du message à afficher
    * @param error
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur.";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else if (error && error === 403) {
-      return "Vous n'êtes plus habilité à cette requête.";
+      return TypeMessage.NOT_AUTHORIZED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

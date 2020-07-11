@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +45,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * REST controller for managing Menu.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Menu")
 @RestController
@@ -81,7 +81,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PostMapping("/menus")
 	public ResponseEntity<MenuDTO> createMenu(@Valid @RequestBody final MenuDTO menuDTO, @ApiIgnore final Locale locale)
 			throws URISyntaxException, DailyFollowUpException {
@@ -114,7 +114,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PutMapping("/menus")
 	public ResponseEntity<MenuDTO> updateMenu(@Valid @RequestBody final MenuDTO menuDTO, @ApiIgnore final Locale locale)
 			throws DailyFollowUpException {
@@ -146,7 +146,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/menus")
 	public ResponseEntity<List<MenuDTO>> getAllMenus() {
 		LOGGER.debug("REST request to get All Menus");
@@ -172,7 +172,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/menus/{id}")
 	public ResponseEntity<MenuDTO> getMenu(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Menu : {}", id);
@@ -197,49 +197,12 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/menus/{id}")
 	public ResponseEntity<Void> deleteMenu(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Menu : {}", id);
 		menuService.delete(id);
 		return ResponseEntity.noContent().build();
-	}
-
-	/**
-	 * GET /menus/coupons : Generate coupons.
-	 *
-	 * @param momentName the moment name
-	 * @param selectedDate the selected date
-	 * @return the ResponseEntity with status 200 (OK)
-	 * @throws DailyFollowUpException the daily follow up exception
-	 */
-	@ApiOperation("Generate coupons")
-	@ApiResponses({
-		@ApiResponse(code = 200, message = "Ok"),
-		@ApiResponse(code = 400, message = "Bad request"),
-		@ApiResponse(code = 401, message = "Unauthorized"),
-		@ApiResponse(code = 403, message = "Forbidden"),
-		@ApiResponse(code = 500, message = "Internal Server")
-	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
-	@GetMapping(value = "/menus/coupons", params = { "momentName", "selectedDate" })
-	public ResponseEntity<byte[]> generateCoupons(
-			@RequestParam final String momentName,
-			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate selectedDate)
-					throws DailyFollowUpException {
-		LOGGER.debug("REST request to generate coupons");
-		try {
-			final byte[] pdfCoupons = menuService.generateCoupons(momentName, selectedDate);
-
-			final HttpHeaders responseHeaders = new HttpHeaders();
-			responseHeaders.set("Content-Disposition", "attachment; filename=coupons.pdf");
-			responseHeaders.setContentType(MediaType.APPLICATION_PDF);
-
-			return ResponseEntity.ok().headers(responseHeaders).body(pdfCoupons);
-		} catch (final DailyFollowUpException e) {
-			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-					"An error occurred during the generation of the coupons", e);
-		}
 	}
 
 	/**
@@ -257,7 +220,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/menus/current")
 	public ResponseEntity<List<MenuDTO>> getCurrentMenus() {
 		LOGGER.debug("REST request to get current Menus");
@@ -283,7 +246,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/menus/future")
 	public ResponseEntity<List<MenuDTO>> getFutureMenus() {
 		LOGGER.debug("REST request to get future Menus");
@@ -309,7 +272,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/menus/past")
 	public ResponseEntity<List<MenuDTO>> getPastMenus() {
 		LOGGER.debug("REST request to get past Menus");
@@ -333,7 +296,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@DeleteMapping(value = "/menus" , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Void> deleteByIds(@RequestBody final List<Long> ids) {
 		LOGGER.debug("REST request to delete Menus : {}", ids);
@@ -356,7 +319,7 @@ public class MenuResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(value = "/menus/byDate", params = {"date"})
 	public ResponseEntity<List<MenuDTO>> getMenusForDate(
 			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate date) {

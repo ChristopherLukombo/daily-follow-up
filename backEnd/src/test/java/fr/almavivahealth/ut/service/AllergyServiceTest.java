@@ -25,6 +25,12 @@ import fr.almavivahealth.service.dto.AllergyDTO;
 import fr.almavivahealth.service.impl.allergy.AllergyServiceImpl;
 import fr.almavivahealth.service.mapper.AllergyMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AllergyServiceTest {
 

@@ -21,7 +21,10 @@ import fr.almavivahealth.domain.enums.Action;
 
 /**
 *
-* @author christopher A patientHistory.
+* A patientHistory.
+*
+ * @author christopher
+ * @version 16
 */
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -36,20 +39,20 @@ public class PatientHistory implements Serializable {
     @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
-    
+
     @CreatedBy
     private String modifiedBy;
-    
+
     @CreatedDate
     private LocalDateTime modifiedDate;
-    
+
     @Enumerated(EnumType.STRING)
     private Action action;
-    
+
     public PatientHistory() {
     	// Empty constructor needed for Hibernate.
     }
-    
+
     public PatientHistory(final Patient patient, final Action action) {
         this.patient = patient;
         this.action = action;
@@ -94,5 +97,5 @@ public class PatientHistory implements Serializable {
 	public void setAction(final Action action) {
 		this.action = action;
 	}
-    
+
 }

@@ -69,7 +69,7 @@ export class MealsAddComponent implements OnInit {
             : `Les ${data.length} plats ont bien été crées`;
         this.toastrService.success(successfulMsg, "Création terminée !");
         this.creating = false;
-        this.router.navigate(["/food/menu/add"]);
+        this.router.navigate(["/food/meal/all"]);
       },
       (error) => {
         this.creating = false;

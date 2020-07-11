@@ -4,12 +4,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * MenuProperties for managing menu properties.
+ * OrderProperties for managing order properties.
  * @author christopher
+ * @version 16
  */
 @Configuration
-@ConfigurationProperties(prefix = "menu")
-public class MenuProperties {
+@ConfigurationProperties(prefix = "order")
+public class OrderProperties {
 
 	private String imagesPath;
 

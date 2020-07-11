@@ -14,6 +14,7 @@ import fr.almavivahealth.service.dto.OrderDTO;
  * Mapper for the entity Order and its DTO called OrderDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", uses = { ContentMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderMapper {
