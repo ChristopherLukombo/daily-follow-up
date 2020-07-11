@@ -1,9 +1,12 @@
 package fr.almavivahealth.web.rest;
 
+import static fr.almavivahealth.constants.ErrorMessage.ERROR_PATIENT_HAS_AN_ORDER;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -11,6 +14,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.HttpHeaders;
@@ -36,6 +40,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * REST controller for managing Order.
@@ -51,9 +56,14 @@ public class OrderResource {
 
 	private final OrderService orderService;
 
-	@Autowired
-	public OrderResource(final OrderService orderService) {
+	private final MessageSource messageSource;
+
+    @Autowired
+	public OrderResource(
+			final OrderService orderService,
+			final MessageSource messageSource) {
 		this.orderService = orderService;
+		this.messageSource = messageSource;
 	}
 
 	/**
@@ -75,12 +85,17 @@ public class OrderResource {
         })
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PostMapping("/orders")
-	public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody final OrderDTO orderDTO)
+	public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody final OrderDTO orderDTO, @ApiIgnore final Locale locale)
 			throws URISyntaxException, DailyFollowUpException {
 		LOGGER.debug("REST request to save Order : {}", orderDTO);
 		if (orderDTO.getId() != null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A new order cannot already have an ID idexists " + orderDTO.getId());
+		}
+		final boolean isCreated = orderService.isCreated(orderDTO);
+		if (isCreated) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					messageSource.getMessage(ERROR_PATIENT_HAS_AN_ORDER, null, locale));
 		}
 		final OrderDTO result = orderService.save(orderDTO);
 		return ResponseEntity.created(new URI("/api/orders/" + result.getId())).body(result);
@@ -104,12 +119,17 @@ public class OrderResource {
         })
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PutMapping("/orders")
-	public ResponseEntity<OrderDTO> updateOrder(@Valid @RequestBody final OrderDTO orderDTO)
+	public ResponseEntity<OrderDTO> updateOrder(@Valid @RequestBody final OrderDTO orderDTO, @ApiIgnore final Locale locale)
 			throws DailyFollowUpException {
 		LOGGER.debug("REST request to update Order : {}", orderDTO);
 		if (orderDTO.getId() == null) {
 			throw new DailyFollowUpException(HttpStatus.BAD_REQUEST.value(),
 					"A order must have an ID idexists " + orderDTO.getId());
+		}
+		final boolean isCreated = orderService.isCreated(orderDTO);
+		if (isCreated) {
+			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+					ERROR_PATIENT_HAS_AN_ORDER);
 		}
 		final OrderDTO result = orderService.update(orderDTO);
 		return ResponseEntity.ok().body(result);

@@ -31,7 +31,7 @@ public interface OrderService {
 	/**
 	 * Get all the orders.
 	 *
-	 * @param selectedDate the selected date
+	 * @param date the date
 	 * @return the list of entities
 	 */
 	List<OrderDTO> findAllForWeek(LocalDate date);
@@ -84,4 +84,12 @@ public interface OrderService {
 	 * @throws DailyFollowUpException the daily follow up exception
 	 */
 	byte[] generateCoupons(final String momentName, final LocalDate selectedDate) throws DailyFollowUpException;
+
+	/**
+	 * Checks if is created.
+	 *
+	 * @param orderDTO the order DTO
+	 * @return true, if is created
+	 */
+	boolean isCreated(OrderDTO orderDTO);
 }

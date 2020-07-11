@@ -39,6 +39,9 @@ public final class ErrorMessage {
     // Diet
 	public static final String ERROR_DIET_UNIQUE_NAME = "error.diet.uniqueName";
 
+	// Order
+	public static final String ERROR_PATIENT_HAS_AN_ORDER = "error.patient.has_an_order";
+
 	// Private constructor to prevent instantiation
 	private ErrorMessage() {
 		throw new UnsupportedOperationException();

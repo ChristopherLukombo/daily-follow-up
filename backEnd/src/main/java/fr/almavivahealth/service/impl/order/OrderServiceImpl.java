@@ -324,4 +324,18 @@ public class OrderServiceImpl implements OrderService {
 				.map(Texture::getName)
 				.orElseGet(() -> StringUtils.EMPTY);
 	}
+
+	/**
+	 * Checks if is created.
+	 *
+	 * @param orderDTO the order DTO
+	 * @return true, if is created
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isCreated(final OrderDTO orderDTO) {
+		final List<Order> orders = orderRepository.findAllByPatientIdAndMoment(orderDTO.getPatientId(),
+				orderDTO.getDeliveryDate());
+		return orders.stream().anyMatch(o -> o.getMoment().equalsIgnoreCase(orderDTO.getMoment()));
+	}
 }
