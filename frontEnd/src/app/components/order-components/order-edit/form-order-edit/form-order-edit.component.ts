@@ -150,6 +150,10 @@ export class FormOrderEditComponent implements OnInit {
       this.f.dessert.value,
       this.order.deliveryDate,
       this.order.orderStatus,
+      this.order.createdBy,
+      this.order.createdDate,
+      this.order.lastModifBy,
+      this.order.lastModifDate,
       this.order.patientId
     );
   }

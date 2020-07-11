@@ -33,6 +33,7 @@ export class FormOrderAddComponent implements OnInit {
     ["P.L", []],
     ["Dessert", []],
   ]);
+  noMenusForSelectedDate: boolean = false;
 
   form: FormGroup;
   submitted: boolean = false;
@@ -85,6 +86,7 @@ export class FormOrderAddComponent implements OnInit {
 
   getAllContentsOfTheDay(date: string, moment: string): void {
     this.loading = true;
+    this.noMenusForSelectedDate = false;
     this.alimentationService.getMenusByDate(date).subscribe(
       (data) => {
         if (data && date) {
@@ -94,6 +96,8 @@ export class FormOrderAddComponent implements OnInit {
             this.filterMenusByStrict(data, this.patient, this.strict)
           );
           this.loadSuggestions(contents);
+        } else {
+          this.noMenusForSelectedDate = true;
         }
         this.loading = false;
       },
@@ -145,6 +149,10 @@ export class FormOrderAddComponent implements OnInit {
       this.f.dessert.value,
       this.deliveryDate,
       Status.VALIDATED,
+      null,
+      null,
+      null,
+      null,
       this.patient.id
     );
   }
@@ -158,9 +166,17 @@ export class FormOrderAddComponent implements OnInit {
       (data) => {
         this.creating = false;
         this.toastrService.success(
-          "La commande a bien été créé",
-          "Création terminée !"
+          "La commande de " +
+            this.patient.lastName +
+            " " +
+            this.patient.firstName +
+            " a bien été validé pour le " +
+            this.moment +
+            " du " +
+            this.deliveryDate,
+          "En cuisine !"
         );
+        this.orderService.removeOrderInfosFromLocal();
         this.router.navigate(["/order/all"]);
       },
       (error) => {

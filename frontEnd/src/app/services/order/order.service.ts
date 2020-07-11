@@ -28,13 +28,24 @@ export class OrderService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Retourne toutes les commandes de la clinique en fonction de la date donnée
+   * Retourne toutes les commandes de la semaine de la clinique en fonction de la date donnée
+   * @param date
+   * @returns une liste de commandes de la semaine
+   */
+  getOrdersOfTheWeekByDate(date: string): Observable<Order[]> {
+    return this.http
+      .get<Order[]>(ORDERS_URL + `?selectedDate=${date}`, httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
+   * Retourne toutes les commandes du jour en fonction de la date donnée
    * @param date
    * @returns une liste de commandes du jour donnée
    */
-  getOrdersByDate(date: string): Observable<Order[]> {
+  getOrdersOfTheDate(date: string): Observable<Order[]> {
     return this.http
-      .get<Order[]>(ORDERS_URL + `?selectedDate=${date}`, httpOptions)
+      .get<Order[]>(ORDERS_URL + `/forDate?date=${date}`, httpOptions)
       .pipe(catchError(this.handleError));
   }
 
@@ -87,6 +98,10 @@ export class OrderService {
       order.dessert,
       order.deliveryDate,
       Status.VALIDATED,
+      order.createdBy,
+      order.createdDate,
+      order.lastModifBy,
+      order.lastModifDate,
       order.patientId
     );
     return this.http

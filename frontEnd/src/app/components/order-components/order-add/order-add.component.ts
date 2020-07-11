@@ -5,6 +5,7 @@ import { PatientService } from "src/app/services/patient/patient.service";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 import { OrderService } from "src/app/services/order/order.service";
 import { OrderCustomInfos } from "src/app/models/utils/order-custom-infos";
+import * as moment from "moment";
 
 @Component({
   selector: "app-order-add",
@@ -29,8 +30,6 @@ export class OrderAddComponent implements OnInit {
     private orderService: OrderService
   ) {}
 
-  // TODO : récupérer les bonnes suggestions en fonction du menus actuel + carte de remplacement + filtre ou non en fonction du régime (strict/allegé)
-  // TODO : au submit du formulaire, faire gaffe à bien retirer le infosOrder du localstorage
   ngOnInit(): void {
     this.loading = true;
     this.route.queryParams.subscribe((params) => {
@@ -57,6 +56,8 @@ export class OrderAddComponent implements OnInit {
     if (orderInfos) {
       this.deliveryDate = orderInfos.deliveryDate;
       this.moment = orderInfos.moment;
+      if (!this.deliveryDate || this.isInPast(this.deliveryDate))
+        this.warning = TypeMessage.DELIVERY_ORDER_DATE_CANNOT_BE_IN_PAST;
     } else {
       this.warning = TypeMessage.ORDER_INFOS_DOES_NOT_EXIST;
     }
@@ -64,6 +65,10 @@ export class OrderAddComponent implements OnInit {
 
   setStrict(value: boolean) {
     this.strict = value;
+  }
+
+  isInPast(date: string): boolean {
+    return moment().isAfter(moment(date));
   }
 
   /**

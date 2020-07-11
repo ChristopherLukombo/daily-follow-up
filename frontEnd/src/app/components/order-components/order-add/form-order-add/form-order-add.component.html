@@ -1,4 +1,9 @@
 <div *ngIf="form && patient && moment">
+  <div *ngIf="noMenusForSelectedDate" class="alert alert-warning" role="alert">
+    Il n'y a aucun plat à proposer sur la date de livraison et le moment choisit
+    (<code>{{ moment }}</code> du <code>{{ deliveryDate | dayFormat }}</code
+    >). Veuillez vérifier qu'un menu est en cours sur cette période.
+  </div>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-row">
       <div class="form-group col-md-6">

@@ -36,13 +36,11 @@ export class ListOrderByDateComponent implements OnInit {
     if (this.date && this.moment) {
       this.loading = true;
       let patients = this.patientService.getAllPatients();
-      let orders = this.orderService.getOrdersByDate(this.date);
+      let orders = this.orderService.getOrdersOfTheDate(this.date);
       forkJoin([patients, orders]).subscribe(
         (datas) => {
           this.patients = datas[0];
-          this.orders = datas[1]
-            ? datas[1].filter((order) => order.deliveryDate === this.date)
-            : null;
+          this.orders = datas[1] ? datas[1] : null;
           this.mapOrderToPatients(this.patients, this.orders, this.moment);
           this.loading = false;
         },
