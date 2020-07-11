@@ -5,6 +5,12 @@ import java.time.LocalDate;
 import fr.almavivahealth.domain.entity.Order;
 import fr.almavivahealth.service.impl.order.document.cell.DataCellBroker;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 class Coupon {
 
 	private final String momentName;

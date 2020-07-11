@@ -9,6 +9,8 @@ import fr.almavivahealth.service.dto.OrderDTO;
 
 /**
  * The Interface OrderService.
+ * @author christopher
+ * @version 16
  */
 public interface OrderService {
 

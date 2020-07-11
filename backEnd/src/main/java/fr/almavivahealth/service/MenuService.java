@@ -8,6 +8,8 @@ import fr.almavivahealth.service.dto.MenuDTO;
 
 /**
  * The Interface MenuService.
+ * @author christopher
+ * @version 16
  */
 public interface MenuService {
 

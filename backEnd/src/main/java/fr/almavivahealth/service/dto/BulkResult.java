@@ -12,6 +12,9 @@ import lombok.Builder;
 
 /**
  * BulkResult for result of operation.
+ *
+ * @author christopher
+ * @version 16
  */
 @AllArgsConstructor
 @Builder

@@ -17,6 +17,7 @@ import fr.almavivahealth.service.dto.DietDTO;
  * Mapper for the entity Diet and its DTO called DayDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DietMapper {

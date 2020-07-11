@@ -12,6 +12,7 @@ import fr.almavivahealth.service.dto.CaregiverDTO;
  * Mapper for the entity Caregiver and its DTO called CaregiverDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", uses = UserMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CaregiverMapper {

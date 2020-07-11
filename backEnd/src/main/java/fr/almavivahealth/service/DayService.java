@@ -7,6 +7,8 @@ import fr.almavivahealth.service.dto.DayDTO;
 
 /**
  * The Interface DayService.
+ * @author christopher
+ * @version 16
  */
 public interface DayService {
 

@@ -19,7 +19,10 @@ import lombok.ToString;
 
 /**
  *
- * @author christopher A comment.
+ * A comment.
+ *
+ * @author christopher
+ * @version 16
  */
 @Entity
 @NoArgsConstructor

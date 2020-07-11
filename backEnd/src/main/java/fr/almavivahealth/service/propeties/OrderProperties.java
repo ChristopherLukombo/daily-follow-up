@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * OrderProperties for managing order properties.
  * @author christopher
+ * @version 16
  */
 @Configuration
 @ConfigurationProperties(prefix = "order")

@@ -32,6 +32,12 @@ import fr.almavivahealth.service.mapper.MenuHistoryMapper;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.AuditResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class AuditResourceTest {
 

@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Floor.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Floor")
 @RestController
@@ -66,7 +67,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PostMapping("/floors")
 	public ResponseEntity<FloorDTO> createFloor(@Valid @RequestBody final FloorDTO floorDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -95,7 +96,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PutMapping("/floors")
 	public ResponseEntity<FloorDTO> updateFloor(@Valid @RequestBody final FloorDTO floorDTO)
 			throws DailyFollowUpException {
@@ -123,7 +124,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/floors")
 	public ResponseEntity<List<FloorDTO>> getAllFloors() {
 		LOGGER.debug("REST request to get All Floors");
@@ -149,7 +150,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/floors/{id}")
 	public ResponseEntity<FloorDTO> getFloor(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Floor : {}", id);
@@ -174,7 +175,7 @@ public class FloorResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/floors/{id}")
 	public ResponseEntity<Void> deleteFloor(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Floor : {}", id);

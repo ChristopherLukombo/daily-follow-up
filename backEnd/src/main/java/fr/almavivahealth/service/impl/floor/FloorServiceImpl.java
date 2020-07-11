@@ -18,17 +18,20 @@ import fr.almavivahealth.service.mapper.FloorMapper;
 
 /**
  * Service Implementation for managing Floor.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional
 public class FloorServiceImpl implements FloorService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FloorServiceImpl.class);
-	
+
 	private final FloorRepository floorRepository;
-	
+
 	private final FloorMapper floorMapper;
-	
+
 	@Autowired
 	public FloorServiceImpl(final FloorRepository floorRepository, final FloorMapper floorMapper) {
 		this.floorRepository = floorRepository;

@@ -7,6 +7,8 @@ import fr.almavivahealth.service.dto.DietDTO;
 
 /**
  * The Interface DietService.
+ * @author christopher
+ * @version 16
  */
 public interface DietService {
 

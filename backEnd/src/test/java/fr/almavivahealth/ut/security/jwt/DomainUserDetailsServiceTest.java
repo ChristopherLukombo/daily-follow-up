@@ -20,21 +20,27 @@ import fr.almavivahealth.domain.entity.User;
 import fr.almavivahealth.domain.enums.RoleName;
 import fr.almavivahealth.security.jwt.DomainUserDetailsService;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DomainUserDetailsServiceTest {
-	
+
 	private static final String PASSWD = "testParis19!";
 
 	private static final String PSEUDO = "Damien";
-	
+
 	private static final long ID = 1L;
 
 	@Mock
 	private UserRepository userRepository;
-	
+
 	@InjectMocks
     private DomainUserDetailsService domainUserDetailsService;
-	
+
 	private static User createUser() {
 		final User user = new User();
 		user.setId(ID);
@@ -42,7 +48,7 @@ public class DomainUserDetailsServiceTest {
 		user.setPseudo(PSEUDO);
 		return user;
 	}
-	
+
 	private static Role createRole() {
 		final Role role = new Role();
         role.setId(ID);
@@ -62,7 +68,7 @@ public class DomainUserDetailsServiceTest {
 		// Then
 		assertThat(domainUserDetailsService.loadUserByUsername(PSEUDO)).isNotNull();
 	}
-	
+
 	@Test
 	public void shouldLoadUserByUsernameWhenIsNotActivated() {
 		// Given
@@ -77,7 +83,7 @@ public class DomainUserDetailsServiceTest {
 		assertThatThrownBy(() -> domainUserDetailsService.loadUserByUsername(PSEUDO))
 		.isInstanceOf(UsernameNotFoundException.class);
 	}
-	
+
 	@Test
 	public void shouldLoadUserByUsernameWhenIsNotFound() {
 		// Given
@@ -90,5 +96,5 @@ public class DomainUserDetailsServiceTest {
 		assertThatThrownBy(() -> domainUserDetailsService.loadUserByUsername(PSEUDO))
 		.isInstanceOf(UsernameNotFoundException.class);
 	}
-	
+
 }

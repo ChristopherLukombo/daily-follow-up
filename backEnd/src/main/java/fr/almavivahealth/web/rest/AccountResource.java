@@ -48,6 +48,7 @@ import springfox.documentation.annotations.ApiIgnore;
 /**
  * REST controller for managing the current user's account.
  * @author christopher
+ * @version 16
  */
 @Api("Account")
 @RestController
@@ -119,7 +120,7 @@ public class AccountResource {
             @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 422, message = "Unprocessable entity")
             })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
     @PutMapping("/users/update")
     public ResponseEntity<UserDTO> updateUser(
     		@RequestBody @Valid final UserDTO userDTO, @ApiIgnore final Locale locale)
@@ -153,7 +154,7 @@ public class AccountResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/users/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable final Long id) throws DailyFollowUpException {
 		LOGGER.debug("REST request to delete User : {}", id);
@@ -198,7 +199,6 @@ public class AccountResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server"),
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
     @PostMapping("/register/profilePicture/{userId}")
 	public ResponseEntity<HttpStatus> uploadFile(
 			@RequestPart final MultipartFile file, @PathVariable final Long userId)
@@ -226,7 +226,6 @@ public class AccountResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden"),
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping(
 			value = "/users/profilePicture/{userId}",
 			produces = { "image/jpg", "image/jpeg", "image/gif", "image/png", "image/tif" })
@@ -252,7 +251,6 @@ public class AccountResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 500, message = "Internal Server")
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@PatchMapping("/users/pass")
 	public ResponseEntity<HttpStatus> updatePassword(
 			@RequestBody final UserPassDTO userPassDTO, @ApiIgnore final Locale locale) throws DailyFollowUpException {
@@ -280,7 +278,7 @@ public class AccountResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/users")
 	public ResponseEntity<List<UserDTO>> getAllActivePatients() {
 		LOGGER.debug("REST request to get all Users");

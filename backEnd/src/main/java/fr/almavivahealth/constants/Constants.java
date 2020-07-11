@@ -4,6 +4,7 @@ package fr.almavivahealth.constants;
  * Application constants for managing constants.
  *
  * @author christopher
+ * @version 16
  *
  */
 public final class Constants {

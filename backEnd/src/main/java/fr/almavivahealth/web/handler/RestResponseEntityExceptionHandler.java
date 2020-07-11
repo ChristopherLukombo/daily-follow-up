@@ -43,6 +43,7 @@ import fr.almavivahealth.exception.FunctionalException;
  * custom status.
  *
  * @author christopher
+ * @version 16
  */
 @RestControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {

@@ -8,6 +8,8 @@ import fr.almavivahealth.service.dto.PatientHistoryDTO;
 
 /**
  * The Interface AuditEventService.
+ * @author christopher
+ * @version 16
  */
 public interface AuditEventService {
 

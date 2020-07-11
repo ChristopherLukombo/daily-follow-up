@@ -6,6 +6,12 @@ import org.springframework.stereotype.Component;
 
 import fr.almavivahealth.util.BeanUtil;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Component
 public class AppContextProvider implements ApplicationContextAware {
 

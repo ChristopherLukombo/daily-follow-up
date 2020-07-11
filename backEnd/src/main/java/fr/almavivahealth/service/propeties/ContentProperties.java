@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * ContentProperties for managing menu properties.
  * @author christopher
+ * @version 16
  */
 @Configuration
 @ConfigurationProperties(prefix = "content")

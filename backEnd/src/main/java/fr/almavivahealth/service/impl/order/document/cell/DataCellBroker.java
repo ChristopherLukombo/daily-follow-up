@@ -6,6 +6,9 @@ import fr.almavivahealth.exception.DailyFollowUpException;
 
 /**
  * The Class DataCellBroker.
+ *
+ * @author christopher
+ * @version 16
  */
 public class DataCellBroker {
 

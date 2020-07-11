@@ -22,6 +22,9 @@ import io.swagger.annotations.ApiResponses;
 
 /**
  * REST controller for getting the audit events.
+ *
+ * @author christopher
+ * @version 16
  */
 @RestController
 @RequestMapping("/management/audits")
@@ -50,7 +53,7 @@ public class AuditResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
     @GetMapping(value = "/patient/history/{patientId}", params = {"page", "size"})
 	public ResponseEntity<Page<PatientHistoryDTO>> getAllPatientHistorysByPatientId(
 			@PathVariable(required = true) final Long patientId,
@@ -78,7 +81,7 @@ public class AuditResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
     @GetMapping(value = "/menu/history/{menuId}", params = {"page", "size"})
 	public ResponseEntity<Page<MenuHistoryDTO>> getAllMenuHistorysByMenuId(
 			@PathVariable(required = true) final Long menuId,
@@ -106,7 +109,7 @@ public class AuditResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
     @GetMapping(value = "/caregiver/history/{caregiverId}", params = {"page", "size"})
 	public ResponseEntity<Page<CaregiverHistoryDTO>> getAllCaregiverHistorysByCaregiverId(
 			@PathVariable(required = true) final Long caregiverId,

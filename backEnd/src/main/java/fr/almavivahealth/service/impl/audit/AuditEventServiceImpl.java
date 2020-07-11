@@ -21,6 +21,9 @@ import fr.almavivahealth.service.mapper.PatientHistoryMapper;
 
 /**
  * Service Implementation for managing all AuditEvent.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional

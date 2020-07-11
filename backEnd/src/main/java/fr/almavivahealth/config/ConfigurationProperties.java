@@ -7,8 +7,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * ConfigurationService for managing configuration properties.
- * 
+ *
  * @author christopher
+ * @version 16
  */
 @Configuration
 public class ConfigurationProperties {

@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,6 +28,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Stats.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Stats")
 @RestController
@@ -59,7 +59,6 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/patientsPerAllergy")
 	public ResponseEntity<List<PatientsPerAllergyDTO>> getNumberOfPatientsPerAllergy() {
 		LOGGER.debug("REST request to get number of patients per Allergy");
@@ -85,7 +84,6 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/patientsPerDiet")
 	public ResponseEntity<List<PatientsPerDietDTO>> getNumberOfPatientsPerDiet() {
 		LOGGER.debug("REST request to get number of patients per Diet");
@@ -111,7 +109,6 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/patientsByStatus")
 	public ResponseEntity<PatientsByStatusDTO> getNumberOfPatientsByStatus() {
 		LOGGER.debug("REST request to get number of patients by status");
@@ -137,7 +134,6 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/ordersPerDay")
 	public ResponseEntity<Map<String, List<OrdersPerDay>>> getNumberOfOrdersPerDay() {
 		LOGGER.debug("REST request to get number of orders per day");
@@ -163,7 +159,6 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/trendyDiets")
 	public ResponseEntity<List<TopTrendyMenuDTO>> getTrendyDiets() {
 		LOGGER.debug("REST request to get trendy diets");
@@ -189,7 +184,6 @@ public class StatsRessource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/stats/trendyContents")
 	public ResponseEntity<LinkedHashMap<String, Long>> getAllTrendyContents() {
 		LOGGER.debug("REST request to get trendy contents");

@@ -7,9 +7,11 @@ import fr.almavivahealth.service.dto.TextureDTO;
 
 /**
  * The Interface TextureService.
+ * @author christopher
+ * @version 16
  */
 public interface TextureService {
-	
+
 	/**
 	 * Save a texture.
 	 *

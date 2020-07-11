@@ -20,6 +20,9 @@ import lombok.ToString;
 /**
 *
 * @author christopher A address.
+*
+ * @author christopher
+ * @version 16
 */
 @Entity
 @NoArgsConstructor
@@ -34,19 +37,19 @@ public class Address implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	private String streetName;
-	
+
 	@NotNull
 	private String city;
-	
+
 	@NotNull
 	@Pattern(regexp = "^(([0-8][0-9])|(9[0-5]))[0-9]{3}$")
 	@Column(name = "postal_code", nullable = false)
 	private String postalCode;
-	
+
 	@OneToOne(mappedBy = "address")
 	private Patient patient;
-	 
+
 }

@@ -35,6 +35,12 @@ import fr.almavivahealth.service.dto.MenuDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.MenuResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MenuResourceTest {
 

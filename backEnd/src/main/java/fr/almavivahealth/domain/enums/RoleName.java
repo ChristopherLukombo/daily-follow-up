@@ -2,6 +2,9 @@ package fr.almavivahealth.domain.enums;
 
 /**
  * The Enum RoleName.
+ *
+ * @author christopher
+ * @version 16
  */
 public enum RoleName {
 

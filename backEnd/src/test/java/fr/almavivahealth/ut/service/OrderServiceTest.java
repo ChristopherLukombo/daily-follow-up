@@ -36,6 +36,12 @@ import fr.almavivahealth.service.impl.order.OrderServiceImpl;
 import fr.almavivahealth.service.mapper.OrderMapper;
 import fr.almavivahealth.service.propeties.OrderProperties;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 

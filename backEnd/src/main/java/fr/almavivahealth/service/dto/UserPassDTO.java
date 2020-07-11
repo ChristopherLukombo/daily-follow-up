@@ -8,6 +8,12 @@ import javax.validation.constraints.NotBlank;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
+/**
+ * A DTO for the UserPass entity.
+ *
+ * @author christopher
+ * @version 16
+ */
 public class UserPassDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;

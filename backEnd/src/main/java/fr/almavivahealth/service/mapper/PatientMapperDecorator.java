@@ -26,6 +26,7 @@ import fr.almavivahealth.service.dto.TextureDTO;
  * Mapper for the entity Patient and its DTO called PatientDTO.
  *
  * @author christopher
+ * @version 16
  */
 public abstract class PatientMapperDecorator implements PatientMapper {
 

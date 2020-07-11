@@ -12,6 +12,12 @@ import fr.almavivahealth.domain.entity.MenuHistory;
 import fr.almavivahealth.domain.enums.Action;
 import fr.almavivahealth.util.BeanUtil;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Transactional
 public class MenuEntityListener {
 

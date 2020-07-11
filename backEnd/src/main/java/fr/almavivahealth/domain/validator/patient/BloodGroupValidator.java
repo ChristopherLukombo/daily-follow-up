@@ -10,11 +10,14 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * The Class BloodGroupValidator.
+ *
+ * @author christopher
+ * @version 16
  */
 public class BloodGroupValidator implements ConstraintValidator<ValidBloodGroup, String> {
 
 	private static final List<String> BLOOD_GROUPS = Arrays.asList("A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-");
-	
+
 	/**
 	 * Checks the patient's blood group is valid.
 	 *

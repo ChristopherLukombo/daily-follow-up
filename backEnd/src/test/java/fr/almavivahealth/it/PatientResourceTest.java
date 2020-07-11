@@ -34,6 +34,12 @@ import fr.almavivahealth.service.dto.PatientDTO;
 import fr.almavivahealth.service.dto.TextureDTO;
 import fr.almavivahealth.utils.TestUtils;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(SpringRunner.class)
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

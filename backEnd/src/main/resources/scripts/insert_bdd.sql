@@ -8,8 +8,7 @@ CREATE EXTENSION unaccent;
 INSERT INTO role (name) VALUES
 ('ROLE_ADMIN'),
 ('ROLE_DIET'),
-('ROLE_CAREGIVER'),
-('ROLE_NUTRITIONIST');
+('ROLE_CAREGIVER');
 
 /******************** LES UTILISATEURS DE L'APPLICATION ********************/
 INSERT INTO "user" (first_name, last_name, pseudo, password_hash, role_id, image_url, create_date, status) VALUES

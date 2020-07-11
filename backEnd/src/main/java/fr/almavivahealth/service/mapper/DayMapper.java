@@ -12,6 +12,7 @@ import fr.almavivahealth.service.dto.DayDTO;
  * Mapper for the entity Day and its DTO called DayDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", uses = MomentDayMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DayMapper {

@@ -15,11 +15,13 @@ import org.springframework.web.filter.GenericFilterBean;
 /**
  * Filters incoming requests and installs a Spring Security principal if a header corresponding to a valid user is
  * found.
+ *
  * @author christopher
+ * @version 16
  */
 public class JWTFilter extends GenericFilterBean {
 
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
     public JWTFilter(final TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;

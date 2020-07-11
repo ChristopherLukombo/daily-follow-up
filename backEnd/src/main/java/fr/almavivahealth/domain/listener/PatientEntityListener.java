@@ -13,6 +13,12 @@ import fr.almavivahealth.domain.entity.PatientHistory;
 import fr.almavivahealth.domain.enums.Action;
 import fr.almavivahealth.util.BeanUtil;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Transactional
 public class PatientEntityListener {
 
@@ -25,7 +31,7 @@ public class PatientEntityListener {
 	public void preUpdate(final Patient target) {
 		final boolean stateOfPatient = findStateOfPatient(target);
 		final boolean stateOfPreviousPatient = findStateOfPreviousPatient(target);
-		
+
 		if (stateOfPreviousPatient && stateOfPatient) {
 			perform(target, Action.UPDATED);
 		} else if (!stateOfPreviousPatient && stateOfPatient) {
@@ -39,13 +45,13 @@ public class PatientEntityListener {
 		final EntityManager entityManager = BeanUtil.getBean(EntityManager.class);
 		entityManager.persist(new PatientHistory(target, action));
 	}
-	
+
 	private boolean findStateOfPatient(final Patient patient) {
 		return Optional.ofNullable(patient)
 				.map(Patient::getState)
 				.orElseGet(() -> false);
 	}
-	
+
 	private boolean findStateOfPreviousPatient(final Patient patient) {
 		return Optional.ofNullable(patient)
 				.map(Patient::getPreviousPatient)

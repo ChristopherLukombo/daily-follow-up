@@ -20,6 +20,9 @@ import fr.almavivahealth.service.mapper.MenuMapper;
 
 /**
  * Service Implementation for managing Menu.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional

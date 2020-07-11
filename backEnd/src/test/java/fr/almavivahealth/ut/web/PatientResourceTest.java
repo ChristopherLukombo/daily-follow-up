@@ -46,6 +46,12 @@ import fr.almavivahealth.service.dto.TextureDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.PatientResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class PatientResourceTest {
 

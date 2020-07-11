@@ -46,6 +46,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * REST controller for managing Order.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Order")
 @RestController
@@ -83,7 +84,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PostMapping("/orders")
 	public ResponseEntity<OrderDTO> createOrder(@Valid @RequestBody final OrderDTO orderDTO, @ApiIgnore final Locale locale)
 			throws URISyntaxException, DailyFollowUpException {
@@ -117,7 +118,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PutMapping("/orders")
 	public ResponseEntity<OrderDTO> updateOrder(@Valid @RequestBody final OrderDTO orderDTO, @ApiIgnore final Locale locale)
 			throws DailyFollowUpException {
@@ -150,7 +151,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(value = "/orders", params = { "selectedDate" })
 	public ResponseEntity<List<OrderDTO>> getAllOrdersForWeek(
 			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate selectedDate) {
@@ -177,7 +178,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/orders/{id}")
 	public ResponseEntity<OrderDTO> getOrder(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Order : {}", id);
@@ -202,7 +203,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/orders/{id}")
 	public ResponseEntity<Void> deleteOrder(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Order : {}", id);
@@ -225,7 +226,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(value = "/orders/patient/{patientId}")
 	public ResponseEntity<List<OrderDTO>> getAllOrdersByPatientId(@PathVariable final Long patientId) {
 		LOGGER.debug("REST Request to find Orders by patient id: {}", patientId);
@@ -251,7 +252,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(value = "/orders/between", params = { "date" })
 	public ResponseEntity<List<OrderDTO>> getAllOrdersBetween(
 			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate date
@@ -279,7 +280,7 @@ public class OrderResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(value = "/orders/forDate", params = { "date" })
 	public ResponseEntity<List<OrderDTO>> getAllOrdersForDate(
 			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate date
@@ -308,7 +309,7 @@ public class OrderResource {
 		@ApiResponse(code = 403, message = "Forbidden"),
 		@ApiResponse(code = 500, message = "Internal Server")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(value = "/orders/coupons", params = { "momentName", "selectedDate" })
 	public ResponseEntity<byte[]> generateCoupons(
 			@RequestParam final String momentName,

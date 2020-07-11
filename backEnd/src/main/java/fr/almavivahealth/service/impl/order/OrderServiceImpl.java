@@ -50,6 +50,9 @@ import fr.almavivahealth.service.propeties.OrderProperties;
 
 /**
  * Service Implementation for managing Order.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional

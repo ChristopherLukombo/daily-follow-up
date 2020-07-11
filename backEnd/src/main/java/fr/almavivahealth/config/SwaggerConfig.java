@@ -29,6 +29,12 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Configuration
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
@@ -53,7 +59,7 @@ public class SwaggerConfig {
                 .globalOperationParameters(getParameters())
                 .apiInfo(apiInfo());
     }
-    
+
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
 				.title("Daily follow up API")

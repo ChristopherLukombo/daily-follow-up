@@ -25,6 +25,12 @@ import fr.almavivahealth.service.dto.DayDTO;
 import fr.almavivahealth.service.impl.day.DayServiceImpl;
 import fr.almavivahealth.service.mapper.DayMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DayServiceTest {
 

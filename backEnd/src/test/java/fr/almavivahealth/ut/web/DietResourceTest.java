@@ -32,18 +32,24 @@ import fr.almavivahealth.service.dto.DietDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.DietResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DietResourceTest {
-	
+
 	private static final String NAME = "TEST";
 
 	private static final long ID = 1L;
-	
+
     private MockMvc mockMvc;
-	
+
 	@Mock
 	private DietService dietService;
-	
+
 	@InjectMocks
 	private DietResource dietResource;
 
@@ -52,7 +58,7 @@ public class DietResourceTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(dietResource)
 				.setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
 	}
-	
+
 	private static DietDTO createDietDTO() {
 		return DietDTO.builder()
 				.id(ID)
@@ -65,10 +71,10 @@ public class DietResourceTest {
     	// Given
     	final DietDTO dietDTO = createDietDTO();
     	dietDTO.setId(null);
-    	
+
     	// When
 		when(dietService.save((DietDTO) any())).thenReturn(dietDTO);
-    	
+
     	// Then
     	mockMvc.perform(post("/api/diets")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -76,12 +82,12 @@ public class DietResourceTest {
 		        .andExpect(status().isCreated());
 		verify(dietService, times(1)).save(dietDTO);
     }
-	
+
 	@Test
     public void shouldCreateDietWhenIsKo() throws IOException, Exception {
     	// Given
     	final DietDTO dietDTO = createDietDTO();
-    	
+
     	// Then
     	mockMvc.perform(post("/api/diets")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -89,15 +95,15 @@ public class DietResourceTest {
 		        .andExpect(status().isBadRequest());
 		verify(dietService, times(0)).save(dietDTO);
     }
-	
+
 	@Test
     public void shouldUpdateDietWhenIsOk() throws IOException, Exception {
     	// Given
     	final DietDTO dietDTO = createDietDTO();
-    	
+
     	// When
 		when(dietService.update((DietDTO) any())).thenReturn(dietDTO);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/diets")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -105,13 +111,13 @@ public class DietResourceTest {
 		        .andExpect(status().isOk());
 		verify(dietService, times(1)).update(dietDTO);
     }
-	
+
 	@Test
     public void shouldUpdateDietWhenIsKo() throws IOException, Exception {
     	// Given
     	final DietDTO dietDTO = createDietDTO();
     	dietDTO.setId(null);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/diets")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -165,7 +171,7 @@ public class DietResourceTest {
 		        .andExpect(status().isOk());
 		verify(dietService, times(1)).findOne(1L);
 	}
-	
+
 	@Test
 	public void shouldGetDietWhenIsNotFOund() throws IOException, Exception {
 		// Given

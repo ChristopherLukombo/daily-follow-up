@@ -34,6 +34,12 @@ import fr.almavivahealth.service.dto.MenuDTO;
 import fr.almavivahealth.service.impl.menu.MenuServiceImpl;
 import fr.almavivahealth.service.mapper.MenuMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MenuServiceTest {
 

@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * ConfigurationService for managing user properties.
  * @author christopher
+ * @version 16
  */
 @Configuration
 @ConfigurationProperties(prefix = "user")
@@ -20,5 +21,5 @@ public class UserProperties {
 	public void setPathProfiles(final String pathProfiles) {
 		this.pathProfiles = pathProfiles;
 	}
-	
+
 }

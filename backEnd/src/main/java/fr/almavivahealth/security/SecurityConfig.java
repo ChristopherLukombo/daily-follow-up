@@ -26,7 +26,9 @@ import fr.almavivahealth.security.jwt.TokenProvider;
 
 /**
  * SecurityConfig for managing the security of application.
+ *
  * @author christopher
+ * @version 16
  */
 @Configuration
 @EnableWebSecurity

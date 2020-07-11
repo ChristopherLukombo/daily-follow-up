@@ -5,6 +5,12 @@ import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 public final class DefaultProfileUtil {
 	private static final String SPRING_PROFILE_DEFAULT = "spring.profiles.default";
 

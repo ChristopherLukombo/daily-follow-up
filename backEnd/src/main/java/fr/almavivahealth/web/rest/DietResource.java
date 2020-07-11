@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Diet.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Diet")
 @RestController
@@ -66,7 +67,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PostMapping("/diets")
 	public ResponseEntity<DietDTO> createDiet(@Valid @RequestBody final DietDTO dietDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -95,7 +96,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PutMapping("/diets")
 	public ResponseEntity<DietDTO> updateDiet(@Valid @RequestBody final DietDTO dietDTO)
 			throws DailyFollowUpException {
@@ -123,7 +124,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/diets")
 	public ResponseEntity<List<DietDTO>> getAllDiets() {
 		LOGGER.debug("REST request to get All Diets");
@@ -149,7 +150,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/diets/{id}")
 	public ResponseEntity<DietDTO> getDiet(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Diet : {}", id);
@@ -174,7 +175,7 @@ public class DietResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/diets/{id}")
 	public ResponseEntity<Void> deleteDiet(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Diet : {}", id);

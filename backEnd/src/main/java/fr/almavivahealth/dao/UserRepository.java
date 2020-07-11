@@ -12,6 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.User;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 

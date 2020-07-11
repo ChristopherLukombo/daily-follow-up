@@ -9,6 +9,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * Implementation of AuditorAware based on Spring Security.
+ *
+ * @author christopher
+ * @version 16
  */
 public class SpringSecurityAuditorAware implements AuditorAware<String> {
 
@@ -20,7 +23,7 @@ public class SpringSecurityAuditorAware implements AuditorAware<String> {
 				.filter(p -> p instanceof UserDetails)
 				.map(this::getUserName);
 	}
-	
+
 	private String getUserName(final Object principal) {
 		return ((UserDetails) principal).getUsername();
 	}

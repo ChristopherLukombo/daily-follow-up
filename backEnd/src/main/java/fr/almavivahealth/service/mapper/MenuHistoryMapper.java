@@ -13,6 +13,7 @@ import fr.almavivahealth.service.dto.MenuHistoryDTO;
  * Mapper for the entity MenuHistory and its DTO called MenuHistoryDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface MenuHistoryMapper {

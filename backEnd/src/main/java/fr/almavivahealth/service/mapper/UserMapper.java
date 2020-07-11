@@ -10,7 +10,9 @@ import fr.almavivahealth.service.dto.UserDTO;
 
 /**
  * Mapper for the entity User and its DTO called UserDTO.
+ *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 @DecoratedWith(UserMapperDecorator.class)

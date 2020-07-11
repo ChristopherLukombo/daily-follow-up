@@ -12,6 +12,9 @@ import lombok.Builder;
 
 /**
  * A DTO for the Week entity.
+ *
+ * @author christopher
+ * @version 16
  */
 @AllArgsConstructor
 @Builder

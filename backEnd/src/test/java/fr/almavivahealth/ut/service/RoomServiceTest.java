@@ -26,6 +26,12 @@ import fr.almavivahealth.service.dto.RoomDTO;
 import fr.almavivahealth.service.impl.room.RoomServiceImpl;
 import fr.almavivahealth.service.mapper.RoomMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class RoomServiceTest {
 

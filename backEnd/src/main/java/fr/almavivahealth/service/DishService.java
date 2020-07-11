@@ -7,6 +7,8 @@ import fr.almavivahealth.service.dto.DishDTO;
 
 /**
  * The Interface DishService.
+ * @author christopher
+ * @version 16
  */
 public interface DishService {
 

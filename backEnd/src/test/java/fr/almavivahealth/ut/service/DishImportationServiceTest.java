@@ -21,6 +21,12 @@ import fr.almavivahealth.dao.DishRepository;
 import fr.almavivahealth.domain.entity.Dish;
 import fr.almavivahealth.service.impl.dish.DishImportationServiceImpl;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DishImportationServiceTest {
 

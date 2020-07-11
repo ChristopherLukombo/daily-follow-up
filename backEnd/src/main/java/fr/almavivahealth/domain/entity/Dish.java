@@ -16,8 +16,10 @@ import lombok.ToString;
 
 /**
 *
-* @author christopher
 * A dish.
+*
+ * @author christopher
+ * @version 16
 */
 @Entity
 @NoArgsConstructor

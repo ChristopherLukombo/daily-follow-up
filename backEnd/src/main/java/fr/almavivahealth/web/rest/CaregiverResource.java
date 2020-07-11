@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Caregiver.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Caregiver")
 @RestController
@@ -66,7 +67,7 @@ public class CaregiverResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PostMapping("/caregivers")
 	public ResponseEntity<CaregiverDTO> createCaregiver(@Valid @RequestBody final CaregiverDTO caregiver)
 			throws URISyntaxException, DailyFollowUpException {
@@ -95,7 +96,7 @@ public class CaregiverResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PutMapping("/caregivers")
 	public ResponseEntity<CaregiverDTO> updateCaregiver(@Valid @RequestBody final CaregiverDTO caregiverDTO)
 			throws DailyFollowUpException {
@@ -123,7 +124,6 @@ public class CaregiverResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/caregivers")
 	public ResponseEntity<List<CaregiverDTO>> getAllCaregivers() {
 		LOGGER.debug("REST request to get All Caregivers");
@@ -149,7 +149,6 @@ public class CaregiverResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/caregivers/{id}")
 	public ResponseEntity<CaregiverDTO> getCaregiver(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Caregiver : {}", id);
@@ -174,7 +173,7 @@ public class CaregiverResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/caregivers/{id}")
 	public ResponseEntity<Void> deleteCaregiver(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Caregiver : {}", id);
@@ -197,7 +196,6 @@ public class CaregiverResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/caregivers/floor/{number}")
 	public ResponseEntity<List<CaregiverDTO>> getAllByFloorNumber(@PathVariable final Integer number) {
 		LOGGER.debug("REST request to get all Caregivers for floor: {}", number);
@@ -224,7 +222,6 @@ public class CaregiverResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/caregivers/user/{userId}")
 	public ResponseEntity<CaregiverDTO> getCaregiverByUserId(@PathVariable final Long userId) {
 		LOGGER.debug("REST request to get Caregiver by user id : {}", userId);

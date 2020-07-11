@@ -11,6 +11,12 @@ import org.springframework.stereotype.Repository;
 import fr.almavivahealth.domain.entity.Menu;
 import fr.almavivahealth.domain.entity.TopTrendyMenu;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 

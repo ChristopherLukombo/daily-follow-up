@@ -8,11 +8,17 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Texture;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface TextureRepository extends JpaRepository<Texture, Long> {
 
 	Optional<Texture> findByNameIgnoreCase(String name);
-	
+
 	List<Texture> findAllByOrderByIdAsc();
-	
+
 }

@@ -26,7 +26,10 @@ import lombok.ToString;
 
 /**
  *
- * @author christopher An order.
+ * An order.
+ *
+ * @author christopher
+ * @version 16
  */
 @Entity
 @Table(name = "\"order\"")

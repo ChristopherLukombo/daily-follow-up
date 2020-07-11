@@ -7,6 +7,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import fr.almavivahealth.security.SpringSecurityAuditorAware;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Configuration
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class JpaConfig {

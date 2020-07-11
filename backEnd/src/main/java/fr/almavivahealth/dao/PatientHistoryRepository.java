@@ -7,9 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.PatientHistory;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface PatientHistoryRepository extends JpaRepository<PatientHistory, Long>{
 
 	Page<PatientHistory> findAllByPatientIdOrderByModifiedDateDesc(Long patientId, Pageable pageable);
-	
+
 }

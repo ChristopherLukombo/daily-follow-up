@@ -2,27 +2,30 @@ package fr.almavivahealth.domain.enums;
 
 /**
  * The Enum MaritalStatus.
+ *
+ * @author christopher
+ * @version 16
  */
 public enum MaritalStatus {
-	
+
 	/** The married. */
 	MARRIED("Marié"),
-	
+
 	/** The pacs. */
 	PACS("Pascé"),
-	
+
 	/** The divorced. */
 	DIVORCED("Divorcé"),
-	
+
 	/** The separated. */
 	SEPARATED("Séparé"),
-	
+
 	/** The single. */
 	SINGLE("Célibataire"),
-	
+
 	/** The widower. */
 	WIDOWER("Veuf");
-	
+
 	private String label;
 
 	/**

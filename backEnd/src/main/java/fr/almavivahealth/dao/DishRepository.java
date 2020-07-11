@@ -11,6 +11,12 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Dish;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface DishRepository extends JpaRepository<Dish, Long>{
 

@@ -34,6 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Room.
  *
  * @author christopher
+ * @version 16
  */
 @Api("Room")
 @RestController
@@ -67,7 +68,7 @@ public class RoomResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PostMapping("/rooms")
 	public ResponseEntity<RoomDTO> createRoom(@Valid @RequestBody final RoomDTO roomDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -97,7 +98,7 @@ public class RoomResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@PutMapping("/rooms")
 	public ResponseEntity<RoomDTO> updateRoom(@Valid @RequestBody final RoomDTO roomDTO)
 			throws DailyFollowUpException {
@@ -125,7 +126,6 @@ public class RoomResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/rooms")
 	public ResponseEntity<List<RoomDTO>> getAllRooms() {
 		LOGGER.debug("REST request to get all Rooms");
@@ -151,7 +151,6 @@ public class RoomResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/rooms/{id}")
 	public ResponseEntity<RoomDTO> getRoom(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Room : {}", id);
@@ -176,7 +175,7 @@ public class RoomResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/rooms/{id}")
 	public ResponseEntity<Void> deleteRoom(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Room : {}", id);
@@ -199,7 +198,6 @@ public class RoomResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
 	@GetMapping("/rooms/patient/{patientId}")
 	public ResponseEntity<RoomDTO> getRoomByPatientId(@PathVariable final Long patientId) {
 		LOGGER.debug("REST request to get Room : {}", patientId);

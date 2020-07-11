@@ -30,10 +30,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* A user.
-*/
+ *
+ * A user.
+ *
+ * @author christopher
+ * @version 16
+ */
 @Entity
 @Table(name="\"user\"")
 @NoArgsConstructor
@@ -47,49 +49,49 @@ public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	// TODO : Changer la regex pour le pseudo.
 	@NotNull
-    @Pattern(regexp = "^[_'.@A-Za-z0-9-]*$")
-    @Size(min = 1, max = 50)
-    @Column(length = 50, unique = true, nullable = false)
-    private String pseudo;
+	@Pattern(regexp = "^[_'.@A-Za-z0-9-]*$")
+	@Size(min = 1, max = 50)
+	@Column(length = 50, unique = true, nullable = false)
+	private String pseudo;
 
-    @JsonIgnore
-    @NotNull
-    @Size(max = 60)
-    @Column(name = "password_hash", length = 60)
-    private String password;
+	@JsonIgnore
+	@NotNull
+	@Size(max = 60)
+	@Column(name = "password_hash", length = 60)
+	private String password;
 
-    @Size(max = 50)
-    @Column(name = "first_name", length = 50)
-    private String firstName;
+	@Size(max = 50)
+	@Column(name = "first_name", length = 50)
+	private String firstName;
 
-    @Size(max = 50)
-    @Column(name = "last_name", length = 50)
-    private String lastName;
+	@Size(max = 50)
+	@Column(name = "last_name", length = 50)
+	private String lastName;
 
-    @Column(name = "createDate")
-    @CreatedDate
-    private LocalDate createDate;
+	@Column(name = "createDate")
+	@CreatedDate
+	private LocalDate createDate;
 
-    @Builder.Default
-    @NotNull
-    @Column(nullable = false)
-    private boolean status = true;
+	@Builder.Default
+	@NotNull
+	@Column(nullable = false)
+	private boolean status = true;
 
-    @Size(max = 256)
-    @Column(name = "image_url", length = 256)
-    private String imageUrl;
+	@Size(max = 256)
+	@Column(name = "image_url", length = 256)
+	private String imageUrl;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "role_id")
-    private Role role;
+	@JoinColumn(name = "role_id")
+	private Role role;
 
-    private Boolean hasChangedPassword;
+	private Boolean hasChangedPassword;
 
-    @Column(name = "last_login_date")
-    private LocalDateTime lastLoginDate;
+	@Column(name = "last_login_date")
+	private LocalDateTime lastLoginDate;
 }

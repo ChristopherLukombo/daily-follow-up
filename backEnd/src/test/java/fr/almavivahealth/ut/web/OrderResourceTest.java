@@ -36,6 +36,12 @@ import fr.almavivahealth.service.dto.OrderDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.OrderResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class OrderResourceTest {
 

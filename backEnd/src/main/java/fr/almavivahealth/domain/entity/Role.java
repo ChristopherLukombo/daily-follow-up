@@ -14,11 +14,13 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* A role.
-*/
-@Entity 
+ *
+ * A role.
+ *
+ * @author christopher
+ * @version 16
+ */
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -27,10 +29,10 @@ import lombok.ToString;
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private String name;
 }

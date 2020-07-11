@@ -12,6 +12,7 @@ import fr.almavivahealth.service.dto.ReplacementDTO;
  * Mapper for the entity Replacement and its DTO called ReplacementDTO.
  *
  * @author christopher
+ * @version 16
  */
 @Mapper(componentModel = "spring", uses = { ContentMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ReplacementMapper {

@@ -25,6 +25,12 @@ import fr.almavivahealth.service.dto.DishDTO;
 import fr.almavivahealth.service.impl.dish.DishServiceImpl;
 import fr.almavivahealth.service.mapper.DishMapper;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DishServiceTest {
 

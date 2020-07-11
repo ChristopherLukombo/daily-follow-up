@@ -32,13 +32,19 @@ import fr.almavivahealth.service.dto.DayDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.DayResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DayResourceTest {
-	
+
 	private static final String NAME = "TEST";
 
 	private static final long ID = 1L;
-	
+
 	private MockMvc mockMvc;
 
 	@Mock
@@ -46,13 +52,13 @@ public class DayResourceTest {
 
 	@InjectMocks
 	private DayResource dayResource;
-	
+
 	@Before
 	public void setUp() {
 		mockMvc = MockMvcBuilders.standaloneSetup(dayResource)
 				.setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
 	}
-	
+
 	private static DayDTO createDayDTO() {
 		return DayDTO.builder()
 				.id(ID)
@@ -65,10 +71,10 @@ public class DayResourceTest {
     	// Given
     	final DayDTO dayDTO = createDayDTO();
     	dayDTO.setId(null);
-    	
+
     	// When
 		when(dayService.save((DayDTO) any())).thenReturn(dayDTO);
-    	
+
     	// Then
     	mockMvc.perform(post("/api/days")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -76,12 +82,12 @@ public class DayResourceTest {
 		        .andExpect(status().isCreated());
 		verify(dayService, times(1)).save(dayDTO);
     }
-	
+
 	@Test
     public void shouldCreateDayWhenIsKo() throws IOException, Exception {
     	// Given
     	final DayDTO dayDTO = createDayDTO();
-    	
+
     	// Then
     	mockMvc.perform(post("/api/days")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -89,15 +95,15 @@ public class DayResourceTest {
 		        .andExpect(status().isBadRequest());
 		verify(dayService, times(0)).save(dayDTO);
     }
-	
+
 	@Test
     public void shouldUpdateDayWhenIsOk() throws IOException, Exception {
     	// Given
     	final DayDTO dayDTO = createDayDTO();
-    	
+
     	// When
 		when(dayService.update((DayDTO) any())).thenReturn(dayDTO);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/days")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -105,13 +111,13 @@ public class DayResourceTest {
 		        .andExpect(status().isOk());
 		verify(dayService, times(1)).update(dayDTO);
     }
-	
+
 	@Test
     public void shouldUpdateDayWhenIsKo() throws IOException, Exception {
     	// Given
     	final DayDTO dayDTO = createDayDTO();
     	dayDTO.setId(null);
-    	
+
     	// Then
     	mockMvc.perform(put("/api/days")
 				.contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -119,7 +125,7 @@ public class DayResourceTest {
 		        .andExpect(status().isBadRequest());
 		verify(dayService, times(0)).update(dayDTO);
     }
-	
+
 	@Test
 	public void shouldGetAllDaysWhenIsOk() throws IOException, Exception {
 		// Given
@@ -149,7 +155,7 @@ public class DayResourceTest {
 				.andExpect(status().isNoContent());
 		verify(dayService, times(1)).findAll();
 	}
-	
+
 	@Test
 	public void shouldGetDayWhenIsOk() throws IOException, Exception {
 		// Given

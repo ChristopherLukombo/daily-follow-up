@@ -9,6 +9,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * A DTO for the PatientHistory entity.
+ *
+ * @author christopher
+ * @version 16
  */
 public class PatientHistoryDTO implements Serializable {
 

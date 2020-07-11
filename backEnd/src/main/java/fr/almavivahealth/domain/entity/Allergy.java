@@ -1,4 +1,4 @@
-	package fr.almavivahealth.domain.entity;
+package fr.almavivahealth.domain.entity;
 
 import java.io.Serializable;
 
@@ -15,10 +15,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* An allergy.
-*/
+ *
+ * An allergy.
+ *
+ * @author christopher
+ * @version 16
+ */
 @Entity
 @Data
 @NoArgsConstructor
@@ -28,11 +30,11 @@ import lombok.ToString;
 public class Allergy implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull
 	private String name;
 }

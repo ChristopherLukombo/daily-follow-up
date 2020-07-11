@@ -18,17 +18,20 @@ import fr.almavivahealth.service.mapper.AllergyMapper;
 
 /**
  * Service Implementation for managing Allergy.
+ *
+ * @author christopher
+ * @version 16
  */
 @Service
 @Transactional
 public class AllergyServiceImpl implements AllergyService {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AllergyServiceImpl.class);
-	
+
 	private final AllergyRepository allergyRepository;
-	
+
 	private final AllergyMapper allergyMapper;
-	
+
 	@Autowired
 	public AllergyServiceImpl(final AllergyRepository allergyRepository, final AllergyMapper allergyMapper) {
 		this.allergyRepository = allergyRepository;

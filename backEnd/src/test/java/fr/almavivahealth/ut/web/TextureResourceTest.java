@@ -32,13 +32,19 @@ import fr.almavivahealth.service.dto.TextureDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.TextureResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class TextureResourceTest {
-	
+
 	private static final long ID = 1L;
-	
+
 	private static final String NAME = "TEST";
-	
+
 	private MockMvc mockMvc;
 
 	@Mock
@@ -52,7 +58,7 @@ public class TextureResourceTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(textureResource)
 				.setControllerAdvice(new RestResponseEntityExceptionHandler()).build();
 	}
-	
+
 	private static TextureDTO createTextureDTO() {
 		return TextureDTO.builder()
 				.id(ID)

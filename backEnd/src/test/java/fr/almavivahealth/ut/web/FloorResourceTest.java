@@ -32,6 +32,12 @@ import fr.almavivahealth.service.dto.FloorDTO;
 import fr.almavivahealth.web.handler.RestResponseEntityExceptionHandler;
 import fr.almavivahealth.web.rest.FloorResource;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class FloorResourceTest {
 
@@ -86,7 +92,7 @@ public class FloorResourceTest {
 		.andExpect(status().isBadRequest());
 		verify(floorService, times(0)).save(floorDTO);
 	}
-	
+
 	@Test
 	public void shouldUpdateFloorWhenIsOk() throws IOException, Exception {
 		// Given

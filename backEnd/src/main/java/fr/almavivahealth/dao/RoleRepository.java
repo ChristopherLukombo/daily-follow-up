@@ -7,6 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import fr.almavivahealth.domain.entity.Role;
 
+/**
+ *
+ * @author christopher
+ * @version 16
+ *
+ */
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>{
 

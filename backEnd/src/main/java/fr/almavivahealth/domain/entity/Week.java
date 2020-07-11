@@ -21,10 +21,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 /**
-*
-* @author christopher
-* A week.
-*/
+ *
+ * A week.
+ *
+ * @author christopher
+ * @version 16
+ */
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,8 +38,8 @@ public class Week implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name = "sequenceGenerator")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
+	@SequenceGenerator(name = "sequenceGenerator")
 	private Long id;
 
 	@Min(1)
@@ -47,6 +49,6 @@ public class Week implements Serializable {
 	@OneToMany(
 			fetch = FetchType.LAZY,
 			orphanRemoval = true,
-					cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    private List<Day> days;
+			cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	private List<Day> days;
 }
