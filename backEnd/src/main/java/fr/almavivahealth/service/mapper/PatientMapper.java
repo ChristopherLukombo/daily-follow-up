@@ -13,7 +13,7 @@ import fr.almavivahealth.service.dto.PatientDTO;
  * Mapper for the entity Patient and its DTO called PatientDTO.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Mapper(componentModel = "spring", uses = OrderMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 @DecoratedWith(PatientMapperDecorator.class)

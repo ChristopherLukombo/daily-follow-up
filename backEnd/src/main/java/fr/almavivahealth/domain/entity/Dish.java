@@ -19,7 +19,7 @@ import lombok.ToString;
 * A dish.
 *
  * @author christopher
- * @version 16
+ * @version 17
 */
 @Entity
 @NoArgsConstructor

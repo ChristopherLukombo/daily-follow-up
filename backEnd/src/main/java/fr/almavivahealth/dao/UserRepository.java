@@ -15,7 +15,7 @@ import fr.almavivahealth.domain.entity.User;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Repository

@@ -47,7 +47,7 @@ import fr.almavivahealth.service.mapper.StatsMapper;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

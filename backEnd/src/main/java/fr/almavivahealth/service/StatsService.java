@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
 /**
  * The Interface StatsService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface StatsService {
 

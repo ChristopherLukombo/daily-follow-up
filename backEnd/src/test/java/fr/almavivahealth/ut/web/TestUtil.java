@@ -14,7 +14,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
  * Utility class for testing REST controllers.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public final class TestUtil {
 

@@ -20,7 +20,7 @@ import fr.almavivahealth.service.mapper.DayMapper;
  * Service Implementation for managing Day.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Service
 @Transactional

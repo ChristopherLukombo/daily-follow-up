@@ -34,7 +34,7 @@ import fr.almavivahealth.web.rest.AllergyResource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

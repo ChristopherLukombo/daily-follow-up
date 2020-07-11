@@ -50,7 +50,7 @@ import fr.almavivahealth.service.propeties.UserProperties;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

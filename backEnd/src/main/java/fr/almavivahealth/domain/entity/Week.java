@@ -25,7 +25,7 @@ import lombok.ToString;
  * A week.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Entity
 @NoArgsConstructor

@@ -44,7 +44,7 @@ import fr.almavivahealth.service.propeties.ContentProperties;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

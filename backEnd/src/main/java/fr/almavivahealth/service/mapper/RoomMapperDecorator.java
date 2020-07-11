@@ -7,7 +7,7 @@ import fr.almavivahealth.service.dto.RoomDTO;
  * The Class RoomMapperDecorator
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public abstract class RoomMapperDecorator implements RoomMapper {
 

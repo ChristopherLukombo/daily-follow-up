@@ -12,7 +12,7 @@ import fr.almavivahealth.service.dto.WeekDTO;
  * Mapper for the entity Week and its DTO called WeekDTO.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Mapper(componentModel = "spring", uses = { DayMapper.class }, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface WeekMapper {

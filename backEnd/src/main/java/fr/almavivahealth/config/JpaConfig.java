@@ -10,7 +10,7 @@ import fr.almavivahealth.security.SpringSecurityAuditorAware;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Configuration

@@ -12,7 +12,7 @@ import fr.almavivahealth.service.impl.patient.PatientImportationAttemptsImpl;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

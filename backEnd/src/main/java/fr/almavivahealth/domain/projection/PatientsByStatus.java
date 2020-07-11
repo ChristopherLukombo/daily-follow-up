@@ -4,7 +4,7 @@ package fr.almavivahealth.domain.projection;
  * A projection PatientsByStatus.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface PatientsByStatus {
 

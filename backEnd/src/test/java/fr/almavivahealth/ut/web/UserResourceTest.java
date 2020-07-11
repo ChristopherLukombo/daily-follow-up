@@ -24,7 +24,7 @@ import fr.almavivahealth.web.rest.UserResource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

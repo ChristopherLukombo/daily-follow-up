@@ -9,7 +9,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
  * The Class DataCellFooter.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public class DataCellFooter extends DataCell {
 

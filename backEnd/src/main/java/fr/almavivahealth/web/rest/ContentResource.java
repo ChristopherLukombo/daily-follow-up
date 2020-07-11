@@ -43,7 +43,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * REST controller for managing Content.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Content")
 @RestController

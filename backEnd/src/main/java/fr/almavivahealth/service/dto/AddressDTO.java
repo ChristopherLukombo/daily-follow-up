@@ -16,7 +16,7 @@ import lombok.Builder;
  * A DTO for the Address entity.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @AllArgsConstructor
 @Builder

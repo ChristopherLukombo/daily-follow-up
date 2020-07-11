@@ -13,7 +13,7 @@ import lombok.Builder;
  * A DTO for the Texture entity.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @AllArgsConstructor
 @Builder

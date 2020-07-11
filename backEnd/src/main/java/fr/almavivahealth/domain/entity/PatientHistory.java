@@ -24,7 +24,7 @@ import fr.almavivahealth.domain.enums.Action;
 * A patientHistory.
 *
  * @author christopher
- * @version 16
+ * @version 17
 */
 @Entity
 @EntityListeners(AuditingEntityListener.class)

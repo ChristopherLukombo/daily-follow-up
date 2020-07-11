@@ -38,7 +38,7 @@ import fr.almavivahealth.web.rest.MenuResource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

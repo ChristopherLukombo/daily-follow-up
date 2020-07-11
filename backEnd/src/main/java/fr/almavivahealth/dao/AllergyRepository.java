@@ -11,7 +11,7 @@ import fr.almavivahealth.domain.entity.Allergy;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Repository

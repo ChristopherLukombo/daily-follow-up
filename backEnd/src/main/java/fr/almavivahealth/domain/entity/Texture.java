@@ -20,7 +20,7 @@ import lombok.ToString;
 * A texture.
 *
  * @author christopher
- * @version 16
+ * @version 17
 */
 @Entity
 @NoArgsConstructor

@@ -20,7 +20,7 @@ import fr.almavivahealth.service.mapper.RoomMapper;
  * Service Implementation for managing Room.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Service
 @Transactional

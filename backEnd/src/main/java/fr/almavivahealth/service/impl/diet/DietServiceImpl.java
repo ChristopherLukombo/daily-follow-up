@@ -20,7 +20,7 @@ import fr.almavivahealth.service.mapper.DietMapper;
  * Service Implementation for managing Diet.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Service
 @Transactional

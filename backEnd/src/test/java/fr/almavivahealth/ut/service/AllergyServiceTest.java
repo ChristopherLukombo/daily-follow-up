@@ -28,7 +28,7 @@ import fr.almavivahealth.service.mapper.AllergyMapper;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

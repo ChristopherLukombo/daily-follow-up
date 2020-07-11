@@ -13,7 +13,7 @@ import fr.almavivahealth.service.dto.RoomDTO;
  * Mapper for the entity Room and its DTO called RoomDTO.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 @DecoratedWith(RoomMapperDecorator.class)

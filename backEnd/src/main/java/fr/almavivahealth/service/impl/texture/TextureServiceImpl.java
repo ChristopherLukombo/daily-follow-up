@@ -20,7 +20,7 @@ import fr.almavivahealth.service.mapper.TextureMapper;
  * Service Implementation for managing Texture.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Service
 @Transactional

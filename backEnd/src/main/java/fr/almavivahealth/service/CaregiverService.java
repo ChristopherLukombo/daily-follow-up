@@ -9,7 +9,7 @@ import fr.almavivahealth.service.dto.CaregiverDTO;
 /**
  * The Interface CaregiverService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface CaregiverService {
 

@@ -8,7 +8,7 @@ import fr.almavivahealth.service.dto.RoomDTO;
 /**
  * The Interface RoomService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface RoomService {
 

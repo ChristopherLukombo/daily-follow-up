@@ -17,7 +17,7 @@ import fr.almavivahealth.service.dto.ContentDTO;
  * Mapper for the entity Content and its DTO called ContentDTO.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ContentMapper {

@@ -13,7 +13,7 @@ import fr.almavivahealth.domain.entity.Room;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Repository

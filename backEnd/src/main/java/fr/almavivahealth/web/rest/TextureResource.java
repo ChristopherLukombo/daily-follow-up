@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Texture.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Texture")
 @RestController

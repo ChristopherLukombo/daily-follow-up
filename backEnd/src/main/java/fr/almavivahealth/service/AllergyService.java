@@ -8,7 +8,7 @@ import fr.almavivahealth.service.dto.AllergyDTO;
 /**
  * The Interface AllergyService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface AllergyService {
 

@@ -12,7 +12,7 @@ import fr.almavivahealth.service.dto.FloorDTO;
  * Mapper for the entity Floor and its DTO called FloorDTO.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Mapper(componentModel = "spring", uses = RoomMapper.class, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface FloorMapper {

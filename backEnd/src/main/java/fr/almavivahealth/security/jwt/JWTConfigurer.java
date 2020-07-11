@@ -9,7 +9,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * JWTConfigurer to configure JWT
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public class JWTConfigurer extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
 

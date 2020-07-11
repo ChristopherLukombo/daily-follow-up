@@ -4,7 +4,7 @@ package fr.almavivahealth.domain.enums;
  * The Enum Action.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public enum Action {
 

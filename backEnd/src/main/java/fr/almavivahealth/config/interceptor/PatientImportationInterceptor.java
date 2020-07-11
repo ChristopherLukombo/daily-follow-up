@@ -22,7 +22,7 @@ import fr.almavivahealth.service.PatientImportationAttempts;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Component

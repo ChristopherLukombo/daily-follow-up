@@ -45,7 +45,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * REST controller for managing Menu.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Menu")
 @RestController

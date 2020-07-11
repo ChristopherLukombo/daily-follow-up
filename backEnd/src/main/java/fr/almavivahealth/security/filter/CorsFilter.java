@@ -21,7 +21,7 @@ import fr.almavivahealth.config.ConfigurationProperties;
  * Cors filter allowing cross-domain requests
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Component

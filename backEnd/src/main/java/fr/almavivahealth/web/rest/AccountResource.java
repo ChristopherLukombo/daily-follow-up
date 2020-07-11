@@ -48,7 +48,7 @@ import springfox.documentation.annotations.ApiIgnore;
 /**
  * REST controller for managing the current user's account.
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Account")
 @RestController

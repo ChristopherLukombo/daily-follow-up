@@ -13,7 +13,7 @@ import fr.almavivahealth.service.dto.ContentList;
 /**
  * The Interface ContentService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface ContentService {
 
