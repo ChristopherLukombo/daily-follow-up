@@ -43,6 +43,7 @@ import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.dao.RoomRepository;
 import fr.almavivahealth.dao.TextureRepository;
 import fr.almavivahealth.domain.entity.Allergy;
+import fr.almavivahealth.domain.entity.Diet;
 import fr.almavivahealth.domain.entity.Order;
 import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Room;
@@ -264,9 +265,9 @@ public class PatientServiceImpl implements PatientService {
 		final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 3)).orElseGet(() -> null);
 		final List<Diet> diets = dietRepository.findAllByNameIgnoreCaseIn(dietNames);
 		final List<Allergy> allergies = createAllergies(allergyNames);
-//		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 6)).orElseGet(() -> null);
+		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 6)).orElseGet(() -> null);
 
-		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns,6)).orElseThrow(()-> new DailyFollowUpException(""))));
+//		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns,6)).orElseThrow(()-> new DailyFollowUpException(""))));
 
 		return Patient.builder()
 				.firstName(getField(columns, 0))
