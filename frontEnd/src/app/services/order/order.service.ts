@@ -68,7 +68,7 @@ export class OrderService {
   createOrder(orderDTO: OrderDTO): Observable<Order> {
     return this.http
       .post<Order>(ORDERS_URL, JSON.stringify(orderDTO), httpOptions)
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleCustomError));
   }
 
   /**
@@ -161,5 +161,20 @@ export class OrderService {
       );
     }
     return throwError(error.status);
+  }
+
+  /**
+   * Gestion des erreurs du backend
+   * @param error
+   */
+  private handleCustomError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error("An error occurred:", error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, body was : ${error.error.message}`
+      );
+    }
+    return throwError(error);
   }
 }
