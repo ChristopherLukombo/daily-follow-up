@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -203,43 +202,6 @@ public class MenuResource {
 		LOGGER.debug("REST request to delete Menu : {}", id);
 		menuService.delete(id);
 		return ResponseEntity.noContent().build();
-	}
-
-	/**
-	 * GET /menus/coupons : Generate coupons.
-	 *
-	 * @param momentName the moment name
-	 * @param selectedDate the selected date
-	 * @return the ResponseEntity with status 200 (OK)
-	 * @throws DailyFollowUpException the daily follow up exception
-	 */
-	@ApiOperation("Generate coupons")
-	@ApiResponses({
-		@ApiResponse(code = 200, message = "Ok"),
-		@ApiResponse(code = 400, message = "Bad request"),
-		@ApiResponse(code = 401, message = "Unauthorized"),
-		@ApiResponse(code = 403, message = "Forbidden"),
-		@ApiResponse(code = 500, message = "Internal Server")
-	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
-	@GetMapping(value = "/menus/coupons", params = { "momentName", "selectedDate" })
-	public ResponseEntity<byte[]> generateCoupons(
-			@RequestParam final String momentName,
-			@ApiParam("YYYY-MM-DD") @DateTimeFormat(iso = ISO.DATE) @RequestParam final LocalDate selectedDate)
-					throws DailyFollowUpException {
-		LOGGER.debug("REST request to generate coupons");
-		try {
-			final byte[] pdfCoupons = menuService.generateCoupons(momentName, selectedDate);
-
-			final HttpHeaders responseHeaders = new HttpHeaders();
-			responseHeaders.set("Content-Disposition", "attachment; filename=coupons.pdf");
-			responseHeaders.setContentType(MediaType.APPLICATION_PDF);
-
-			return ResponseEntity.ok().headers(responseHeaders).body(pdfCoupons);
-		} catch (final DailyFollowUpException e) {
-			throw new DailyFollowUpException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-					"An error occurred during the generation of the coupons", e);
-		}
 	}
 
 	/**

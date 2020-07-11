@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl.menu.document.cell;
+package fr.almavivahealth.service.impl.order.document.cell;
 
 import org.apache.commons.lang3.StringUtils;
 

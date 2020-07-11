@@ -1,9 +1,9 @@
-package fr.almavivahealth.service.impl.menu;
+package fr.almavivahealth.service.impl.order;
 
 import java.time.LocalDate;
 
-import fr.almavivahealth.domain.entity.Patient;
-import fr.almavivahealth.service.impl.menu.document.cell.DataCellBroker;
+import fr.almavivahealth.domain.entity.Order;
+import fr.almavivahealth.service.impl.order.document.cell.DataCellBroker;
 
 class Coupon {
 
@@ -12,7 +12,7 @@ class Coupon {
 
 	private final DataCellBroker dataCellBroker;
 
-	private final Patient patient;
+	private final Order order;
 	private final int index;
 	private final int size;
 
@@ -20,13 +20,13 @@ class Coupon {
 			final String momentName,
 			final LocalDate selectedDate,
 			final DataCellBroker dataCellBroker,
-			final Patient patient,
+			final Order order,
 			final int index,
 			final int size) {
 		this.momentName = momentName;
 		this.selectedDate = selectedDate;
 		this.dataCellBroker = dataCellBroker;
-		this.patient = patient;
+		this.order = order;
 		this.index = index;
 		this.size = size;
 	}
@@ -43,8 +43,8 @@ class Coupon {
 		return dataCellBroker;
 	}
 
-	public Patient getPatient() {
-		return patient;
+	public Order getOrder() {
+		return order;
 	}
 
 	public int getIndex() {

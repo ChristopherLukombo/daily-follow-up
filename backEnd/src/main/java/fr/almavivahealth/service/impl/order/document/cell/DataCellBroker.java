@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl.menu.document.cell;
+package fr.almavivahealth.service.impl.order.document.cell;
 
 import com.itextpdf.layout.element.Cell;
 
