@@ -2,6 +2,7 @@ package fr.almavivahealth.domain.entity;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -78,10 +79,10 @@ public class Order implements Serializable {
 	private String createdBy;
 
 	@CreatedDate
-	private LocalDate createdDate;
+	private LocalDateTime createdDate;
 
 	@LastModifiedDate
-	private LocalDate lastModifDate;
+	private LocalDateTime lastModifDate;
 
 	@LastModifiedBy
 	private String lastModifBy;
