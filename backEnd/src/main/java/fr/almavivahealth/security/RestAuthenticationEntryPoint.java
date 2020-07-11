@@ -1,8 +1,6 @@
 package fr.almavivahealth.security;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,15 +26,11 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
 
-	private static final List<String> URLS = Arrays.asList("/api/orders");
-
 	@Override
 	public void commence(final HttpServletRequest request, final HttpServletResponse response,
 			final AuthenticationException authException) throws IOException, ServletException {
-		if (!URLS.contains(request.getRequestURI()) && request.getParameter("selectedDate") != null) {
 			LOGGER.debug("Pre-authenticated entry rejecting access");
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Access Denied");
-		}
 
 	}
 
