@@ -22,11 +22,11 @@ export class OrderDTO {
   /***/
   createdBy: string;
   /***/
-  createdDate: string;
+  createdDate: Date;
   /***/
   lastModifBy: string;
   /***/
-  lastModifDate: string;
+  lastModifDate: Date;
   /***/
   patientId: number;
 
@@ -41,9 +41,9 @@ export class OrderDTO {
     deliveryDate: string,
     orderStatus: string,
     createdBy: string,
-    createdDate: string,
+    createdDate: Date,
     lastModifBy: string,
-    lastModifDate: string,
+    lastModifDate: Date,
     patientId: number
   ) {
     this.id = id;
