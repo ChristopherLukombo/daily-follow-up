@@ -1,11 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ChartType } from 'chart.js';
-import { Label, SingleDataSet } from 'ng2-charts';
+import { Component, Input, OnInit } from "@angular/core";
+import { ChartType } from "chart.js";
+import { Label, SingleDataSet } from "ng2-charts";
 
 @Component({
-  selector: 'app-top-trendy-contents',
-  templateUrl: './top-trendy-contents.component.html',
-  styleUrls: ['./top-trendy-contents.component.scss']
+  selector: "app-top-trendy-contents",
+  templateUrl: "./top-trendy-contents.component.html",
+  styleUrls: ["./top-trendy-contents.component.scss"],
 })
 export class TopTrendyContentsComponent implements OnInit {
   @Input() public topTrendyContents: Map<string, number>;
@@ -15,17 +15,16 @@ export class TopTrendyContentsComponent implements OnInit {
     title: {
       display: true,
       fontSize: 13,
-      text: "Les 5 plats les plus tendances (Menu)",
+      text: "Les 5 plats les plus présents (Menu)",
     },
     legend: { position: "right" },
   };
   doughnutChartData: SingleDataSet = new Array<number>(5);
   doughnutChartType: ChartType = "doughnut";
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(): void {
     this.doughnutChartData = this.topTrendyContents

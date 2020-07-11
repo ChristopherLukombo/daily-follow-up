@@ -43,8 +43,10 @@
           </div>
           <div class="row">
             <div *ngIf="searching" class="col">
-              <span class="spinner-border spinner-border-sm"></span>
-              Recherche de potentielles photos correspondants au plat...
+              <span class="text-muted">
+                <span class="spinner-border spinner-border-sm"></span>
+                Recherche de potentielles photos correspondants au plat...
+              </span>
             </div>
           </div>
           <div
@@ -65,7 +67,13 @@
               *ngFor="let img of suggestions"
               class="col text-center clickable-img"
             >
-              <img [src]="img" class="rounded" width="100" height="100" />
+              <img
+                [src]="img"
+                (click)="selectSuggestion(img)"
+                class="rounded"
+                width="100"
+                height="100"
+              />
             </div>
           </div>
           <br />

@@ -1,0 +1,18 @@
+<div *ngIf="moment && orders && orders.length">
+  <div class="row">
+    <div class="col text-left">
+      <h4>{{ moment }}</h4>
+    </div>
+    <div class="col text-right">
+      <h6>total : {{ totalContents }}</h6>
+    </div>
+  </div>
+  <ul *ngFor="let content of numberOfContents | keyvalue" class="list-group">
+    <li
+      class="list-group-item d-flex justify-content-between align-items-center"
+    >
+      <small>{{ content?.key | truncate: 30 }}</small>
+      <span class="badge badge-info badge-pill">{{ content?.value }}</span>
+    </li>
+  </ul>
+</div>

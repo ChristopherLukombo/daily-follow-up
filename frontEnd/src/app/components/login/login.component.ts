@@ -4,6 +4,7 @@ import { LoginDTO } from "src/app/models/dto/loginDTO";
 import { LoginService } from "src/app/services/login/login.service";
 import { Router } from "@angular/router";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
 @Component({
   selector: "app-login",
@@ -59,7 +60,7 @@ export class LoginComponent implements OnInit {
     this.loginService.login(loginDTO).subscribe(
       (data) => {
         this.loginService.setJwtToken(data);
-        this.router.navigate(["/patient/all"]);
+        this.router.navigate(["/food/menu/currents"]);
       },
       (error) => {
         this.catchError(error);
@@ -74,10 +75,9 @@ export class LoginComponent implements OnInit {
    */
   catchError(error: number): void {
     if (error && error === 401) {
-      this.error =
-        "Le nom d'utilisateur et le mot de passe ne correspondent pas.";
+      this.error = TypeMessage.PSEUDO_OR_PASSWORD_INCORRECT;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      this.error = TypeMessage.AN_ERROR_OCCURED;
     }
   }
   /**
