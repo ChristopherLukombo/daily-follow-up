@@ -9,6 +9,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -23,15 +25,32 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.almavivahealth.dao.OrderRepository;
+import fr.almavivahealth.domain.entity.Content;
+import fr.almavivahealth.domain.entity.Diet;
 import fr.almavivahealth.domain.entity.Order;
+import fr.almavivahealth.domain.entity.Patient;
+import fr.almavivahealth.domain.entity.Texture;
+import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.dto.OrderDTO;
 import fr.almavivahealth.service.impl.order.OrderServiceImpl;
 import fr.almavivahealth.service.mapper.OrderMapper;
+import fr.almavivahealth.service.propeties.OrderProperties;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
+	private static final String NAME = "TEST";
+
 	private static final long ID = 1L;
+
+	private static final String EMAIL = "ben.zotito@gmail.com";
+
+	private static final String LASTNAME = "Zotito";
+
+	private static final String TEXTURE_NAME = "Sel";
+
+	@Mock
+	private OrderProperties orderProperties;
 
 	@Mock
 	private OrderRepository orderRepository;
@@ -45,7 +64,8 @@ public class OrderServiceTest {
 	private static Order createOrder() {
 		return Order.builder()
 				.id(ID)
-				.patient(null)
+				.patient(getPatient())
+				.garnish(createContent())
 				.build();
 	}
 
@@ -54,6 +74,39 @@ public class OrderServiceTest {
 				.id(ID)
 				.deliveryDate(LocalDate.of(2020, Month.JANUARY, 1))
 				.patientId(null)
+				.build();
+	}
+
+	private static Patient getPatient() {
+		return Patient.builder()
+				.id(ID)
+				.firstName("Ben")
+				.lastName(LASTNAME)
+				.email(EMAIL)
+				.state(true)
+				.texture(getTexture())
+				.diets(Arrays.asList(createDiet()))
+				.build();
+	}
+
+	private static Texture getTexture() {
+		return Texture.builder()
+				.id(ID)
+				.name(TEXTURE_NAME)
+				.build();
+	}
+
+	private static Content createContent() {
+		return Content.builder()
+				.id(ID)
+				.name(NAME)
+				.build();
+	}
+
+	private static Diet createDiet() {
+		return Diet.builder()
+				.id(ID)
+				.name(NAME)
 				.build();
 	}
 
@@ -290,5 +343,59 @@ public class OrderServiceTest {
 		// Then
 		assertThatThrownBy(() -> orderServiceImpl.findAllOrdersByDate(date))
 		.isInstanceOf(NullPointerException.class);
+	}
+
+	@Test
+	public void shouldGenerateCouponsWhenIsOk() throws DailyFollowUpException {
+		// Given
+		final List<Order> orders = Arrays.asList(createOrder());
+		final Path path = Paths.get("src", "main", "resources", "images", "logo-almaviva-sante.png");
+
+		// When
+		when(orderProperties.getImagesPath()).thenReturn(path.toString());
+		when(orderRepository.findAllOrdersForDate((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.generateCoupons("DEJEUNER", LocalDate.of(2020, Month.APRIL, 11))).isNotEmpty();
+	}
+
+	@Test
+	public void shouldEmptyGenerateCoupons() throws DailyFollowUpException {
+		// Given
+		final List<Order> orders = Collections.emptyList();
+
+		// When
+		when(orderRepository.findAllOrdersForDate((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThat(orderServiceImpl.generateCoupons("DINER", LocalDate.of(2020, Month.APRIL, 12))).isNotEmpty();
+	}
+
+	@Test
+	public void shouldThrowWhenTryingToGenerateCouponsIsNotFound() throws DailyFollowUpException {
+		// Given
+		final List<Order> orders = null;
+
+		// When
+		when(orderRepository.findAllOrdersForDate((LocalDate) any())).thenReturn(orders);
+
+		// Then
+		assertThatThrownBy(() -> orderServiceImpl.generateCoupons("DINER", LocalDate.of(2020, Month.APRIL, 12)))
+		.isInstanceOf(DailyFollowUpException.class);
+	}
+
+	@Test
+	public void shouldThrowWhenCouponsAreNotGenerated() throws DailyFollowUpException {
+		// Given
+		final List<Order> orders = Arrays.asList(createOrder());
+		final String fileName = null;
+
+		// When
+		when(orderRepository.findAllOrdersForDate((LocalDate) any())).thenReturn(orders);
+		when(orderProperties.getImagesPath()).thenReturn(fileName);
+
+		// Then
+		assertThatThrownBy(() -> orderServiceImpl.generateCoupons("DEJEUNER", LocalDate.of(2020, Month.APRIL, 11)))
+				.isInstanceOf(DailyFollowUpException.class);
 	}
 }

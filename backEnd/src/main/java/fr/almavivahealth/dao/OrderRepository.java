@@ -35,4 +35,12 @@ public interface OrderRepository extends JpaRepository<Order, Long>{
 			+ "WHERE order.deliveryDate = :date")
 	List<Order> findAllOrdersForDate(
 			@Param("date") LocalDate date);
+
+	@Query("SELECT order "
+			+ "FROM Order order "
+			+ "WHERE order.patient.id = :patientId "
+			+ "AND order.deliveryDate = :deliveryDate")
+	List<Order> findAllByPatientIdAndMoment(
+			@Param("patientId") Long patientId,
+			@Param("deliveryDate") LocalDate deliveryDate);
 }

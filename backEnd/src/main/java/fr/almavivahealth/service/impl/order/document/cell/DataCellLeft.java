@@ -1,4 +1,4 @@
-package fr.almavivahealth.service.impl.menu.document.cell;
+package fr.almavivahealth.service.impl.order.document.cell;
 
 import static fr.almavivahealth.constants.Constants.BON_APPETIT;
 
@@ -16,8 +16,6 @@ import fr.almavivahealth.exception.DailyFollowUpException;
  */
 public class DataCellLeft extends DataCell {
 
-	private final String cliniqueName;
-
 	private final String patientName;
 
 	private final String roomNumber;
@@ -25,11 +23,9 @@ public class DataCellLeft extends DataCell {
 	private final String filename;
 
 	public DataCellLeft(
-			final String cliniqueName,
 			final String patientName,
 			final String roomNumber,
 			final String filename) {
-		this.cliniqueName = cliniqueName;
 		this.patientName = patientName;
 		this.roomNumber = roomNumber;
 		this.filename = filename;
@@ -49,7 +45,6 @@ public class DataCellLeft extends DataCell {
 		final Cell cell = new Cell();
 		cell.setKeepTogether(true);
 		cell.add(imageLogo);
-		cell.add(getCell(cliniqueName, TextAlignment.LEFT, false, -1));
 		cell.add(getCell(StringUtils.LF, TextAlignment.LEFT, false, -1));
 		cell.add(getCell(patientName, TextAlignment.LEFT, false, -1));
 		cell.add(getCell(StringUtils.LF, TextAlignment.LEFT, false, -1));
