@@ -8,7 +8,7 @@ import fr.almavivahealth.service.impl.order.document.cell.DataCellBroker;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 class Coupon {

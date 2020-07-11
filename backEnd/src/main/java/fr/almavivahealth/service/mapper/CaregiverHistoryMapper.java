@@ -14,7 +14,7 @@ import fr.almavivahealth.service.dto.CaregiverHistoryDTO;
  *
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface CaregiverHistoryMapper {

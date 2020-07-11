@@ -10,7 +10,7 @@ import org.springframework.core.io.Resource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 public final class TestUtils {

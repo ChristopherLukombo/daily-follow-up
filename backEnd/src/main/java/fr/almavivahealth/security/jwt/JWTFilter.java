@@ -17,7 +17,7 @@ import org.springframework.web.filter.GenericFilterBean;
  * found.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public class JWTFilter extends GenericFilterBean {
 

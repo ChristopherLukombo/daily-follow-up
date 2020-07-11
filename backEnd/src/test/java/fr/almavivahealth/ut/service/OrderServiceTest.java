@@ -39,7 +39,7 @@ import fr.almavivahealth.service.propeties.OrderProperties;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

@@ -17,7 +17,7 @@ import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
  * The Interface StatsMapper.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 @DecoratedWith(StatsMapperDecorator.class)

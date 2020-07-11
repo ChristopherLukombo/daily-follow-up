@@ -15,7 +15,7 @@ import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
  * The Class StatsMapperDecorator.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public abstract class StatsMapperDecorator implements StatsMapper {
 

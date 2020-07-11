@@ -12,7 +12,7 @@ import fr.almavivahealth.exception.FunctionalException;
  * @param <E> the type of the thrown checked exception
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @FunctionalInterface
 public interface LoopWithIndexAndSizeConsumer<T, E extends Exception> {

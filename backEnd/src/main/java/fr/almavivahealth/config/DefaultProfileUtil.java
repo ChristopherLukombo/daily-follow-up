@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 public final class DefaultProfileUtil {

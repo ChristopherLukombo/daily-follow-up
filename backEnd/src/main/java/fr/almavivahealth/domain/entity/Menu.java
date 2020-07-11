@@ -39,7 +39,7 @@ import lombok.ToString;
  * A menu.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Entity
 @NoArgsConstructor

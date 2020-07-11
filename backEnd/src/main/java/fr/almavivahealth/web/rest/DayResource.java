@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Day.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Day")
 @RestController

@@ -17,7 +17,7 @@ import fr.almavivahealth.service.dto.MenuDTO;
  * Mapper for the entity Menu and its DTO called MenuDTO.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Mapper(
 		componentModel = "spring",

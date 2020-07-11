@@ -6,7 +6,7 @@ import java.math.BigDecimal;
  * A projection PatientsPerDiet.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface PatientsPerDiet {
 

@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Dish from Ciqual.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Dish")
 @RestController

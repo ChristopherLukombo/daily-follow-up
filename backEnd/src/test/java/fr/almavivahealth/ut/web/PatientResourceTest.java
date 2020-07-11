@@ -49,7 +49,7 @@ import fr.almavivahealth.web.rest.PatientResource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

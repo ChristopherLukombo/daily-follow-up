@@ -8,7 +8,7 @@ import fr.almavivahealth.service.dto.TextureDTO;
 /**
  * The Interface TextureService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface TextureService {
 

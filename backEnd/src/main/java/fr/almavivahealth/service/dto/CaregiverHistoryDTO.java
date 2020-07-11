@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * A DTO for the CaregiverHistory entity.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public class CaregiverHistoryDTO implements Serializable {
 

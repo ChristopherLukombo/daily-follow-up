@@ -19,7 +19,7 @@ import lombok.ToString;
  * An allergy.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Entity
 @Data

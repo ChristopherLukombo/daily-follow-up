@@ -20,7 +20,7 @@ import fr.almavivahealth.service.mapper.AllergyMapper;
  * Service Implementation for managing Allergy.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Service
 @Transactional

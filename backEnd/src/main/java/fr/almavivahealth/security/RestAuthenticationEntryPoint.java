@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
  * The Class RestAuthenticationEntryPoint to set response after authentication fails.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {

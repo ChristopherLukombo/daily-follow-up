@@ -17,7 +17,7 @@ import fr.almavivahealth.config.PropertiesConfig;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @EnableConfigurationProperties({PropertiesConfig.class})
 @EnableScheduling

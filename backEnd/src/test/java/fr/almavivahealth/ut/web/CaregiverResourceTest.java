@@ -37,7 +37,7 @@ import fr.almavivahealth.web.rest.CaregiverResource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)
