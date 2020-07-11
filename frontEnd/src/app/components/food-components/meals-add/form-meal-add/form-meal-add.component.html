@@ -20,7 +20,7 @@
       </div>
       <div class="form-group">
         <h5>
-          <label>2 - Nom et ingrédients <span class="required">*</span></label>
+          <label>2 - Nom et composition <span class="required">*</span></label>
         </h5>
         <div class="input-group">
           <input
@@ -37,7 +37,7 @@
               [disabled]="form.disabled"
               (click)="onGetDetails()"
             >
-              Ingrédients &nbsp;
+              Composition &nbsp;
               <fa-icon [icon]="infosLogo"></fa-icon>
             </button>
           </div>
@@ -49,7 +49,7 @@
         >
         </typeahead>
         <small *ngIf="submitted && f.name.errors" class="text-danger">
-          Veuillez renseigner le nom du plat et les ingrédients
+          Veuillez renseigner le nom du plat et sa composition
         </small>
         <small class="form-text text-muted"
           >Les ingrédients sont récupérées depuis la table de composition

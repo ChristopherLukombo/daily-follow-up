@@ -12,7 +12,7 @@ import { FormGroup } from "@angular/forms";
 export class InfosMealComponent implements OnInit {
   illegalInputFloat: string[] = ["e", "-", "+", "*"];
   noContent: string =
-    "Il n'existe aucune information connue sur ce plat. Veuillez renseigner les ingédients du plat pour le créer.";
+    "Il n'existe aucune information connue sur ce plat. Veuillez renseigner manuellement les ingédients du plat pour le créer.";
 
   @Input() content: Content = null;
   @Input() form: FormGroup = null;
