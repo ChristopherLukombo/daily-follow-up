@@ -1,15 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  faUserEdit,
-  faClock,
-  faRecycle,
-  faLock,
-} from "@fortawesome/free-solid-svg-icons";
+import { faClock, faRecycle, faLock } from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { PatientService } from "src/app/services/patient/patient.service";
 import { ToastrService } from "ngx-toastr";
 import { mergeMap } from "rxjs/operators";
+import { OrderCustomInfos } from "src/app/models/utils/order-custom-infos";
+import { OrderService } from "src/app/services/order/order.service";
 
 @Component({
   selector: "app-patient",
@@ -18,11 +15,14 @@ import { mergeMap } from "rxjs/operators";
 })
 export class PatientComponent implements OnInit {
   lockLogo = faLock;
-  editLogo = faUserEdit;
   historyLogo = faClock;
   restoreLogo = faRecycle;
 
   patient: Patient;
+
+  orderDeliveryDate: string;
+  moments: string[] = ["Déjeuner", "Dîner"];
+  orderDeliveryMoment: string;
 
   btnDelete: string = "Supprimer le patient";
   confirmDelete: string =
@@ -37,7 +37,9 @@ export class PatientComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private patientService: PatientService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -117,6 +119,18 @@ export class PatientComponent implements OnInit {
             );
           }
         );
+    });
+  }
+
+  onOrder(): void {
+    if (!this.orderDeliveryDate || !this.orderDeliveryMoment) return;
+    let infos: OrderCustomInfos = new OrderCustomInfos(
+      this.orderDeliveryDate,
+      this.orderDeliveryMoment
+    );
+    this.orderService.storeOrderInfosToLocal(infos);
+    this.router.navigate(["/order/add"], {
+      queryParams: { id: this.patient.id },
     });
   }
 

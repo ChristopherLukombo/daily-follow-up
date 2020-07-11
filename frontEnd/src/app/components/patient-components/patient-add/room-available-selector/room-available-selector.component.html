@@ -7,7 +7,7 @@
     type="button"
     data-toggle="modal"
     data-target="#roomSelector"
-    class="btn btn-outline-primary"
+    class="btn btn-outline-info"
   >
     Choisir une chambre disponible...
   </button>
@@ -31,9 +31,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="roomSelectorLabel">
+        <h4 class="modal-title" id="roomSelectorLabel">
           Selectionnez une chambre
-        </h5>
+        </h4>
         <button
           type="button"
           class="close"
@@ -50,8 +50,12 @@
         ></app-list-rooms-available>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          Fermer
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-dismiss="modal"
+        >
+          Annuler
         </button>
         <button
           type="button"
