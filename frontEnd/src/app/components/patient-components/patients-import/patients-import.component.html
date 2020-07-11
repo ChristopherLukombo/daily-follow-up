@@ -30,7 +30,7 @@
             <div class="form-group">
               <button
                 class="btn btn-primary"
-                [disabled]="!file || inputError"
+                [disabled]="!file || inputError || haveToConfirm"
                 type="submit"
               >
                 Démarrer l'importation
@@ -48,8 +48,16 @@
       </div>
       <div class="row">
         <div class="col">
-          <div *ngIf="error">
+          <div *ngIf="error && !haveToConfirm">
             <app-alert-error [content]="error"></app-alert-error>
+          </div>
+          <div *ngIf="error && haveToConfirm">
+            <div class="alert alert-warning" role="alert">
+              {{ error }}. Veuillez confirmer pour valider l'écrasement.
+              <button class="btn btn-primary" (click)="onUpload()">
+                Confirmer
+              </button>
+            </div>
           </div>
           <div *ngIf="!error && result">
             <span class="text-primary">

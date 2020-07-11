@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { ResultCsvPatient } from "src/app/models/csv/result-csv-patient";
-import { HttpEventType } from "@angular/common/http";
+import { HttpEventType, HttpErrorResponse } from "@angular/common/http";
 import { FileService } from "src/app/services/file/file.service";
 import { ToastrService } from "ngx-toastr";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
 @Component({
   selector: "app-patients-import",
@@ -19,9 +20,11 @@ export class PatientsImportComponent implements OnInit {
     "text/plain"
   );
   inputError: string;
+
   progress: number = 0;
   result: ResultCsvPatient;
-  error: string;
+  error: string; // test
+  haveToConfirm: boolean = false; // test
 
   constructor(
     private formBuilder: FormBuilder,
@@ -87,7 +90,7 @@ export class PatientsImportComponent implements OnInit {
         }
       },
       (error) => {
-        this.catchError(error);
+        this.error = this.getCustomError(error);
         this.resetProgressBar();
       }
     );
@@ -96,28 +99,38 @@ export class PatientsImportComponent implements OnInit {
   /**
    * Récupération du code erreur et ajout du message à afficher
    * @param error
+   * @returns le msg d'erreur
    */
-  catchError(error: number): void {
-    if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur.";
-    } else if (error && error === 422) {
-      this.error =
-        "Le fichier comporte des champs qui ne sont pas valides, \
-        veuillez suivre les indications sur les colonnes et les données à insérer.";
-    } else if (error && error === 409) {
-      this.error =
-        "Le fichier comporte un ou plusieurs patient déjà existants.";
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
+      return TypeMessage.NOT_AUTHENTICATED;
+    } else if (error && error.status === 409) {
+      return this.removeTriggerTrace(error.error.message);
+    } else if (error && error.status === 500) {
+      let message: string = error.error.detailedMessage;
+      if (message === TypeMessage.PATIENT_OR_PATIENTS_ALREADY_EXIST)
+        this.haveToConfirm = true;
+      return message;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
+
+  /**
+   * Retire les notions techniques et les messages provenant directement de la base
+   * @param message
+   */
+  removeTriggerTrace(message: string): string {
+    return message.split("Où")[0].replace("ERREUR:", "");
+  }
+
   /**
    * Suppression des msg d'erreurs
    */
   cleanErrorMessages(): void {
     this.error = undefined;
     this.inputError = undefined;
+    this.haveToConfirm = false;
   }
 
   resetProgressBar(): void {

@@ -32,7 +32,7 @@ export class FileService {
         reportProgress: true,
         observe: "events",
       })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleCustomError));
   }
 
   /**
@@ -96,5 +96,20 @@ export class FileService {
       );
     }
     return throwError(error.status);
+  }
+
+  /**
+   * Gestion des erreurs du backend
+   * @param error
+   */
+  private handleCustomError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error("An error occurred:", error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, body was : ${error.error.message}`
+      );
+    }
+    return throwError(error);
   }
 }

@@ -7,6 +7,7 @@ export enum TypeMessage {
 
   /** Patient **/
   PATIENT_DOES_NOT_EXIST = "Ce patient n'existe pas. Veuillez réessayer.",
+  PATIENT_OR_PATIENTS_ALREADY_EXIST = "Un ou plusieurs patients existent déjà",
 
   /** Menu **/
   MENU_FORM_INVALID = "Le menu est incomplet. Veuillez vérifier la carte de remplacement ainsi que vos insertions pour chaque jour.",
