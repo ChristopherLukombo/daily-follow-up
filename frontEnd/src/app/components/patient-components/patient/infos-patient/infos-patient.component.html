@@ -92,14 +92,21 @@
           [close]="false"
         ></app-alert-warning>
       </div>
-      <table *ngIf="room" class="table table-bordered">
-        <tbody>
-          <tr>
-            <td><fa-icon [icon]="roomLogo"></fa-icon> Chambre</td>
-            <td>{{ room?.number }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div *ngIf="room">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><fa-icon [icon]="roomLogo"></fa-icon> Chambre</td>
+              <td>{{ room?.number }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <app-switch-rooms-patients
+          [room]="room"
+          [patient]="patient"
+          (roomChanges)="changesRoom($event)"
+        ></app-switch-rooms-patients>
+      </div>
     </div>
   </div>
 </div>
