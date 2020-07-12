@@ -15,12 +15,7 @@ export class AuthGuard implements CanActivate {
     ) {
       // have to reset password
       if (!this.loginService.hasChangedPassword()) {
-        this.router.navigate(["/reset/password"], {
-          queryParams: {
-            id: this.loginService.getTokenId(),
-            pseudo: this.loginService.getTokenPseudo(),
-          },
-        });
+        this.router.navigate(["/reset/password"]);
         return false;
       }
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { UserService } from "src/app/services/user/user.service";
 import { ToastrService } from "ngx-toastr";
 import { HttpErrorResponse } from "@angular/common/http";
@@ -31,17 +31,18 @@ export class ResetUserPasswordComponent implements OnInit {
     private userService: UserService,
     private loginService: LoginService,
     private router: Router,
-    private route: ActivatedRoute,
     private toastrService: ToastrService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.createForm(parseInt(params["id"]), params["pseudo"]);
-    });
+    this.createForm(
+      this.loginService.getTokenId(),
+      this.loginService.getTokenPseudo()
+    );
   }
 
   createForm(id: number, pseudo: string) {
+    if (!id || !pseudo) return;
     const target = {
       id: [id, Validators.required],
       username: [pseudo, Validators.required],
@@ -50,16 +51,11 @@ export class ResetUserPasswordComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(
-            '(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,15}'
+            "(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,15}"
           ),
         ],
       ],
-      confirm: [
-        null,
-        [
-          Validators.required,
-        ],
-      ],
+      confirm: [null, [Validators.required]],
     };
     this.form = this.formBuilder.group(target);
   }
