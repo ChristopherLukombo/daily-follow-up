@@ -11,16 +11,116 @@
           <app-order-per-day [orderPerStatus]="orderPerStatus">
           </app-order-per-day>
         </div>
+        <div class="col-6">
+          <div class="row">
+            <div *ngIf="ordersValidOfTheDay" class="col">
+              <h5>
+                Nombres de commandes
+                <span class="badge badge-success">Validée</span>
+              </h5>
+              <h4 class="text-success">{{ ordersValidOfTheDay }}</h4>
+            </div>
+            <div *ngIf="ordersWaitingsOfTheDay" class="col">
+              <h5>
+                Nombres de commandes
+                <span class="badge badge-warning">En attente</span>
+              </h5>
+              <h4 class="text-danger">{{ ordersWaitingsOfTheDay }}</h4>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div *ngIf="ordersOfLunch" class="col">
+              <h5>Nombres de commandes totale du Déjeuner</h5>
+              <h4 class="text-primary">{{ ordersOfLunch }}</h4>
+            </div>
+            <div *ngIf="ordersOfDiner" class="col">
+              <h5>Nombres de commandes totale du Dîner</h5>
+              <h4 class="text-warning">{{ ordersOfDiner }}</h4>
+            </div>
+          </div>
+        </div>
       </div>
       <hr />
+      <br />
       <div class="row">
-        <div class="col-6">
+        <div class="col-2">
+          <div *ngIf="numberOfActualTotalMenus" class="row">
+            <div class="col">
+              <h6>Menus en cours</h6>
+              <h5 class="text-primary">{{ numberOfActualTotalMenus }}</h5>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div *ngIf="numberOfActualNormalMenu" class="col">
+              <h6>
+                Menus <span class="badge badge-secondary">Normal</span> en cours
+              </h6>
+              <h5 class="text-secondary">{{ numberOfActualNormalMenu }}</h5>
+            </div>
+            <div *ngIf="numberOfActualMixedMenu" class="col">
+              <h6>
+                Menus <span class="badge badge-secondary">Mixé</span> en cours
+              </h6>
+              <h5 class="text-secondary">{{ numberOfActualMixedMenu }}</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
           <app-top-trendy-diets [topTrendyMenus]="topTrendyMenus">
           </app-top-trendy-diets>
         </div>
-        <div class="col-6">
+        <div class="col-5">
           <app-top-trendy-contents [topTrendyContents]="topTrendyContents">
           </app-top-trendy-contents>
+        </div>
+      </div>
+      <hr />
+      <br />
+      <div class="row">
+        <div *ngIf="numberOfContents" class="col-2">
+          <h5>
+            Plats en stock
+          </h5>
+          <h4 class="text-success">{{ numberOfContents }}</h4>
+        </div>
+        <div class="col">
+          <div class="row">
+            <div *ngIf="numberOfEntries" class="col text-center">
+              <h6>
+                <span class="badge badge-info">Entrées</span>
+              </h6>
+              <h4 class="text-info">{{ numberOfEntries }}</h4>
+            </div>
+            <div *ngIf="numberOfDishes" class="col text-center">
+              <h6>
+                <span class="badge badge-info">Plats</span>
+              </h6>
+              <h4 class="text-info">{{ numberOfDishes }}</h4>
+            </div>
+            <div *ngIf="numberOfGarnishes" class="col text-center">
+              <h6>
+                <span class="badge badge-info">Garnitures</span>
+              </h6>
+              <h4 class="text-info">{{ numberOfGarnishes }}</h4>
+            </div>
+            <div
+              *ngIf="numberOfDairyProducts"
+              class="col text-center text-center"
+            >
+              <h6>
+                <span class="badge badge-info">Produits laitiers</span>
+              </h6>
+              <h4 class="text-info">{{ numberOfDairyProducts }}</h4>
+            </div>
+            <div *ngIf="numberOfDesserts" class="col text-center">
+              <h6>
+                <span class="badge badge-info">Desserts</span>
+              </h6>
+              <h4 class="text-info">{{ numberOfDesserts }}</h4>
+            </div>
+          </div>
         </div>
       </div>
       <br />
