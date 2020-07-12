@@ -36,6 +36,7 @@ import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.dao.RoomRepository;
 import fr.almavivahealth.dao.TextureRepository;
 import fr.almavivahealth.domain.entity.Patient;
+import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientImportationAttempts;
@@ -296,8 +297,8 @@ public class PatientServiceTest {
 	public void shouldImportPatientsWhenIsOk() throws DailyFollowUpException {
 		// Given
 		final String data = "Prénom;Nom;Sexe;Texture des plats;Alimentation du patient;Allergies;Numéro de chambre\\r\\n\" +\r\n" +
-				"				\"bibi;BOccerdedtrRDIN;Homme;Normale;Normale;Chocolat;220\\r\\n\" +\r\n" +
-				"				\"Gertrude;Pingo;Homme;Normale;Normale;Chocolat;22";
+				"				\"bibi;BOccerdedtrRDIN;Homme;Normal;Normal;Chocolat;220\\r\\n\" +\r\n" +
+				"				\"Gertrude;Pingo;Homme;Normal;Normal;Chocolat;22";
 		final MockMultipartFile file = new MockMultipartFile("file", "filename.csv", "text/plain", data.getBytes());
 		final Texture texture = new Texture();
 		final List<Patient> patients = Arrays.asList(getPatient());
@@ -306,11 +307,14 @@ public class PatientServiceTest {
 		request.addHeader(HttpHeaders.HOST, "myhost.com");
 		request.setLocalPort(8081);
 		request.setRemoteAddr("127.0.0.1");
+	    final Room room = new Room();
+	    room.setId(1L);
+	    room.setNumber("220");
 
 		// When
 		when(textureRepository.findByNameIgnoreCase(anyString())).thenReturn(Optional.ofNullable(texture));
 		when(dietRepository.findAllByNameIgnoreCaseIn(anySet())).thenReturn(Collections.emptyList());
-		when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(null));
+		when(roomRepository.findByNumberIgnoreCase(anyString())).thenReturn(Optional.ofNullable(room));
 		when(patientRepository.saveAll(anyIterable())).thenReturn(patients);
 		when(patientMapper.patientToPatientDTO((Patient) any())).thenReturn(patientDTO);
 

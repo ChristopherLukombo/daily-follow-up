@@ -26,6 +26,10 @@ public final class ErrorMessage {
 	public static final String AN_ERROR_OCCURRED_WHILE_TRYING_TO_IMPORT_THE_PATIENTS = "error.patient.tryingToImportThePatients";
 	public static final String THE_FILE_MUST_BE_OF_TYPE_CSV = "error.patient.the_file_must_be_of_type_csv";
 	public static final String ERROR_PATIENT_ROOM_CHANGE = "error.patient.room_change";
+	public static final String ERROR_PATIENT_ROOM_NOT_EXIST = "error.patient.roomNotExist";
+	public static final String ERROR_PATIENT_DIET_NOT_EXIST = "error.patient.dietNotExist";
+	public static final String ERROR_PATIENT_TEXTURE_NOT_EXIST = "error.patient.textureNotExist";
+	public static final String ERROR_PATIENT_GENDER_NOT_VALID = "error.patient.gender_not_valid";
 
 	// Content
 	public static final String ERROR_CONTENT_DEFINED = "error.content.defined";
@@ -37,7 +41,7 @@ public final class ErrorMessage {
 	// Menu
 	public static final String A_MENU_ALREADY_EXISTS_WITH_THE_SAME_CHARACTERISTICS = "error.menu.theSameCharacteristics";
 
-    // Diet
+	// Diet
 	public static final String ERROR_DIET_UNIQUE_NAME = "error.diet.uniqueName";
 
 	// Order

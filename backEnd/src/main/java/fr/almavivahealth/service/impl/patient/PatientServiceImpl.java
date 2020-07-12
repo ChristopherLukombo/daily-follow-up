@@ -4,12 +4,17 @@ import static fr.almavivahealth.constants.Constants.COMMA;
 import static fr.almavivahealth.constants.Constants.CSV;
 import static fr.almavivahealth.constants.Constants.SEMICOLON;
 import static fr.almavivahealth.constants.ErrorMessage.AN_ERROR_OCCURRED_WHILE_TRYING_TO_READ_THE_CONTENTS_OF_THE_FILE;
+import static fr.almavivahealth.constants.ErrorMessage.ERROR_PATIENT_DIET_NOT_EXIST;
+import static fr.almavivahealth.constants.ErrorMessage.ERROR_PATIENT_GENDER_NOT_VALID;
+import static fr.almavivahealth.constants.ErrorMessage.ERROR_PATIENT_ROOM_NOT_EXIST;
+import static fr.almavivahealth.constants.ErrorMessage.ERROR_PATIENT_TEXTURE_NOT_EXIST;
 import static fr.almavivahealth.constants.ErrorMessage.ONE_OR_MORE_OF_THE_LINES_IN_THE_FILE_DO_NOT_HAVE_THE_CORRECT_NUMBER_OF_COLUMNS;
 import static fr.almavivahealth.constants.ErrorMessage.ONE_OR_MORE_PATIENTS_ALREADY_EXIST;
 import static fr.almavivahealth.constants.ErrorMessage.THE_NUMBER_OF_PATIENTS_TO_BE_INSERTED_MAY_NOT_EXCEED_60;
 import static fr.almavivahealth.util.MimeTypes.MIME_APPLICATION_VND_MSEXCEL;
 import static fr.almavivahealth.util.MimeTypes.MIME_TEXT_CSV;
 import static fr.almavivahealth.util.MimeTypes.MIME_TEXT_PLAIN;
+import static fr.almavivahealth.util.functional.FunctionWithException.wrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,6 +53,7 @@ import fr.almavivahealth.domain.entity.Order;
 import fr.almavivahealth.domain.entity.Patient;
 import fr.almavivahealth.domain.entity.Room;
 import fr.almavivahealth.domain.entity.Texture;
+import fr.almavivahealth.domain.enums.Gender;
 import fr.almavivahealth.exception.DailyFollowUpException;
 import fr.almavivahealth.service.PatientImportationAttempts;
 import fr.almavivahealth.service.PatientService;
@@ -58,6 +64,9 @@ import fr.almavivahealth.util.MimeTypes;
 
 /**
  * Service Implementation for managing Patient.
+ *
+ * @author christopher
+ * @version 17
  */
 @Service
 @Transactional
@@ -216,7 +225,7 @@ public class PatientServiceImpl implements PatientService {
 			throw new DailyFollowUpException(messageSource.getMessage(
 					ONE_OR_MORE_OF_THE_LINES_IN_THE_FILE_DO_NOT_HAVE_THE_CORRECT_NUMBER_OF_COLUMNS, null, locale));
 		}
-		final Set<Patient> patients = toPatients(lines);
+		final Set<Patient> patients = toPatients(lines, locale);
 
 		final String ip = request.getRemoteAddr();
 		final String pseudo = request.getRemoteUser();
@@ -248,31 +257,53 @@ public class PatientServiceImpl implements PatientService {
 		return lines.size() <= 61;
 	}
 
-	private Set<Patient> toPatients(final List<String> lines) {
+	private Set<Patient> toPatients(final List<String> lines, final Locale locale) {
 		return lines.stream()
 				.skip(1)
-				.map(this::buildPatient)
+				.map(wrapper(line -> buildPatient(line, locale)))
 				.collect(Collectors.toSet());
 	}
 
-	private Patient buildPatient(final String line) {
+	private Patient buildPatient(final String line, final Locale locale) throws DailyFollowUpException {
 		final String[] columns = line.split(SEMICOLON);
 
 		final Set<String> dietNames = stringToSet(columns[4]);
 		final Set<String> allergyNames = stringToSet(columns[5]);
 
-		// TODO: provoquer une exception si les éléments ne sont pas présents
-		final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 3)).orElseGet(() -> null);
-		final List<Diet> diets = dietRepository.findAllByNameIgnoreCaseIn(dietNames);
-		final List<Allergy> allergies = createAllergies(allergyNames);
-		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 6)).orElseGet(() -> null);
+		final Texture texture = textureRepository.findByNameIgnoreCase(getField(columns, 3)).orElse(null);
+		if (null == texture) {
+			throw new DailyFollowUpException(
+					messageSource.getMessage(ERROR_PATIENT_TEXTURE_NOT_EXIST, null, locale));
+		}
 
-//		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns,6)).orElseThrow(()-> new DailyFollowUpException(""))));
+		final List<Diet> diets = dietRepository.findAllByNameIgnoreCaseIn(dietNames);
+		if (dietNames.isEmpty()) {
+			throw new DailyFollowUpException(
+					messageSource.getMessage(ERROR_PATIENT_DIET_NOT_EXIST, null, locale));
+		}
+		final List<Allergy> allergies = createAllergies(allergyNames);
+
+		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 6)).orElse(null);
+		if (room == null) {
+			throw new DailyFollowUpException(
+					messageSource.getMessage(ERROR_PATIENT_ROOM_NOT_EXIST, null, locale));
+		}
+
+		final String gender = Stream.of(Gender.values())
+				.filter(g -> g.label().equalsIgnoreCase(getField(columns, 2)))
+				.map(Gender::label)
+				.findFirst()
+				.orElse(null);
+
+		if (gender == null) {
+			throw new DailyFollowUpException(
+					messageSource.getMessage(ERROR_PATIENT_GENDER_NOT_VALID, null, locale));
+		}
 
 		return Patient.builder()
 				.firstName(getField(columns, 0))
 				.lastName(getField(columns, 1))
-				.sex(getField(columns, 2))
+				.sex(gender)
 				.state(true)
 				.texture(texture)
 				.diets(diets)
