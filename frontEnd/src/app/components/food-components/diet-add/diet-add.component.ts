@@ -14,7 +14,8 @@ import { Router } from "@angular/router";
 import { HttpErrorResponse } from "@angular/common/http";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 import { Diet } from "src/app/models/patient/diet";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faCapsules } from "@fortawesome/free-solid-svg-icons";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -53,13 +54,16 @@ export class DietAddComponent implements OnInit {
   diets: Diet[] = [];
   loading: boolean = false;
   error: string;
-  editLogo = faEdit;
+  editLogo = faCapsules;
 
   form: FormGroup;
   submitted: boolean = false;
   creating: boolean = false;
 
+  isCaregiver: boolean = false;
+
   constructor(
+    private loginService: LoginService,
     private formBuilder: FormBuilder,
     private alimentationService: AlimentationService,
     private toastrService: ToastrService,
@@ -67,7 +71,10 @@ export class DietAddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.createForm();
+    this.isCaregiver = this.loginService.isCaregiver();
+    if (!this.isCaregiver) {
+      this.createForm();
+    }
     this.alimentationService.getAllDiets().subscribe(
       (data) => {
         this.diets = data;

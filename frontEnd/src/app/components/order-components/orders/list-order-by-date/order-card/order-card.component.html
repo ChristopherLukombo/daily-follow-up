@@ -47,10 +47,11 @@
         [order]="order"
         [patient]="patient"
         (deletedOrderOfPatient)="removeOrderOfPatient($event)"
+        [isCaregiver]="isCaregiver"
       ></app-order-modal>
     </div>
     <div class="card-footer text-muted">
-      <div *ngIf="!order && !periodExpired" class="row">
+      <div *ngIf="!order && !periodExpired && !isCaregiver" class="row">
         <div class="col">
           <button
             routerLink="/order/add"
@@ -64,7 +65,7 @@
       <div *ngIf="!periodExpired" class="row">
         <div class="col text-left">
           <button
-            *ngIf="order?.orderStatus === 'WAITING'"
+            *ngIf="order?.orderStatus === 'WAITING' && !isCaregiver"
             class="btn btn-sm btn-primary"
             (click)="onValidateOrder()"
           >

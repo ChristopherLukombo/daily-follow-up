@@ -22,6 +22,8 @@ export class InfosPatientComponent implements OnInit {
 
   warning: string;
 
+  @Input() isCaregiver: boolean = false;
+
   constructor(private clinicService: ClinicService) {}
 
   ngOnInit(): void {}
@@ -37,6 +39,8 @@ export class InfosPatientComponent implements OnInit {
           this.warning = TypeMessage.INFORMATIONS_OF_ROOMS_NOT_AVAILABLE;
         }
       );
+    } else {
+      this.warning = TypeMessage.PATIENT_HAVE_NO_ROOM;
     }
   }
 

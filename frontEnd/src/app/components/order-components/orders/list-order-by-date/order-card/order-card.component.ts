@@ -34,6 +34,8 @@ export class OrderCardComponent implements OnInit {
 
   @Output() deletedOrderOfPatient = new EventEmitter<Patient>();
 
+  @Input() isCaregiver: boolean = false;
+
   constructor(
     private orderService: OrderService,
     private router: Router,

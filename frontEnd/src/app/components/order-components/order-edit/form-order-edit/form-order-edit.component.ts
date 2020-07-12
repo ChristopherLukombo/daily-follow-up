@@ -46,6 +46,8 @@ export class FormOrderEditComponent implements OnInit {
     "La commande sera supprimé des registres, et ne partira donc pas en cuisine. Veuillez confirmer pour continuer.";
   deleting: boolean = false;
 
+  @Input() isCaregiver: boolean = false;
+
   constructor(
     private alimentationService: AlimentationService,
     private menuUtilsService: MenuUtilsService,

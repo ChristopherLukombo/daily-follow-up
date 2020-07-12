@@ -127,7 +127,7 @@
           </h4>
           <app-menu-weeks-lock [menu]="selectedMenu"> </app-menu-weeks-lock>
           <br />
-          <div *ngIf="!isInPast()">
+          <div *ngIf="!isInPast() && !isCaregiver">
             <button
               type="button"
               routerLink="/food/menu/edit"

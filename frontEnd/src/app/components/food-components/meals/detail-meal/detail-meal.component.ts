@@ -16,6 +16,8 @@ export class DetailMealComponent implements OnInit {
 
   @Input() content: Content;
 
+  @Input() isCaregiver: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {}

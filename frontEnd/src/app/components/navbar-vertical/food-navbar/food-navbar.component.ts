@@ -8,6 +8,7 @@ import {
   faCapsules,
   faCopy,
 } from "@fortawesome/free-solid-svg-icons";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -27,7 +28,11 @@ export class FoodNavbarComponent implements OnInit {
   dietsLogo = faCapsules;
   menuAllLogo = faClock;
 
-  constructor() {}
+  isCaregiver: boolean = false;
 
-  ngOnInit(): void {}
+  constructor(private loginService: LoginService) {}
+
+  ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
+  }
 }

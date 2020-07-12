@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { FloorAddComponent } from "./components/clinic-components/floor-add/floor-add.component";
 import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
 import { DietAddComponent } from "./components/food-components/diet-add/diet-add.component";
 import { MealEditComponent } from "./components/food-components/meal/meal-edit/meal-edit.component";
@@ -31,6 +30,7 @@ import { DietEditComponent } from "./components/food-components/diet-edit/diet-e
 import { OrderEditComponent } from "./components/order-components/order-edit/order-edit.component";
 import { OrderAddComponent } from "./components/order-components/order-add/order-add.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { Role } from "./models/user/role-enum";
 
 const routes: Routes = [
   { path: "dashboard", component: DashboardComponent },
@@ -55,6 +55,7 @@ const routes: Routes = [
     path: "patient/details/edit",
     component: PatientEditComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "patient/details/history",
@@ -65,11 +66,13 @@ const routes: Routes = [
     path: "patient/add",
     component: PatientAddComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "patient/import",
     component: PatientsImportComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "food/menu/currents",
@@ -85,31 +88,37 @@ const routes: Routes = [
     path: "food/meal/add",
     component: MealsAddComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "food/meal/details/edit",
     component: MealEditComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "food/menu/add",
     component: MenuAddComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "food/menu/edit",
     component: MenuEditComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "food/menu/decline",
     component: MenuDeclineComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "food/menu/decline/edit",
     component: MenuDeclinedEditComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "food/menu/all",
@@ -132,11 +141,6 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: "clinic/floor/add",
-    component: FloorAddComponent,
-    canActivate: [AuthGuard],
-  },
-  {
     path: "user/all",
     component: UsersComponent,
     canActivate: [AuthGuard],
@@ -145,6 +149,7 @@ const routes: Routes = [
     path: "user/add",
     component: UserAddComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "order/all",
@@ -155,6 +160,7 @@ const routes: Routes = [
     path: "order/add",
     component: OrderAddComponent,
     canActivate: [AuthGuard],
+    data: { roles: [Role.ROLE_ADMIN, Role.ROLE_DIET] },
   },
   {
     path: "order/edit",

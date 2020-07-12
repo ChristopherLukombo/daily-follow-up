@@ -27,74 +27,76 @@
         </div>
       </div>
       <br />
-      <h2>Nouveau régime</h2>
-      <br />
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <h5>
-            <label>Nom <span class="required">*</span></label>
-          </h5>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="name"
-            [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
-            placeholder="Exemple : Sans sel, Diabétique etc.."
-          />
-          <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
-            Le nom du régime est requis
-          </div>
-        </div>
+      <div *ngIf="!isCaregiver && form">
+        <h2>Nouveau régime</h2>
         <br />
-        <div class="form-group">
-          <h5>
-            <label>Caractéristique(s) du régime (non obligatoire)</label>
-          </h5>
-          <div class="alert alert-primary" role="alert">
-            Notez ici le (ou les) ingrédient(s), définissant au mieux le régime
-            alimentaire.
-            <br /><strong>Exemple :</strong> Un régime
-            <code>Hyperprotéiné</code> est <code>riche en fibres</code> et
-            <code>faible en A.G saturés</code>. <br />Cela servira d'indicateur
-            pour la déclinaison automatique de menus.
-          </div>
-          <h6>
-            <label
-              >Élément(s) présents en
-              <span class="text-success">grande quantité</span> :</label
-            >
-          </h6>
-          <div class="types-form-checkboxes">
-            <label
-              *ngFor="let high of highElements; let i = index"
-              class="checkbox-inline"
-            >
-              <input type="checkbox" [formControl]="high" />
-              {{ caracteristics[i] }}
-            </label>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <h5>
+              <label>Nom <span class="required">*</span></label>
+            </h5>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="name"
+              [ngClass]="{ 'is-invalid': submitted && f.name.errors }"
+              placeholder="Exemple : Sans sel, Diabétique etc.."
+            />
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              Le nom du régime est requis
+            </div>
           </div>
           <br />
-          <h6>
-            <label
-              >Élément(s) présents en
-              <span class="text-danger">faible quantité</span> :</label
-            >
-          </h6>
-          <div class="types-form-checkboxes">
-            <label
-              *ngFor="let low of lowElements; let i = index"
-              class="checkbox-inline"
-            >
-              <input type="checkbox" [formControl]="low" />
-              {{ caracteristics[i] }}
-            </label>
+          <div class="form-group">
+            <h5>
+              <label>Caractéristique(s) du régime (non obligatoire)</label>
+            </h5>
+            <div class="alert alert-primary" role="alert">
+              Notez ici le (ou les) ingrédient(s), définissant au mieux le
+              régime alimentaire.
+              <br /><strong>Exemple :</strong> Un régime
+              <code>Hyperprotéiné</code> est <code>riche en fibres</code> et
+              <code>faible en A.G saturés</code>. <br />Cela servira
+              d'indicateur pour la déclinaison automatique de menus.
+            </div>
+            <h6>
+              <label
+                >Élément(s) présents en
+                <span class="text-success">grande quantité</span> :</label
+              >
+            </h6>
+            <div class="types-form-checkboxes">
+              <label
+                *ngFor="let high of highElements; let i = index"
+                class="checkbox-inline"
+              >
+                <input type="checkbox" [formControl]="high" />
+                {{ caracteristics[i] }}
+              </label>
+            </div>
+            <br />
+            <h6>
+              <label
+                >Élément(s) présents en
+                <span class="text-danger">faible quantité</span> :</label
+              >
+            </h6>
+            <div class="types-form-checkboxes">
+              <label
+                *ngFor="let low of lowElements; let i = index"
+                class="checkbox-inline"
+              >
+                <input type="checkbox" [formControl]="low" />
+                {{ caracteristics[i] }}
+              </label>
+            </div>
           </div>
-        </div>
-        <br />
-        <button type="submit" class="btn btn-primary">
-          Ajouter le régime à la clinique
-        </button>
-      </form>
+          <br />
+          <button type="submit" class="btn btn-primary">
+            Ajouter le régime à la clinique
+          </button>
+        </form>
+      </div>
       <br />
     </div>
   </div>

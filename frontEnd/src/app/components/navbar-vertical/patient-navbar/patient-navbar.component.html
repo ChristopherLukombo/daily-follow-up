@@ -13,7 +13,7 @@
       ><fa-icon [icon]="allLogo"></fa-icon> Tous les patients</a
     >
   </li>
-  <li class="nav-item">
+  <li *ngIf="!isCaregiver" class="nav-item">
     <a
       class="nav-link"
       id="patient-add-tab"
@@ -27,7 +27,7 @@
       ><fa-icon [icon]="addLogo"></fa-icon> Nouveau patient</a
     >
   </li>
-  <li class="nav-item">
+  <li *ngIf="!isCaregiver" class="nav-item">
     <a
       class="nav-link"
       id="patient-import-tab"

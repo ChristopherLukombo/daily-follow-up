@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import * as moment from "moment";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -22,9 +23,12 @@ export class OrdersComponent implements OnInit {
   selectedDate: string;
   selectedMoment: string;
 
-  constructor() {}
+  isCaregiver: boolean = false;
+
+  constructor(private loginService: LoginService) {}
 
   ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
     this.goCurrentWeek();
     this.selectDayOfToday();
     this.selectMoment(this.moments[0]);

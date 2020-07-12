@@ -7,6 +7,7 @@ import { Floor } from "src/app/models/clinic/floor";
 import { forkJoin } from "rxjs";
 import { Role } from "src/app/models/user/role-enum";
 import { TypeMessage } from "src/app/models/utils/message-enum";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -25,12 +26,16 @@ export class UsersComponent implements OnInit {
   error: string;
   loading: Boolean = false;
 
+  isCaregiver: boolean = false;
+
   constructor(
+    private loginService: LoginService,
     private userService: UserService,
     private clinicService: ClinicService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
     this.loading = true;
     let allCaregivers = this.userService.getAllCaregivers();
     let allFloors = this.clinicService.getAllFloors();

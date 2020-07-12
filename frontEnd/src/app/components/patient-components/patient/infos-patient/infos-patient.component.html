@@ -101,11 +101,13 @@
             </tr>
           </tbody>
         </table>
-        <app-switch-rooms-patients
-          [room]="room"
-          [patient]="patient"
-          (roomChanges)="changesRoom($event)"
-        ></app-switch-rooms-patients>
+        <div *ngIf="!isCaregiver">
+          <app-switch-rooms-patients
+            [room]="room"
+            [patient]="patient"
+            (roomChanges)="changesRoom($event)"
+          ></app-switch-rooms-patients>
+        </div>
       </div>
     </div>
   </div>
