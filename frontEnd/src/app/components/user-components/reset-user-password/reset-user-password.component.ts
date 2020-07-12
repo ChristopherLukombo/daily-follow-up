@@ -33,7 +33,7 @@ export class ResetUserPasswordComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
@@ -45,8 +45,21 @@ export class ResetUserPasswordComponent implements OnInit {
     const target = {
       id: [id, Validators.required],
       username: [pseudo, Validators.required],
-      password: [null, Validators.required],
-      confirm: [null, Validators.required],
+      password: [
+        null,
+        [
+          Validators.required,
+          Validators.pattern(
+            '(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,15}'
+          ),
+        ],
+      ],
+      confirm: [
+        null,
+        [
+          Validators.required,
+        ],
+      ],
     };
     this.form = this.formBuilder.group(target);
   }
@@ -60,7 +73,7 @@ export class ResetUserPasswordComponent implements OnInit {
     this.submitted = true;
     if (this.form.invalid) return;
     if (this.f.password.value !== this.f.confirm.value) {
-      this.error = "les mots de passe ne correspondent pas";
+      this.error = TypeMessage.PASSWORDS_DOES_NOT_MATCHS;
       return;
     }
     this.loading = true;

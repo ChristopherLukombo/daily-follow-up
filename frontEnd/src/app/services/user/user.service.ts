@@ -126,6 +126,17 @@ export class UserService {
   }
 
   /**
+   * Met à jour un aide soignant
+   * @param caregiverDTO
+   * @returns l'aide soignant mis à jour
+   */
+  updateCaregiver(caregiverDTO: CaregiverDTO): Observable<Caregiver> {
+    return this.http
+      .put<Caregiver>(CAREGIVER_URL, JSON.stringify(caregiverDTO), httpOptions)
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Supprime un aide-soignant
    * @param id
    */

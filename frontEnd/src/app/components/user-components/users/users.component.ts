@@ -28,7 +28,7 @@ export class UsersComponent implements OnInit {
   constructor(
     private userService: UserService,
     private clinicService: ClinicService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -40,7 +40,7 @@ export class UsersComponent implements OnInit {
         this.caregivers = datas[0];
         this.floors = datas[1];
         this.nutritionists = datas[2].filter(
-          (user) => user.roleName === Role.ROLE_NUTRITIONIST
+          (user) => user.roleName === Role.ROLE_DIET
         );
         this.loading = false;
       },
