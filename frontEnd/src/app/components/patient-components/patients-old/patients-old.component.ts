@@ -1,7 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Patient } from "src/app/models/patient/patient";
 import { PatientService } from "src/app/services/patient/patient.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patients-old",
   templateUrl: "./patients-old.component.html",
@@ -40,10 +45,9 @@ export class PatientsOldComponent implements OnInit {
    */
   catchError(error: number): void {
     if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      this.error = TypeMessage.NOT_AUTHENTICATED;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      this.error = TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

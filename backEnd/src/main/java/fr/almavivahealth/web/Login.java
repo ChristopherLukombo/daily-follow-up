@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
  * Login object for storing a user's credentials.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public class Login {
 

@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiResponses;
  * UserResource to authenticate users.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("User")
 @RestController

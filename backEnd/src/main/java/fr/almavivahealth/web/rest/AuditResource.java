@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for getting the audit events.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @RestController
 @RequestMapping("/management/audits")

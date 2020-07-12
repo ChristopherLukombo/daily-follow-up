@@ -21,7 +21,7 @@ import lombok.ToString;
 * A floor.
 *
  * @author christopher
- * @version 16
+ * @version 17
 */
 @Entity
 @NoArgsConstructor

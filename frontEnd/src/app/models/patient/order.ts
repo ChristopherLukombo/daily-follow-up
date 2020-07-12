@@ -22,11 +22,11 @@ export class Order {
   /***/
   createdBy: string;
   /***/
-  createdDate: string;
+  createdDate: Date;
   /***/
   lastModifBy: string;
   /***/
-  lastModifDate: string;
+  lastModifDate: Date;
   /***/
   patientId: number;
 }

@@ -9,7 +9,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Configuration

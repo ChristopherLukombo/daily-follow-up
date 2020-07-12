@@ -103,19 +103,29 @@
         <div *ngIf="order?.createdBy || order?.lastModifBy" class="row">
           <div class="col text-right">
             <small *ngIf="order?.createdBy && order?.createdDate">
-              Commande soumise le <strong>{{ order?.createdDate }}</strong> par
+              Commande soumise le
+              <strong>{{
+                order?.createdDate | date: "dd/MM/yyyy à HH:mm"
+              }}</strong>
+              par
               <strong>{{ order?.createdBy }}</strong>
             </small>
             <br />
             <small *ngIf="order?.lastModifBy && order?.lastModifDate">
               Dernière modification le
-              <strong>{{ order?.lastModifDate }}</strong> par
+              <strong>{{
+                order?.lastModifDate | date: "dd/MM/yyyy à HH:mm"
+              }}</strong>
+              par
               <strong>{{ order?.lastModifBy }}</strong>
             </small>
           </div>
         </div>
-        <div *ngIf="isPast" class="alert alert-warning" role="alert">
-          {{ cannotBeUpdated }}
+        <div *ngIf="isPast">
+          <br />
+          <div class="alert alert-warning" role="alert">
+            {{ cannotBeUpdated }}
+          </div>
         </div>
       </div>
       <div *ngIf="!isPast" class="modal-footer">

@@ -1,5 +1,9 @@
 import { Component, Input } from "@angular/core";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "tabs",
   template: ` <ul class="nav nav-tabs">

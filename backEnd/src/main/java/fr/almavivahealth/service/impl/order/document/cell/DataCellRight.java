@@ -11,7 +11,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
  * The Class DataCellRight.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public class DataCellRight extends DataCell {
 

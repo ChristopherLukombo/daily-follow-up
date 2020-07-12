@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Texture.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Texture")
 @RestController
@@ -66,7 +66,7 @@ public class TextureResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PostMapping("/textures")
 	public ResponseEntity<TextureDTO> createTexture(@Valid @RequestBody final TextureDTO textureDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -95,7 +95,7 @@ public class TextureResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PutMapping("/textures")
 	public ResponseEntity<TextureDTO> updateTexture(@Valid @RequestBody final TextureDTO textureDTO)
 			throws DailyFollowUpException {
@@ -123,7 +123,7 @@ public class TextureResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/textures")
 	public ResponseEntity<List<TextureDTO>> getAllTextures() {
 		LOGGER.debug("REST request to get all Textures");
@@ -151,7 +151,7 @@ public class TextureResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/textures/{id}")
 	public ResponseEntity<TextureDTO> getTexture(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Texture : {}", id);
@@ -176,7 +176,7 @@ public class TextureResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/textures/{id}")
 	public ResponseEntity<Void> deleteTexture(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Texture : {}", id);

@@ -6,6 +6,10 @@ import {
   faUserLock,
 } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patient-navbar",
   templateUrl: "./patient-navbar.component.html",

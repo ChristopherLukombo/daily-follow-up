@@ -29,7 +29,7 @@ import fr.almavivahealth.web.rest.DishResource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

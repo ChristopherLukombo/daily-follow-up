@@ -3,7 +3,12 @@ import { PatientsByStatus } from "src/app/models/statistics/patients-by-status";
 import { PatientsPerAllergy } from "src/app/models/statistics/patients-per-allergy";
 import { PatientsPerDiet } from "src/app/models/statistics/patients-per-diet";
 import { StatisticsService } from "src/app/services/statistics/statistics.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author christopher
+ * @version 17
+ */
 @Component({
   selector: "app-statistics",
   templateUrl: "./statistics.component.html",
@@ -63,10 +68,9 @@ export class StatisticsComponent implements OnInit {
    */
   catchError(error: number): void {
     if (error && error === 401) {
-      this.error =
-        "Le nom d'utilisateur et le mot de passe ne correspondent pas.";
+      this.error = TypeMessage.NOT_AUTHENTICATED;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      this.error = TypeMessage.AN_ERROR_OCCURED;
     }
   }
   /**

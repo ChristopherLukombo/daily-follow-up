@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { faDoorOpen, faPlus } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-clinic-navbar",
   templateUrl: "./clinic-navbar.component.html",

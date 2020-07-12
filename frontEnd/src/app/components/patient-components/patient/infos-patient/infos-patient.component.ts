@@ -3,7 +3,12 @@ import { faBed } from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
 import { Room } from "src/app/models/clinic/room";
 import { ClinicService } from "src/app/services/clinic/clinic.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-infos-patient",
   templateUrl: "./infos-patient.component.html",
@@ -29,9 +34,13 @@ export class InfosPatientComponent implements OnInit {
           this.room = data;
         },
         (error) => {
-          this.warning = "Informations sur la chambre indisponibles.";
+          this.warning = TypeMessage.INFORMATIONS_OF_ROOMS_NOT_AVAILABLE;
         }
       );
     }
+  }
+
+  changesRoom(room: Room): void {
+    this.room = room;
   }
 }

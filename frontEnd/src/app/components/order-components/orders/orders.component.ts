@@ -1,19 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import * as moment from "moment";
-import {
-  faAngleDoubleRight,
-  faAngleDoubleLeft,
-} from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-orders",
   templateUrl: "./orders.component.html",
   styleUrls: ["./orders.component.scss"],
 })
 export class OrdersComponent implements OnInit {
-  nextLogo = faAngleDoubleRight;
-  previousLogo = faAngleDoubleLeft;
-
   actualWeek: number;
   actualYear: number;
   specificWeek: string;
@@ -47,8 +44,8 @@ export class OrdersComponent implements OnInit {
   }
 
   goCurrentWeek(): void {
-    this.actualWeek = moment().week();
-    this.actualYear = moment().year();
+    this.actualWeek = moment().locale("fr").week();
+    this.actualYear = moment().locale("fr").year();
     this.generateTableWeek(this.actualWeek, this.actualYear);
   }
 

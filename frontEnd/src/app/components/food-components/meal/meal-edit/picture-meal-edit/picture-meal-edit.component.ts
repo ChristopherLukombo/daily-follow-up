@@ -5,6 +5,10 @@ import { ToastrService } from "ngx-toastr";
 import { ArtificialIntelligenceService } from "src/app/services/artificial-intelligence/artificial-intelligence.service";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-picture-meal-edit",
   templateUrl: "./picture-meal-edit.component.html",

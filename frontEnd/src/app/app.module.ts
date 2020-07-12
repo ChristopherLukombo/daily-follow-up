@@ -39,12 +39,14 @@ import { ListRoomsAvailableComponent } from "./components/patient-components/pat
 import { FormPatientAddComponent } from "./components/patient-components/patient-add/form-patient-add/form-patient-add.component";
 import { PatientEditComponent } from "./components/patient-components/patient/patient-edit/patient-edit.component";
 import { FormPatientEditComponent } from "./components/patient-components/patient/patient-edit/form-patient-edit/form-patient-edit.component";
+import { SwitchRoomsPatientsComponent } from "./components/patient-components/patient/infos-patient/switch-rooms-patients/switch-rooms-patients.component";
 
 import { FoodNavbarComponent } from "./components/navbar-vertical/food-navbar/food-navbar.component";
 import { FormMealAddComponent } from "./components/food-components/meals-add/form-meal-add/form-meal-add.component";
 import { InfosMealComponent } from "./components/food-components/meals-add/infos-meal/infos-meal.component";
 import { MealsAddComponent } from "./components/food-components/meals-add/meals-add.component";
 import { MealsComponent } from "./components/food-components/meals/meals.component";
+import { PictureMealEditComponent } from "./components/food-components/meal/meal-edit/picture-meal-edit/picture-meal-edit.component";
 import { ListMealsComponent } from "./components/food-components/meals/list-meals/list-meals.component";
 import { MenuAddComponent } from "./components/food-components/menu-add/menu-add.component";
 import { MenuWeeksComponent } from "./components/food-components/menu-weeks/menu-weeks.component";
@@ -57,6 +59,18 @@ import { MenuDeclineComponent } from "./components/food-components/menu-decline/
 import { MenuWeeksLockComponent } from "./components/food-components/menu-decline/menu-weeks-lock/menu-weeks-lock.component";
 import { ContentsDayMenuLockComponent } from "./components/food-components/menu-decline/menu-weeks-lock/contents-day-menu-lock/contents-day-menu-lock.component";
 import { ReplacementsCardLockComponent } from "./components/food-components/menu-decline/menu-weeks-lock/replacements-card-lock/replacements-card-lock.component";
+import { MenuAllComponent } from "./components/food-components/menu-all/menu-all.component";
+import { MenuEditComponent } from "./components/food-components/menu-edit/menu-edit.component";
+import { DietEditComponent } from "./components/food-components/diet-edit/diet-edit.component";
+import { DeclinedMenuTemplateComponent } from "./components/food-components/menu-decline/declined-menu-template/declined-menu-template.component";
+import { DiffDeclinedContentDayComponent } from "./components/food-components/menu-decline/declined-menu-template/diff-declined-content-day/diff-declined-content-day.component";
+import { MenuDeclinedEditComponent } from "./components/food-components/menu-declined-edit/menu-declined-edit.component";
+import { MenuWeeksEditComponent } from "./components/food-components/menu-weeks-edit/menu-weeks-edit.component";
+import { ContentsDayMenuEditComponent } from "./components/food-components/menu-weeks-edit/contents-day-menu-edit/contents-day-menu-edit.component";
+import { ReplacementsCardEditComponent } from "./components/food-components/menu-weeks-edit/replacements-card-edit/replacements-card-edit.component";
+import { MealEditComponent } from "./components/food-components/meal/meal-edit/meal-edit.component";
+import { DetailMealComponent } from "./components/food-components/meals/detail-meal/detail-meal.component";
+import { FormMealEditComponent } from "./components/food-components/meal/meal-edit/form-meal-edit/form-meal-edit.component";
 
 import { RoleNavbarComponent } from "./components/navbar-vertical/role-navbar/role-navbar.component";
 import { UserAddComponent } from "./components/user-components/user-add/user-add.component";
@@ -71,6 +85,29 @@ import { ClinicNavbarComponent } from "./components/navbar-vertical/clinic-navba
 import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
 import { DetailFloorComponent } from "./components/clinic-components/floors/detail-floor/detail-floor.component";
 import { FloorAddComponent } from "./components/clinic-components/floor-add/floor-add.component";
+
+import { OrdersComponent } from "./components/order-components/orders/orders.component";
+import { OrderNavbarComponent } from "./components/navbar-vertical/order-navbar/order-navbar.component";
+import { OrderCardComponent } from "./components/order-components/orders/list-order-by-date/order-card/order-card.component";
+import { ListOrderByDateComponent } from "./components/order-components/orders/list-order-by-date/list-order-by-date.component";
+import { OrderModalComponent } from "./components/order-components/orders/list-order-by-date/order-modal/order-modal.component";
+import { OrderEditComponent } from "./components/order-components/order-edit/order-edit.component";
+import { FormOrderEditComponent } from "./components/order-components/order-edit/form-order-edit/form-order-edit.component";
+import { OrderAddComponent } from "./components/order-components/order-add/order-add.component";
+import { FormOrderAddComponent } from "./components/order-components/order-add/form-order-add/form-order-add.component";
+
+import { StatisticsComponent } from "./components/statistics/statistics/statistics.component";
+import { PatientsPerAllergyComponent } from "./components/statistics/statistics/patients-per-allergy/patients-per-allergy.component";
+import { PatientsPerDietComponent } from "./components/statistics/statistics/patients-per-diet/patients-per-diet.component";
+import { PatientsByStatusComponent } from "./components/statistics/statistics/patients-by-status/patients-by-status.component";
+import { OrderPerDayComponent } from "./components/statistics/statistics-food/order-per-day/order-per-day.component";
+import { TopTrendyDietsComponent } from "./components/statistics/statistics-food/top-trendy-diets/top-trendy-diets.component";
+import { TopTrendyContentsComponent } from "./components/statistics/statistics-food/top-trendy-contents/top-trendy-contents.component";
+import { StatisticsNavbarComponent } from "./components/navbar-vertical/statistics-navbar/statistics-navbar.component";
+import { StatisticsFoodComponent } from "./components/statistics/statistics-food/statistics-food.component";
+
+import { ContentsOfTodayComponent } from "./components/dashboard/contents-of-today/contents-of-today.component";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
 
 import { LoaderComponent } from "./components/loader/loader.component";
 import { AlertErrorComponent } from "./components/utils-components/alert-error/alert-error.component";
@@ -99,39 +136,6 @@ import {
   truncateStringPipe,
   getFloorNamePipe,
 } from "./utils/pipes/string-utils.pipe";
-import { DeclinedMenuTemplateComponent } from "./components/food-components/menu-decline/declined-menu-template/declined-menu-template.component";
-import { DiffDeclinedContentDayComponent } from "./components/food-components/menu-decline/declined-menu-template/diff-declined-content-day/diff-declined-content-day.component";
-import { MenuDeclinedEditComponent } from "./components/food-components/menu-declined-edit/menu-declined-edit.component";
-import { MenuWeeksEditComponent } from "./components/food-components/menu-weeks-edit/menu-weeks-edit.component";
-import { ContentsDayMenuEditComponent } from "./components/food-components/menu-weeks-edit/contents-day-menu-edit/contents-day-menu-edit.component";
-import { ReplacementsCardEditComponent } from "./components/food-components/menu-weeks-edit/replacements-card-edit/replacements-card-edit.component";
-import { MealEditComponent } from "./components/food-components/meal/meal-edit/meal-edit.component";
-import { DetailMealComponent } from "./components/food-components/meals/detail-meal/detail-meal.component";
-import { FormMealEditComponent } from "./components/food-components/meal/meal-edit/form-meal-edit/form-meal-edit.component";
-import { OrdersComponent } from "./components/order-components/orders/orders.component";
-import { OrderNavbarComponent } from "./components/navbar-vertical/order-navbar/order-navbar.component";
-import { PictureMealEditComponent } from "./components/food-components/meal/meal-edit/picture-meal-edit/picture-meal-edit.component";
-import { StatisticsComponent } from "./components/statistics/statistics/statistics.component";
-import { PatientsPerAllergyComponent } from "./components/statistics/statistics/patients-per-allergy/patients-per-allergy.component";
-import { PatientsPerDietComponent } from "./components/statistics/statistics/patients-per-diet/patients-per-diet.component";
-import { PatientsByStatusComponent } from "./components/statistics/statistics/patients-by-status/patients-by-status.component";
-import { OrderPerDayComponent } from "./components/statistics/statistics-food/order-per-day/order-per-day.component";
-import { TopTrendyDietsComponent } from "./components/statistics/statistics-food/top-trendy-diets/top-trendy-diets.component";
-import { TopTrendyContentsComponent } from "./components/statistics/statistics-food/top-trendy-contents/top-trendy-contents.component";
-import { StatisticsNavbarComponent } from "./components/navbar-vertical/statistics-navbar/statistics-navbar.component";
-import { StatisticsFoodComponent } from "./components/statistics/statistics-food/statistics-food.component";
-import { MenuAllComponent } from "./components/food-components/menu-all/menu-all.component";
-import { MenuEditComponent } from "./components/food-components/menu-edit/menu-edit.component";
-import { DietEditComponent } from "./components/food-components/diet-edit/diet-edit.component";
-import { ListOrderByDateComponent } from "./components/order-components/orders/list-order-by-date/list-order-by-date.component";
-import { OrderModalComponent } from './components/order-components/orders/list-order-by-date/order-modal/order-modal.component';
-import { OrderEditComponent } from './components/order-components/order-edit/order-edit.component';
-import { FormOrderEditComponent } from './components/order-components/order-edit/form-order-edit/form-order-edit.component';
-import { OrderAddComponent } from './components/order-components/order-add/order-add.component';
-import { FormOrderAddComponent } from './components/order-components/order-add/form-order-add/form-order-add.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { OrderCardComponent } from './components/order-components/orders/list-order-by-date/order-card/order-card.component';
-import { ContentsOfTodayComponent } from './components/dashboard/contents-of-today/contents-of-today.component';
 
 @NgModule({
   declarations: [
@@ -240,6 +244,7 @@ import { ContentsOfTodayComponent } from './components/dashboard/contents-of-tod
     DashboardComponent,
     OrderCardComponent,
     ContentsOfTodayComponent,
+    SwitchRoomsPatientsComponent,
   ],
   imports: [
     BrowserModule,

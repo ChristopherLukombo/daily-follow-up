@@ -35,7 +35,7 @@ import fr.almavivahealth.web.rest.FloorResource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

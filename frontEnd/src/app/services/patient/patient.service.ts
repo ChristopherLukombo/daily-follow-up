@@ -101,6 +101,24 @@ export class PatientService {
   }
 
   /**
+   * Echange une chambre entre 2 patients
+   * @param firstPatientId
+   * @param secondPatientId
+   * @returns HttpResponse<Object>
+   */
+  changesRoom(
+    firstPatientId: number,
+    secondPatientId: number
+  ): Observable<HttpResponse<Object>> {
+    return this.http
+      .post<HttpResponse<Object>>(
+        PATIENTS_URL + `/changesRoom/${firstPatientId}/${secondPatientId}`,
+        httpOptions
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Supprime un patient en fonction de son id
    * @param id
    * @returns HttpResponse<Object>

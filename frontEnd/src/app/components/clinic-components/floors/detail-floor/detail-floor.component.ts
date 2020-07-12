@@ -7,7 +7,12 @@ import { PatientService } from "src/app/services/patient/patient.service";
 import { forkJoin } from "rxjs";
 import { Room } from "src/app/models/clinic/room";
 import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-detail-floor",
   templateUrl: "./detail-floor.component.html",
@@ -75,9 +80,9 @@ export class DetailFloorComponent implements OnInit {
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur.";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

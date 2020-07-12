@@ -16,6 +16,10 @@ import { TypeMessage } from "src/app/models/utils/message-enum";
 import { Diet } from "src/app/models/patient/diet";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-diet-add",
   templateUrl: "./diet-add.component.html",

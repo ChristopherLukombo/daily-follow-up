@@ -1,0 +1,162 @@
+<div *ngIf="error">
+  <app-alert-error [content]="error"></app-alert-error>
+</div>
+<div *ngIf="loading"><app-loader></app-loader></div>
+<div *ngIf="room && patient && !loading && !error">
+  <button
+    type="button"
+    class="btn btn-sm btn-outline-primary"
+    data-toggle="modal"
+    data-target=".bd-example-modal-lg"
+  >
+    <fa-icon [icon]="switchLogo"></fa-icon> Changer de chambre
+  </button>
+</div>
+
+<!-- MODAL -->
+<div
+  class="modal fade bd-example-modal-lg"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myLargeModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content text-left">
+      <div class="modal-header">
+        <h4 class="modal-title" id="replacementsLabel">
+          Selectionnez le patient avec qui échanger la chambre
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <h5>Patient actuel</h5>
+            <br />
+            <h6>{{ patient?.firstName }} {{ patient?.lastName }}</h6>
+            <h5>
+              <span class="badge badge-secondary">
+                {{ patient?.texture?.name }}
+              </span>
+            </h5>
+            <h5>
+              <span *ngFor="let diet of patient?.diets" class="spaced-badge">
+                <span class="badge badge-info">
+                  {{ diet?.name }}
+                </span>
+              </span>
+            </h5>
+            <hr />
+            <div *ngIf="selectedPatient">
+              <h5>Échanger avec</h5>
+              <br />
+              <h6>
+                {{ selectedPatient?.firstName }} {{ selectedPatient?.lastName }}
+              </h6>
+              <h5>
+                <span class="badge badge-secondary">
+                  {{ selectedPatient?.texture?.name }}
+                </span>
+              </h5>
+              <h5>
+                <span
+                  *ngFor="let diet of selectedPatient?.diets"
+                  class="spaced-badge"
+                >
+                  <span class="badge badge-info">
+                    {{ diet?.name }}
+                  </span>
+                </span>
+              </h5>
+              <a
+                routerLink="/patient/details"
+                [queryParams]="{ id: selectedPatient?.id }"
+                >Voir les informations du patient</a
+              >
+            </div>
+          </div>
+          <div *ngIf="loading"><app-loader></app-loader></div>
+          <div
+            *ngIf="floors && patients && patientsOfRooms && !loading"
+            class="col"
+          >
+            <div class="btn-group">
+              <button
+                *ngFor="let floor of floors"
+                type="button"
+                class="btn btn-primary"
+                (click)="selectFloor(floor)"
+                [class.active]="floor == selectedFloor"
+              >
+                {{ floor?.number | floorName }}
+              </button>
+            </div>
+            <br /><br />
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">Patient</th>
+                  <th scope="col">Chambre</th>
+                </tr>
+              </thead>
+              <tbody class="tbody-dfu">
+                <tr
+                  *ngFor="
+                    let p of patientsOfRooms | keyvalue | paginate: pagination
+                  "
+                  (click)="selectPatient(p?.key)"
+                >
+                  <td innerHTML="{{ p?.key }}"></td>
+                  <td innerHTML="{{ p?.value?.number }}"></td>
+                </tr>
+              </tbody>
+            </table>
+            <pagination-controls
+              (pageChange)="pageChanged($event)"
+              (pageBoundsCorrection)="pageChanged($event)"
+              maxSize="6"
+              responsive="true"
+              previousLabel="Précédent"
+              nextLabel="Suivant"
+            ></pagination-controls>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-dismiss="modal"
+        >
+          Annuler
+        </button>
+        <button
+          *ngIf="!exchanging"
+          type="button"
+          class="btn btn-primary"
+          (click)="onSubmit()"
+          [disabled]="!selectedPatient"
+        >
+          Enregistrer
+        </button>
+        <button
+          *ngIf="exchanging"
+          class="btn btn-primary"
+          type="button"
+          disabled
+        >
+          <span class="spinner-border spinner-border-sm"></span>Échange en
+          cours...
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

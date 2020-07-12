@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing MomentDay.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("MomentDay")
 @RestController
@@ -67,7 +67,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PostMapping("/momentDays")
 	public ResponseEntity<MomentDayDTO> createMomentDay(@Valid @RequestBody final MomentDayDTO momentDayDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -96,7 +96,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PutMapping("/momentDays")
 	public ResponseEntity<MomentDayDTO> updateMomentDay(@Valid @RequestBody final MomentDayDTO momentDayDTO)
 			throws DailyFollowUpException {
@@ -124,7 +124,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/momentDays")
 	public ResponseEntity<List<MomentDayDTO>> getAllMomentDays() {
 		LOGGER.debug("REST request to get All MomentDays");
@@ -150,7 +150,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/momentDays/{id}")
 	public ResponseEntity<MomentDayDTO> getMomentDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get MomentDay : {}", id);
@@ -175,7 +175,7 @@ public class MomentDayResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/momentDays/{id}")
 	public ResponseEntity<Void> deleteMomentDay(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete MomentDay : {}", id);

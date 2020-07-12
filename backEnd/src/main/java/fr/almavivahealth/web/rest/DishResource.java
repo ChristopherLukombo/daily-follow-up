@@ -24,7 +24,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Dish from Ciqual.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Dish")
 @RestController
@@ -55,7 +55,7 @@ public class DishResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(value = "/dishes/search", params = { "name" })
 	public ResponseEntity<List<DishDTO>> getFirst5ByName(@RequestParam final String name) {
 		LOGGER.debug("REST request to get first 5 by name: {}", name);
@@ -81,7 +81,7 @@ public class DishResource {
 		@ApiResponse(code = 401, message = "Unauthorized"),
 		@ApiResponse(code = 403, message = "Forbidden")
 	})
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping(value = "/dishes/find", params = { "name" })
 	public ResponseEntity<DishDTO> getDishByName(@RequestParam final String name) {
 		LOGGER.debug("REST request to get Dish by name: {}", name);

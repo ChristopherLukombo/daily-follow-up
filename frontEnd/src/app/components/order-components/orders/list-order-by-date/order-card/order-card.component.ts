@@ -10,6 +10,10 @@ import { TypeMessage } from "src/app/models/utils/message-enum";
 import { Status } from "src/app/models/utils/status-enum";
 import * as moment from "moment";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-order-card",
   templateUrl: "./order-card.component.html",

@@ -10,6 +10,10 @@ import { MenuDTO } from "src/app/models/dto/food/menuDTO";
 import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
 import { WeekDTO } from "src/app/models/dto/food/weekDTO";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-edit",
   templateUrl: "./menu-edit.component.html",

@@ -3,6 +3,10 @@ import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import { Router } from "@angular/router";
 import { LoginService } from "src/app/services/login/login.service";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu",
   templateUrl: "./menu.component.html",

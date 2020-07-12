@@ -16,7 +16,7 @@ import fr.almavivahealth.domain.projection.PatientsPerDiet;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Repository

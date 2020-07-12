@@ -16,7 +16,7 @@ import fr.almavivahealth.dao.UserRepository;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Component

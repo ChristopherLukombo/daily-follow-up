@@ -5,6 +5,10 @@ import {
   faUserLock,
 } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-role-navbar",
   templateUrl: "./role-navbar.component.html",

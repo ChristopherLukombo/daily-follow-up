@@ -5,6 +5,10 @@ import {
   faCheckCircle,
 } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-list-meals",
   templateUrl: "./list-meals.component.html",

@@ -23,7 +23,7 @@ import lombok.Builder;
  * A DTO representing a user, with his role.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @AllArgsConstructor
 @Builder

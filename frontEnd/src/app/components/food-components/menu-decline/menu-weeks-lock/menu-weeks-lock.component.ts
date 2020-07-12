@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from "@angular/core";
 import { Menu } from "src/app/models/food/menu";
 import * as moment from "moment";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-weeks-lock",
   templateUrl: "./menu-weeks-lock.component.html",

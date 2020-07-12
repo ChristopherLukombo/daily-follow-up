@@ -6,7 +6,12 @@ import { UserService } from "src/app/services/user/user.service";
 import { ToastrService } from "ngx-toastr";
 import { HttpErrorResponse } from "@angular/common/http";
 import { LoginService } from "src/app/services/login/login.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-reset-user-password",
   templateUrl: "./reset-user-password.component.html",
@@ -84,11 +89,11 @@ export class ResetUserPasswordComponent implements OnInit {
    */
   getCustomError(error: HttpErrorResponse): string {
     if (error && error.status === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else if (error && error.status === 500) {
       return error.error.message;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

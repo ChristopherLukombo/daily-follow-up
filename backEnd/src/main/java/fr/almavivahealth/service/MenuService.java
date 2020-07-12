@@ -9,7 +9,7 @@ import fr.almavivahealth.service.dto.MenuDTO;
 /**
  * The Interface MenuService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface MenuService {
 

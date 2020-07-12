@@ -8,7 +8,7 @@ import fr.almavivahealth.service.dto.MomentDayDTO;
 /**
  * The Interface MomentDayService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface MomentDayService {
 

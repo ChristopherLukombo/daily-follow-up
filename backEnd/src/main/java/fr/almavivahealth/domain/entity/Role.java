@@ -18,7 +18,7 @@ import lombok.ToString;
  * A role.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Entity
 @NoArgsConstructor

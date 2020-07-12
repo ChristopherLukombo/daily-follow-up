@@ -3,7 +3,7 @@ package fr.almavivahealth.exception;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 public class FunctionalException extends RuntimeException {

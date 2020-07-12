@@ -3,7 +3,12 @@ import { ActivatedRoute } from "@angular/router";
 import { HistoryService } from "src/app/services/history/history.service";
 import { HistoryPatient } from "src/app/models/history/history-patient";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patient-history",
   templateUrl: "./patient-history.component.html",
@@ -49,7 +54,7 @@ export class PatientHistoryComponent implements OnInit {
   }
 
   HistoriesNotFound(): void {
-    this.warning = "Il n'y a aucun historique pour le patient recherché.";
+    this.warning = TypeMessage.NO_HISTORY_FOR_PATIENT;
   }
 
   loadMoreHistories(): void {
@@ -76,10 +81,9 @@ export class PatientHistoryComponent implements OnInit {
    */
   catchError(error: number): void {
     if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      this.error = TypeMessage.NOT_AUTHENTICATED;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      this.error = TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

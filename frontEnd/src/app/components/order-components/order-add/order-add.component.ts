@@ -7,6 +7,10 @@ import { OrderService } from "src/app/services/order/order.service";
 import { OrderCustomInfos } from "src/app/models/utils/order-custom-infos";
 import * as moment from "moment";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-order-add",
   templateUrl: "./order-add.component.html",

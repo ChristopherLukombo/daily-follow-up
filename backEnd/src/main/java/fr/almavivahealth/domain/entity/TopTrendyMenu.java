@@ -3,7 +3,7 @@ package fr.almavivahealth.domain.entity;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 public interface TopTrendyMenu {

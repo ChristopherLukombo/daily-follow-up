@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patients-import-infos",
   templateUrl: "./patients-import-infos.component.html",

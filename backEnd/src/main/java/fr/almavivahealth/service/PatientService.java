@@ -15,7 +15,7 @@ import fr.almavivahealth.service.dto.PatientDTO;
 /**
  * The Interface PatientService.
  * @author christopher
- * @version 16
+ * @version 17
  */
 public interface PatientService {
 

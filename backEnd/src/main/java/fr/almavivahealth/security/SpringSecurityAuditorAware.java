@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * Implementation of AuditorAware based on Spring Security.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public class SpringSecurityAuditorAware implements AuditorAware<String> {
 

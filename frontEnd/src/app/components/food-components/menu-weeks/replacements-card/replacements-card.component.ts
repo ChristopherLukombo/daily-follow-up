@@ -4,6 +4,10 @@ import { Content } from "src/app/models/food/content";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-replacements-card",
   templateUrl: "./replacements-card.component.html",

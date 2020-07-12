@@ -3,7 +3,12 @@ import { Diet } from "src/app/models/patient/diet";
 import { Texture } from "src/app/models/food/texture";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { forkJoin } from "rxjs";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patient-add",
   templateUrl: "./patient-add.component.html",
@@ -43,9 +48,9 @@ export class PatientAddComponent implements OnInit {
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur.";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

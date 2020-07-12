@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Type } from "@angular/core";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import {
   FormGroup,
@@ -22,7 +22,12 @@ import { LoginService } from "src/app/services/login/login.service";
 import { PatientService } from "src/app/services/patient/patient.service";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-form-patient-add",
   templateUrl: "./form-patient-add.component.html",
@@ -285,9 +290,9 @@ export class FormPatientAddComponent implements OnInit {
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

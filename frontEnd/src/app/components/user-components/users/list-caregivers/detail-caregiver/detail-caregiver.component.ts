@@ -3,7 +3,12 @@ import { UserService } from "src/app/services/user/user.service";
 import { ToastrService } from "ngx-toastr";
 import { UserDTO } from "src/app/models/dto/user/userDTO";
 import { Caregiver } from "src/app/models/user/caregiver";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-detail-caregiver",
   templateUrl: "./detail-caregiver.component.html",
@@ -107,11 +112,11 @@ export class DetailCaregiverComponent implements OnInit {
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur.";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else if (error && error === 403) {
-      return "Vous n'êtes plus habilité à cette requête.";
+      return TypeMessage.NOT_AUTHORIZED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

@@ -7,7 +7,12 @@ import { PatientService } from "src/app/services/patient/patient.service";
 import { PatientDTO } from "src/app/models/dto/patient/patientDTO";
 import { ToastrService } from "ngx-toastr";
 import { CommentDTO } from "src/app/models/dto/patient/commentDTO";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-comment-patient",
   templateUrl: "./comment-patient.component.html",
@@ -124,9 +129,9 @@ export class CommentPatientComponent implements OnInit {
    */
   getError(error: number): string {
     if (error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

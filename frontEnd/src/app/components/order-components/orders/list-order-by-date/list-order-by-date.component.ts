@@ -7,6 +7,10 @@ import { forkJoin } from "rxjs";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 import { ToastrService } from "ngx-toastr";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-list-order-by-date",
   templateUrl: "./list-order-by-date.component.html",

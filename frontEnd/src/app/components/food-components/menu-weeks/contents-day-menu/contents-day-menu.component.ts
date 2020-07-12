@@ -6,6 +6,10 @@ import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import { MomentDayDTO } from "src/app/models/dto/food/moment-dayDTO";
 import { MomentDayCustomInfos } from "src/app/models/utils/moment-day-custom-infos";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-contents-day-menu",
   templateUrl: "./contents-day-menu.component.html",

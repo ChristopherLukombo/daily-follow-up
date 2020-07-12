@@ -2,7 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { Content } from "src/app/models/food/content";
 import { ActivatedRoute } from "@angular/router";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-meal-edit",
   templateUrl: "./meal-edit.component.html",
@@ -37,8 +42,7 @@ export class MealEditComponent implements OnInit {
   }
 
   contentDoesNotExist() {
-    this.warning =
-      "Ce plat n'éxiste pas, ou a été supprimé du stock de nourriture de la clinique. Veuillez réessayer.";
+    this.warning = TypeMessage.CONTENT_DOES_NOT_EXIST;
   }
 
   /**
@@ -47,10 +51,9 @@ export class MealEditComponent implements OnInit {
    */
   catchError(error: number): void {
     if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      this.error = TypeMessage.NOT_AUTHENTICATED;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      this.error = TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

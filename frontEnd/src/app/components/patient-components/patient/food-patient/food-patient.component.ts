@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Patient } from "src/app/models/patient/patient";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-food-patient",
   templateUrl: "./food-patient.component.html",

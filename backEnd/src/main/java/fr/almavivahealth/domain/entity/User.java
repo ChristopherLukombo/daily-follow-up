@@ -34,7 +34,7 @@ import lombok.ToString;
  * A user.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Entity
 @Table(name="\"user\"")

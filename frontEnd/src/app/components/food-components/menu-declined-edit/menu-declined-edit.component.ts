@@ -9,6 +9,10 @@ import { WeekDTO } from "src/app/models/dto/food/weekDTO";
 import { HttpErrorResponse } from "@angular/common/http";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-declined-edit",
   templateUrl: "./menu-declined-edit.component.html",
@@ -36,7 +40,7 @@ export class MenuDeclinedEditComponent implements OnInit {
   }
 
   impossibleToGetMenu(): string {
-    return "Impossible de charger le menu à modifier";
+    return TypeMessage.IMPOSSIBLE_TO_GET_LOCAL_MENU;
   }
 
   /**

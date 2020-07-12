@@ -5,7 +5,12 @@ import { Diet } from "src/app/models/patient/diet";
 import { forkJoin } from "rxjs";
 import { DeclinatorService } from "src/app/services/alimentation/declinator.service";
 import { Router } from "@angular/router";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-decline",
   templateUrl: "./menu-decline.component.html",
@@ -81,8 +86,7 @@ export class MenuDeclineComponent implements OnInit {
     this.cannotDecline = null;
     this.newMenu = null;
     if (this.selectedDiets.every((diet) => !diet.elementsToCheck.size)) {
-      this.cannotDecline =
-        "Le menu ne peut pas être automatiquement adapté au(s) régime(s) séléctionné(s), veuillez le faire manuellement.";
+      this.cannotDecline = TypeMessage.MENU_CANNOT_BE_DECLINE_AUTOMATICALLY;
       return;
     }
     this.declining = true;
@@ -108,9 +112,9 @@ export class MenuDeclineComponent implements OnInit {
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Stats.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Stats")
 @RestController

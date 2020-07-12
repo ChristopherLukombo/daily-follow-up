@@ -5,6 +5,10 @@ import { Menu } from "src/app/models/food/menu";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { Replacement } from "src/app/models/food/replacement";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-replacements-card-edit",
   templateUrl: "./replacements-card-edit.component.html",

@@ -7,6 +7,10 @@ import * as moment from "moment";
 import { Router } from "@angular/router";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-order-modal",
   templateUrl: "./order-modal.component.html",

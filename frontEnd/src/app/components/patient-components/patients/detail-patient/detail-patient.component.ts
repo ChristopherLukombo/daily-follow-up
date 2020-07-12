@@ -6,6 +6,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-detail-patient",
   templateUrl: "./detail-patient.component.html",

@@ -2,6 +2,7 @@ package fr.almavivahealth.service.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,7 +15,7 @@ import lombok.Builder;
  * A DTO for the MomentDay entity.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @AllArgsConstructor
 @Builder
@@ -44,9 +45,9 @@ public class OrderDTO implements Serializable {
 
 	private String createdBy;
 
-	private LocalDate createdDate;
+	private LocalDateTime createdDate;
 
-	private LocalDate lastModifDate;
+	private LocalDateTime lastModifDate;
 
 	private String lastModifBy;
 
@@ -134,11 +135,11 @@ public class OrderDTO implements Serializable {
 		this.moment = moment;
 	}
 
-	public LocalDate getLastModifDate() {
+	public LocalDateTime getLastModifDate() {
 		return lastModifDate;
 	}
 
-	public void setLastModifDate(final LocalDate lastModifDate) {
+	public void setLastModifDate(final LocalDateTime lastModifDate) {
 		this.lastModifDate = lastModifDate;
 	}
 
@@ -158,11 +159,11 @@ public class OrderDTO implements Serializable {
 		this.createdBy = createdBy;
 	}
 
-	public LocalDate getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(final LocalDate createdDate) {
+	public void setCreatedDate(final LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 

@@ -11,6 +11,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { LoginService } from "src/app/services/login/login.service";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",

@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
  * REST controller for managing Allergy.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Allergy")
 @RestController
@@ -68,7 +68,7 @@ public class AllergyResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PostMapping("/allergys")
 	public ResponseEntity<AllergyDTO> createAllergy(@Valid @RequestBody final AllergyDTO allergyDTO)
 			throws URISyntaxException, DailyFollowUpException {
@@ -98,7 +98,7 @@ public class AllergyResource {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 422, message = "Unprocessable entity")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@PutMapping("/allergys")
 	public ResponseEntity<AllergyDTO> updateAllergy(@Valid @RequestBody final AllergyDTO allergyDTO)
 			throws DailyFollowUpException {
@@ -126,7 +126,7 @@ public class AllergyResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/allergys")
 	public ResponseEntity<List<AllergyDTO>> getAllAllergys() {
 		LOGGER.debug("REST request to get All Allergys");
@@ -152,7 +152,7 @@ public class AllergyResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@GetMapping("/allergys/{id}")
 	public ResponseEntity<AllergyDTO> getAllergy(@PathVariable final Long id) {
 		LOGGER.debug("REST request to get Allergy : {}", id);
@@ -177,7 +177,7 @@ public class AllergyResource {
         @ApiResponse(code = 401, message = "Unauthorized"),
         @ApiResponse(code = 403, message = "Forbidden")
         })
-	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_NUTRITIONIST')")
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CAREGIVER') or hasRole('ROLE_DIET')")
 	@DeleteMapping("/allergys/{id}")
 	public ResponseEntity<Void> deleteAllergy(@PathVariable final Long id) {
 		LOGGER.debug("REST request to delete Allergy : {}", id);

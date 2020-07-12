@@ -2,6 +2,10 @@ import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 import { Floor } from "src/app/models/clinic/floor";
 import { Room } from "src/app/models/clinic/room";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-list-rooms-available",
   templateUrl: "./list-rooms-available.component.html",

@@ -4,7 +4,12 @@ import { Content } from "src/app/models/food/content";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { Week } from "src/app/models/food/week";
 import { TypeTexture } from "src/app/models/utils/texture-enum";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-weeks-edit",
   templateUrl: "./menu-weeks-edit.component.html",
@@ -31,13 +36,12 @@ export class MenuWeeksEditComponent implements OnInit {
             this.allContents = this.filterByTexture(data, this.menu.texture);
           } else {
             this.noContents =
-              "Il n'y a aucun plats disponibles actuellement dans la clinique. Veuillez d'abord en ajouter afin de pouvoir composer un menu.";
+              TypeMessage.NO_CONTENTS_AVAILABLE_FOR_CREATING_MENU;
           }
           this.loading = false;
         },
         (error) => {
-          this.noContents =
-            "Une erreur s'est produite. Veuillez réessayer plus tard.";
+          this.noContents = TypeMessage.AN_ERROR_OCCURED;
           this.loading = false;
         }
       );

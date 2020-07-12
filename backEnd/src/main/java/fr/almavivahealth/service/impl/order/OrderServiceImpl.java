@@ -52,7 +52,7 @@ import fr.almavivahealth.service.propeties.OrderProperties;
  * Service Implementation for managing Order.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Service
 @Transactional
@@ -340,6 +340,7 @@ public class OrderServiceImpl implements OrderService {
 	public boolean isCreated(final OrderDTO orderDTO) {
 		final List<Order> orders = orderRepository.findAllByPatientIdAndMoment(orderDTO.getPatientId(),
 				orderDTO.getDeliveryDate());
+
 		return orders.stream().anyMatch(o -> o.getMoment().equalsIgnoreCase(orderDTO.getMoment()));
 	}
 }

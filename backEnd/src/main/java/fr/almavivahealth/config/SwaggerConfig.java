@@ -32,7 +32,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Configuration

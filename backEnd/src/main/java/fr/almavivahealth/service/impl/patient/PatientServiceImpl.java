@@ -267,6 +267,8 @@ public class PatientServiceImpl implements PatientService {
 		final List<Allergy> allergies = createAllergies(allergyNames);
 		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns, 6)).orElseGet(() -> null);
 
+//		final Room room = roomRepository.findByNumberIgnoreCase(getField(columns,6)).orElseThrow(()-> new DailyFollowUpException(""))));
+
 		return Patient.builder()
 				.firstName(getField(columns, 0))
 				.lastName(getField(columns, 1))

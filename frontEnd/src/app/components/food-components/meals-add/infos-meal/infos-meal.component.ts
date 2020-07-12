@@ -3,7 +3,12 @@ import { ChartType } from "chart.js";
 import { Label, SingleDataSet } from "ng2-charts";
 import { Content } from "src/app/models/food/content";
 import { FormGroup } from "@angular/forms";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-infos-meal",
   templateUrl: "./infos-meal.component.html",
@@ -11,8 +16,7 @@ import { FormGroup } from "@angular/forms";
 })
 export class InfosMealComponent implements OnInit {
   illegalInputFloat: string[] = ["e", "-", "+", "*"];
-  noContent: string =
-    "Il n'existe aucune information connue sur ce plat. Veuillez renseigner manuellement les ingédients du plat pour le créer.";
+  noContent: string = TypeMessage.NO_INFOS_FROM_API_FOR_THIS_CONTENT;
 
   @Input() content: Content = null;
   @Input() form: FormGroup = null;

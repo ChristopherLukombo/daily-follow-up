@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from "@angular/core";
 import { User } from "src/app/models/user/user";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-list-nutritionists",
   templateUrl: "./list-nutritionists.component.html",

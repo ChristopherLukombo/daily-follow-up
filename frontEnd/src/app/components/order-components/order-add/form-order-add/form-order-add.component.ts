@@ -11,7 +11,12 @@ import { OrderDTO } from "src/app/models/dto/patient/orderDTO";
 import { Status } from "src/app/models/utils/status-enum";
 import { MenuUtilsService } from "src/app/services/order/menu-utils.service";
 import { Menu } from "src/app/models/food/menu";
+import { HttpErrorResponse } from "@angular/common/http";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-form-order-add",
   templateUrl: "./form-order-add.component.html",
@@ -181,7 +186,7 @@ export class FormOrderAddComponent implements OnInit {
       },
       (error) => {
         this.creating = false;
-        this.toastrService.error(this.getError(error), "Oops !");
+        this.toastrService.error(this.getCustomError(error), "Oops !");
       }
     );
   }
@@ -194,6 +199,21 @@ export class FormOrderAddComponent implements OnInit {
   getError(error: number): string {
     if (error && error === 401) {
       return TypeMessage.NOT_AUTHENTICATED;
+    } else {
+      return TypeMessage.AN_ERROR_OCCURED;
+    }
+  }
+
+  /**
+   * Récupération du code erreur et ajout du message à afficher
+   * @param error
+   * @returns le msg d'erreur
+   */
+  getCustomError(error: HttpErrorResponse): string {
+    if (error && error.status === 401) {
+      return TypeMessage.NOT_AUTHENTICATED;
+    } else if (error && error.status === 500) {
+      return error.error.message;
     } else {
       return TypeMessage.AN_ERROR_OCCURED;
     }

@@ -11,6 +11,7 @@ import { catchError } from "rxjs/operators";
 
 const PATIENTS_URL = environment.appRootUrl + "/api/patients";
 const CONTENTS_URL = environment.appRootUrl + "/api/contents";
+const ORDERS_URL = environment.appRootUrl + "/api/orders";
 
 @Injectable({
   providedIn: "root",
@@ -31,7 +32,7 @@ export class FileService {
         reportProgress: true,
         observe: "events",
       })
-      .pipe(catchError(this.handleError));
+      .pipe(catchError(this.handleCustomError));
   }
 
   /**
@@ -65,6 +66,24 @@ export class FileService {
   }
 
   /**
+   * Récupères les coupons pdf du récapitulatif des commandes d'un jour-moment donnée
+   * @param date
+   * @param moment
+   * @returns le Blob du pdf
+   */
+  getCouponsOfTheDate(date: string, moment: string): Observable<Blob> {
+    let headers = new HttpHeaders({
+      "Content-Type": "application/json",
+    });
+    return this.http
+      .get(ORDERS_URL + `/coupons?momentName=${moment}&selectedDate=${date}`, {
+        headers,
+        responseType: "blob",
+      })
+      .pipe(catchError(this.handleError));
+  }
+
+  /**
    * Gestion des erreurs du backend
    * @param error
    */
@@ -77,5 +96,20 @@ export class FileService {
       );
     }
     return throwError(error.status);
+  }
+
+  /**
+   * Gestion des erreurs du backend
+   * @param error
+   */
+  private handleCustomError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error("An error occurred:", error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, body was : ${error.error.message}`
+      );
+    }
+    return throwError(error);
   }
 }
