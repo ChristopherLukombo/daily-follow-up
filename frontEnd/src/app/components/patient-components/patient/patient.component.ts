@@ -8,6 +8,7 @@ import { mergeMap } from "rxjs/operators";
 import { OrderCustomInfos } from "src/app/models/utils/order-custom-infos";
 import { OrderService } from "src/app/services/order/order.service";
 import { TypeMessage } from "src/app/models/utils/message-enum";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -39,7 +40,10 @@ export class PatientComponent implements OnInit {
   warning: string;
   loading: boolean = false;
 
+  isCaregiver: boolean = false;
+
   constructor(
+    private loginService: LoginService,
     private route: ActivatedRoute,
     private patientService: PatientService,
     private toastrService: ToastrService,
@@ -48,6 +52,7 @@ export class PatientComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
     this.loading = true;
     this.route.queryParams.forEach((params) => {
       this.patientService.getPatient(parseInt(params["id"])).subscribe(

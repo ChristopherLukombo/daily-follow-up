@@ -14,6 +14,7 @@ export enum TypeMessage {
 
   /** Chambres **/
   INFORMATIONS_OF_ROOMS_NOT_AVAILABLE = "Informations sur la chambre indisponibles.",
+  PATIENT_HAVE_NO_ROOM = "Ce patient n'a aucune chambre associé.",
   IMPOSSIBLE_TO_GET_FREE_ROOMS = "Impossible de récupérer les chambres disponibles pour le moment.",
 
   CONTENT_DOES_NOT_EXIST = "Ce plat n'éxiste pas, ou a été supprimé du stock de nourriture de la clinique. Veuillez réessayer.",

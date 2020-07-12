@@ -114,7 +114,7 @@
           <span class="spinner-border spinner-border-sm"></span>Mise à jour...
         </button>
       </div>
-      <div class="col text-right">
+      <div *ngIf="!isCaregiver" class="col text-right">
         <div *ngIf="!deleting" class="text-right">
           <app-modal-danger
             [btnTitle]="btnDelete"

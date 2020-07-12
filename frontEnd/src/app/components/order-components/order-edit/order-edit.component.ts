@@ -7,6 +7,7 @@ import { ActivatedRoute } from "@angular/router";
 import { forkJoin } from "rxjs";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 import * as moment from "moment";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -28,13 +29,17 @@ export class OrderEditComponent implements OnInit {
 
   strict: boolean = true;
 
+  isCaregiver: boolean = false;
+
   constructor(
+    private loginService: LoginService,
     private route: ActivatedRoute,
     private patientService: PatientService,
     private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
     this.loading = true;
     this.route.queryParams.subscribe((params) => {
       let actualOrder = this.orderService.getOrder(parseInt(params["id"]));

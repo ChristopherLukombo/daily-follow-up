@@ -5,6 +5,7 @@ import { ToastrService } from "ngx-toastr";
 import { HttpErrorResponse } from "@angular/common/http";
 import { mergeMap } from "rxjs/operators";
 import { TypeMessage } from "src/app/models/utils/message-enum";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -29,12 +30,16 @@ export class MealsComponent implements OnInit {
     "Les plats seront supprimés de la clinique. Veuillez confirmer pour continuer.";
   deleting: boolean = false;
 
+  isCaregiver: boolean = false;
+
   constructor(
+    private loginService: LoginService,
     private alimentationService: AlimentationService,
     private toastrService: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
     this.loading = true;
     this.alimentationService.getAllContents().subscribe(
       (data) => {

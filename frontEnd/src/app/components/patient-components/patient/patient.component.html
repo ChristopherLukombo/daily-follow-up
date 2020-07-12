@@ -28,13 +28,19 @@
             </button>
           </h2>
           <br />
-          <app-infos-patient [patient]="patient"></app-infos-patient>
+          <app-infos-patient
+            [patient]="patient"
+            [isCaregiver]="isCaregiver"
+          ></app-infos-patient>
         </div>
       </div>
       <br />
       <div class="row">
         <div *ngIf="patient" class="col">
-          <app-food-patient [patient]="patient"></app-food-patient>
+          <app-food-patient
+            [patient]="patient"
+            [isCaregiver]="isCaregiver"
+          ></app-food-patient>
         </div>
       </div>
       <br />
@@ -46,20 +52,28 @@
             néanmoins accessibles, afin de les réutiliser en cas de retour du
             patient à la clinique.
           </div>
-          <button
-            *ngIf="!restoring"
-            type="button"
-            class="btn btn-info"
-            (click)="restorePatient()"
-          >
-            <fa-icon [icon]="restoreLogo"></fa-icon> Recréer le patient
-          </button>
-          <button *ngIf="restoring" type="button" class="btn btn-info" disabled>
-            <span class="spinner-border spinner-border-sm"></span>Recréation...
-          </button>
+          <div *ngIf="!isCaregiver">
+            <button
+              *ngIf="!restoring"
+              type="button"
+              class="btn btn-info"
+              (click)="restorePatient()"
+            >
+              <fa-icon [icon]="restoreLogo"></fa-icon> Recréer le patient
+            </button>
+            <button
+              *ngIf="restoring"
+              type="button"
+              class="btn btn-info"
+              disabled
+            >
+              <span class="spinner-border spinner-border-sm"></span
+              >Recréation...
+            </button>
+          </div>
         </div>
       </div>
-      <div class="row" *ngIf="patient && patient?.state">
+      <div class="row" *ngIf="patient && patient?.state && !isCaregiver">
         <div class="col text-left">
           <button
             type="button"

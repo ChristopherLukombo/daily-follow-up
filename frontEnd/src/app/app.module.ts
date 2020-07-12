@@ -84,7 +84,6 @@ import { DetailCaregiverComponent } from "./components/user-components/users/lis
 import { ClinicNavbarComponent } from "./components/navbar-vertical/clinic-navbar/clinic-navbar.component";
 import { FloorsComponent } from "./components/clinic-components/floors/floors.component";
 import { DetailFloorComponent } from "./components/clinic-components/floors/detail-floor/detail-floor.component";
-import { FloorAddComponent } from "./components/clinic-components/floor-add/floor-add.component";
 
 import { OrdersComponent } from "./components/order-components/orders/orders.component";
 import { OrderNavbarComponent } from "./components/navbar-vertical/order-navbar/order-navbar.component";
@@ -103,7 +102,6 @@ import { PatientsByStatusComponent } from "./components/statistics/statistics/pa
 import { OrderPerDayComponent } from "./components/statistics/statistics-food/order-per-day/order-per-day.component";
 import { TopTrendyDietsComponent } from "./components/statistics/statistics-food/top-trendy-diets/top-trendy-diets.component";
 import { TopTrendyContentsComponent } from "./components/statistics/statistics-food/top-trendy-contents/top-trendy-contents.component";
-import { StatisticsNavbarComponent } from "./components/navbar-vertical/statistics-navbar/statistics-navbar.component";
 import { StatisticsFoodComponent } from "./components/statistics/statistics-food/statistics-food.component";
 
 import { ContentsOfTodayComponent } from "./components/dashboard/contents-of-today/contents-of-today.component";
@@ -136,6 +134,7 @@ import {
   truncateStringPipe,
   getFloorNamePipe,
 } from "./utils/pipes/string-utils.pipe";
+import { InfosFloorComponent } from "./components/clinic-components/floors/infos-floor/infos-floor.component";
 
 @NgModule({
   declarations: [
@@ -205,7 +204,6 @@ import {
     ListNutritionistsComponent,
     DetailUserComponent,
     DetailCaregiverComponent,
-    FloorAddComponent,
     DietAddComponent,
     MenuDeclineComponent,
     MenuWeeksLockComponent,
@@ -230,7 +228,6 @@ import {
     OrderPerDayComponent,
     TopTrendyDietsComponent,
     TopTrendyContentsComponent,
-    StatisticsNavbarComponent,
     StatisticsFoodComponent,
     MenuAllComponent,
     MenuEditComponent,
@@ -245,6 +242,7 @@ import {
     OrderCardComponent,
     ContentsOfTodayComponent,
     SwitchRoomsPatientsComponent,
+    InfosFloorComponent,
   ],
   imports: [
     BrowserModule,

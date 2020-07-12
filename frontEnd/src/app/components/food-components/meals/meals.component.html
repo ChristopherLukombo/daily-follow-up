@@ -19,10 +19,13 @@
             ></app-list-meals>
           </div>
           <div *ngIf="content" class="col-4">
-            <app-detail-meal [content]="content"></app-detail-meal>
+            <app-detail-meal
+              [content]="content"
+              [isCaregiver]="isCaregiver"
+            ></app-detail-meal>
           </div>
         </div>
-        <div class="row">
+        <div *ngIf="!isCaregiver" class="row">
           <div class="col text-left">
             <button
               type="button"

@@ -29,6 +29,8 @@ export class OrderModalComponent implements OnInit {
 
   @Output() deletedOrderOfPatient = new EventEmitter<Patient>();
 
+  @Input() isCaregiver: boolean = false;
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {}

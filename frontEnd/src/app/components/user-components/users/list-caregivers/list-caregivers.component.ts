@@ -25,30 +25,13 @@ export class ListCaregiversComponent implements OnInit {
   @Input() caregivers: Caregiver[] = [];
   @Input() floors: Floor[] = [];
 
-  filteredCaregivers: Caregiver[] = [];
-  filter: boolean[] = [];
+  @Input() isCaregiver: boolean = false;
 
   constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {}
 
-  ngOnChanges(): void {
-    if (this.caregivers) this.filteredCaregivers = this.caregivers;
-    if (this.floors) {
-      this.filter = [];
-      this.floors.forEach((f) => {
-        this.filter.push(true);
-      });
-    }
-  }
-
-  filterChange(): void {
-    this.filteredCaregivers = this.caregivers.filter((c) => {
-      for (let i = 0; i <= this.filter.length; i++) {
-        if (this.filter[i] === true) return c.floorId === this.floors[i].id;
-      }
-    });
-  }
+  ngOnChanges(): void {}
 
   pageChanged(event) {
     this.pagination.currentPage = event;
@@ -61,8 +44,6 @@ export class ListCaregiversComponent implements OnInit {
   }
 
   removeFromList(id: number): void {
-    this.filteredCaregivers = this.filteredCaregivers.filter(
-      (c) => c.id !== id
-    );
+    this.caregivers = this.caregivers.filter((c) => c.id !== id);
   }
 }

@@ -4,6 +4,7 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { Menu } from "src/app/models/food/menu";
 import * as moment from "moment";
 import { TypeMessage } from "src/app/models/utils/message-enum";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -30,9 +31,15 @@ export class MenuAllComponent implements OnInit {
   loading: boolean = false;
   error: string;
 
-  constructor(private alimentationService: AlimentationService) {}
+  isCaregiver: boolean = false;
+
+  constructor(
+    private loginService: LoginService,
+    private alimentationService: AlimentationService
+  ) {}
 
   ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
     this.getOldMenus();
   }
 

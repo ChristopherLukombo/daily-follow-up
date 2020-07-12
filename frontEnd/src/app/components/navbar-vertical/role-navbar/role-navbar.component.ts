@@ -1,9 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  faUserPlus,
-  faUserFriends,
-  faUserLock,
-} from "@fortawesome/free-solid-svg-icons";
+import { faUserPlus, faUserFriends } from "@fortawesome/free-solid-svg-icons";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -16,10 +13,13 @@ import {
 })
 export class RoleNavbarComponent implements OnInit {
   addLogo = faUserPlus;
-  oldLogo = faUserLock;
   allLogo = faUserFriends;
 
-  constructor() {}
+  isCaregiver: boolean = false;
 
-  ngOnInit(): void {}
+  constructor(private loginService: LoginService) {}
+
+  ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
+  }
 }

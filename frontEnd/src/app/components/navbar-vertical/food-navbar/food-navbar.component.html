@@ -27,7 +27,7 @@
       ><fa-icon [icon]="mealAllLogo"></fa-icon> Plats en stock</a
     >
   </li>
-  <li class="nav-item">
+  <li *ngIf="!isCaregiver" class="nav-item">
     <a
       class="nav-link"
       id="meal-add-tab"
@@ -41,7 +41,7 @@
       ><fa-icon [icon]="mealAddLogo"></fa-icon> Nouveaux plats</a
     >
   </li>
-  <li class="nav-item">
+  <li *ngIf="!isCaregiver" class="nav-item">
     <a
       class="nav-link"
       id="menu-add-tab"
@@ -55,7 +55,7 @@
       ><fa-icon [icon]="menuAddLogo"></fa-icon> Composer un menu</a
     >
   </li>
-  <li class="nav-item">
+  <li *ngIf="!isCaregiver" class="nav-item">
     <a
       class="nav-link"
       id="menu-decline-tab"
