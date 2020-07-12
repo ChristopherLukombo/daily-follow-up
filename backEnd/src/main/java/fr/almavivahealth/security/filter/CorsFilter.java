@@ -34,6 +34,15 @@ public class CorsFilter implements Filter {
 		this.configurationProperties = configurationProperties;
 	}
 
+	/**
+	 * Do filter.
+	 *
+	 * @param req   the req
+	 * @param res   the res
+	 * @param chain the chain
+	 * @throws IOException      Signals that an I/O exception has occurred.
+	 * @throws ServletException the servlet exception
+	 */
 	@Override
 	public void doFilter(final ServletRequest req, final ServletResponse res, final FilterChain chain)
 			throws IOException, ServletException {

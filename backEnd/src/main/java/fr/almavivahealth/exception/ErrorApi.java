@@ -21,14 +21,29 @@ public class ErrorApi {
 		this.timestamp = timestamp;
 	}
 
+	/**
+	 * Gets the message.
+	 *
+	 * @return the message
+	 */
 	public String getMessage() {
 		return message;
 	}
 
+	/**
+	 * Gets the http status.
+	 *
+	 * @return the http status
+	 */
 	public HttpStatus getHttpStatus() {
 		return httpStatus;
 	}
 
+	/**
+	 * Gets the timestamp.
+	 *
+	 * @return the timestamp
+	 */
 	public ZonedDateTime getTimestamp() {
 		return timestamp;
 	}

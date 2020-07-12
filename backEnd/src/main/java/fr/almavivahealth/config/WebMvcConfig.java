@@ -27,11 +27,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		this.patientImportationInterceptor = patientImportationInterceptor;
 	}
 
+	/**
+	 * Locale resolver.
+	 *
+	 * @return the locale resolver
+	 */
 	@Bean
 	public LocaleResolver localeResolver() {
 		return new CookieLocaleResolver();
 	}
 
+	/**
+	 * Locale interceptor.
+	 *
+	 * @return the locale change interceptor
+	 */
 	@Bean
 	public LocaleChangeInterceptor localeInterceptor() {
 		final LocaleChangeInterceptor localeInterceptor = new LocaleChangeInterceptor();
@@ -39,6 +49,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		return localeInterceptor;
 	}
 
+	/**
+	 * Adds the interceptors.
+	 *
+	 * @param registry the registry
+	 */
 	@Override
 	public void addInterceptors(final InterceptorRegistry registry) {
 		registry.addInterceptor(localeInterceptor());

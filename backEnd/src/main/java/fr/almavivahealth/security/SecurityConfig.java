@@ -55,6 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		this.corsFilter = corsFilter;
 	}
 
+    /**
+	 * Inits the.
+	 */
     @PostConstruct
     public void init() {
         try {
@@ -66,11 +69,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         }
     }
 
+    /**
+	 * Password encoder.
+	 *
+	 * @return the password encoder
+	 */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+	 * Configure.
+	 *
+	 * @param web the web
+	 */
     @Override
     public void configure(final WebSecurity web) {
         web.ignoring()
@@ -78,6 +91,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/test/**");
     }
 
+    /**
+	 * Configure.
+	 *
+	 * @param http the http
+	 * @throws Exception the exception
+	 */
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
         http
@@ -111,12 +130,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new JWTConfigurer(tokenProvider);
     }
 
+    /**
+	 * Authentication manager bean.
+	 *
+	 * @return the authentication manager
+	 * @throws Exception the exception
+	 */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    /**
+	 * Security exception entry point.
+	 *
+	 * @return the rest authentication entry point
+	 */
     @Bean
     public RestAuthenticationEntryPoint securityExceptionEntryPoint(){
         return new RestAuthenticationEntryPoint();

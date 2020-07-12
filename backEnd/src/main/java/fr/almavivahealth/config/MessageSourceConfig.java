@@ -15,6 +15,11 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Configuration
 public class MessageSourceConfig {
 
+	/**
+	 * Message source.
+	 *
+	 * @return the message source
+	 */
 	@Bean
 	public MessageSource messageSource() {
 		final ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
@@ -23,6 +28,11 @@ public class MessageSourceConfig {
 		return messageSource;
 	}
 
+	/**
+	 * Gets the validator.
+	 *
+	 * @return the validator
+	 */
 	@Bean
 	public LocalValidatorFactoryBean getValidator() {
 		final LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();

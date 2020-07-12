@@ -39,6 +39,12 @@ public class DomainUserDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    /**
+	 * Load user by username.
+	 *
+	 * @param login the login
+	 * @return the user details
+	 */
     @Override
     @Transactional
 	public UserDetails loadUserByUsername(final String login) {

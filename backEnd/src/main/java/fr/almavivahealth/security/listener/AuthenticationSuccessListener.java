@@ -29,6 +29,11 @@ public class AuthenticationSuccessListener implements ApplicationListener<Authen
 		this.userRepository = userRepository;
 	}
 
+	/**
+	 * On application event.
+	 *
+	 * @param event the event
+	 */
 	@Override
 	public void onApplicationEvent(final AuthenticationSuccessEvent event) {
 		final Authentication authentication = event.getAuthentication();
