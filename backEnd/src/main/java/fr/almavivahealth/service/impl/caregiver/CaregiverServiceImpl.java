@@ -105,9 +105,19 @@ public class CaregiverServiceImpl implements CaregiverService {
 	}
 
 	private User encryptPassword(final User user) {
-		if (user == null || (user != null && user.getPassword() == null)) {
+		if (user == null) {
 			return null;
 		}
+
+		if (user != null && user.getPassword() == null) {
+			final String password = caregiverRepository.findByUserId(user.getId())
+					.map(Caregiver::getUser)
+					.map(User::getPassword)
+					.orElse(null);
+			user.setPassword(password);
+			return user;
+		}
+
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		return user;
 	}
