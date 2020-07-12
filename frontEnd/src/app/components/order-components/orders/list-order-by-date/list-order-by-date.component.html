@@ -19,6 +19,7 @@
         [patient]="order?.key"
         [order]="order?.value"
         (deletedOrderOfPatient)="removeOrderOfPatient($event)"
+        [isCaregiver]="isCaregiver"
       ></app-order-card>
     </div>
   </div>

@@ -16,15 +16,29 @@
   <li class="nav-item">
     <a
       class="nav-link"
-      id="floor-add-tab"
+      id="statistics-patients-tab"
       data-toggle="tab"
-      routerLink="/clinic/floor/add"
+      routerLink="/statistics/patients"
       routerLinkActive="active"
       [routerLinkActiveOptions]="{ exact: true }"
       role="tab"
-      aria-controls="floor-add-tab"
+      aria-controls="statistics-patients"
       aria-selected="false"
-      ><fa-icon [icon]="FloorAddLogo"></fa-icon> Nouvel étage</a
+      ><fa-icon [icon]="patientLogo"></fa-icon> Patients</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link"
+      id="statistics-food-tab"
+      data-toggle="tab"
+      routerLink="/statistics/food"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      role="tab"
+      aria-controls="statistics-food"
+      aria-selected="false"
+      ><fa-icon [icon]="foodLogo"></fa-icon> Alimentation</a
     >
   </li>
 </ul>

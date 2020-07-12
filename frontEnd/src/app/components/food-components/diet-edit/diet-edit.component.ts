@@ -14,6 +14,7 @@ import { FormCheckbox } from "src/app/models/utils/form-checkbox";
 import { HttpErrorResponse } from "@angular/common/http";
 import { DietDTO } from "src/app/models/dto/patient/dietDTO";
 import { ToastrService } from "ngx-toastr";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -66,7 +67,10 @@ export class DietEditComponent implements OnInit {
     ni lors des enregistrements des régimes de patients. Veuillez confirmer pour continuer.";
   deleting: boolean = false;
 
+  isCaregiver: boolean = false;
+
   constructor(
+    private loginService: LoginService,
     private route: ActivatedRoute,
     private alimentationService: AlimentationService,
     private formBuilder: FormBuilder,
@@ -75,6 +79,7 @@ export class DietEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
     this.loading = true;
     this.route.queryParams.subscribe((params) => {
       this.alimentationService.getDiet(parseInt(params["id"])).subscribe(
@@ -106,6 +111,7 @@ export class DietEditComponent implements OnInit {
       lowElements: this.buildCheckboxes(this.LOW_QUANTITY),
     };
     this.form = this.formBuilder.group(target);
+    if (this.isCaregiver) this.form.disable();
   }
 
   buildCheckboxes(quantity: number): FormArray {

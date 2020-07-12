@@ -138,7 +138,10 @@
         >
           Modifier la commande
         </button>
-        <div class="text-right" *ngIf="order?.orderStatus === 'VALIDATED'">
+        <div
+          class="text-right"
+          *ngIf="order?.orderStatus === 'VALIDATED' && !isCaregiver"
+        >
           <button
             type="button"
             class="btn btn-danger"

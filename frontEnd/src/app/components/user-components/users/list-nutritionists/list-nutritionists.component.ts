@@ -23,6 +23,8 @@ export class ListNutritionistsComponent implements OnInit {
 
   @Input() nutritionists: User[] = [];
 
+  @Input() isCaregiver: boolean = false;
+
   constructor() {}
 
   ngOnInit(): void {}

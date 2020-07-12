@@ -13,6 +13,15 @@ import { TypeMessage } from "src/app/models/utils/message-enum";
   styleUrls: ["./floors.component.scss"],
 })
 export class FloorsComponent implements OnInit {
+  colors: Map<number, string> = new Map<number, string>([
+    [0, "lightskyblue"],
+    [1, "khaki"],
+    [2, "pink"],
+    [3, "lightblue"],
+    [4, "plum"],
+    [5, "lightgreen"],
+  ]);
+
   floors: Floor[] = [];
   selectedFloor: Floor;
 
@@ -38,6 +47,12 @@ export class FloorsComponent implements OnInit {
 
   selectFloor(floor: Floor): void {
     this.selectedFloor = floor;
+  }
+
+  getColor(floor: number): string {
+    return floor > this.colors.size
+      ? this.colors.get(0)
+      : this.colors.get(floor);
   }
 
   /**

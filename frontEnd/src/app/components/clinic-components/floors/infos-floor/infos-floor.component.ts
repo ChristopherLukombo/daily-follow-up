@@ -1,34 +1,30 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Floor } from "src/app/models/clinic/floor";
-import { Patient } from "src/app/models/patient/patient";
-import { Caregiver } from "src/app/models/user/caregiver";
 import { UserService } from "src/app/services/user/user.service";
 import { PatientService } from "src/app/services/patient/patient.service";
+import { Caregiver } from "src/app/models/user/caregiver";
 import { forkJoin } from "rxjs";
-import { Room } from "src/app/models/clinic/room";
-import { faDoorOpen } from "@fortawesome/free-solid-svg-icons";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 
-/**
- * @author neal
- * @version 17
- */
 @Component({
-  selector: "app-detail-floor",
-  templateUrl: "./detail-floor.component.html",
-  styleUrls: ["./detail-floor.component.scss"],
+  selector: "app-infos-floor",
+  templateUrl: "./infos-floor.component.html",
+  styleUrls: ["./infos-floor.component.scss"],
 })
-export class DetailFloorComponent implements OnInit {
-  roomLogo = faDoorOpen;
-
+export class InfosFloorComponent implements OnInit {
   @Input() floor: Floor;
-  roomsOfPatients: Map<Room, Patient[]> = new Map<Room, Patient[]>();
-  patients: Patient[] = [];
+
+  caregivers: Caregiver[] = [];
+  freePlaces: number = 0;
+  patientsLength: number = 0;
 
   loading: boolean = false;
   error: string;
 
-  constructor(private patientService: PatientService) {}
+  constructor(
+    private userService: UserService,
+    private patientService: PatientService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -38,10 +34,14 @@ export class DetailFloorComponent implements OnInit {
       let patientsOfTheFloor = this.patientService.getPatientsByFloor(
         this.floor.number
       );
-      forkJoin([patientsOfTheFloor]).subscribe(
+      let caregiversOfTheFloor = this.userService.getCaregiversByFloor(
+        this.floor.number
+      );
+      forkJoin([patientsOfTheFloor, caregiversOfTheFloor]).subscribe(
         (datas) => {
-          this.patients = datas[0];
-          this.loadRooms(this.floor, this.patients);
+          this.patientsLength = datas[0].length;
+          this.caregivers = datas[1];
+          this.setFreePlacesOfTheFloor(this.floor);
           this.loading = false;
         },
         (error) => {
@@ -52,13 +52,9 @@ export class DetailFloorComponent implements OnInit {
     }
   }
 
-  loadRooms(floor: Floor, patients: Patient[]): void {
-    this.roomsOfPatients.clear();
+  setFreePlacesOfTheFloor(floor: Floor): void {
     floor.rooms.forEach((room) => {
-      this.roomsOfPatients.set(
-        room,
-        patients ? patients.filter((p) => p.roomId === room.id) : []
-      );
+      this.freePlaces += room.maxCapacity - room.numberOfPatients;
     });
   }
 

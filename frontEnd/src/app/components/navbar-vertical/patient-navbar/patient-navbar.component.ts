@@ -5,6 +5,7 @@ import {
   faUpload,
   faUserLock,
 } from "@fortawesome/free-solid-svg-icons";
+import { LoginService } from "src/app/services/login/login.service";
 
 /**
  * @author neal
@@ -21,7 +22,11 @@ export class PatientNavbarComponent implements OnInit {
   oldLogo = faUserLock;
   allLogo = faUserFriends;
 
-  constructor() {}
+  isCaregiver: boolean = false;
 
-  ngOnInit(): void {}
+  constructor(private loginService: LoginService) {}
+
+  ngOnInit(): void {
+    this.isCaregiver = this.loginService.isCaregiver();
+  }
 }

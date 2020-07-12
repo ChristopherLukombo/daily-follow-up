@@ -28,6 +28,8 @@ export class ListOrderByDateComponent implements OnInit {
   loading: boolean = false;
   error: string;
 
+  @Input() isCaregiver: boolean = false;
+
   constructor(
     private orderService: OrderService,
     private patientService: PatientService,

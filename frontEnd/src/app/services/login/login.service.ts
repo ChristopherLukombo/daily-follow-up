@@ -10,6 +10,7 @@ import { LoginDTO } from "src/app/models/dto/loginDTO";
 import { environment } from "src/environments/environment";
 import * as jwt_decode from "jwt-decode";
 import { JwtToken } from "src/app/models/user/jwt-token";
+import { Role } from "src/app/models/user/role-enum";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -54,11 +55,18 @@ export class LoginService {
     return localStorage.getItem("token") ? true : false;
   }
 
+  /**
+   * Sauvegarde le token d'authentification de l'utilisateur en local
+   * @param token
+   */
   setJwtToken(token: JwtToken): void {
     this.setToken(token.id_token);
     this.changedPassword(token.has_changed_password);
   }
 
+  /**
+   * Permet de savoir si un utilisateur a changé ou non son mot de passe
+   */
   hasChangedPassword(): boolean {
     let hasChanged: boolean = JSON.parse(
       localStorage.getItem("has_changed_password")
@@ -66,18 +74,32 @@ export class LoginService {
     return hasChanged === true;
   }
 
+  /**
+   * Modifie la valeur qui permet de savoir si un utilisateur doit modifier son mot de passe ou non
+   * @param value
+   */
   changedPassword(value: boolean): void {
     localStorage.setItem("has_changed_password", JSON.stringify(value));
   }
 
+  /**
+   * Token utilisateur
+   */
   getToken(): string {
     return localStorage.getItem("token");
   }
 
+  /**
+   * Token utilisateur
+   * @param token
+   */
   setToken(token: string): void {
     localStorage.setItem("token", token);
   }
 
+  /**
+   * Permet de récupérer le pseudo de l'utilisateur connecté
+   */
   getTokenPseudo(): string {
     if (this.isAuthenticated() == false) return null;
     const token = this.getToken();
@@ -85,6 +107,9 @@ export class LoginService {
     return decoded.sub == undefined ? null : decoded.sub;
   }
 
+  /**
+   * Permet de récupérer le role de l'utilisateur connecté
+   */
   getTokenRole(): string {
     if (this.isAuthenticated() == false) return null;
     const token = this.getToken();
@@ -92,6 +117,17 @@ export class LoginService {
     return decoded.auth == undefined ? null : decoded.auth;
   }
 
+  /**
+   * Permet de savoir si un utilisateur est habilité à une partie de l'application ou non
+   */
+  isCaregiver(): boolean {
+    let role: string = this.getTokenRole();
+    return !role || role === Role.ROLE_CAREGIVER;
+  }
+
+  /**
+   * Id du token
+   */
   getTokenId(): number {
     if (this.isAuthenticated() == false) return null;
     const token = this.getToken();
@@ -99,6 +135,10 @@ export class LoginService {
     return decoded.user_id == undefined ? null : parseInt(decoded.user_id);
   }
 
+  /**
+   * Permet de connaitre la date d'expiration du token utilisateur,
+   * et ainsi le deconnecter de l'application
+   */
   getTokenExpirationDate(): Date {
     if (this.isAuthenticated() == false) return null;
     const token = this.getToken();
@@ -109,6 +149,9 @@ export class LoginService {
     return date;
   }
 
+  /**
+   * Permet de savoir si le token a expiré ou non
+   */
   isTokenExpired(): Boolean {
     if (this.getToken() == null) return true;
     const date = this.getTokenExpirationDate();

@@ -17,6 +17,7 @@
           <app-list-caregivers
             [caregivers]="caregivers"
             [floors]="floors"
+            [isCaregiver]="isCaregiver"
           ></app-list-caregivers>
         </div>
         <div *ngIf="!error" class="col">
@@ -24,6 +25,7 @@
           <br />
           <app-list-nutritionists
             [nutritionists]="nutritionists"
+            [isCaregiver]="isCaregiver"
           ></app-list-nutritionists>
         </div>
       </div>

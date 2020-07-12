@@ -4,7 +4,8 @@
       <app-food-navbar></app-food-navbar>
     </div>
     <div class="col">
-      <h2>Modifier un régime</h2>
+      <h2 *ngIf="isCaregiver">Détail du régime</h2>
+      <h2 *ngIf="!isCaregiver">Modifier un régime</h2>
       <br />
       <div *ngIf="loading"><app-loader></app-loader></div>
       <div *ngIf="warning">
@@ -69,7 +70,7 @@
             </div>
           </div>
           <br />
-          <div class="row">
+          <div *ngIf="!isCaregiver" class="row">
             <div class="col text-left">
               <button *ngIf="!updating" type="submit" class="btn btn-primary">
                 Enregistrer les informations

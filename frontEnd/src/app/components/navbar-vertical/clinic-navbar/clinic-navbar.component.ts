@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { faDoorOpen, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faDoorOpen, faChartPie } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * @author neal
@@ -12,7 +12,8 @@ import { faDoorOpen, faPlus } from "@fortawesome/free-solid-svg-icons";
 })
 export class ClinicNavbarComponent implements OnInit {
   roomsLogo = faDoorOpen;
-  FloorAddLogo = faPlus;
+  patientLogo = faChartPie;
+  foodLogo = faChartPie;
 
   constructor() {}
 

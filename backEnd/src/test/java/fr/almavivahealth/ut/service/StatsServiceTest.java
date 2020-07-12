@@ -24,20 +24,14 @@ import fr.almavivahealth.dao.OrderRepository;
 import fr.almavivahealth.dao.PatientRepository;
 import fr.almavivahealth.domain.entity.Content;
 import fr.almavivahealth.domain.entity.Day;
-import fr.almavivahealth.domain.entity.Diet;
 import fr.almavivahealth.domain.entity.Menu;
 import fr.almavivahealth.domain.entity.MomentDay;
 import fr.almavivahealth.domain.entity.Order;
-import fr.almavivahealth.domain.entity.Patient;
-import fr.almavivahealth.domain.entity.Texture;
 import fr.almavivahealth.domain.entity.TopTrendyMenu;
 import fr.almavivahealth.domain.entity.Week;
 import fr.almavivahealth.domain.projection.PatientsByStatus;
 import fr.almavivahealth.domain.projection.PatientsPerAllergy;
 import fr.almavivahealth.domain.projection.PatientsPerDiet;
-import fr.almavivahealth.service.dto.MenuDTO;
-import fr.almavivahealth.service.dto.OrderDTO;
-import fr.almavivahealth.service.dto.PatientsByStatusDTO;
 import fr.almavivahealth.service.dto.PatientsPerAllergyDTO;
 import fr.almavivahealth.service.dto.PatientsPerDietDTO;
 import fr.almavivahealth.service.dto.TopTrendyMenuDTO;
@@ -53,12 +47,6 @@ import fr.almavivahealth.service.mapper.StatsMapper;
 @RunWith(MockitoJUnitRunner.class)
 public class StatsServiceTest {
 
-	private static final long TOTAL_PATIENTS = 13L;
-
-	private static final long INACTIVE_PATIENTS = 23L;
-
-	private static final long ACTIVE_PATIENTS = 12L;
-
 	private static final String DIET_NAME = "SANS SEL";
 
 	private static final int PERCENTAGE = 11;
@@ -68,12 +56,6 @@ public class StatsServiceTest {
 	private static final String ALLERGY_NAME = "SOJA";
 
 	private static final long ID = 1L;
-
-	private static final String EMAIL = "ben.zotito@gmail.com";
-
-	private static final String LASTNAME = "Zotito";
-
-	private static final String TEXTURE_NAME = "Sel";
 
 	@Mock
 	private PatientRepository patientRepository;
@@ -112,14 +94,6 @@ public class StatsServiceTest {
 
 	private static PatientsPerDiet createPatientsPerDiet() {
 		return null;
-	}
-
-	private static PatientsByStatusDTO createPatientsByStatusDTO() {
-		return PatientsByStatusDTO.builder()
-				.activePatients(ACTIVE_PATIENTS)
-				.inactivePatients(INACTIVE_PATIENTS)
-				.totalPatients(TOTAL_PATIENTS)
-				.build();
 	}
 
 	private static PatientsByStatus createPatientsByStatus() {
@@ -167,52 +141,10 @@ public class StatsServiceTest {
 				.build();
 	}
 
-	private static MenuDTO createMenuDTO() {
-		return MenuDTO.builder()
-				.id(ID)
-				.startDate(LocalDate.now())
-				.build();
-	}
-
-	private static Patient createPatient() {
-		return Patient.builder()
-				.id(ID)
-				.firstName("Ben")
-				.lastName(LASTNAME)
-				.email(EMAIL)
-				.state(true)
-				.texture(getTexture())
-				.diets(Arrays.asList(getDiet()))
-				.build();
-	}
-
-	private static Texture getTexture() {
-		return Texture.builder()
-				.id(ID)
-				.name(TEXTURE_NAME)
-				.build();
-	}
-
-	private static Diet getDiet() {
-		return Diet.builder()
-				.id(ID)
-				.name("Normal")
-				.build();
-	}
-
-
 	private static Order createOrder() {
 		return Order.builder()
 				.id(ID)
 				.patient(null)
-				.build();
-	}
-
-	private static OrderDTO createOrderDTO() {
-		return OrderDTO.builder()
-				.id(ID)
-				.deliveryDate(LocalDate.of(2020, Month.JANUARY, 1))
-				.patientId(null)
 				.build();
 	}
 

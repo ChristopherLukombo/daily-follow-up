@@ -22,7 +22,7 @@
     <tr>
       <th scope="col">Nom</th>
       <th scope="col">Prénom</th>
-      <th scope="col"></th>
+      <th *ngIf="!isCaregiver" scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -47,7 +47,7 @@
           nutritionist?.firstName | titlecase | highlight: firstName
         }}"
       ></td>
-      <td>
+      <td *ngIf="!isCaregiver">
         <button
           type="button"
           class="btn btn-light btn-sm"

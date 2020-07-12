@@ -24,7 +24,6 @@ export class NavbarComponent implements OnInit {
   patientLogo = faAddressBook;
   foodLogo = faUtensils;
   orderLogo = faClipboardList;
-  statsLogo = faChartPie;
   userLogo = faUserAlt;
   clinicLogo = faClinicMedical;
   historyLogo = faClock;

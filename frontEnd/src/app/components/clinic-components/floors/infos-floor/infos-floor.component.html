@@ -1,0 +1,30 @@
+<div *ngIf="loading"><app-loader></app-loader></div>
+<div *ngIf="error">
+  <app-alert-error [content]="error"></app-alert-error>
+</div>
+<div *ngIf="!loading && !error">
+  <table class="infos-patient">
+    <tbody>
+      <tr>
+        <th>Nombre de chambres</th>
+        <td>{{ floor?.rooms?.length }}</td>
+      </tr>
+      <tr>
+        <th>Responsables</th>
+        <td>
+          <span *ngFor="let c of caregivers" class="badge badge-primary">
+            {{ c.user.pseudo }}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <th>Patients</th>
+        <td>{{ patientsLength }}</td>
+      </tr>
+      <tr>
+        <th>Places restantes</th>
+        <td>{{ freePlaces }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
