@@ -3,6 +3,10 @@ import { faMars } from "@fortawesome/free-solid-svg-icons";
 import { faVenus } from "@fortawesome/free-solid-svg-icons";
 import { Patient } from "src/app/models/patient/patient";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-list-patients",
   templateUrl: "./list-patients.component.html",

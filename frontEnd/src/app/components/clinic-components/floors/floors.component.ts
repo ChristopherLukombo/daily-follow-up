@@ -1,7 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Floor } from "src/app/models/clinic/floor";
 import { ClinicService } from "src/app/services/clinic/clinic.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-floors",
   templateUrl: "./floors.component.html",
@@ -41,11 +46,11 @@ export class FloorsComponent implements OnInit {
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur.";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else if (error && error === 403) {
-      return "Vous n'êtes plus habilité à cette requête.";
+      return TypeMessage.NOT_AUTHORIZED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

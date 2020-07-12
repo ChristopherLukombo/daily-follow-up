@@ -3,7 +3,12 @@ import { ClinicService } from "src/app/services/clinic/clinic.service";
 import { Room } from "src/app/models/clinic/room";
 import { Floor } from "src/app/models/clinic/floor";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-room-available-selector",
   templateUrl: "./room-available-selector.component.html",
@@ -35,8 +40,7 @@ export class RoomAvailableSelectorComponent implements OnInit {
         this.loading = false;
       },
       (error) => {
-        this.warning =
-          "Impossible de récupérer les chambres disponibles pour le moment.";
+        this.warning = TypeMessage.IMPOSSIBLE_TO_GET_FREE_ROOMS;
         this.loading = false;
       }
     );

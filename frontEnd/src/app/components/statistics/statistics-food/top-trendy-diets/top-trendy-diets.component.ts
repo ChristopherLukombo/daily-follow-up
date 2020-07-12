@@ -3,6 +3,10 @@ import { ChartType } from "chart.js";
 import { Label, SingleDataSet } from "ng2-charts";
 import { TopTrendyMenu } from "src/app/models/statistics/top-trendy-menu";
 
+/**
+ * @author christopher
+ * @version 17
+ */
 @Component({
   selector: "app-top-trendy-diets",
   templateUrl: "./top-trendy-diets.component.html",

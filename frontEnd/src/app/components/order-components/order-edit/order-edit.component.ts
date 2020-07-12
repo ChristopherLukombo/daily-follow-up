@@ -8,6 +8,10 @@ import { forkJoin } from "rxjs";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 import * as moment from "moment";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-order-edit",
   templateUrl: "./order-edit.component.html",

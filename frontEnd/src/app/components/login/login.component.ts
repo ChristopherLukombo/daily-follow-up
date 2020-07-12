@@ -6,6 +6,10 @@ import { Router } from "@angular/router";
 import { faUser, faKey } from "@fortawesome/free-solid-svg-icons";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",

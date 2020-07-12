@@ -1,21 +1,25 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import * as moment from 'moment';
-import { Label } from 'ng2-charts';
-import { OrdersPerDay } from 'src/app/models/statistics/orders-per-day';
+import { Component, Input, OnInit } from "@angular/core";
+import { ChartDataSets, ChartOptions, ChartType } from "chart.js";
+import * as moment from "moment";
+import { Label } from "ng2-charts";
+import { OrdersPerDay } from "src/app/models/statistics/orders-per-day";
+import { Status } from "src/app/models/utils/status-enum";
 
 export function titleCaseWord(word: string) {
   if (!word) return word;
   return word[0].toUpperCase() + word.substr(1).toLowerCase();
 }
 
+/**
+ * @author christopher
+ * @version 17
+ */
 @Component({
-  selector: 'app-order-per-day',
-  templateUrl: './order-per-day.component.html',
-  styleUrls: ['./order-per-day.component.scss']
+  selector: "app-order-per-day",
+  templateUrl: "./order-per-day.component.html",
+  styleUrls: ["./order-per-day.component.scss"],
 })
 export class OrderPerDayComponent implements OnInit {
-
   @Input() orderPerStatus: Map<string, Array<OrdersPerDay>>;
 
   public barChartOptions: ChartOptions = {
@@ -29,18 +33,19 @@ export class OrderPerDayComponent implements OnInit {
     scales: { xAxes: [{}], yAxes: [{}] },
   };
   public barChartLabels: Label[] = [];
-  public barChartType: ChartType = 'bar';
+  public barChartType: ChartType = "bar";
   public barChartLegend = true;
 
   public barChartData: ChartDataSets[] = [];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(): void {
-    this.barChartData = this.orderPerStatus ? this.generateChartData(this.orderPerStatus) : [{ data: [0, 0, 0, 0, 0, 0, 0], label: '' }];
+    this.barChartData = this.orderPerStatus
+      ? this.generateChartData(this.orderPerStatus)
+      : [{ data: [0, 0, 0, 0, 0, 0, 0], label: "" }];
   }
 
   generateChartData(data: Map<string, Array<OrdersPerDay>>): ChartDataSets[] {
@@ -52,7 +57,7 @@ export class OrderPerDayComponent implements OnInit {
 
       entry[1].forEach(function (key) {
         const day = moment(new Date(key.date)).lang("fr");
-        labels.push(`${titleCaseWord(day.format('dddd'))} ${day.format('D')}`);
+        labels.push(`${titleCaseWord(day.format("dddd"))} ${day.format("D")}`);
         counts.push(key.count);
       });
 
@@ -64,12 +69,12 @@ export class OrderPerDayComponent implements OnInit {
   }
 
   private mapStatus(orderStatus: string): string {
-    if ('WAITING' === orderStatus) {
-      return 'En attente';
-    } else if ('CANCEL' === orderStatus) {
-      return 'Annulée';
-    } else if ('VALIDATED' === orderStatus) {
-      return 'Validé';
+    if (Status.WAITING === orderStatus) {
+      return "En attente";
+    } else if ("CANCEL" === orderStatus) {
+      return "Annulée";
+    } else if (Status.VALIDATED === orderStatus) {
+      return "Validé";
     }
   }
 }

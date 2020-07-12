@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from "@angular/core";
 import { faClock, faMarker, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { HistoryPatient } from "src/app/models/history/history-patient";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-activity-patient",
   templateUrl: "./activity-patient.component.html",

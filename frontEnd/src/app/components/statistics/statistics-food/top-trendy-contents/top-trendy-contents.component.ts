@@ -2,6 +2,10 @@ import { Component, Input, OnInit } from "@angular/core";
 import { ChartType } from "chart.js";
 import { Label, SingleDataSet } from "ng2-charts";
 
+/**
+ * @author christopher
+ * @version 17
+ */
 @Component({
   selector: "app-top-trendy-contents",
   templateUrl: "./top-trendy-contents.component.html",

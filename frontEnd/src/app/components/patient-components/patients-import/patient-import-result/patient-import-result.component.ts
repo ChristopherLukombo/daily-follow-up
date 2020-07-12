@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { ResultCsvPatient } from "src/app/models/csv/result-csv-patient";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patient-import-result",
   templateUrl: "./patient-import-result.component.html",

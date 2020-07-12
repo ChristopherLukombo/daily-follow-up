@@ -15,6 +15,10 @@ import { HttpErrorResponse } from "@angular/common/http";
 import { DietDTO } from "src/app/models/dto/patient/dietDTO";
 import { ToastrService } from "ngx-toastr";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-diet-edit",
   templateUrl: "./diet-edit.component.html",

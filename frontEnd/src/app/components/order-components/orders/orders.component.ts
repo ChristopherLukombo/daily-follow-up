@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import * as moment from "moment";
-import {
-  faAngleDoubleRight,
-  faAngleDoubleLeft,
-} from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-orders",
   templateUrl: "./orders.component.html",

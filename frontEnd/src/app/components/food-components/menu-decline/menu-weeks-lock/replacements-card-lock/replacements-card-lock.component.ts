@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from "@angular/core";
 import { Replacement } from "src/app/models/food/replacement";
 import { Content } from "src/app/models/food/content";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-replacements-card-lock",
   templateUrl: "./replacements-card-lock.component.html",

@@ -5,7 +5,12 @@ import * as moment from "moment";
 import { TypeTexture } from "src/app/models/utils/texture-enum";
 import { forkJoin } from "rxjs";
 import { Menu } from "src/app/models/food/menu";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-currents",
   templateUrl: "./menu-currents.component.html",
@@ -73,9 +78,9 @@ export class MenuCurrentsComponent implements OnInit {
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

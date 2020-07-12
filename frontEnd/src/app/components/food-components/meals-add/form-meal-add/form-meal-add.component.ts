@@ -14,6 +14,10 @@ import { debounceTime, distinctUntilChanged, switchMap } from "rxjs/operators";
 import { Dish } from "src/app/models/external-api/dish";
 import { Content } from "src/app/models/food/content";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-form-meal-add",
   templateUrl: "./form-meal-add.component.html",

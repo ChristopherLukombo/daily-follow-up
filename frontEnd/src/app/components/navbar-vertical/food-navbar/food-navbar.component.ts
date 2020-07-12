@@ -9,6 +9,10 @@ import {
   faCopy,
 } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-food-navbar",
   templateUrl: "./food-navbar.component.html",

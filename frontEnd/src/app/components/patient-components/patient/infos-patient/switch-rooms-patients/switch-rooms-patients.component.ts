@@ -10,6 +10,10 @@ import { TypeMessage } from "src/app/models/utils/message-enum";
 import { ToastrService } from "ngx-toastr";
 import { mergeMap } from "rxjs/operators";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-switch-rooms-patients",
   templateUrl: "./switch-rooms-patients.component.html",

@@ -6,6 +6,10 @@ import { FileService } from "src/app/services/file/file.service";
 import { ToastrService } from "ngx-toastr";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patients-import",
   templateUrl: "./patients-import.component.html",

@@ -3,6 +3,10 @@ import { Caregiver } from "src/app/models/user/caregiver";
 import { Floor } from "src/app/models/clinic/floor";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-list-caregivers",
   templateUrl: "./list-caregivers.component.html",

@@ -7,6 +7,10 @@ import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 import { MomentDay } from "src/app/models/food/moment-day";
 import { Menu } from "src/app/models/food/menu";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-contents-day-menu-edit",
   templateUrl: "./contents-day-menu-edit.component.html",

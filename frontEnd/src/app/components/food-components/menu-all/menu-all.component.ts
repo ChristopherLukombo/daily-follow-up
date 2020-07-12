@@ -3,8 +3,12 @@ import { TypeTexture } from "src/app/models/utils/texture-enum";
 import { AlimentationService } from "src/app/services/alimentation/alimentation.service";
 import { Menu } from "src/app/models/food/menu";
 import * as moment from "moment";
-import { Action } from "src/app/models/utils/actions-enum";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-all",
   templateUrl: "./menu-all.component.html",
@@ -133,9 +137,9 @@ export class MenuAllComponent implements OnInit {
    */
   getError(error: number): string {
     if (error && error === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

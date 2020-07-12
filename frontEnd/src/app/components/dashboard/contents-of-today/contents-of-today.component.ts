@@ -2,6 +2,10 @@ import { Component, OnInit, Input } from "@angular/core";
 import { Order } from "src/app/models/patient/order";
 import { Content } from "src/app/models/food/content";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-contents-of-today",
   templateUrl: "./contents-of-today.component.html",

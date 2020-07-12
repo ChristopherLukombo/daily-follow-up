@@ -7,7 +7,12 @@ import { ToastrService } from "ngx-toastr";
 import { mergeMap } from "rxjs/operators";
 import { OrderCustomInfos } from "src/app/models/utils/order-custom-infos";
 import { OrderService } from "src/app/services/order/order.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patient",
   templateUrl: "./patient.component.html",
@@ -63,7 +68,7 @@ export class PatientComponent implements OnInit {
   }
 
   patientDoesNotExist(): void {
-    this.warning = "Ce patient n'existe pas. Veuillez réessayer.";
+    this.warning = TypeMessage.PATIENT_DOES_NOT_EXIST;
   }
 
   deletePatient(): void {
@@ -140,10 +145,9 @@ export class PatientComponent implements OnInit {
    */
   catchError(error: number): void {
     if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      this.error = TypeMessage.NOT_AUTHENTICATED;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      this.error = TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

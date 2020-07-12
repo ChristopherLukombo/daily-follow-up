@@ -7,7 +7,12 @@ import { ReplacementDTO } from "src/app/models/dto/food/replacementDTO";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import { Action } from "src/app/models/utils/actions-enum";
 import { TypeTexture } from "src/app/models/utils/texture-enum";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-weeks",
   templateUrl: "./menu-weeks.component.html",
@@ -57,13 +62,11 @@ export class MenuWeeksComponent implements OnInit {
         if (data) {
           this.allContents = this.filterByTexture(data, this.texture);
         } else {
-          this.noContents =
-            "Il n'y a aucun plats disponibles actuellement dans la clinique. Veuillez d'abord en ajouter afin de pouvoir composer un menu.";
+          this.noContents = TypeMessage.NO_CONTENTS_AVAILABLE_FOR_CREATING_MENU;
         }
       },
       (error) => {
-        this.noContents =
-          "Une erreur s'est produite. Veuillez réessayer plus tard.";
+        this.noContents = TypeMessage.AN_ERROR_OCCURED;
       },
       () => {
         this.loading = false;

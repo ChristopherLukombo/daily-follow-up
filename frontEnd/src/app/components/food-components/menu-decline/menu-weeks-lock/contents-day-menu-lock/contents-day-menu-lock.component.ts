@@ -3,6 +3,10 @@ import { Day } from "src/app/models/food/day";
 import { Content } from "src/app/models/food/content";
 import { MomentDay } from "src/app/models/food/moment-day";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-contents-day-menu-lock",
   templateUrl: "./contents-day-menu-lock.component.html",

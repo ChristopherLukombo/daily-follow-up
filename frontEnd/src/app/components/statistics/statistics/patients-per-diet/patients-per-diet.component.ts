@@ -1,12 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
-import { Label } from 'ng2-charts';
-import { PatientsPerDiet } from 'src/app/models/statistics/patients-per-diet';
+import { Component, Input } from "@angular/core";
+import { ChartDataSets, ChartOptions, ChartType } from "chart.js";
+import { Label } from "ng2-charts";
+import { PatientsPerDiet } from "src/app/models/statistics/patients-per-diet";
 
+/**
+ * @author christopher
+ * @version 17
+ */
 @Component({
-  selector: 'app-patients-per-diet',
-  templateUrl: './patients-per-diet.component.html',
-  styleUrls: ['./patients-per-diet.component.scss']
+  selector: "app-patients-per-diet",
+  templateUrl: "./patients-per-diet.component.html",
+  styleUrls: ["./patients-per-diet.component.scss"],
 })
 export class PatientsPerDietComponent {
   public barChartOptions: ChartOptions = {
@@ -20,28 +24,29 @@ export class PatientsPerDietComponent {
     scales: { xAxes: [{}], yAxes: [{}] },
   };
   public barChartLabels: Label[] = [];
-  public barChartType: ChartType = 'line';
+  public barChartType: ChartType = "line";
   public barChartLegend = true;
 
   public barChartData: ChartDataSets[] = [];
 
-  @Input() public patientsPerDiet: Array<PatientsPerDiet>
+  @Input() public patientsPerDiet: Array<PatientsPerDiet>;
 
-
-  constructor() { }
+  constructor() {}
 
   ngOnChanges(): void {
-    this.barChartData = this.patientsPerDiet ?
-      this.generateChartData(this.patientsPerDiet) :
-      [{ data: [0, 0, 0, 0, 0, 0, 0], label: '' }];
+    this.barChartData = this.patientsPerDiet
+      ? this.generateChartData(this.patientsPerDiet)
+      : [{ data: [0, 0, 0, 0, 0, 0, 0], label: "" }];
   }
 
-  generateChartData(data: Array<PatientsPerDiet>): { data: number[]; label: string; }[] {
-    this.barChartLabels = data.map(d => d.dietName);
+  generateChartData(
+    data: Array<PatientsPerDiet>
+  ): { data: number[]; label: string }[] {
+    this.barChartLabels = data.map((d) => d.dietName);
 
     return [
-      { data: data.map(d => d.numberPatients), label: 'Nombre de patients' },
-      { data: data.map(d => d.percentage), label: 'Patients en pourcentage' }
+      { data: data.map((d) => d.numberPatients), label: "Nombre de patients" },
+      { data: data.map((d) => d.percentage), label: "Patients en pourcentage" },
     ];
   }
 }

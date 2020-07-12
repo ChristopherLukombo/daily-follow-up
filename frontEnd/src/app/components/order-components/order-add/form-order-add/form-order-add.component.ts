@@ -13,6 +13,10 @@ import { MenuUtilsService } from "src/app/services/order/menu-utils.service";
 import { Menu } from "src/app/models/food/menu";
 import { HttpErrorResponse } from "@angular/common/http";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-form-order-add",
   templateUrl: "./form-order-add.component.html",

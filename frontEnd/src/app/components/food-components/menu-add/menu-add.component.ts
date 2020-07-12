@@ -14,6 +14,10 @@ import { TypeTexture } from "src/app/models/utils/texture-enum";
 import { Router } from "@angular/router";
 import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-menu-add",
   templateUrl: "./menu-add.component.html",

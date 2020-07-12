@@ -4,7 +4,12 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { ToastrService } from "ngx-toastr";
 import { HttpErrorResponse } from "@angular/common/http";
 import { mergeMap } from "rxjs/operators";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-meals",
   templateUrl: "./meals.component.html",
@@ -88,11 +93,11 @@ export class MealsComponent implements OnInit {
    */
   getCustomError(error: HttpErrorResponse): string {
     if (error && error.status === 401) {
-      return "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      return TypeMessage.NOT_AUTHENTICATED;
     } else if (error && error.status === 409) {
       return this.removeTriggerTrace(error.error.message);
     } else {
-      return "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      return TypeMessage.AN_ERROR_OCCURED;
     }
   }
 

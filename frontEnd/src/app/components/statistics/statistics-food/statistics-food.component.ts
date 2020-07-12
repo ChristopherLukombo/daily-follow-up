@@ -2,7 +2,12 @@ import { Component, OnInit } from "@angular/core";
 import { OrdersPerDay } from "src/app/models/statistics/orders-per-day";
 import { TopTrendyMenu } from "src/app/models/statistics/top-trendy-menu";
 import { StatisticsService } from "src/app/services/statistics/statistics.service";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author christopher
+ * @version 17
+ */
 @Component({
   selector: "app-statistics-food",
   templateUrl: "./statistics-food.component.html",
@@ -62,10 +67,9 @@ export class StatisticsFoodComponent implements OnInit {
    */
   catchError(error: number): void {
     if (error && error === 401) {
-      this.error =
-        "Le nom d'utilisateur et le mot de passe ne correspondent pas.";
+      this.error = TypeMessage.NOT_AUTHENTICATED;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      this.error = TypeMessage.AN_ERROR_OCCURED;
     }
   }
   /**

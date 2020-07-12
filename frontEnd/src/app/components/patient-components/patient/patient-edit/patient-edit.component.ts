@@ -6,7 +6,12 @@ import { AlimentationService } from "src/app/services/alimentation/alimentation.
 import { forkJoin } from "rxjs";
 import { Diet } from "src/app/models/patient/diet";
 import { Texture } from "src/app/models/food/texture";
+import { TypeMessage } from "src/app/models/utils/message-enum";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "app-patient-edit",
   templateUrl: "./patient-edit.component.html",
@@ -51,8 +56,7 @@ export class PatientEditComponent implements OnInit {
   }
 
   patientDoesNotExist(): void {
-    this.warning =
-      "Ce patient n'existe pas, ou ne fait plus partie de la clinique. Veuillez réessayer.";
+    this.warning = TypeMessage.PATIENT_DOES_NOT_EXIST_OR_HAS_BEEN_DELETED;
   }
 
   /**
@@ -61,10 +65,9 @@ export class PatientEditComponent implements OnInit {
    */
   catchError(error: number): void {
     if (error && error === 401) {
-      this.error =
-        "Vous n'êtes plus connecté, veuillez rafraichir le navigateur";
+      this.error = TypeMessage.NOT_AUTHENTICATED;
     } else {
-      this.error = "Une erreur s'est produite. Veuillez réessayer plus tard.";
+      this.error = TypeMessage.AN_ERROR_OCCURED;
     }
   }
 }

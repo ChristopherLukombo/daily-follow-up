@@ -7,6 +7,10 @@ import {
   ElementRef,
 } from "@angular/core";
 
+/**
+ * @author neal
+ * @version 17
+ */
 @Component({
   selector: "typeahead",
   template: `<div *ngIf="opened" class="custom-typeahead">
