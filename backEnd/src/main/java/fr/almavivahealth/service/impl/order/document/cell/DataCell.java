@@ -19,7 +19,7 @@ import fr.almavivahealth.exception.DailyFollowUpException;
  * The Class DataCell.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public abstract class DataCell {
 

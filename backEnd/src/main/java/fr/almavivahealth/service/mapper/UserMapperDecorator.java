@@ -8,7 +8,7 @@ import fr.almavivahealth.service.dto.UserDTO;
  * Mapper for the entity User and its DTO called UserDTO.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public abstract class UserMapperDecorator implements UserMapper {
 

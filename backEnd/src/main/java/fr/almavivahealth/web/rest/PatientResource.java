@@ -46,7 +46,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * REST controller for managing Patient.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Api("Patient")
 @RestController

@@ -14,7 +14,7 @@ import lombok.Builder;
  * A DTO for the Floor entity.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @AllArgsConstructor
 @Builder

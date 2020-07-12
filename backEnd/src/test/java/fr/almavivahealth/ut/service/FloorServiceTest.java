@@ -28,7 +28,7 @@ import fr.almavivahealth.service.mapper.FloorMapper;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

@@ -20,7 +20,7 @@ import fr.almavivahealth.service.mapper.FloorMapper;
  * Service Implementation for managing Floor.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Service
 @Transactional

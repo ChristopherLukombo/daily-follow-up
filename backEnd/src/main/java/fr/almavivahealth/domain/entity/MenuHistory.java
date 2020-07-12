@@ -25,7 +25,7 @@ import fr.almavivahealth.domain.enums.Action;
 * A MenuHistory.
 *
  * @author christopher
- * @version 16
+ * @version 17
 */
 @Entity
 @EntityListeners(AuditingEntityListener.class)

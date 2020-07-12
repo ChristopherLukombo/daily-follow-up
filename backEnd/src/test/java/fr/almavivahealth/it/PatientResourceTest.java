@@ -37,7 +37,7 @@ import fr.almavivahealth.utils.TestUtils;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(SpringRunner.class)

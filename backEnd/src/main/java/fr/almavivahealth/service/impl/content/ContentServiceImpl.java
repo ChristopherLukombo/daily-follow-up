@@ -39,7 +39,7 @@ import fr.almavivahealth.service.propeties.ContentProperties;
  * Service Implementation for managing Content.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Service
 @Transactional

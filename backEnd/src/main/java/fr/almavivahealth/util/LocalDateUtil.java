@@ -9,7 +9,7 @@ import java.util.Locale;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 public final class LocalDateUtil {
 

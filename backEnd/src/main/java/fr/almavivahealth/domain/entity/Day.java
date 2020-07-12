@@ -23,7 +23,7 @@ import lombok.ToString;
  * A day.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Entity
 @NoArgsConstructor

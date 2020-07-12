@@ -10,7 +10,7 @@ import fr.almavivahealth.domain.entity.Day;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Repository

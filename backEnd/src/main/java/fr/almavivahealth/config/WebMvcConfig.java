@@ -14,7 +14,7 @@ import fr.almavivahealth.config.interceptor.PatientImportationInterceptor;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Configuration

@@ -14,7 +14,7 @@ import fr.almavivahealth.domain.entity.TopTrendyMenu;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @Repository

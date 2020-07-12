@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 public class ErrorApi {

@@ -4,7 +4,7 @@ package fr.almavivahealth.constants;
  * Application constants for managing Errors Message.
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 public final class ErrorMessage {

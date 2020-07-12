@@ -35,7 +35,7 @@ import fr.almavivahealth.web.rest.DayResource;
 /**
  *
  * @author christopher
- * @version 16
+ * @version 17
  *
  */
 @RunWith(MockitoJUnitRunner.class)

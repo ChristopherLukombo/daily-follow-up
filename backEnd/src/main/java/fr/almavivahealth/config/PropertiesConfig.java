@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySources;
  * PropertiesConfig for import configuration file.
  *
  * @author christopher
- * @version 16
+ * @version 17
  */
 @Configuration
 @ConfigurationProperties
