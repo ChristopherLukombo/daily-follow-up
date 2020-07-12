@@ -105,10 +105,11 @@
         </button>
       </div>
       <div class="modal-body">
-        <div *ngIf="selectedCaregiver">
+        <div *ngIf="selectedCaregiver && floors">
           <app-detail-caregiver
             (hasDeleteCaregiver)="removeFromList($event)"
             [caregiver]="selectedCaregiver"
+            [floors]="floors"
           ></app-detail-caregiver>
         </div>
       </div>

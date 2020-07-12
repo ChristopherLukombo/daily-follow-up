@@ -4,6 +4,8 @@ import { ToastrService } from "ngx-toastr";
 import { UserDTO } from "src/app/models/dto/user/userDTO";
 import { Caregiver } from "src/app/models/user/caregiver";
 import { TypeMessage } from "src/app/models/utils/message-enum";
+import { Floor } from "src/app/models/clinic/floor";
+import { CaregiverDTO } from "src/app/models/dto/user/caregiverDTO";
 
 /**
  * @author neal
@@ -16,6 +18,11 @@ import { TypeMessage } from "src/app/models/utils/message-enum";
 })
 export class DetailCaregiverComponent implements OnInit {
   @Input() caregiver: Caregiver;
+  @Input() floors: Floor[] = [];
+
+  floorOfCaregiver: Floor;
+  selectedfloor: Floor;
+  changing: boolean = false;
 
   updating: boolean = false;
   updatedMessage: string;
@@ -26,12 +33,58 @@ export class DetailCaregiverComponent implements OnInit {
   constructor(
     private userService: UserService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   ngOnChanges(): void {
     this.clearMessages();
+    if (this.caregiver && this.floors && this.floors.length) {
+      this.floorOfCaregiver = this.floors.find(
+        (floor) => floor.id == this.caregiver.floorId
+      );
+    }
+  }
+
+  selectFloor(floor: Floor): void {
+    this.selectedfloor = floor;
+  }
+
+  onChangesFloor(): void {
+    if (!this.selectedfloor) return;
+    this.changing = true;
+    this.clearMessages();
+    let userDTO = new UserDTO(
+      this.caregiver.user.id,
+      this.caregiver.user.pseudo,
+      this.caregiver.user.password,
+      this.caregiver.user.firstName,
+      this.caregiver.user.lastName,
+      this.caregiver.user.createDate,
+      this.caregiver.user.status,
+      this.caregiver.user.imageUrl,
+      this.caregiver.user.roleName,
+      this.caregiver.user.status
+    );
+    let dto = new CaregiverDTO(
+      this.caregiver.id,
+      this.selectedfloor.id,
+      userDTO
+    );
+    this.userService.updateCaregiver(dto).subscribe(
+      (data) => {
+        this.toastrService.success(
+          this.caregiver.user.pseudo + "  a été affecté à un nouvel étage",
+          "Transfert terminée !"
+        );
+        this.floorOfCaregiver = this.selectedfloor;
+        this.changing = false;
+      },
+      (error) => {
+        this.toastrService.error(this.getError(error), "Oops !");
+        this.changing = false;
+      }
+    );
   }
 
   onResetPassword(): void {

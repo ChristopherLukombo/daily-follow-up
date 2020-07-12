@@ -23,7 +23,7 @@ export class UserAddComponent implements OnInit {
 
   roles: Map<string, string> = new Map([
     ["Aide-soignant", Role.ROLE_CAREGIVER],
-    ["Diététicien", Role.ROLE_NUTRITIONIST],
+    ["Diététicien", Role.ROLE_DIET],
   ]);
   selectedRole: string;
 
@@ -42,7 +42,7 @@ export class UserAddComponent implements OnInit {
     private clinicService: ClinicService,
     private userService: UserService,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.createdMessage = this.getCreatedMsg("dede", "dede");
@@ -175,7 +175,7 @@ export class UserAddComponent implements OnInit {
     );
     if (this.selectedRole === Role.ROLE_CAREGIVER) {
       this.createCaregiver(user, this.f.floor.value.id);
-    } else if (this.selectedRole === Role.ROLE_NUTRITIONIST) {
+    } else if (this.selectedRole === Role.ROLE_DIET) {
       this.createNutritionist(user);
     }
   }

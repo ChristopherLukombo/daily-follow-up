@@ -1,6 +1,7 @@
 export enum TypeMessage {
   /** Login **/
   PSEUDO_OR_PASSWORD_INCORRECT = "Le nom d'utilisateur et le mot de passe ne correspondent pas.",
+  PASSWORDS_DOES_NOT_MATCHS = "les mots de passe ne correspondent pas",
 
   /** Diet **/
   DIET_DOES_NOT_EXIST = "Le régime alimentaire recherché n'existe pas, ou a été supprimé. Veuillez réessayer.",
