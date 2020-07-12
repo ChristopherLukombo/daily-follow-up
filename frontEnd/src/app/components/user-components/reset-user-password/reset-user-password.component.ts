@@ -32,7 +32,7 @@ export class ResetUserPasswordComponent implements OnInit {
     private loginService: LoginService,
     private router: Router,
     private toastrService: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.createForm(
@@ -51,7 +51,7 @@ export class ResetUserPasswordComponent implements OnInit {
         [
           Validators.required,
           Validators.pattern(
-            "(?=\\D*\\d)(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z]).{8,15}"
+            "(?=^.{8,15}$)(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[^A-Za-z0-9]).*"
           ),
         ],
       ],
