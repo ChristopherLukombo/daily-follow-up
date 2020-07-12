@@ -15,6 +15,11 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class SpringSecurityAuditorAware implements AuditorAware<String> {
 
+	/**
+	 * Gets the current auditor.
+	 *
+	 * @return the current auditor
+	 */
 	@Override
 	public Optional<String> getCurrentAuditor() {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

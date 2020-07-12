@@ -50,11 +50,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
 	private static final String EUROPE_PARIS = "Europe/Paris";
 
-	private static final Map<String, String> constraintCodeMap = new HashMap<>();
+	private static final Map<String, String> CONSTRAINT_CODE_MAP = new HashMap<>();
 
 	static {
-		constraintCodeMap.put("content_unique_name_idx", ERROR_CONTENT_UNIQUE_NAME);
-		constraintCodeMap.put("diet_unique_name_idx", ERROR_DIET_UNIQUE_NAME);
+		CONSTRAINT_CODE_MAP.put("content_unique_name_idx", ERROR_CONTENT_UNIQUE_NAME);
+		CONSTRAINT_CODE_MAP.put("diet_unique_name_idx", ERROR_DIET_UNIQUE_NAME);
 	}
 
 	@Autowired
@@ -97,7 +97,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		String message = null;
 
 		if (rootMsg != null) {
-			final Optional<Map.Entry<String, String>> entry = constraintCodeMap.entrySet().stream()
+			final Optional<Map.Entry<String, String>> entry = CONSTRAINT_CODE_MAP.entrySet().stream()
 					.filter(it -> rootMsg.contains(it.getKey()))
 					.findAny();
 			if (entry.isPresent()) {

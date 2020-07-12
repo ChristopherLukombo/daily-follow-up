@@ -47,6 +47,11 @@ public class SwaggerConfig {
         this.tokenProvider = tokenProvider;
     }
 
+    /**
+	 * Api.
+	 *
+	 * @return the docket
+	 */
     @Bean
     @Profile("dev")
     public Docket api() {

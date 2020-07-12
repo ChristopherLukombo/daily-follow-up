@@ -54,6 +54,12 @@ public class TokenProvider {
 		this.userRepository = userRepository;
 	}
 
+    /**
+	 * Creates the token.
+	 *
+	 * @param authentication the authentication
+	 * @return the string
+	 */
     public String createToken(final Authentication authentication) {
     	final String authorities = authentication.getAuthorities().stream()
     			.map(GrantedAuthority::getAuthority)
@@ -76,6 +82,11 @@ public class TokenProvider {
     			.compact();
     }
 
+    /**
+	 * Creates the token.
+	 *
+	 * @return the string
+	 */
     public String createToken() {
         final long now = (new Date()).getTime();
         Date validity;
@@ -89,6 +100,12 @@ public class TokenProvider {
                 .compact();
     }
 
+    /**
+	 * Gets the authentication.
+	 *
+	 * @param token the token
+	 * @return the authentication
+	 */
     public Authentication getAuthentication(final String token) {
         final Claims claims = Jwts.parser()
                 .setSigningKey(this.tokenPropeties.getSecretKey())
@@ -105,6 +122,12 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 
+    /**
+	 * Validate token.
+	 *
+	 * @param authToken the auth token
+	 * @return true, if successful
+	 */
     public boolean validateToken(final String authToken) {
         try {
             Jwts.parser().setSigningKey(this.tokenPropeties.getSecretKey()).parseClaimsJws(authToken);

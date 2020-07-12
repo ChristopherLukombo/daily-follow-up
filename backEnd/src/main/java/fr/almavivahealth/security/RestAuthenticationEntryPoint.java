@@ -26,6 +26,15 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RestAuthenticationEntryPoint.class);
 
+	/**
+	 * Commence.
+	 *
+	 * @param request       the request
+	 * @param response      the response
+	 * @param authException the auth exception
+	 * @throws IOException      Signals that an I/O exception has occurred.
+	 * @throws ServletException the servlet exception
+	 */
 	@Override
 	public void commence(final HttpServletRequest request, final HttpServletResponse response,
 			final AuthenticationException authException) throws IOException, ServletException {
@@ -34,6 +43,14 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 	}
 
+	/**
+	 * Commence.
+	 *
+	 * @param request               the request
+	 * @param response              the response
+	 * @param accessDeniedException the access denied exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	@ExceptionHandler(value = { AccessDeniedException.class })
 	public void commence(final HttpServletRequest request, final HttpServletResponse response,
 			final AccessDeniedException accessDeniedException) throws IOException {

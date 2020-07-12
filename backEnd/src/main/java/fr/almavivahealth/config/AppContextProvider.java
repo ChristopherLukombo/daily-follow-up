@@ -15,6 +15,11 @@ import fr.almavivahealth.util.BeanUtil;
 @Component
 public class AppContextProvider implements ApplicationContextAware {
 
+	/**
+	 * Sets the application context.
+	 *
+	 * @param applicationContext the new application context
+	 */
 	@Override
 	public void setApplicationContext(final ApplicationContext applicationContext) {
 		BeanUtil.setApplicationContext(applicationContext);
